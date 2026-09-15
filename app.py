@@ -2237,10 +2237,10 @@ with tab_daily_hub:
     _eb_list_key = f"eb_list_{current_subject.value}"
     # 今日已处理集合（做对/又错/没做都计入）：防止重新 select 或"再开 10 道"把当天已处理题拉回
     _eb_processed_key = f"eb_processed_{current_subject.value}"
-    _eb_processed = set(st.session_state.get(_eb_processed_key, ()))
+    _eb_processed = set(state_mgr.get_processed_today()) | set(st.session_state.get(_eb_processed_key, ()))  # 持久化(刷新不失效) + 会话级
     _eb_ids = tuple(st.session_state.get(_eb_list_key, ()))
     if not _eb_ids:
-        _due_qids = state_mgr.select_daily_wrong(target=10)
+        _due_qids = state_mgr.select_daily_wrong(target=10, exclude_ids=_eb_processed)
         _eb_ids = tuple(qid for qid in _due_qids if qid in _q_by_id2 and qid not in _eb_processed)
         st.session_state[_eb_list_key] = list(_eb_ids)
     # 再开 10 道：独立于列表状态——列表清空（做完/清空）后仍可继续加练
@@ -2263,7 +2263,7 @@ with tab_daily_hub:
             st.info("错题本里暂时没有更多可练的题目了。")
 
     if not _eb_ids:
-        st.info("今日安排已清空 🎉 点上方『再开 10 道』可继续加练；顺延的错题明天会自动排进复习队列。")
+        st.info("今日安排已清空 🎉 点上方『再开 10 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
     else:
         _eb_qs = [_q_by_id2[qid] for qid in _eb_ids]
         st.caption(f"今日安排 {len(_eb_ids)} 道：到期优先、逾期越久越靠前。")
@@ -2272,6 +2272,7 @@ with tab_daily_hub:
             if st.button("🗑️ 清空今日", use_container_width=True, key=f"eb_clear_{current_subject.value}",
                          help="今天剩下的题顺延到明天（明天到期自动再推，刷新不失效）；想接着做请点上方『再开 10 道』。"):
                 state_mgr.postpone_review(list(_eb_ids), days=1)
+                state_mgr.mark_processed_today(list(_eb_ids))
                 _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
                 _eb_pl.update(_eb_ids)
                 st.session_state[_eb_processed_key] = list(_eb_pl)
@@ -2387,6 +2388,7 @@ with tab_daily_hub:
                 with _ec1:
                     if st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True):
                         state_mgr.record_review_result(_qid2, True)
+                        state_mgr.mark_processed_today([_qid2])
                         _eb_lst = list(st.session_state.get(_eb_list_key, ()))
                         if _qid2 in _eb_lst:
                             _eb_lst.remove(_qid2)
@@ -2398,6 +2400,7 @@ with tab_daily_hub:
                 with _ec2:
                     if st.button("❌ 又错了", key=f"eb_no_{_qid2}", use_container_width=True):
                         state_mgr.record_review_result(_qid2, False)
+                        state_mgr.mark_processed_today([_qid2])
                         _eb_lst = list(st.session_state.get(_eb_list_key, ()))
                         if _qid2 in _eb_lst:
                             _eb_lst.remove(_qid2)
@@ -2408,8 +2411,9 @@ with tab_daily_hub:
                         st.rerun()
                 with _ec3:
                     if st.button("⏭️ 没做", key=f"eb_skip_{_qid2}", use_container_width=True,
-                                 help="今天没做这道题：保持到期状态，明天会继续推给你。"):
+                                 help="今天没做这道题：今天不再推，明天会继续推给你。"):
                         state_mgr.mark_wrong_not_done(_qid2)
+                        state_mgr.mark_processed_today([_qid2])
                         _eb_lst = list(st.session_state.get(_eb_list_key, ()))
                         if _qid2 in _eb_lst:
                             _eb_lst.remove(_qid2)

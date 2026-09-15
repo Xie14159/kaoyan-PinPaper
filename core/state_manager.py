@@ -60,6 +60,7 @@ class StateManager:
         self.historical_seen_ids: set[str] = set()
         self.historical_covered_chapters: set[str] = set()
         self.last_papers_qids: list[list[str]] = []  # 上次生成的试卷（每份卷一个题号列表）
+        self._processed_daily: dict[str, list[str]] = {}  # 按日期持久化的"今日已处理"qid
         self.load_state()
 
     @staticmethod
@@ -117,6 +118,7 @@ class StateManager:
             self.historical_seen_ids = set(payload.get("seen_question_ids", []))
             self.historical_covered_chapters = set(payload.get("covered_chapters", []))
             self.last_papers_qids = payload.get("last_papers_qids", []) or []
+            self._processed_daily = payload.get("processed_daily", {}) or {}
         except Exception:
             pass
 
@@ -132,6 +134,7 @@ class StateManager:
                 "seen_question_ids": list(self.historical_seen_ids),
                 "covered_chapters": list(self.historical_covered_chapters),
                 "last_papers_qids": self.last_papers_qids,
+                "processed_daily": self._processed_daily,
             }
             self.data_file.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
         except Exception:
@@ -621,12 +624,28 @@ class StateManager:
         overdue = max(0, (today - nxt).days)
         return overdue * 10 + rec.wrong_count * 5 + self.TAG_PRIORITY.get(rec.error_tag, 0)
 
+    def get_processed_today(self, today=None) -> set:
+        """返回今天已处理（做对/又错/没做/清空）的 qid 集合（持久化，刷新不失效）。"""
+        today = today or self._today()
+        return set(self._processed_daily.get(today.isoformat(), []))
+
+    def mark_processed_today(self, question_ids, today=None) -> int:
+        """把 qid 记入"今日已处理"集合并持久化；只保留当天 key，旧日期自动清理。"""
+        today = today or self._today()
+        today_s = today.isoformat()
+        cur = set(self._processed_daily.get(today_s, []))
+        cur.update(question_ids)
+        self._processed_daily = {today_s: sorted(cur)}  # 只保留今天，防无限增长
+        self.save_state()
+        return len(cur)
+
     def select_daily_wrong(
         self,
         target: int = 10,
         today=None,
         max_stubborn: int = 5,
         max_new: int = 3,
+        exclude_ids: set | None = None,
     ) -> list:
         """艾宾浩斯选题：到期优先 -> 顽固题补足(上限) -> 新错题补足(上限) -> 不硬凑。
 
@@ -634,6 +653,7 @@ class StateManager:
         仍不足则返回现有数量（前端显示"今日复习 N 道"）。
         """
         today = today or self._today()
+        exclude = set(exclude_ids or ())
         active = {
             qid for qid, rec in self.wrong_questions.items()
             if rec.is_active_in_pool and rec.wrong_count > 0
@@ -663,6 +683,8 @@ class StateManager:
         for qid in due:
             if len(selected) >= target:
                 break
+            if qid in exclude:
+                continue
             selected.append(qid)
             seen.add(qid)
         # 2) 顽固题补足（上限 max_stubborn，去重）
@@ -670,7 +692,7 @@ class StateManager:
         for qid in stubborn:
             if len(selected) >= target or st_count >= max_stubborn:
                 break
-            if qid in seen:
+            if qid in seen or qid in exclude:
                 continue
             selected.append(qid)
             seen.add(qid)
@@ -680,7 +702,7 @@ class StateManager:
         for qid in newbie:
             if len(selected) >= target or nb_count >= max_new:
                 break
-            if qid in seen:
+            if qid in seen or qid in exclude:
                 continue
             selected.append(qid)
             seen.add(qid)

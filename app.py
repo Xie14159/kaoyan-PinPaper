@@ -2235,10 +2235,13 @@ with tab_daily_hub:
     st.markdown("---")
     _q_by_id2 = {q.id: q for q in all_questions}
     _eb_list_key = f"eb_list_{current_subject.value}"
+    # 今日已处理集合（做对/又错/没做都计入）：防止重新 select 或"再开 10 道"把当天已处理题拉回
+    _eb_processed_key = f"eb_processed_{current_subject.value}"
+    _eb_processed = set(st.session_state.get(_eb_processed_key, ()))
     _eb_ids = tuple(st.session_state.get(_eb_list_key, ()))
     if not _eb_ids:
         _due_qids = state_mgr.select_daily_wrong(target=10)
-        _eb_ids = tuple(qid for qid in _due_qids if qid in _q_by_id2)
+        _eb_ids = tuple(qid for qid in _due_qids if qid in _q_by_id2 and qid not in _eb_processed)
         st.session_state[_eb_list_key] = list(_eb_ids)
     if not _eb_ids:
         st.info("今天没有到期的错题 🎉 去刷新题吧；到期后会自动排进复习队列。")
@@ -2252,7 +2255,7 @@ with tab_daily_hub:
             _rest = [
                 qid for qid, rec in state_mgr.wrong_questions.items()
                 if rec.is_active_in_pool and rec.wrong_count > 0
-                and qid not in _eb_seen and qid in _q_by_id2
+                and qid not in _eb_seen and qid not in _eb_processed and qid in _q_by_id2
             ]
             _rest.sort(
                 key=lambda q: (state_mgr.wrong_questions[q].added_at or "", state_mgr.wrong_questions[q].wrong_count),
@@ -2374,15 +2377,36 @@ with tab_daily_hub:
                 with _ec1:
                     if st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True):
                         state_mgr.record_review_result(_qid2, True)
+                        _eb_lst = list(st.session_state.get(_eb_list_key, ()))
+                        if _qid2 in _eb_lst:
+                            _eb_lst.remove(_qid2)
+                        st.session_state[_eb_list_key] = _eb_lst
+                        _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
+                        _eb_pl.add(_qid2)
+                        st.session_state[_eb_processed_key] = list(_eb_pl)
                         st.rerun()
                 with _ec2:
                     if st.button("❌ 又错了", key=f"eb_no_{_qid2}", use_container_width=True):
                         state_mgr.record_review_result(_qid2, False)
+                        _eb_lst = list(st.session_state.get(_eb_list_key, ()))
+                        if _qid2 in _eb_lst:
+                            _eb_lst.remove(_qid2)
+                        st.session_state[_eb_list_key] = _eb_lst
+                        _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
+                        _eb_pl.add(_qid2)
+                        st.session_state[_eb_processed_key] = list(_eb_pl)
                         st.rerun()
                 with _ec3:
                     if st.button("⏭️ 没做", key=f"eb_skip_{_qid2}", use_container_width=True,
                                  help="今天没做这道题：保持到期状态，明天会继续推给你。"):
                         state_mgr.mark_wrong_not_done(_qid2)
+                        _eb_lst = list(st.session_state.get(_eb_list_key, ()))
+                        if _qid2 in _eb_lst:
+                            _eb_lst.remove(_qid2)
+                        st.session_state[_eb_list_key] = _eb_lst
+                        _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
+                        _eb_pl.add(_qid2)
+                        st.session_state[_eb_processed_key] = list(_eb_pl)
                         st.rerun()
 
 # 7. URL 错题码同步（把当前科目错题状态写回网址，保持链接可跨设备恢复）

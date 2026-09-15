@@ -2238,12 +2238,16 @@ with tab_daily_hub:
     # 今日已处理集合（做对/又错/没做都计入）：防止重新 select 或"再开 10 道"把当天已处理题拉回
     _eb_processed_key = f"eb_processed_{current_subject.value}"
     _eb_processed = set(state_mgr.get_processed_today()) | set(st.session_state.get(_eb_processed_key, ()))  # 持久化(刷新不失效) + 会话级
-    _eb_ids = tuple(st.session_state.get(_eb_list_key, ()))
-    if not _eb_ids:
+    # 今日安排持久化：每天首次进入自动选一批并记录；刷新后恢复同一份安排（减去已处理），不再自动生成新题
+    _eb_assigned = state_mgr.get_assigned_today()
+    if not _eb_assigned:
         _due_qids = state_mgr.select_daily_wrong(target=10, exclude_ids=_eb_processed)
-        _eb_ids = tuple(qid for qid in _due_qids if qid in _q_by_id2 and qid not in _eb_processed)
-        st.session_state[_eb_list_key] = list(_eb_ids)
-    # 再开 10 道：独立于列表状态——列表清空（做完/清空）后仍可继续加练
+        _eb_assigned = [qid for qid in _due_qids if qid in _q_by_id2 and qid not in _eb_processed]
+        if _eb_assigned:
+            state_mgr.mark_assigned_today(_eb_assigned)
+    _eb_ids = tuple(q for q in _eb_assigned if q in _q_by_id2 and q not in _eb_processed)
+    st.session_state[_eb_list_key] = list(_eb_ids)
+    # 再开 10 道：显式追加到今日安排（刷新后仍保留），不触发自动重新安排
     _eb_seen = set(_eb_ids)
     if st.button("➕ 今天做完了，再开 10 道", use_container_width=True, key=f"eb_more_{current_subject.value}"):
         _rest = [
@@ -2257,7 +2261,10 @@ with tab_daily_hub:
         )
         _extra = _rest[:10]
         if _extra:
-            st.session_state[_eb_list_key] = list(_eb_ids) + _extra
+            state_mgr.mark_assigned_today(_extra)
+            _eb_assigned = state_mgr.get_assigned_today()
+            _eb_ids = tuple(q for q in _eb_assigned if q in _q_by_id2 and q not in _eb_processed)
+            st.session_state[_eb_list_key] = list(_eb_ids)
             st.rerun()
         else:
             st.info("错题本里暂时没有更多可练的题目了。")

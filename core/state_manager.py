@@ -61,6 +61,7 @@ class StateManager:
         self.historical_covered_chapters: set[str] = set()
         self.last_papers_qids: list[list[str]] = []  # 上次生成的试卷（每份卷一个题号列表）
         self._processed_daily: dict[str, list[str]] = {}  # 按日期持久化的"今日已处理"qid
+        self._assigned_daily: dict[str, list[str]] = {}  # 按日期持久化的"今日安排"qid（每天只自动安排一次）
         self.load_state()
 
     @staticmethod
@@ -119,6 +120,7 @@ class StateManager:
             self.historical_covered_chapters = set(payload.get("covered_chapters", []))
             self.last_papers_qids = payload.get("last_papers_qids", []) or []
             self._processed_daily = payload.get("processed_daily", {}) or {}
+            self._assigned_daily = payload.get("assigned_daily", {}) or {}
         except Exception:
             pass
 
@@ -135,6 +137,7 @@ class StateManager:
                 "covered_chapters": list(self.historical_covered_chapters),
                 "last_papers_qids": self.last_papers_qids,
                 "processed_daily": self._processed_daily,
+                "assigned_daily": self._assigned_daily,
             }
             self.data_file.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
         except Exception:
@@ -623,6 +626,23 @@ class StateManager:
         nxt = self._due_date(rec, today)
         overdue = max(0, (today - nxt).days)
         return overdue * 10 + rec.wrong_count * 5 + self.TAG_PRIORITY.get(rec.error_tag, 0)
+
+    def get_assigned_today(self, today=None) -> list:
+        """返回今天已安排的错题 qid 列表（持久化；刷新后恢复同一份安排，不重复生成新题）。"""
+        today = today or self._today()
+        return list(self._assigned_daily.get(today.isoformat(), []))
+
+    def mark_assigned_today(self, question_ids, today=None) -> int:
+        """把 qid 记入"今日已安排"并持久化（再开 10 道=追加并集）；只保留当天 key。"""
+        today = today or self._today()
+        today_s = today.isoformat()
+        merged = list(self._assigned_daily.get(today_s, []))
+        for q in question_ids:
+            if q not in merged:
+                merged.append(q)
+        self._assigned_daily = {today_s: merged}  # 保序：首次 select 优先级顺序 + 再开追加顺序
+        self.save_state()
+        return len(merged)
 
     def get_processed_today(self, today=None) -> set:
         """返回今天已处理（做对/又错/没做/清空）的 qid 集合（持久化，刷新不失效）。"""

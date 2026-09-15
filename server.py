@@ -200,6 +200,36 @@ class AppAPIHandler(SimpleHTTPRequestHandler):
             self._send_json({"count": len(res), "questions": res})
             return
 
+        # API: 今日错题复习（艾宾浩斯调度）
+        if path == "/api/wrong/daily-review":
+            sub_str = query.get("subject", ["数学一"])[0]
+            cur_sub = parse_subject(sub_str)
+            cur_questions = loaders[cur_sub].load()
+            qids = state_mgr.select_daily_wrong(target=10)
+            due_count = state_mgr.get_due_wrong_count()
+            q_by_id = {q.id: q for q in cur_questions}
+            items = []
+            for qid in qids:
+                q = q_by_id.get(qid)
+                if not q:
+                    continue
+                rec = state_mgr.wrong_questions.get(qid)
+                items.append({
+                    "id": qid,
+                    "chapter": q.chapter,
+                    "type": q.question_type.value,
+                    "stem": q.stem,
+                    "options": q.options,
+                    "answer": q.answer,
+                    "solution": q.solution,
+                    "errorTag": rec.error_tag if rec else "概念模糊",
+                    "wrongCount": rec.wrong_count if rec else 1,
+                    "reviewStage": rec.review_stage if rec else 0,
+                    "nextReviewAt": rec.next_review_at if rec else "",
+                })
+            self._send_json({"count": len(items), "dueCount": due_count, "questions": items})
+            return
+
         # Static Assets
         return super().do_GET()
 
@@ -264,6 +294,51 @@ class AppAPIHandler(SimpleHTTPRequestHandler):
 
             count = state_mgr.batch_unmark_wrong(qids)
             self._send_json({"status": "ok", "unmarkedCount": count, "wrongTotal": len(state_mgr.wrong_questions)})
+            return
+
+        # API: 艾宾浩斯复习回写
+        if path == "/api/wrong/review-result":
+            qid = payload.get("id", "")
+            correct_raw = payload.get("correct", True)
+            if isinstance(correct_raw, str):
+                correct = correct_raw.strip().lower() in ("true", "1", "yes")
+            else:
+                correct = bool(correct_raw)
+            if not qid:
+                self._send_json({"status": "error", "message": "Missing ID"}, 400)
+                return
+            rec0 = state_mgr.wrong_questions.get(qid)
+            if rec0 is None:
+                self._send_json({"status": "error", "message": "Question not found"}, 404)
+                return
+            ok = state_mgr.record_review_result(qid, correct)
+            rec = state_mgr.wrong_questions.get(qid)
+            self._send_json({
+                "status": "ok" if ok else "skipped",
+                "id": qid,
+                "reviewStage": rec.review_stage if rec else 0,
+                "nextReviewAt": rec.next_review_at if rec else "",
+                "isActive": rec.is_active_in_pool if rec else False,
+                "wrongCount": rec.wrong_count if rec else 0,
+            })
+            return
+
+        # API: 批量补登历史错题
+        if path == "/api/wrong/batch-register":
+            qids = payload.get("ids", [])
+            tag = payload.get("errorTag", "概念模糊")
+            added = payload.get("addedAt", "")
+            sub_str = payload.get("subject", "数学一")
+            cur_sub = parse_subject(sub_str)
+            cur_questions = loaders[cur_sub].load()
+            valid = {q.id for q in cur_questions}
+            registered, skipped = state_mgr.batch_register_wrong(
+                qids, error_tag=tag, added_at=added, valid_ids=valid,
+            )
+            self._send_json({
+                "status": "ok", "registered": registered, "skipped": skipped,
+                "wrongTotal": len(state_mgr.wrong_questions),
+            })
             return
 
         # API: Reset Coverage Cycle

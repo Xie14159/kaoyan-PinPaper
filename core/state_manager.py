@@ -8,7 +8,7 @@ import base64
 import hashlib
 import json
 import zlib
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -110,6 +110,9 @@ class StateManager:
                     wrong_count=int(data.get("wrong_count", 1)),
                     is_active_in_pool=bool(data.get("is_active_in_pool", True)),
                     subject=data.get("subject", self.subject),
+                    last_reviewed_at=data.get("last_reviewed_at", ""),
+                    next_review_at=data.get("next_review_at", ""),
+                    review_stage=int(data.get("review_stage", 0)),
                 )
             self.historical_seen_ids = set(payload.get("seen_question_ids", []))
             self.historical_covered_chapters = set(payload.get("covered_chapters", []))
@@ -555,3 +558,227 @@ class StateManager:
                     qids.append(ordered_ids[idx])
             papers.append(qids)
         return (papers, "ok")
+
+
+    # =====================================================================
+    # 艾宾浩斯错题调度（v2）
+    # ---------------------------------------------------------------------
+    # 每日错题任务不再随机抽，而是按"到期该复习"驱动：
+    #   到期(next_review_at<=今天)优先 -> 顽固题(wrong_count>=阈值)补足 -> 新错题补足
+    #   不足 target 不硬凑。做对 stage+1 延长间隔；做错回退/顽固强制明天。
+    # 时间统一用本地日期 YYYY-MM-DD（_parse_date 容错解析老数据）。
+    # =====================================================================
+    EBBINGHAUS_INTERVALS = (1, 2, 4, 7, 15, 30)  # stage 0~5 -> 下次复习间隔(天)
+    STUBBORN_THRESHOLD = 3  # wrong_count 达到此值视为顽固题
+    ARCHIVE_STAGE = 6  # 做对推进到该阶段 -> 归档（is_active_in_pool=False）
+    TAG_PRIORITY = {"方法不会": 20, "概念模糊": 15, "审题错误": 10, "计算失误": 8, "其他": 0}
+
+    @staticmethod
+    def _parse_date(s: str):
+        """容错解析日期：支持 YYYY-MM-DD 或 ISO 时间戳；失败返回 None（不抛异常）。"""
+        if not s:
+            return None
+        text = str(s).strip()[:10]
+        try:
+            return datetime.strptime(text, "%Y-%m-%d").date()
+        except Exception:
+            return None
+
+    def _today(self):
+        return datetime.now().date()
+
+    @staticmethod
+    def _stable_hash(text: str) -> int:
+        h = 0
+        for ch in text:
+            h = (h * 31 + ord(ch)) % 100000
+        return h
+
+    def _legacy_due_date(self, rec, today):
+        """老数据(next_review_at 空)到期兜底：added_at+1+稳定散列(0~13)天。
+
+        避免 100 道老错题全压同一天到期（饥饿），摊到 14 天窗口逐日滚动；
+        同一 qid 每天计算结果一致，不写盘、无迁移成本。
+        """
+        base = self._parse_date(rec.added_at) or today
+        if base >= today:
+            return base + timedelta(days=1)
+        return base + timedelta(days=1 + (self._stable_hash(rec.question_id) % 14))
+
+    def _due_date(self, rec, today):
+        """统一到期日：优先 next_review_at，老数据走摊平兜底。"""
+        nxt = self._parse_date(rec.next_review_at)
+        if nxt is None:
+            nxt = self._legacy_due_date(rec, today)
+        return nxt
+
+    def _wrong_priority(self, qid: str, today) -> float:
+        """优先级分：逾期天数x10 + 错误次数x5 + 错误标签分（越高越先复习）。"""
+        rec = self.wrong_questions.get(qid)
+        if not rec:
+            return 0.0
+        nxt = self._due_date(rec, today)
+        overdue = max(0, (today - nxt).days)
+        return overdue * 10 + rec.wrong_count * 5 + self.TAG_PRIORITY.get(rec.error_tag, 0)
+
+    def select_daily_wrong(
+        self,
+        target: int = 10,
+        today=None,
+        max_stubborn: int = 5,
+        max_new: int = 3,
+    ) -> list:
+        """艾宾浩斯选题：到期优先 -> 顽固题补足(上限) -> 新错题补足(上限) -> 不硬凑。
+
+        返回 qid 列表（已去重）。到期题填满 target；不足时依次用顽固/新错题补，
+        仍不足则返回现有数量（前端显示"今日复习 N 道"）。
+        """
+        today = today or self._today()
+        active = {
+            qid for qid, rec in self.wrong_questions.items()
+            if rec.is_active_in_pool and rec.wrong_count > 0
+        }
+        due = []
+        stubborn = []
+        newbie = []
+        for qid in active:
+            rec = self.wrong_questions[qid]
+            if self._due_date(rec, today) <= today:
+                due.append(qid)
+            elif rec.wrong_count >= self.STUBBORN_THRESHOLD:
+                stubborn.append(qid)
+            elif rec.review_stage == 0 and not rec.last_reviewed_at:
+                newbie.append(qid)
+        due.sort(key=lambda q: (-self._wrong_priority(q, today),
+                                self._parse_date(self.wrong_questions[q].added_at) or today))
+        stubborn.sort(key=lambda q: -self.wrong_questions[q].wrong_count)
+        newbie.sort(key=lambda q: self._parse_date(self.wrong_questions[q].added_at) or today)
+
+        selected = []
+        seen = set()
+        stubborn_set = set(stubborn)
+        newbie_set = set(newbie)
+
+        # 1) 到期题填满 target
+        for qid in due:
+            if len(selected) >= target:
+                break
+            selected.append(qid)
+            seen.add(qid)
+        # 2) 顽固题补足（上限 max_stubborn，去重）
+        st_count = sum(1 for q in selected if q in stubborn_set)
+        for qid in stubborn:
+            if len(selected) >= target or st_count >= max_stubborn:
+                break
+            if qid in seen:
+                continue
+            selected.append(qid)
+            seen.add(qid)
+            st_count += 1
+        # 3) 新错题补足（上限 max_new，去重）
+        nb_count = sum(1 for q in selected if q in newbie_set)
+        for qid in newbie:
+            if len(selected) >= target or nb_count >= max_new:
+                break
+            if qid in seen:
+                continue
+            selected.append(qid)
+            seen.add(qid)
+            nb_count += 1
+        return selected
+
+    def record_review_result(self, question_id: str, correct: bool, today=None) -> bool:
+        """艾宾浩斯复习回写。
+
+        - 做对：stage+1，间隔翻倍；stage 达 ARCHIVE_STAGE -> 归档。
+        - 做错：wrong_count+1；顽固题(wrong_count>=阈值且 stage>0)强制回 0（明天再练）；
+                否则 stage 回退 1 级；归档题做错重新激活。
+        - 幂等：同一题同一天只能回写一次（last_reviewed_at==今天 -> 返回 False）。
+        - qid 不存在 -> 静默返回 False。
+        """
+        rec = self.wrong_questions.get(question_id)
+        if not rec:
+            return False
+        today = today or self._today()
+        today_s = today.isoformat()
+        if rec.last_reviewed_at == today_s and rec.is_active_in_pool:
+            return False  # 今日已复习过，幂等保护（归档题当天做错仍可重激活）
+        rec.last_reviewed_at = today_s
+        if correct:
+            new_stage = rec.review_stage + 1
+            if new_stage >= self.ARCHIVE_STAGE:
+                rec.review_stage = self.ARCHIVE_STAGE
+                rec.is_active_in_pool = False  # 归档
+                rec.next_review_at = ""
+            else:
+                rec.review_stage = new_stage
+                rec.next_review_at = (today + timedelta(days=self.EBBINGHAUS_INTERVALS[new_stage])).isoformat()
+        else:
+            rec.wrong_count += 1
+            if not rec.is_active_in_pool:
+                # 归档题做错：重新激活并从头开始（间隔回到 1 天，高频回炉）
+                rec.is_active_in_pool = True
+                rec.review_stage = 0
+            elif rec.wrong_count >= self.STUBBORN_THRESHOLD and rec.review_stage > 0:
+                rec.review_stage = 0  # 顽固题强制回 0
+            else:
+                rec.review_stage = max(0, rec.review_stage - 1)
+            rec.next_review_at = (today + timedelta(days=1)).isoformat()
+        self.save_state()
+        return True
+
+    def batch_register_wrong(
+        self,
+        question_ids: list,
+        error_tag: str = "概念模糊",
+        added_at: str = None,
+        wrong_count: int = 1,
+        valid_ids: set = None,
+    ):
+        """批量补登历史错题（纸质时代的错题）。
+
+        - added_at 用用户填的真实做错日期（YYYY-MM-DD）；解析失败/未来日期 -> 按今天。
+        - 已存在或题号不在 valid_ids 中 -> 跳过（不覆盖已有复习进度）。
+        - 返回 (登记数, 跳过数)。
+        """
+        today = self._today()
+        added = self._parse_date(added_at) or today
+        if added > today:
+            added = today
+        registered = skipped = 0
+        for qid in question_ids:
+            if not qid:
+                continue
+            if valid_ids is not None and qid not in valid_ids:
+                skipped += 1
+                continue
+            if qid in self.wrong_questions:
+                skipped += 1
+                continue
+            self.wrong_questions[qid] = WrongQuestionRecord(
+                question_id=qid,
+                added_at=added.isoformat(),
+                error_tag=error_tag,
+                wrong_count=max(1, int(wrong_count)),
+                is_active_in_pool=True,
+                subject=self.subject,
+                last_reviewed_at="",
+                next_review_at=(added + timedelta(days=1 + (self._stable_hash(qid) % 14))).isoformat(),
+                review_stage=0,
+            )
+            registered += 1
+        if registered:
+            self.save_state()
+        return registered, skipped
+
+    def get_due_wrong_count(self, today=None) -> int:
+        """今日到期待复习的错题数（用于前端画像展示）。"""
+        today = today or self._today()
+        n = 0
+        for rec in self.wrong_questions.values():
+            if not (rec.is_active_in_pool and rec.wrong_count > 0):
+                continue
+            if self._due_date(rec, today) <= today:
+                n += 1
+        return n
+

@@ -55,3 +55,12 @@ user_wrong_notebook.json
 
 # 旧历史本地备份(勿提交,验证新仓库后可删)
 .git_old/
+
+# Runtime user state & secrets (not committed)
+user_data/ai_config.json
+user_data/ai_cost_log.json
+user_data/ai_solutions.json
+user_data/ai_solutions.json.bak
+user_data/paper_config.json
+user_data/pdf_index.json
+user_data/pdf_lookup_cache.json

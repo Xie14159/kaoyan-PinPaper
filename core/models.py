@@ -215,6 +215,10 @@ class WrongQuestionRecord:
     wrong_count: int = 1
     is_active_in_pool: bool = True  # True: 待练池; False: 历史错题已掌握
     subject: str = ""  # 科目归属 (如 "数学一", "数学二", "数学三")
+    # ---- 艾宾浩斯调度字段（v2）----
+    last_reviewed_at: str = ""  # 上次复习时间，格式 YYYY-MM-DD
+    next_review_at: str = ""  # 下次到期复习时间 YYYY-MM-DD；空串=老数据，调度时兜底为 added_at+1天
+    review_stage: int = 0  # 复习阶段：0~5 活跃，6=已掌握归档
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

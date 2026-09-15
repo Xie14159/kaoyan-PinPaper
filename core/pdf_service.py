@@ -14,12 +14,14 @@ import os
 import re
 import shutil
 import subprocess
+import io
 import tempfile
 from enum import Enum
-from pathlib import Path
+from pathlib import Path, PurePath
 
 import markdown
 
+from core.ai_solutions import AI_MARK, get_ai_solution, stem_fingerprint, split_answer_from_text, _is_placeholder, _is_choice_type, _clean_final_answer
 from core.models import PaperItem, QuestionItem, QuestionType, SubjectType
 
 logger = logging.getLogger(__name__)
@@ -31,11 +33,48 @@ class PDFEdition(str, Enum):
     SOLUTION = "solution"        # 详细解析版：参考答案与分步解析
 
 
+def _fix_dollars(a: str) -> str:
+    """参考答案公式定界符配对修复（AI 输出 $ 常不成对，是参考答案行乱码根因）：
+    1. $$...$$ 块级归一为 $...$ 行内（简化配对，避免块级错配）
+    2. 奇数个 $：最后一个 $ 之后的尾部含 LaTeX 命令/上下标 → 视为未闭合公式，补一个 $ 闭合；
+       否则视为孤立定界符，剥掉它（宁当文本，不显示 $ 源码）
+    （DS：先修复配对再整体判定；Claude：分段渲染。两者综合为"配对修复 + 分段"）
+    """
+    v = (a or "").replace("$$", "$")
+    n = v.count("$")
+    if n % 2 == 0:
+        return v
+    last = v.rfind("$")
+    tail = v[last + 1:]
+    if re.search(r"\\[a-zA-Z]+|[\^_{}]", tail):
+        # 尾部是未闭合公式（$ 后有 LaTeX 命令/上下标花括号）→ 补闭合 $
+        logger.info("[ans-render] _fix_dollars 补闭合$: %s...", (v[:40] or "").replace("\n", " "))
+        return v + "$"
+    # 扫描"孤立闭合 $"（丢前导 $ 的公式）：前邻是公式特征，且无前 $ 或与前 $ 之间有中文
+    i = v.find("$")
+    while i != -1:
+        prev_ch = v[i - 1] if i > 0 else ""
+        if re.search(r"[}\)\]a-zA-Z0-9]", prev_ch):
+            j = v.rfind("$", 0, i)
+            if j == -1 or re.search(r"[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]", v[j + 1:i]):
+                seg_all = v[(j + 1 if j != -1 else 0):i]
+                if re.search(r"\\[a-zA-Z]+|[\^_{}]", seg_all):
+                    # 内容含 LaTeX 特征 → 真公式丢前导 → 在其起点补 $
+                    start = j + 1 if j != -1 else 0
+                    m = re.search(r"\\[a-zA-Z]+", seg_all)
+                    ins = start + (m.start() if m else 0)
+                    logger.info("[ans-render] _fix_dollars 补前导$: %s...", (v[:40] or "").replace("\n", " "))
+                    return v[:ins] + "$" + v[ins:]
+        i = v.find("$", i + 1)
+    logger.info("[ans-render] _fix_dollars 剥孤立$: %s...", (v[:40] or "").replace("\n", " "))
+    return v[:last] + v[last + 1:]
+
+
 class PDFService:
     """A4 高保真试卷排版与导出服务（1:1 复刻前端渲染）"""
 
     def __init__(self):
-        self._assets_dir = Path.cwd() / "assets" / "katex"
+        self._assets_dir = Path(__file__).resolve().parent.parent / "assets" / "katex"  # 绝对路径，不依赖 cwd
         self._md = markdown.Markdown(extensions=["tables", "fenced_code"])
 
     def _get_katex_headers(self) -> str:
@@ -55,12 +94,18 @@ class PDFService:
 
         if js_file.exists() and css_file.exists() and render_file.exists():
             css_content = css_file.read_text(encoding="utf-8")
-            # 解决临时 HTML 文件脱离 assets 目录时 KaTeX 矢量字体无法加载的路径问题
-            css_content = css_content.replace("url(fonts/", 'url("https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/fonts/')
+            # 参考答案栏 KaTeX 渲染失败兜底（throwOnError:false 的 .katex-error 类）：
+            # 原样 LaTeX 以可读样式显示（保留字面而非刺眼红色）
+            css_content += """
+            .katex-error { color: inherit !important; font-family: 'Cambria Math', 'Times New Roman', Consolas, monospace !important;
+                           background: #fef3c7; padding: 0 4px; border-radius: 3px; }
+            .ans-katex { font-size: 11pt; }
+            """
+            # 字体引用保持相对路径 url(fonts/xxx.woff2) 原样：
+            # 渲染时会把 assets/katex/fonts 复制到临时 HTML 同目录 → 100% 离线，无 CDN 网络依赖
             js_content = js_file.read_text(encoding="utf-8")
             render_content = render_file.read_text(encoding="utf-8")
             return f"""
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <style>{css_content}</style>
 <script>{js_content}</script>
 <script>{render_content}</script>
@@ -98,6 +143,34 @@ class PDFService:
             }});
         }}
     }});
+</script>
+"""
+
+    def _get_body_render_script(self) -> str:
+        """body 末尾同步 auto-render（修复 headless Chrome --print-to-pdf 不触发 DOMContentLoaded 监听、
+        导致 PDF 里公式显示为裸 LaTeX 的问题）。解析期同步执行：脚本位于 </body> 前，此时 body 已完整，
+        无需等待任何事件；渲染后公式即出现在打印快照中。已渲染元素幂等（文本已替换，不会二次处理）。"""
+        return """
+<script>
+(function () {
+    if (typeof renderMathInElement !== "function") return;
+    try {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            macros: {
+                "\\wideparen": "\\overset{\\frown}{#1}",
+                "\\oiint": "\\iint",
+                "\\mathring": "\\overset{\\circ}{#1}"
+            },
+            throwOnError: false
+        });
+    } catch (e) {}
+})();
 </script>
 """
 
@@ -145,13 +218,21 @@ class PDFService:
             raw = m.group(0)
             if raw.startswith('$$'):
                 clean_math = f"$${PDFService.preprocess_math_string(raw[2:-2].strip())}$$"
+            elif raw.startswith(r'\['):
+                # \[...\] 块级公式 → $$...$$（兼容 AI 输出的学术定界符）
+                clean_math = f"$${PDFService.preprocess_math_string(raw[2:-2].strip())}$$"
+            elif raw.startswith(r'\('):
+                # \(...\) 行内公式 → $...$
+                clean_math = f"${PDFService.preprocess_math_string(raw[2:-2].strip())}$"
             else:
                 clean_math = f"${PDFService.preprocess_math_string(raw[1:-1])}$"
             math_store[placeholder] = clean_math
             return placeholder
 
-        # 1. 占位保护数学公式
-        s_stashed = re.sub(r'(\$\$.*?\$\$|\$.*?\$)', stash_math, s, flags=re.DOTALL)
+        # 1. 占位保护数学公式（$$..$$ / $..$ / \[...\] / \(...\)）
+        s_stashed = re.sub(
+            r'(\$\$.*?\$\$|\$.*?\$|\\\[.*?\\\]|\\\(.*?\\\))',
+            stash_math, s, flags=re.DOTALL)
 
         # 2. Markdown 标准转换（自然段落 <p> 与表格 <table>）
         md = markdown.Markdown(extensions=["tables", "fenced_code"])
@@ -221,7 +302,7 @@ class PDFService:
 body {
     font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     font-size: 10.5pt;
-    line-height: 1.65;
+    line-height: 1.6;
     color: #0f172a;
     background: #ffffff;
     margin: 0;
@@ -235,14 +316,14 @@ body {
 .paper-header {
     text-align: center;
     border-bottom: 1.5px solid #000000;
-    padding-bottom: 8px;
-    margin-bottom: 16px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
 }
 .paper-title {
     font-size: 15pt;
     font-weight: 800;
     color: #000000;
-    margin: 0 0 6px 0;
+    margin: 0 0 4px 0;
 }
 .paper-meta {
     font-size: 9.5pt;
@@ -254,8 +335,8 @@ body {
     font-size: 11pt;
     font-weight: 800;
     color: #000000;
-    margin: 16px 0 10px 0;
-    padding-bottom: 4px;
+    margin: 10px 0 6px 0;
+    padding-bottom: 3px;
     border-bottom: 1px solid #cbd5e1;
     page-break-after: avoid;
 }
@@ -266,7 +347,7 @@ body {
     border: none;
     border-radius: 0;
     padding: 0;
-    margin-bottom: 14px;
+    margin-bottom: 8px;
     page-break-inside: avoid;
 }
 .q-num {
@@ -277,11 +358,11 @@ body {
 }
 .q-stem {
     font-size: 10.5pt;
-    line-height: 1.65;
+    line-height: 1.55;
     color: #000000;
 }
 .q-stem p {
-    margin: 0 0 6px 0;
+    margin: 0 0 3px 0;
 }
 .q-stem p:last-child {
     margin-bottom: 0;
@@ -290,8 +371,8 @@ body {
 /* 选项网格 */
 .options-grid {
     display: grid;
-    gap: 4px 16px;
-    margin: 6px 0 4px 0;
+    gap: 3px 16px;
+    margin: 4px 0 2px 0;
     font-size: 10pt;
     color: #000000;
 }
@@ -342,8 +423,8 @@ table th {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 5px;
-    margin: 2px 0 6px 0;
+    gap: 4px;
+    margin: 1px 0 3px 0;
 }
 .badge {
     display: inline-block;
@@ -371,8 +452,8 @@ table th {
     border: 1px solid #e2e8f0;
     border-left: 3px solid #2563eb;
     border-radius: 4px;
-    padding: 8px 12px;
-    margin-top: 8px;
+    padding: 6px 10px;
+    margin-top: 6px;
     font-size: 9.5pt;
     color: #0f172a;
 }
@@ -386,7 +467,7 @@ table th {
     text-rendering: optimizeLegibility;
 }
 .katex-display {
-    margin: 0.4em 0 !important;
+    margin: 0.25em 0 !important;
 }
 """
 
@@ -566,6 +647,94 @@ table th {
             '</div>'
         )
 
+    @staticmethod
+    def _is_math_answer(ans: str) -> bool:
+        """参考答案栏公式判定（DS+Claude 评审共识：白名单字面 → LaTeX 特征 → 危险字符排除）：
+        选项字母/多选/纯中文/纯数字 → 字面；含反斜杠命令、上下标、分组、Unicode 数学符 → KaTeX 渲染；
+        含 $ % # & ~ < > ` 等危险字符 → 强制字面（防破坏 auto-render 定界符 / KaTeX 注释 / HTML 注入）。"""
+        if not ans or not ans.strip():
+            return False
+        a = ans.strip().replace("\n", " ")
+        if not a:
+            return False
+        # 危险字符 → 字面（$ 定界符 / % LaTeX 注释 / # 宏参数 / < > 破坏 HTML / ` 反引号）
+        if any(ch in a for ch in ("$", "%", "#", "<", ">", "`")):
+            return False
+        # & 在 aligned/矩阵环境内是合法对齐符，仅当无 \begin 上下文时视为危险（DS 终审共识）
+        if "&" in a and "\\begin" not in a:
+            return False
+        # 纯选项字母（单选 B / 多选 A、B / AB）
+        if re.fullmatch(r"[A-Da-d](?:[\u3001,，;；和及与 ]\s*[A-Da-d])*|[A-Da-d]{1,4}", a):
+            return False
+        # 纯中文/短文本（无 LaTeX 特征，如"无解""不存在""略"）
+        if re.fullmatch(r"[\u4e00-\u9fff，。、（）()0-9a-zA-Z\s]*", a) and not re.search(r"[\\^{}_]", a):
+            return False
+        # LaTeX 特征：\ 命令 / 上下标 / 分组
+        if "\\" in a or "^" in a or "_" in a or "{" in a or "}" in a:
+            return True
+        # Unicode 数学符号
+        if re.search(r"[π√≤≥≠∞∈±×÷∫∑∏θαβγδλμσφω]", a):
+            return True
+        # 兜底：含等号 / 数字斜杠分数 / 数字字母混合表达式
+        if "=" in a or re.search(r"[0-9]+\s*/\s*[0-9]+", a):
+            return True
+        if re.search(r"[0-9]", a) and re.search(r"[a-zA-Z]", a):
+            # 排除题号/选项+题号残留形态（A2、B12）→ 字面（DS 终审共识：数字字母混合需附加特征才判公式）
+            if re.fullmatch(r"[A-Za-z]\d+", a):
+                return False
+            return True
+        return False
+
+
+    @staticmethod
+    def _lit_span(txt: str) -> str:
+        """参考答案行字面显示（灰底高亮，html.escape 防注入）"""
+        return (f'<span style="background:#f1f5f9; padding:1px 6px; border-radius:4px; font-weight:bold;">'
+                f'{html.escape(txt)}</span>')
+
+    def _render_answer_html(self, ans_str: str) -> str:
+        """参考答案行渲染（乱码修复定稿）：
+        - 无 $：维持原判定（公式 → KaTeX / 其他 → 字面）
+        - 有 $：_fix_dollars 修复配对 → 按 $...$ 切分，公式段 KaTeX、文本段字面（剥孤立 $ 与定界符残留）
+        - 所有输出 html.escape；KaTeX 渲染失败走 .katex-error 兜底（显示源码不报错）
+        """
+        a = (ans_str or "").strip()
+        if not a:
+            return ""
+        if "$" not in a:
+            # 无 $：维持原判定（公式 → KaTeX / 其他 → 字面）；先 _clean_final_answer 保留原清理行为（防回归）
+            a2 = _clean_final_answer(a)
+            if self._is_math_answer(a2):
+                return f'<span class="ans-katex">${html.escape(a2.replace(chr(10), " "))}$</span>'
+            return self._lit_span(a2 or a)
+        a = _fix_dollars(a)
+        if "$" not in a:
+            a2 = _clean_final_answer(a)
+            if self._is_math_answer(a2):
+                return f'<span class="ans-katex">${html.escape(a2.replace(chr(10), " "))}$</span>'
+            return self._lit_span(a2 or a)
+        out: list[str] = []
+        for seg in re.split(r"(\$[^$]+\$)", a):
+            if not seg:
+                continue
+            if seg.startswith("$") and seg.endswith("$") and len(seg) > 2:
+                inner = seg[1:-1].strip()
+                if inner and not re.search(r"[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]", inner):
+                    # 公式段：无中文 → KaTeX（.katex-error 兜底显示源码，不报错）
+                    out.append(f'<span class="ans-katex">${html.escape(inner.replace(chr(10), " "))}$</span>')
+                elif inner:
+                    # 含中文的"公式段"（如"（即 "）→ 字面，防错配渲染
+                    logger.info("[ans-render] 公式段含中文→字面兜底: %s...", (inner[:40] or "").replace("\n", " "))
+                    out.append(self._lit_span(_clean_final_answer(inner) or inner))
+            else:
+                txt = _clean_final_answer(seg.replace("$", "")).strip()
+                if txt and not re.search(r"[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]", txt) and self._is_math_answer(txt):
+                    # 文本段若为纯公式源码（开头丢$的残缺定界符答案）→ KaTeX 渲染
+                    out.append(f'<span class="ans-katex">${html.escape(txt.replace(chr(10), " "))}$</span>')
+                elif txt:
+                    out.append(self._lit_span(txt))
+        return "".join(out)
+
     def _build_solution_html(self, paper: PaperItem) -> str:
         sub_cn, _ = self._get_subject_info(paper.subject)
 
@@ -575,12 +744,53 @@ table th {
             meta_row = self._build_meta_row(q)
             options_html = self._render_options_grid(q.options) if q.options else ""
 
-            ans_str = q.answer if q.answer else "略"
-            sol_html = self.format_math_text(q.solution) if q.solution else "详见标准解析推导。"
+            # 优先使用 AI 名师补全的答案/解析（本地缓存），其次用题库自带
+            ai_sol = get_ai_solution(q.id, stem_fp=stem_fingerprint(q))
+            if ai_sol:
+                # M6：题库自带有效答案优先，AI 结果作补充（防 AI 提取错误覆盖官方答案）；
+                # 题库 answer 为空/占位符（"略"）不算有效答案 → 回退 AI 提取的答案；
+                # AI 缓存 answer 为空（定稿解析无【答案】标记）→ 现场从解析提取自然语言结论（覆盖存量缓存）
+                # 现场提取优先（含【最终答案】定稿分支）：存量缓存 answer 可能提取自第一个【标准答案】
+                # （错误中间答案），现场提取会覆盖为正文定稿答案；提取失败再回退缓存 answer
+                _ai_answer = split_answer_from_text(ai_sol.get("solution") or "", is_choice=_is_choice_type(q)) or ai_sol.get("answer") or ""
+                if q.answer and not _is_placeholder(q.answer):
+                    ans_str = q.answer
+                elif _ai_answer:
+                    ans_str = _ai_answer
+                else:
+                    ans_str = "见详细解析"
+                sol_text = q.solution or ai_sol.get("solution") or "详见标准解析推导。"
+                _rs = ai_sol.get("review_status")
+                if _rs == "verified":
+                    _mark_txt = "（AI 名师生成 · 已审核）"
+                elif _rs == "fixed":
+                    _mark_txt = "（AI 名师生成 · 已审核修正）"
+                elif _rs in ("pdf", "pdf_fixed"):
+                    _mark_txt = "（扫描版解析核验）"
+                elif _rs == "doubt":
+                    _mark_txt = "（AI 名师生成 · 待核实）"
+                elif _rs == "failed":
+                    _mark_txt = "（解析生成失败）"
+                elif _rs == "human":
+                    _mark_txt = "（AI 名师生成 · 人工核对）"
+                elif _rs == "unchecked":
+                    _mark_txt = "（AI 名师生成 · 未审核）"
+                elif _rs == "review_failed":
+                    _mark_txt = "（AI 名师生成 · 审核失败）"
+                else:
+                    _mark_txt = AI_MARK
+                sol_source_mark = f'<span style="color:#64748b; font-size:8.5pt; font-weight:600;">{_mark_txt}</span>'
+            else:
+                ans_str = q.answer if q.answer else "略"
+                sol_text = q.solution if q.solution else "详见标准解析推导。"
+                sol_source_mark = ""
+            sol_html = self.format_math_text(sol_text)
 
+            # 参考答案栏渲染（乱码修复）：无 $ 按原判定；有 $ 修复配对后分段渲染（公式 KaTeX / 文本字面）
+            _ans_html = self._render_answer_html(ans_str)
             solution_box = f"""
             <div class="solution-block">
-                <div style="margin-bottom:4px;"><b>【参考答案】</b>：<code style="background:#f1f5f9; padding:1px 6px; border-radius:4px; font-weight:bold;">{ans_str}</code></div>
+                <div style="margin-bottom:4px;"><b>【参考答案】</b>：{_ans_html}{sol_source_mark}</div>
                 <div><b>【详细推导与解析步骤】</b>：<div style="margin-top:4px; color:#1e293b;">{sol_html}</div></div>
             </div>
             """
@@ -597,6 +807,24 @@ table th {
         body_content = "\n".join(blocks)
         katex_head = self._get_katex_headers()
         common_css = self._get_common_css()
+        solution_css = """
+/* ===== 解析版专用：压缩版面、允许断页续排（题干整体不拆） ===== */
+.q-card {
+    page-break-inside: auto;
+}
+.q-stem {
+    page-break-inside: avoid;
+}
+.meta-row {
+    page-break-inside: avoid;
+}
+.options-grid {
+    page-break-inside: avoid;
+}
+.solution-block {
+    page-break-inside: auto;
+}
+"""
 
         return f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -606,6 +834,7 @@ table th {
 {katex_head}
 <style>
 {common_css}
+{solution_css}
 </style>
 </head>
 <body>
@@ -637,6 +866,10 @@ table th {
         packages.txt），至少产出可打开的 PDF。两者都不可用才退回 HTML 字节。
         """
         html_content = self.generate_html(paper, edition)
+        # 修复 headless --print-to-pdf 不执行 DOMContentLoaded 监听的问题：
+        # </body> 前注入同步渲染脚本，保证打印快照中公式已渲染
+        if "</body>" in html_content:
+            html_content = html_content.replace("</body>", self._get_body_render_script() + "</body>", 1)
 
         pdf = self._render_via_browser(html_content)
         if pdf:
@@ -646,8 +879,10 @@ table th {
         if pdf:
             return pdf
 
-        logger.warning("无可用 PDF 渲染引擎（浏览器 + WeasyPrint 均失败），退回 HTML 字节。")
-        return html_content.encode("utf-8")
+        raise RuntimeError(
+            "PDF 渲染失败：本地浏览器（Edge/Chrome）渲染与 WeasyPrint 兜底均不可用。"
+            "请确认系统已安装 Microsoft Edge 或 Google Chrome 后重试。"
+        )
 
     @staticmethod
     def _find_browser() -> str | None:
@@ -670,36 +905,91 @@ table th {
         return next((b for b in candidates if b and os.path.exists(b)), None)
 
     def _render_via_browser(self, html_content: str) -> bytes | None:
+        """两段式渲染：① --dump-dom + --virtual-time-budget 等待 JS 把公式渲染成 KaTeX span；
+        ② 对已渲染 DOM 执行 --print-to-pdf。
+
+        headless=new 的 --print-to-pdf 在文档解析完成时立即打印，不等 virtual time、
+        不执行 DOMContentLoaded 里的 auto-render，导致 PDF 中公式显示为裸 LaTeX
+        （f'(x) 撇号等几乎不可读）。先 dump-dom 再打印可保证打印快照里公式已渲染。"""
         browser_exe = self._find_browser()
         if not browser_exe:
             return None
 
-        with tempfile.NamedTemporaryFile(suffix=".html", delete=False, mode="w", encoding="utf-8") as f:
-            f.write(html_content)
-            temp_html = f.name
-        temp_pdf = temp_html.replace(".html", ".pdf")
-
-        # --disable-dev-shm-usage：容器内 /dev/shm 很小，不加 chromium 会崩；云端冷启动慢，超时放宽
-        common = ["--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage",
-                  "--disable-extensions", "--no-pdf-header-footer"]
-        flag_candidates = [
-            [browser_exe, "--headless=new", *common, f"--print-to-pdf={temp_pdf}", temp_html],
-            [browser_exe, "--headless", *common, f"--print-to-pdf={temp_pdf}", temp_html],
-        ]
+        tmp_dir = tempfile.mkdtemp(prefix="kaoyan_pdf_")
         try:
-            for cmd in flag_candidates:
+            temp_html = os.path.join(tmp_dir, "paper.html")
+            rendered_html = os.path.join(tmp_dir, "rendered.html")
+            temp_pdf = os.path.join(tmp_dir, "paper.pdf")
+            with io.open(temp_html, "w", encoding="utf-8") as f:
+                f.write(html_content)
+
+            # 复制 KaTeX 本地字体到临时目录，使 CSS 的 url(fonts/...) 相对路径离线可用
+            try:
+                fonts_src = self._assets_dir / "fonts"
+                fonts_dst = os.path.join(tmp_dir, "fonts")
+                if fonts_src.is_dir() and not os.path.exists(fonts_dst):
+                    shutil.copytree(fonts_src, fonts_dst)
+            except Exception as ex:
+                logger.warning(f"复制 KaTeX 字体到临时目录失败（将退化为浏览器字体缓存）: {ex}")
+
+            # --disable-dev-shm-usage：容器内 /dev/shm 很小，不加 chromium 会崩；云端冷启动慢，超时放宽
+            common = ["--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage",
+                      "--disable-extensions", "--no-pdf-header-footer"]
+            dom_url = Path(temp_html).as_uri()
+
+            # 段①：dump-dom 等待 JS 渲染（virtual-time-budget 推进虚拟时间直至 KaTeX 完成）
+            # 源 HTML 是否含公式定界符：用于判定"渲染是否真的发生"（无公式的纯文本卷不要求 katex span）
+            has_math = ("$" in html_content or "\\(" in html_content or "\\[" in html_content)
+            rendered = None
+            for hflag in ("--headless=new", "--headless"):
+                cmd = [browser_exe, hflag, *common, "--virtual-time-budget=30000",
+                       "--dump-dom", dom_url]
                 try:
-                    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
+                    proc = subprocess.run(cmd, capture_output=True, timeout=300)
+                    out = proc.stdout.decode("utf-8", errors="replace")
+                    # 剔除可能混入 stdout 的浏览器日志：从 HTML 文档起始处截取
+                    for marker in ("<!DOCTYPE", "<html", "<head"):
+                        idx = out.find(marker)
+                        if idx >= 0:
+                            out = out[idx:]
+                            break
+                    # 校验：必须是完整文档（以 </html> 结尾），且渲染确实发生
+                    # （源含公式 → dump 必须出现 KaTeX span，否则视为段①失败，避免把半截/未渲染 DOM 当成功）
+                    ok_doc = out.strip().endswith("</html>") or "</html>" in out
+                    ok_render = (not has_math) or ('class="katex"' in out)
+                    if ok_doc and ok_render and len(out) > 1000:
+                        rendered = out
+                        break
+                except Exception as ex:
+                    logger.warning(f"Headless dump-dom 尝试失败，尝试备用参数: {ex}")
+                    continue
+
+            # 段②：打印已渲染 DOM（公式已是 KaTeX span，无需再等 JS）
+            target_html = rendered_html if rendered else temp_html
+            if rendered:
+                with io.open(target_html, "w", encoding="utf-8") as f:
+                    f.write(rendered)
+            else:
+                # 段①失败：显式标记降级，避免静默产出未渲染公式的 PDF 冒充成功
+                logger.warning(
+                    "KaTeX 渲染段（dump-dom）失败，将打印原始 HTML；PDF 中公式可能显示为裸 LaTeX。"
+                    "已重试 headless 新旧模式，请检查浏览器/虚拟时间参数。"
+                )
+            for cmd in ([browser_exe, "--headless=new", *common, f"--print-to-pdf={temp_pdf}", target_html],
+                        [browser_exe, "--headless", *common, f"--print-to-pdf={temp_pdf}", target_html]):
+                try:
+                    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL,
+                                   stderr=subprocess.DEVNULL, timeout=300)
                     if os.path.exists(temp_pdf) and os.path.getsize(temp_pdf) > 0:
                         return open(temp_pdf, "rb").read()
                 except Exception as ex:
                     logger.warning(f"Headless PDF 尝试失败，尝试备用参数: {ex}")
                     continue
         finally:
-            for p in (temp_html, temp_pdf):
-                if os.path.exists(p):
-                    try: os.unlink(p)
-                    except Exception: pass
+            try:
+                shutil.rmtree(tmp_dir, ignore_errors=True)
+            except Exception:
+                pass
         return None
 
     def _render_via_weasyprint(self, html_content: str) -> bytes | None:

@@ -34,6 +34,8 @@ from core.models import (
 from core.paper_engine import EngineRequest, PaperEngine
 from core.pdf_service import PDFEdition, PDFService
 from core.ai_tutor import AITutor
+from core.ai_health import probe_key
+from core.ai_solutions import ensure_solutions
 from core.state_manager import StateManager
 
 # 题干里内联的 <img src="data:...base64,..."> 标签(loader 生成)
@@ -129,6 +131,73 @@ state_mgr: StateManager = st.session_state.state_mgr
 pdf_service = PDFService()
 
 
+# AI 配置本地持久化（API Key 不放 URL，只存本机文件）
+AI_CONFIG_FILE = Path(__file__).resolve().parent / "user_data" / "ai_config.json"
+
+
+def load_ai_config() -> dict:
+    try:
+        import json as _json
+        return _json.loads(AI_CONFIG_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def save_ai_config(cfg: dict) -> None:
+    try:
+        import json as _json
+        AI_CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
+        AI_CONFIG_FILE.write_text(_json.dumps(cfg, ensure_ascii=False), encoding="utf-8")
+    except Exception:
+        pass
+
+
+# 拼卷配置本地持久化（刷新页面不丢）
+PAPER_CONFIG_FILE = Path(__file__).resolve().parent / "user_data" / "paper_config.json"
+
+# 全局配置 key（不随科目变化）
+_GLOBAL_CONFIG_KEYS = [
+    "p1_basic", "p1_comp", "p1_adv", "p1_tag",
+    "custom_qc", "custom_qf", "custom_qs",
+    "c_w_math", "c_w_linalg", "c_w_prob",
+]
+# 按科目区分的配置 key 前缀
+_SUBJECT_CONFIG_PREFIXES = [
+    "p1_wrong_ratio_", "p1_exclude_seen_", "p1_use_dist_",
+    "p1_dist_strength_", "p1_mode_", "p1_chk_math_",
+    "p1_chk_linalg_", "p1_chk_prob_",
+]
+
+
+def load_paper_config() -> dict:
+    try:
+        import json as _json
+        return _json.loads(PAPER_CONFIG_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def save_paper_config() -> None:
+    """把当前 session_state 里的拼卷配置收集落盘。"""
+    try:
+        import json as _json
+        cfg = {}
+        # 全局 key
+        for k in _GLOBAL_CONFIG_KEYS:
+            if k in st.session_state:
+                cfg[k] = st.session_state[k]
+        # 按科目 key（遍历 session_state，匹配前缀）
+        for k, v in st.session_state.items():
+            for prefix in _SUBJECT_CONFIG_PREFIXES:
+                if k.startswith(prefix):
+                    cfg[k] = v
+                    break
+        PAPER_CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
+        PAPER_CONFIG_FILE.write_text(_json.dumps(cfg, ensure_ascii=False), encoding="utf-8")
+    except Exception:
+        pass
+
+
 # Caching PDF generation so clicking buttons/checkboxes is instantaneous (0ms)
 @st.cache_data(show_spinner="⚡ 正在后台生成高清矢量 PDF 导出流...")
 def get_cached_pdf(paper_id: str, title: str, q_ids: tuple[str, ...], edition_str: str = "real_exam", subject_str: str = "数学一") -> bytes:
@@ -144,6 +213,31 @@ def get_cached_pdf(paper_id: str, title: str, q_ids: tuple[str, ...], edition_st
     )
     edition = PDFEdition(edition_str) if edition_str in [e.value for e in PDFEdition] else PDFEdition.REAL_EXAM
     return pdf_service.render_pdf_bytes(paper_item, edition=edition)
+
+
+def _safe_pdf_bytes(*args, **kwargs):
+    """渲染 PDF，失败时提示错误并返回 None（绝不交付 HTML 伪装的损坏文件）。"""
+    try:
+        return get_cached_pdf(*args, **kwargs)
+    except Exception as ex:
+        st.error(f"❌ PDF 生成失败：{ex}\n请确认系统已安装 Microsoft Edge 或 Chrome 后重试。")
+        return None
+
+
+def _build_solution_tutor(user_api_key, user_api_url, user_model_name):
+    """构造 AI 名师生成器：优先使用 ai_config.json 的 solution_*（Claude 中转），
+    未配置时回退为侧边栏填写的配置（DeepSeek）。"""
+    try:
+        cfg = json.loads((Path(__file__).resolve().parent / "user_data" / "ai_config.json").read_text(encoding="utf-8"))
+        if cfg.get("solution_api_key") and cfg.get("solution_base_url"):
+            return AITutor(
+                api_key=cfg["solution_api_key"],
+                base_url=cfg["solution_base_url"],
+                model=cfg.get("solution_model") or "claude-sonnet-4-5-20250929",
+            )
+    except Exception:
+        pass
+    return AITutor(api_key=user_api_key, base_url=user_api_url, model=user_model_name)
 
 
 @st.cache_data(show_spinner="⚡ 正在生成纯净 HTML 试卷流...")
@@ -402,12 +496,28 @@ inject_modern_theme()
 with st.sidebar:
     st.markdown("### 📚 考研拼好卷系统")
 
-    # 1. 优先选择科目
+    # 关闭服务按钮
+    if st.button("🔴 关闭服务", use_container_width=True, help="点击后停止后台运行的拼卷系统，浏览器页面将断开。"):
+        import os
+        st.warning("正在关闭服务...")
+        try:
+            os._exit(0)
+        except Exception:
+            pass
+    st.markdown("---")
+
+    # 1. 优先选择科目（通过 URL 参数 sub 持久化，刷新不丢）
+    _subject_options = ["数学一", "数学二", "数学三", "自定义"]
+    _default_sub = st.query_params.get("sub", "数学一")
+    _subject_idx = _subject_options.index(_default_sub) if _default_sub in _subject_options else 0
     selected_subject_str = st.selectbox(
         "🎯 考研数学科目",
-        options=["数学一", "数学二", "数学三", "自定义"],
-        index=0,
+        options=_subject_options,
+        index=_subject_idx,
+        key="selected_subject_key",
     )
+    if st.query_params.get("sub") != selected_subject_str:
+        st.query_params["sub"] = selected_subject_str
     if selected_subject_str == "数学一":
         current_subject = SubjectType.MATH_1
     elif selected_subject_str == "数学二":
@@ -638,11 +748,48 @@ with st.sidebar:
         value=f"{repeated_wrong_count} 题",
     )
 
+    _due_today = state_mgr.get_due_wrong_count()
+    st.metric(
+        label="⏰ 今日到期（艾宾浩斯）",
+        value=f"{_due_today} 题",
+        help="按 1/2/4/7/15/30 天抗遗忘曲线，今天该复习的错题数。",
+    )
+
     if subject_wrong_count > 0 or past_wrong_count > 0:
         if st.button("🗑️ 清空所有错题记录", use_container_width=True):
             state_mgr.clear_all_wrong()
             st.success("已清空错题记录！")
             st.rerun()
+
+    # ==================== 批量补登历史错题 ====================
+    with st.expander("📝 批量补登历史错题（纸质时代的错题）"):
+        st.caption("把之前写在纸上的错题登记进系统，会按登记日期进入艾宾浩斯复习队列。")
+        _reg_chapters = sorted({q.chapter for q in all_questions})
+        _reg_chapter = st.selectbox("选择章节", _reg_chapters, key="reg_chapter")
+        _ch_qs = [q for q in all_questions if q.chapter == _reg_chapter]
+        _reg_nums = st.text_input(
+            "题号（逗号/空格/换行分隔，如：3, 7, 12）",
+            key="reg_nums",
+            help="填写该章节内做错的题目序号，多题用逗号或空格隔开。",
+        )
+        _reg_tag = st.selectbox("统一错误标签", ["概念模糊", "方法不会", "计算失误", "审题错误", "其他"], key="reg_tag")
+        _reg_date = st.date_input("首次做错日期（纸质错题填大概时间即可）", key="reg_date")
+        if st.button("登记为错题", key="reg_submit", use_container_width=True):
+            _nums = re.findall(r"\d+", _reg_nums or "")
+            _qids: list[str] = []
+            for _n in _nums:
+                _val = int(_n)
+                _matched = [q for q in _ch_qs if f"-{_val:02d}" in q.id or f"_{_val}" in q.id]
+                if _matched and _matched[0].id not in _qids:
+                    _qids.append(_matched[0].id)
+            if not _qids:
+                st.warning("没有匹配到题目，请检查题号是否属于所选章节。")
+            else:
+                _reg, _skip = state_mgr.batch_register_wrong(
+                    _qids, error_tag=_reg_tag, added_at=_reg_date.isoformat(),
+                )
+                st.success(f"已登记 {_reg} 道，跳过 {_skip} 道（已存在/未找到）。")
+                st.rerun()
 
     if st.session_state.get("_url_restore_stale") == active_sub.value:
         st.warning("⚠️ 网址中的错题码与当前题库版本不匹配（题库已更新），未自动恢复，以本地记录为准。")
@@ -688,31 +835,132 @@ with st.sidebar:
         if model:
             st.session_state["ai_model"] = model
 
+    _provider_options = list(preset_providers.keys())
+    _default_provider = st.query_params.get("ap", "DeepSeek")
+    _provider_idx = _provider_options.index(_default_provider) if _default_provider in _provider_options else 0
     selected_provider = st.selectbox(
         "服务提供商",
-        options=list(preset_providers.keys()),
-        index=0,
+        options=_provider_options,
+        index=_provider_idx,
         key="ai_provider",
         on_change=_apply_provider_preset,
         help="选择预设提供商或选择自定义以连接任意兼容 OpenAI 规范的大模型 API。",
     )
+    if st.query_params.get("ap") != selected_provider:
+        st.query_params["ap"] = selected_provider
 
     user_api_url = st.text_input(
         "API Base URL",
         key="ai_base_url",
         help="大模型 API Base URL（例如 https://api.deepseek.com 或 https://api.openai.com/v1）。",
     )
+    # 首次进入时从本地文件恢复 API Key（不写入 URL，仅存本机）
+    if "_api_key_seeded" not in st.session_state:
+        st.session_state["_api_key_seeded"] = True
+        _saved_cfg = load_ai_config()
+        _saved_key = _saved_cfg.get("api_key", "")
+        _env_key = os.getenv("DEEPSEEK_API_KEY") or os.getenv("OPENAI_API_KEY", "")
+        st.session_state["ai_api_key"] = _saved_key or _env_key
+
     user_api_key = st.text_input(
         "API Key",
-        value=os.getenv("DEEPSEEK_API_KEY") or os.getenv("OPENAI_API_KEY", ""),
+        key="ai_api_key",
         type="password",
-        help="出于安全，API Key 不会写入网址，仅本会话使用；也可用环境变量预置。",
+        help="API Key 保存在本机 user_data/ai_config.json，刷新页面不丢失；出于安全不写入网址。",
     )
+    # API Key 变化时自动保存到本地文件
+    if user_api_key:
+        _cfg = load_ai_config()
+        if _cfg.get("api_key", "") != user_api_key:
+            _cfg["api_key"] = user_api_key
+            save_ai_config(_cfg)
     user_model_name = st.text_input(
         "Model 模型名称",
         key="ai_model",
         help="调用的模型名称（例如 deepseek-chat, gpt-4o, qwen-plus 等）。",
     )
+
+    # ===== API Key 健康检查（缓存加固配套：进入页面惰性探测，TTL 5 分钟防重复打；并行探测两个配置）=====
+    # 只查在用配置：生成（solution_* Claude 中转）与审核（review_* DeepSeek）；双模型未配置时兜底查侧边栏 Key。
+    # 结果存 session_state（跨 rerun 保留）+ ai_health 内部 TTL 缓存（跨调用去重），"重新检测"按钮 force 重探。
+    with st.container():
+        st.markdown("#### 🔑 API 状态")
+        _health_cfg = load_ai_config()
+        _health_targets = []
+        if _health_cfg.get("solution_api_key") and _health_cfg.get("solution_base_url"):
+            _health_targets.append(("生成模型 Claude", _health_cfg["solution_api_key"],
+                                    _health_cfg["solution_base_url"],
+                                    _health_cfg.get("solution_model") or "claude-sonnet-4-5-20250929"))
+        if _health_cfg.get("review_api_key") and _health_cfg.get("review_base_url"):
+            _health_targets.append(("审核模型 DeepSeek", _health_cfg["review_api_key"],
+                                    _health_cfg["review_base_url"],
+                                    _health_cfg.get("review_model") or "deepseek-chat"))
+        if not _health_targets and user_api_key:
+            _health_targets.append(("侧边栏 Key", user_api_key, user_api_url, user_model_name))
+
+        # ===== 今日 AI 消耗（本地成本日志，0 API 开销）=====
+        try:
+            from pathlib import Path
+            import datetime as _dt
+            import json as _json
+            _log_p = Path(__file__).resolve().parent / "user_data" / "ai_cost_log.json"
+            if _log_p.exists():
+                _log = _json.loads(_log_p.read_text(encoding="utf-8"))
+                _today = _dt.date.today().strftime("%Y-%m-%d")
+                _t = [e for e in _log if (e.get("ts") or "").startswith(_today)]
+                if _t:
+                    _req = len(_t)
+                    _pt = sum(int(e.get("pt") or 0) for e in _t)
+                    _ct = sum(int(e.get("ct") or 0) for e in _t)
+                    _fail = sum(1 for e in _t if not e.get("ok"))
+                    st.markdown(
+                        f"#### 📊 今日 AI 消耗\\n"
+                        f"`{_req}` 次请求 · 输入 `{_pt:,}` / 输出 `{_ct:,}` tokens"
+                        + (f" · ⚠️ `{_fail}` 次失败" if _fail else "")
+                    )
+        except Exception:
+            pass
+        if not _health_targets:
+            st.caption("未配置 API Key，AI 解析功能不可用。")
+        else:
+            # 并行探测：首屏等待 = 最慢单个探测（而非串行累加）
+            import concurrent.futures
+            _need_probe = []
+            for _label, _k, _b, _m in _health_targets:
+                _skey = f"_health_{_label}"
+                if _skey not in st.session_state:
+                    _need_probe.append((_skey, _label, _k, _b, _m))
+            if _need_probe:
+                with concurrent.futures.ThreadPoolExecutor(max_workers=len(_need_probe)) as _ex:
+                    _futs = {_ex.submit(probe_key, _k, _b, _m): (_skey, _label) for _skey, _label, _k, _b, _m in _need_probe}
+                    for _f in concurrent.futures.as_completed(_futs):
+                        _skey, _label = _futs[_f]
+                        try:
+                            st.session_state[_skey] = _f.result()
+                        except Exception:
+                            st.session_state[_skey] = None
+            for _label, _k, _b, _m in _health_targets:
+                _skey = f"_health_{_label}"
+                _res = st.session_state.get(_skey)
+                _c1, _c2 = st.columns([4, 1])
+                with _c1:
+                    if _res is None:
+                        st.caption(f"🔍 {_label}：未检测")
+                    elif _res.ok:
+                        st.success(f"✅ {_label} 可用（{_res.latency_ms}ms）")
+                    elif _res.status == "auth":
+                        st.error(f"❌ {_label} 鉴权失败：{_res.detail}")
+                    elif _res.status == "model":
+                        st.error(f"❌ {_label} 模型无效：{_res.detail}")
+                    elif _res.status == "rate":
+                        st.warning(f"⚠️ {_label} 限流：{_res.detail}")
+                    else:
+                        st.warning(f"⚠️ {_label} 异常：{_res.detail}")
+                with _c2:
+                    if st.button("重检", key=f"{_skey}_btn", help="强制重新探测该 Key"):
+                        st.session_state[_skey] = probe_key(_k, _b, _m, force=True)
+                        st.rerun()
+        st.markdown("---")
 
 
 # =========================================================================
@@ -740,11 +988,12 @@ st.markdown(
 # =========================================================================
 # 6. Three Core Workspaces (Tabs)
 # =========================================================================
-tab_paper_hub, tab_marker_hub, tab_wrongbook_hub, tab_coverage_hub = st.tabs([
+tab_paper_hub, tab_marker_hub, tab_wrongbook_hub, tab_coverage_hub, tab_daily_hub = st.tabs([
     "🎯 智能拼好卷",
     "🏷️ 题库逐题标错",
     "📕 我的错题本",
     "📈 全科考点雷达",
+    "📅 每日错题",
 ])
 
 
@@ -752,6 +1001,13 @@ tab_paper_hub, tab_marker_hub, tab_wrongbook_hub, tab_coverage_hub = st.tabs([
 # WORKSPACE 1: 智能拼好卷大厅 (核心组卷与刷题，默认以错题组卷)
 # -------------------------------------------------------------------------
 with tab_paper_hub:
+    # 从本地文件恢复上次的拼卷配置（仅首次进入时播种，之后由用户交互主导）
+    if "_paper_cfg_seeded" not in st.session_state:
+        st.session_state["_paper_cfg_seeded"] = True
+        _saved_paper_cfg = load_paper_config()
+        for k, v in _saved_paper_cfg.items():
+            st.session_state.setdefault(k, v)
+
     st.markdown("#### 🎯 智能拼卷配置")
 
     # 1. 核心题源配置：错题占比滑块（错题 : 新题 混合，错题不足自动用新题补齐）
@@ -887,6 +1143,9 @@ with tab_paper_hub:
                     ChapterCategory.LINEAR_ALGEBRA: float(w_linalg),
                     ChapterCategory.PROBABILITY: float(w_prob),
                 }
+
+    # 自动保存当前拼卷配置到本地文件（每次 rerun 都存，用户改了什么都能记住）
+    save_paper_config()
 
     # 3. 组卷触发按钮
     st.markdown("---")
@@ -1123,12 +1382,51 @@ with tab_paper_hub:
 
                     with st.expander("🤖 呼叫 AI 名师解答"):
                         if st.button("🚀 运行 AI 详细推导", key=f"p1_ai_btn_{q.id}_{q_idx}_{current_subject.value}"):
-                            with st.spinner("AI 名师正在严密演算推导..."):
-                                box = st.empty()
-                                res_text = ""
-                                for chunk in ai_t.solve_question_stream(q):
-                                    res_text += chunk
-                                    box.markdown(res_text)
+                            # 缓存优先：已生成过解析（含详细解析 PDF 产物）→ 直接显示缓存，0 次 API
+                            _cached_sol = ""
+                            _cached_status = ""
+                            try:
+                                from core.ai_solutions import load_cache, stem_fingerprint
+                                _ce = load_cache().get(q.id)
+                                if _ce and (_ce.get("solution") or "").strip() and _ce.get("stem_fp") == stem_fingerprint(q):
+                                    _cached_sol = _ce["solution"]
+                                    _cached_status = _ce.get("review_status") or ""
+                            except Exception:
+                                _cached_sol = ""
+                            if _cached_sol:
+                                st.markdown(_cached_sol)
+                                if _cached_status == "unchecked":
+                                    st.caption("（来自本地缓存 · 未经审核校验 · 未消耗 API）")
+                                elif _cached_status in ("verified", "fixed", "human"):
+                                    st.caption("（来自本地缓存 · 已审核 · 未消耗 API）")
+                                else:
+                                    st.caption("（来自本地缓存 · 未消耗 API）")
+                            else:
+                                with st.spinner("AI 名师正在严密演算推导..."):
+                                    box = st.empty()
+                                    res_text = ""
+                                    for chunk in ai_t.solve_question_stream(q):
+                                        res_text += chunk
+                                        box.markdown(res_text)
+                                # 生成完成 → 写缓存（标 unchecked；下载解析 PDF 时复用解析、仅重审一次，不重复生成）
+                                if (res_text or "").strip():
+                                    try:
+                                        from datetime import datetime
+                                        from core.ai_solutions import load_cache, save_cache, _lock, stem_fingerprint
+                                        with _lock:
+                                            _c = load_cache()
+                                            _e = _c.get(q.id)
+                                            if _e is None:
+                                                _e = {"answer": "", "solution": "", "review_status": "unchecked",
+                                                      "stem_fp": stem_fingerprint(q)}
+                                                _c[q.id] = _e
+                                            if not (_e.get("solution") or "").strip():
+                                                _e["solution"] = res_text
+                                                _e["review_status"] = "unchecked"
+                                                _e["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                                save_cache(_c)
+                                    except Exception:
+                                        pass
 
                 q_idx += 1
 
@@ -1158,38 +1456,79 @@ with tab_paper_hub:
         else:
             tb1, tb2, tb3 = st.columns(3)
             with tb1:
-                st.download_button(
-                    "📥 下载真题版 PDF",
-                    data=get_cached_pdf(
-                        active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.REAL_EXAM.value, subject_str=current_subject.value
-                    ),
-                    file_name=f"{active_paper.paper_id}_真题版试卷.pdf",
-                    mime="application/pdf",
-                    use_container_width=True,
-                    key=f"p1_down_real_{active_paper.paper_id}",
+                _pdf_real = _safe_pdf_bytes(
+                    active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.REAL_EXAM.value, subject_str=current_subject.value
                 )
+                if _pdf_real:
+                    st.download_button(
+                        "📥 下载真题版 PDF",
+                        data=_pdf_real,
+                        file_name=f"{active_paper.paper_id}_真题版试卷.pdf",
+                        mime="application/pdf",
+                        use_container_width=True,
+                        key=f"p1_down_real_{active_paper.paper_id}",
+                    )
             with tb2:
-                st.download_button(
-                    "📝 下载 A4 做题本 PDF",
-                    data=get_cached_pdf(
-                        active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.WORKBOOK_A4.value, subject_str=current_subject.value
-                    ),
-                    file_name=f"{active_paper.paper_id}_A4做题本.pdf",
-                    mime="application/pdf",
-                    use_container_width=True,
-                    key=f"p1_down_wb_{active_paper.paper_id}",
+                _pdf_wb = _safe_pdf_bytes(
+                    active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.WORKBOOK_A4.value, subject_str=current_subject.value
                 )
+                if _pdf_wb:
+                    st.download_button(
+                        "📝 下载 A4 做题本 PDF",
+                        data=_pdf_wb,
+                        file_name=f"{active_paper.paper_id}_A4做题本.pdf",
+                        mime="application/pdf",
+                        use_container_width=True,
+                        key=f"p1_down_wb_{active_paper.paper_id}",
+                    )
             with tb3:
-                st.download_button(
-                    "📑 下载详细解析版 PDF",
-                    data=get_cached_pdf(
+                # 详细解析版：点击下载时才触发 AI 名师补全缺失答案解析（做题阶段不等待）
+                _ai_ready_key = f"p1_ai_ready_{active_paper.paper_id}"
+                _missing_now = [q for q in active_paper.questions if not (q.answer and q.solution)]
+                if user_api_key and _missing_now and not st.session_state.get(_ai_ready_key):
+                    if st.button(
+                        "📥 下载详细解析版 PDF（AI 补全解析）",
+                        use_container_width=True,
+                        key=f"p1_sol_ai_gen_{active_paper.paper_id}",
+                        help="点击后 AI 名师先补齐缺失的答案解析（有缓存直接复用），完成后自动出下载按钮。",
+                    ):
+                        _bar = st.progress(0.0, text=f"AI 名师正在生成 {len(_missing_now)} 道题的答案解析...")
+                        def _cb(done, total, qid, status):
+                            if status == "generated":
+                                _bar.progress(done / total, text=f"AI 名师正在生成答案解析 ({done}/{total})：{qid}")
+                            elif status == "cached":
+                                _bar.progress(done / total, text=f"复用已有 AI 解析缓存 ({done}/{total})...")
+                            elif isinstance(status, str) and status.startswith("pdf_detail:"):
+                                _bar.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}（{status[12:]}）")
+                            elif status == "pdf":
+                                _bar.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}")
+                            elif status == "reviewing":
+                                _bar.progress(done / total, text=f"AI 阅卷专家正在独立审核答案 ({done}/{total})：{qid}")
+                            elif status == "failed":
+                                _bar.progress(done / total, text=f"AI 解题失败且扫描版未命中 ({done}/{total})：{qid}")
+                            elif status == "review_failed":
+                                _bar.progress(done / total, text=f"AI 审核失败，已标记未审核 ({done}/{total})：{qid}")
+                        try:
+                            gen, cached = ensure_solutions(active_paper.questions, _build_solution_tutor(user_api_key, user_api_url, user_model_name), progress_cb=_cb)
+                            if gen > 0:
+                                get_cached_pdf.clear()  # 旧版可能是「略」，清缓存强制带 AI 解析重生成
+                        except Exception:
+                            pass
+                        st.session_state[_ai_ready_key] = True
+                        st.rerun()
+                else:
+                    _pdf_sol = _safe_pdf_bytes(
                         active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.SOLUTION.value, subject_str=current_subject.value
-                    ),
-                    file_name=f"{active_paper.paper_id}_详细解析.pdf",
-                    mime="application/pdf",
-                    use_container_width=True,
-                    key=f"p1_down_sol_{active_paper.paper_id}",
-                )
+                    )
+                    if _pdf_sol:
+                        st.download_button(
+                            "📑 下载详细解析版 PDF",
+                            data=_pdf_sol,
+                            file_name=f"{active_paper.paper_id}_详细解析.pdf",
+                            mime="application/pdf",
+                            use_container_width=True,
+                            key=f"p1_down_sol_{active_paper.paper_id}",
+                        )
 
         tb4, _tb_pad = st.columns([1.6, 2.4])
         with tb4:
@@ -1198,9 +1537,9 @@ with tab_paper_hub:
                 st.caption("💡 云端无本地归档，请用左侧下载按钮直接存到你的设备。")
             elif st.button("💾 归档到本地试卷库", use_container_width=True, key=f"p1_archive_btn_{active_paper.paper_id}"):
                 with st.spinner("正在生成并归档 3 种版式 PDF..."):
-                    real_pdf = get_cached_pdf(active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.REAL_EXAM.value, subject_str=current_subject.value)
-                    wb_pdf = get_cached_pdf(active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.WORKBOOK_A4.value, subject_str=current_subject.value)
-                    sol_pdf = get_cached_pdf(active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.SOLUTION.value, subject_str=current_subject.value)
+                    real_pdf = _safe_pdf_bytes(active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.REAL_EXAM.value, subject_str=current_subject.value)
+                    wb_pdf = _safe_pdf_bytes(active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.WORKBOOK_A4.value, subject_str=current_subject.value)
+                    sol_pdf = _safe_pdf_bytes(active_paper.paper_id, active_paper.title, q_ids_tuple, edition_str=PDFEdition.SOLUTION.value, subject_str=current_subject.value)
                     p_dir = Path("试卷库")
                     p_dir.mkdir(exist_ok=True)
                     (p_dir / f"{active_paper.paper_id}_真题版试卷.pdf").write_bytes(real_pdf)
@@ -1719,20 +2058,58 @@ with tab_wrongbook_hub:
                         st.session_state[_wb_ready_key] = True
                         st.rerun()
                 else:
-                    st.download_button(
-                        "📥 下载错题本 PDF",
-                        data=get_cached_pdf(
+                    # 详细解析版：点击下载时才触发 AI 名师补全缺失答案解析
+                    _wb_missing_now = [q for q in shown if not (q.answer and q.solution)]
+                    _wb_ai_ready_key = f"wb_ai_ready_{current_subject.value}_{_wb_sig}_{_wb_ed.value}"
+                    if (_wb_ed == PDFEdition.SOLUTION) and user_api_key and _wb_missing_now and not st.session_state.get(_wb_ai_ready_key):
+                        if st.button(
+                            "📥 下载详细解析版 PDF（AI 补全解析）",
+                            use_container_width=True,
+                            key=f"wb_sol_ai_gen_{current_subject.value}_{_wb_sig}_{_wb_ed.value}",
+                            help="点击后 AI 名师先补齐缺失的答案解析（有缓存直接复用），完成后自动出下载按钮。",
+                        ):
+                            _wb_ai2 = _build_solution_tutor(user_api_key, user_api_url, user_model_name)
+                            _bar_wb2 = st.progress(0.0, text=f"AI 名师正在生成 {len(_wb_missing_now)} 道错题的答案解析...")
+                            def _cb_wb2(done, total, qid, status):
+                                if status == "generated":
+                                    _bar_wb2.progress(done / total, text=f"AI 名师正在生成答案解析 ({done}/{total})：{qid}")
+                                elif status == "cached":
+                                    _bar_wb2.progress(done / total, text=f"复用已有 AI 解析缓存 ({done}/{total})...")
+                                elif isinstance(status, str) and status.startswith("pdf_detail:"):
+                                    _bar_wb2.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}（{status[12:]}）")
+                                elif status == "pdf":
+                                    _bar_wb2.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}")
+                                elif status == "reviewing":
+                                    _bar_wb2.progress(done / total, text=f"AI 阅卷专家正在独立审核答案 ({done}/{total})：{qid}")
+                                elif status == "failed":
+                                    _bar_wb2.progress(done / total, text=f"AI 解题失败且扫描版未命中 ({done}/{total})：{qid}")
+                                elif status == "review_failed":
+                                    _bar_wb2.progress(done / total, text=f"AI 审核失败，已标记未审核 ({done}/{total})：{qid}")
+                            try:
+                                gen_wb2, _ = ensure_solutions(shown, _wb_ai2, progress_cb=_cb_wb2)
+                                if gen_wb2 > 0:
+                                    get_cached_pdf.clear()
+                            except Exception:
+                                pass
+                            st.session_state[_wb_ai_ready_key] = True
+                            st.rerun()
+                    else:
+                        _pdf_wb2 = _safe_pdf_bytes(
                             f"错题本_{current_subject.value}_{_wb_sig}",
                             f"错题本 · {current_subject.value} · 共 {len(shown)} 题",
                             _wb_ids,
                             edition_str=_wb_ed.value,
                             subject_str=current_subject.value,
-                        ),
-                        file_name=f"错题本_{current_subject.value}_{len(shown)}题_{_wb_ed_short}.pdf",
-                        mime="application/pdf",
-                        use_container_width=True,
-                        key=f"wb_pdf_dl_{current_subject.value}_{_wb_sig}_{_wb_ed.value}",
-                    )
+                        )
+                        if _pdf_wb2:
+                            st.download_button(
+                                "📥 下载错题本 PDF",
+                                data=_pdf_wb2,
+                                file_name=f"错题本_{current_subject.value}_{len(shown)}题_{_wb_ed_short}.pdf",
+                                mime="application/pdf",
+                                use_container_width=True,
+                                key=f"wb_pdf_dl_{current_subject.value}_{_wb_sig}_{_wb_ed.value}",
+                            )
             with wp3:
                 st.caption("💡 生成约十几秒")
 
@@ -1878,6 +2255,129 @@ with tab_coverage_hub:
 
 
 # =========================================================================
+
+# -------------------------------------------------------------------------
+# WORKSPACE 5: 每日错题（艾宾浩斯抗遗忘独立模块）
+# -------------------------------------------------------------------------
+with tab_daily_hub:
+    st.markdown("### 📅 每日错题 · 艾宾浩斯抗遗忘")
+    st.caption("到期优先、逾期越久越靠前；做对间隔翻倍、做错隔天回炉。")
+    st.markdown("---")
+    _due_qids = state_mgr.select_daily_wrong(target=10)
+    _q_by_id2 = {q.id: q for q in all_questions}
+    if not _due_qids:
+        st.info("今天没有到期的错题 🎉 去刷新题吧；到期后会自动排进复习队列。")
+    else:
+        _eb_ids = tuple(qid for qid in _due_qids if qid in _q_by_id2)
+        _eb_qs = [_q_by_id2[qid] for qid in _eb_ids]
+        st.caption(f"今日安排 {len(_eb_ids)} 道：到期优先、逾期越久越靠前。")
+
+        # ---- PDF 导出（先点生成再出下载，避免急切求值卡页） ----
+        _eb_sig = hashlib.md5("|".join(_eb_ids).encode("utf-8")).hexdigest()[:8]
+        _eb_ready = f"eb_pdf_ready_{current_subject.value}_{_eb_sig}"
+        if not st.session_state.get(_eb_ready):
+            if st.button(
+                "📦 生成错题复习 PDF", type="primary", use_container_width=True,
+                key=f"eb_pdf_gen_{_eb_sig}",
+            ):
+                st.session_state[_eb_ready] = True
+                st.rerun()
+            st.caption("💡 含 A4 做题本 + 详细解析版，生成约十几秒")
+        else:
+            _eb_title = f"今日错题复习 · {current_subject.value} · 共 {len(_eb_ids)} 题"
+            _eb_pdf_id = f"今日错题_{current_subject.value}_{_eb_sig}"
+            _eb_missing = [q for q in _eb_qs if not (q.answer and q.solution)]
+            _eb_ai = f"eb_ai_ready_{current_subject.value}_{_eb_sig}"
+            if user_api_key and _eb_missing and not st.session_state.get(_eb_ai):
+                if st.button(
+                    "📥 下载详细解析版（AI 补全解析）", use_container_width=True,
+                    key=f"eb_sol_ai_{_eb_sig}",
+                    help="点击后 AI 名师补齐缺失答案解析（有缓存直接复用），完成后自动出下载按钮。",
+                ):
+                    _bar_eb = st.progress(0.0, text=f"AI 名师正在生成 {len(_eb_missing)} 道题的答案解析...")
+                    def _cb_eb(done, total, qid, status):
+                        if status == "generated":
+                            _bar_eb.progress(done / total, text=f"AI 名师正在生成答案解析 ({done}/{total})：{qid}")
+                        elif status == "cached":
+                            _bar_eb.progress(done / total, text=f"复用已有 AI 解析缓存 ({done}/{total})...")
+                        elif isinstance(status, str) and status.startswith("pdf_detail:"):
+                            _bar_eb.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}（{status[12:]}）")
+                        elif status == "pdf":
+                            _bar_eb.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}")
+                        elif status == "reviewing":
+                            _bar_eb.progress(done / total, text=f"AI 阅卷专家正在独立审核答案 ({done}/{total})：{qid}")
+                        elif status == "failed":
+                            _bar_eb.progress(done / total, text=f"AI 解题失败且扫描版未命中 ({done}/{total})：{qid}")
+                        elif status == "review_failed":
+                            _bar_eb.progress(done / total, text=f"AI 审核失败，已标记未审核 ({done}/{total})：{qid}")
+                    try:
+                        _g_eb, _ = ensure_solutions(
+                            _eb_qs,
+                            _build_solution_tutor(user_api_key, user_api_url, user_model_name),
+                            progress_cb=_cb_eb,
+                        )
+                        if _g_eb > 0:
+                            get_cached_pdf.clear()
+                    except Exception:
+                        pass
+                    st.session_state[_eb_ai] = True
+                    st.rerun()
+            else:
+                _pdf_wb_eb = _safe_pdf_bytes(
+                    _eb_pdf_id, _eb_title, _eb_ids,
+                    edition_str=PDFEdition.WORKBOOK_A4.value, subject_str=current_subject.value,
+                )
+                _pdf_sol_eb = _safe_pdf_bytes(
+                    _eb_pdf_id, _eb_title, _eb_ids,
+                    edition_str=PDFEdition.SOLUTION.value, subject_str=current_subject.value,
+                )
+                if _pdf_wb_eb:
+                    st.download_button(
+                        "📝 A4 做题本", data=_pdf_wb_eb,
+                        file_name=f"{_eb_pdf_id}_A4做题本.pdf", mime="application/pdf",
+                        use_container_width=True, key=f"eb_down_wb_{_eb_sig}",
+                    )
+                if _pdf_sol_eb:
+                    st.download_button(
+                        "📑 详细解析版", data=_pdf_sol_eb,
+                        file_name=f"{_eb_pdf_id}_详细解析.pdf", mime="application/pdf",
+                        use_container_width=True, key=f"eb_down_sol_{_eb_sig}",
+                    )
+
+        # ---- 题目卡片（智能拼好卷风格：题号 + 题干 + 选项 + 反馈按钮） ----
+        for _i2, _qid2 in enumerate(_eb_ids, 1):
+            _q2 = _q_by_id2[_qid2]
+            _r2 = state_mgr.wrong_questions.get(_qid2)
+            with st.container(border=True):
+                _head2 = (
+                    f'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">'
+                    f'<span style="font-weight:800;font-size:15px;">{_i2}.</span>'
+                    f'<span style="font-size:11px;color:#64748b;font-family:monospace;">{_qid2} · 错{_r2.wrong_count if _r2 else 1}次 · 阶段{_r2.review_stage if _r2 else 0}/5 · {_r2.error_tag if _r2 else "概念模糊"}</span>'
+                    f'</div>'
+                )
+                st.markdown(_head2, unsafe_allow_html=True)
+                render_stem(_q2.stem)
+                if _q2.options:
+                    _oc1, _oc2 = st.columns(2)
+                    for _oi, _opt in enumerate(_q2.options):
+                        (_oc1 if _oi % 2 == 0 else _oc2).markdown(_opt)
+                with st.expander("📖 查看答案与解析"):
+                    if _q2.answer:
+                        st.markdown(f"**【参考答案】**：`{_q2.answer}`")
+                    if _q2.solution:
+                        st.markdown(f"**【详细解析】**：\\n{_q2.solution}")
+                    else:
+                        st.caption("（暂无解析，下载详细解析版 PDF 时由 AI 名师补全）")
+                _ec1, _ec2 = st.columns(2)
+                with _ec1:
+                    if st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True):
+                        state_mgr.record_review_result(_qid2, True)
+                        st.rerun()
+                with _ec2:
+                    if st.button("❌ 又错了", key=f"eb_no_{_qid2}", use_container_width=True):
+                        state_mgr.record_review_result(_qid2, False)
+                        st.rerun()
+
 # 7. URL 错题码同步（把当前科目错题状态写回网址，保持链接可跨设备恢复）
 # =========================================================================
 if url_data_key and current_subject != SubjectType.CUSTOM:

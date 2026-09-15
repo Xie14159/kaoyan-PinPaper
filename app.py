@@ -2243,30 +2243,40 @@ with tab_daily_hub:
         _due_qids = state_mgr.select_daily_wrong(target=10)
         _eb_ids = tuple(qid for qid in _due_qids if qid in _q_by_id2 and qid not in _eb_processed)
         st.session_state[_eb_list_key] = list(_eb_ids)
+    # 再开 10 道：独立于列表状态——列表清空（做完/清空）后仍可继续加练
+    _eb_seen = set(_eb_ids)
+    if st.button("➕ 今天做完了，再开 10 道", use_container_width=True, key=f"eb_more_{current_subject.value}"):
+        _rest = [
+            qid for qid, rec in state_mgr.wrong_questions.items()
+            if rec.is_active_in_pool and rec.wrong_count > 0
+            and qid not in _eb_seen and qid not in _eb_processed and qid in _q_by_id2
+        ]
+        _rest.sort(
+            key=lambda q: (state_mgr.wrong_questions[q].added_at or "", state_mgr.wrong_questions[q].wrong_count),
+            reverse=True,
+        )
+        _extra = _rest[:10]
+        if _extra:
+            st.session_state[_eb_list_key] = list(_eb_ids) + _extra
+            st.rerun()
+        else:
+            st.info("错题本里暂时没有更多可练的题目了。")
+
     if not _eb_ids:
-        st.info("今天没有到期的错题 🎉 去刷新题吧；到期后会自动排进复习队列。")
+        st.info("今日安排已清空 🎉 点上方『再开 10 道』可继续加练；顺延的错题明天会自动排进复习队列。")
     else:
         _eb_qs = [_q_by_id2[qid] for qid in _eb_ids]
         st.caption(f"今日安排 {len(_eb_ids)} 道：到期优先、逾期越久越靠前。")
-
-        # 再开 10 道：今天安排的做完了想多练
-        _eb_seen = set(_eb_ids)
-        if st.button("➕ 今天做完了，再开 10 道", use_container_width=True, key=f"eb_more_{current_subject.value}"):
-            _rest = [
-                qid for qid, rec in state_mgr.wrong_questions.items()
-                if rec.is_active_in_pool and rec.wrong_count > 0
-                and qid not in _eb_seen and qid not in _eb_processed and qid in _q_by_id2
-            ]
-            _rest.sort(
-                key=lambda q: (state_mgr.wrong_questions[q].added_at or "", state_mgr.wrong_questions[q].wrong_count),
-                reverse=True,
-            )
-            _extra = _rest[:10]
-            if _extra:
-                st.session_state[_eb_list_key] = list(_eb_ids) + _extra
+        _clr_a, _clr_b = st.columns([4, 1])
+        with _clr_b:
+            if st.button("🗑️ 清空今日", use_container_width=True, key=f"eb_clear_{current_subject.value}",
+                         help="今天剩下的题顺延到明天（明天到期自动再推，刷新不失效）；想接着做请点上方『再开 10 道』。"):
+                state_mgr.postpone_review(list(_eb_ids), days=1)
+                _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
+                _eb_pl.update(_eb_ids)
+                st.session_state[_eb_processed_key] = list(_eb_pl)
+                st.session_state[_eb_list_key] = []
                 st.rerun()
-            else:
-                st.info("错题本里暂时没有更多可练的题目了。")
 
         # ---- PDF 导出（一步到位：A4 做题本一键下载；详细解析版点一下同轮补全+出下载） ----
         _eb_sig = hashlib.md5("|".join(_eb_ids).encode("utf-8")).hexdigest()[:8]

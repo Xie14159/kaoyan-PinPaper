@@ -741,6 +741,25 @@ class StateManager:
         self.save_state()
         return True
 
+    def postpone_review(self, question_ids: list, days: int = 1, today=None) -> int:
+        """把指定错题的 next_review_at 顺延 days 天（"清空今日"等主动结束操作）。
+
+        不改变复习阶段、错误次数与 last_reviewed_at；持久化写入状态文件，
+        刷新/重开会话后仍生效；顺延到期后 select_daily_wrong 会自动重新选中。
+        返回实际处理数。
+        """
+        today = today or self._today()
+        nxt = (today + timedelta(days=days)).isoformat()
+        cnt = 0
+        for qid in question_ids:
+            rec = self.wrong_questions.get(qid)
+            if rec and rec.is_active_in_pool:
+                rec.next_review_at = nxt
+                cnt += 1
+        if cnt:
+            self.save_state()
+        return cnt
+
     def batch_register_wrong(
         self,
         question_ids: list,

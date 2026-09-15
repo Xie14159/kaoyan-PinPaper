@@ -205,7 +205,7 @@ class AppAPIHandler(SimpleHTTPRequestHandler):
             sub_str = query.get("subject", ["数学一"])[0]
             cur_sub = parse_subject(sub_str)
             cur_questions = loaders[cur_sub].load()
-            qids = state_mgr.select_daily_wrong(target=10)
+            qids = state_mgr.select_daily_wrong(target=12)
             due_count = state_mgr.get_due_wrong_count()
             q_by_id = {q.id: q for q in cur_questions}
             items = []

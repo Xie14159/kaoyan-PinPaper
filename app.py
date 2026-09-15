@@ -761,36 +761,6 @@ with st.sidebar:
             st.success("已清空错题记录！")
             st.rerun()
 
-    # ==================== 批量补登历史错题 ====================
-    with st.expander("📝 批量补登历史错题（纸质时代的错题）"):
-        st.caption("把之前写在纸上的错题登记进系统，会按登记日期进入艾宾浩斯复习队列。")
-        _reg_chapters = sorted({q.chapter for q in all_questions})
-        _reg_chapter = st.selectbox("选择章节", _reg_chapters, key="reg_chapter")
-        _ch_qs = [q for q in all_questions if q.chapter == _reg_chapter]
-        _reg_nums = st.text_input(
-            "题号（逗号/空格/换行分隔，如：3, 7, 12）",
-            key="reg_nums",
-            help="填写该章节内做错的题目序号，多题用逗号或空格隔开。",
-        )
-        _reg_tag = st.selectbox("统一错误标签", ["概念模糊", "方法不会", "计算失误", "审题错误", "其他"], key="reg_tag")
-        _reg_date = st.date_input("首次做错日期（纸质错题填大概时间即可）", key="reg_date")
-        if st.button("登记为错题", key="reg_submit", use_container_width=True):
-            _nums = re.findall(r"\d+", _reg_nums or "")
-            _qids: list[str] = []
-            for _n in _nums:
-                _val = int(_n)
-                _matched = [q for q in _ch_qs if f"-{_val:02d}" in q.id or f"_{_val}" in q.id]
-                if _matched and _matched[0].id not in _qids:
-                    _qids.append(_matched[0].id)
-            if not _qids:
-                st.warning("没有匹配到题目，请检查题号是否属于所选章节。")
-            else:
-                _reg, _skip = state_mgr.batch_register_wrong(
-                    _qids, error_tag=_reg_tag, added_at=_reg_date.isoformat(),
-                )
-                st.success(f"已登记 {_reg} 道，跳过 {_skip} 道（已存在/未找到）。")
-                st.rerun()
-
     if st.session_state.get("_url_restore_stale") == active_sub.value:
         st.warning("⚠️ 网址中的错题码与当前题库版本不匹配（题库已更新），未自动恢复，以本地记录为准。")
 
@@ -2263,7 +2233,7 @@ with tab_daily_hub:
     st.markdown("### 📅 每日错题 · 艾宾浩斯抗遗忘")
     st.caption("到期优先、逾期越久越靠前；做对间隔翻倍、做错隔天回炉。")
     st.markdown("---")
-    _due_qids = state_mgr.select_daily_wrong(target=10)
+    _due_qids = state_mgr.select_daily_wrong(target=12)
     _q_by_id2 = {q.id: q for q in all_questions}
     if not _due_qids:
         st.info("今天没有到期的错题 🎉 去刷新题吧；到期后会自动排进复习队列。")
@@ -2272,77 +2242,86 @@ with tab_daily_hub:
         _eb_qs = [_q_by_id2[qid] for qid in _eb_ids]
         st.caption(f"今日安排 {len(_eb_ids)} 道：到期优先、逾期越久越靠前。")
 
-        # ---- PDF 导出（先点生成再出下载，避免急切求值卡页） ----
+        # ---- PDF 导出（一步到位：A4 做题本一键下载；详细解析版点一下同轮补全+出下载） ----
         _eb_sig = hashlib.md5("|".join(_eb_ids).encode("utf-8")).hexdigest()[:8]
-        _eb_ready = f"eb_pdf_ready_{current_subject.value}_{_eb_sig}"
-        if not st.session_state.get(_eb_ready):
-            if st.button(
-                "📦 生成错题复习 PDF", type="primary", use_container_width=True,
-                key=f"eb_pdf_gen_{_eb_sig}",
-            ):
-                st.session_state[_eb_ready] = True
-                st.rerun()
-            st.caption("💡 含 A4 做题本 + 详细解析版，生成约十几秒")
+        _eb_title = f"今日错题复习 · {current_subject.value} · 共 {len(_eb_ids)} 题"
+        _eb_pdf_id = f"今日错题_{current_subject.value}_{_eb_sig}"
+        _eb_missing = [q for q in _eb_qs if not (q.answer and q.solution)]
+        _eb_ai = f"eb_ai_ready_{current_subject.value}_{_eb_sig}"
+
+        # ① A4 做题本：常驻一键下载（get_cached_pdf 缓存，同 sig 只生成一次）
+        _pdf_wb_eb = _safe_pdf_bytes(
+            _eb_pdf_id, _eb_title, _eb_ids,
+            edition_str=PDFEdition.WORKBOOK_A4.value, subject_str=current_subject.value,
+        )
+        if _pdf_wb_eb:
+            st.download_button(
+                "📝 下载 A4 做题本", data=_pdf_wb_eb,
+                file_name=f"{_eb_pdf_id}_A4做题本.pdf", mime="application/pdf",
+                use_container_width=True, key=f"eb_down_wb_{_eb_sig}",
+            )
         else:
-            _eb_title = f"今日错题复习 · {current_subject.value} · 共 {len(_eb_ids)} 题"
-            _eb_pdf_id = f"今日错题_{current_subject.value}_{_eb_sig}"
-            _eb_missing = [q for q in _eb_qs if not (q.answer and q.solution)]
-            _eb_ai = f"eb_ai_ready_{current_subject.value}_{_eb_sig}"
-            if user_api_key and _eb_missing and not st.session_state.get(_eb_ai):
-                if st.button(
-                    "📥 下载详细解析版（AI 补全解析）", use_container_width=True,
-                    key=f"eb_sol_ai_{_eb_sig}",
-                    help="点击后 AI 名师补齐缺失答案解析（有缓存直接复用），完成后自动出下载按钮。",
-                ):
-                    _bar_eb = st.progress(0.0, text=f"AI 名师正在生成 {len(_eb_missing)} 道题的答案解析...")
-                    def _cb_eb(done, total, qid, status):
-                        if status == "generated":
-                            _bar_eb.progress(done / total, text=f"AI 名师正在生成答案解析 ({done}/{total})：{qid}")
-                        elif status == "cached":
-                            _bar_eb.progress(done / total, text=f"复用已有 AI 解析缓存 ({done}/{total})...")
-                        elif isinstance(status, str) and status.startswith("pdf_detail:"):
-                            _bar_eb.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}（{status[12:]}）")
-                        elif status == "pdf":
-                            _bar_eb.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}")
-                        elif status == "reviewing":
-                            _bar_eb.progress(done / total, text=f"AI 阅卷专家正在独立审核答案 ({done}/{total})：{qid}")
-                        elif status == "failed":
-                            _bar_eb.progress(done / total, text=f"AI 解题失败且扫描版未命中 ({done}/{total})：{qid}")
-                        elif status == "review_failed":
-                            _bar_eb.progress(done / total, text=f"AI 审核失败，已标记未审核 ({done}/{total})：{qid}")
-                    try:
-                        _g_eb, _ = ensure_solutions(
-                            _eb_qs,
-                            _build_solution_tutor(user_api_key, user_api_url, user_model_name),
-                            progress_cb=_cb_eb,
-                        )
-                        if _g_eb > 0:
-                            get_cached_pdf.clear()
-                    except Exception:
-                        pass
-                    st.session_state[_eb_ai] = True
-                    st.rerun()
-            else:
-                _pdf_wb_eb = _safe_pdf_bytes(
-                    _eb_pdf_id, _eb_title, _eb_ids,
-                    edition_str=PDFEdition.WORKBOOK_A4.value, subject_str=current_subject.value,
-                )
+            st.error("A4 做题本生成失败，请重试。")
+
+        # ② 详细解析版：缺解析且未补全 → 点一下同轮补全+生成+出下载；否则直接出下载
+        if user_api_key and _eb_missing and not st.session_state.get(_eb_ai):
+            if st.button(
+                "📑 下载详细解析版（AI 补全解析）", use_container_width=True,
+                key=f"eb_sol_ai_{_eb_sig}",
+                help="点击后 AI 名师补齐缺失答案解析（有缓存直接复用），完成后自动出下载按钮。",
+            ):
+                _bar_eb = st.progress(0.0, text=f"AI 名师正在生成 {len(_eb_missing)} 道题的答案解析...")
+                def _cb_eb(done, total, qid, status):
+                    if status == "generated":
+                        _bar_eb.progress(done / total, text=f"AI 名师正在生成答案解析 ({done}/{total})：{qid}")
+                    elif status == "cached":
+                        _bar_eb.progress(done / total, text=f"复用已有 AI 解析缓存 ({done}/{total})...")
+                    elif isinstance(status, str) and status.startswith("pdf_detail:"):
+                        _bar_eb.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}（{status[12:]}）")
+                    elif status == "pdf":
+                        _bar_eb.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}")
+                    elif status == "reviewing":
+                        _bar_eb.progress(done / total, text=f"AI 阅卷专家正在独立审核答案 ({done}/{total})：{qid}")
+                    elif status == "failed":
+                        _bar_eb.progress(done / total, text=f"AI 解题失败且扫描版未命中 ({done}/{total})：{qid}")
+                    elif status == "review_failed":
+                        _bar_eb.progress(done / total, text=f"AI 审核失败，已标记未审核 ({done}/{total})：{qid}")
+                try:
+                    _g_eb, _ = ensure_solutions(
+                        _eb_qs,
+                        _build_solution_tutor(user_api_key, user_api_url, user_model_name),
+                        progress_cb=_cb_eb,
+                    )
+                    if _g_eb > 0:
+                        get_cached_pdf.clear()
+                except Exception:
+                    pass
+                st.session_state[_eb_ai] = True
                 _pdf_sol_eb = _safe_pdf_bytes(
                     _eb_pdf_id, _eb_title, _eb_ids,
                     edition_str=PDFEdition.SOLUTION.value, subject_str=current_subject.value,
                 )
-                if _pdf_wb_eb:
-                    st.download_button(
-                        "📝 A4 做题本", data=_pdf_wb_eb,
-                        file_name=f"{_eb_pdf_id}_A4做题本.pdf", mime="application/pdf",
-                        use_container_width=True, key=f"eb_down_wb_{_eb_sig}",
-                    )
                 if _pdf_sol_eb:
                     st.download_button(
-                        "📑 详细解析版", data=_pdf_sol_eb,
+                        "✅ 下载详细解析版", data=_pdf_sol_eb,
                         file_name=f"{_eb_pdf_id}_详细解析.pdf", mime="application/pdf",
                         use_container_width=True, key=f"eb_down_sol_{_eb_sig}",
                     )
+                else:
+                    st.error("详细解析版生成失败，请重试。")
+        else:
+            _pdf_sol_eb = _safe_pdf_bytes(
+                _eb_pdf_id, _eb_title, _eb_ids,
+                edition_str=PDFEdition.SOLUTION.value, subject_str=current_subject.value,
+            )
+            if _pdf_sol_eb:
+                st.download_button(
+                    "📑 下载详细解析版", data=_pdf_sol_eb,
+                    file_name=f"{_eb_pdf_id}_详细解析.pdf", mime="application/pdf",
+                    use_container_width=True, key=f"eb_down_sol_{_eb_sig}",
+                )
+            else:
+                st.error("详细解析版生成失败，请重试。")
 
         # ---- 题目卡片（智能拼好卷风格：题号 + 题干 + 选项 + 反馈按钮） ----
         for _i2, _qid2 in enumerate(_eb_ids, 1):

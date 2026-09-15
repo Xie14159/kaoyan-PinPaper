@@ -2233,14 +2233,37 @@ with tab_daily_hub:
     st.markdown("### 📅 每日错题 · 艾宾浩斯抗遗忘")
     st.caption("到期优先、逾期越久越靠前；做对间隔翻倍、做错隔天回炉。")
     st.markdown("---")
-    _due_qids = state_mgr.select_daily_wrong(target=12)
     _q_by_id2 = {q.id: q for q in all_questions}
-    if not _due_qids:
+    _eb_list_key = f"eb_list_{current_subject.value}"
+    _eb_ids = tuple(st.session_state.get(_eb_list_key, ()))
+    if not _eb_ids:
+        _due_qids = state_mgr.select_daily_wrong(target=10)
+        _eb_ids = tuple(qid for qid in _due_qids if qid in _q_by_id2)
+        st.session_state[_eb_list_key] = list(_eb_ids)
+    if not _eb_ids:
         st.info("今天没有到期的错题 🎉 去刷新题吧；到期后会自动排进复习队列。")
     else:
-        _eb_ids = tuple(qid for qid in _due_qids if qid in _q_by_id2)
         _eb_qs = [_q_by_id2[qid] for qid in _eb_ids]
         st.caption(f"今日安排 {len(_eb_ids)} 道：到期优先、逾期越久越靠前。")
+
+        # 再开 10 道：今天安排的做完了想多练
+        _eb_seen = set(_eb_ids)
+        if st.button("➕ 今天做完了，再开 10 道", use_container_width=True, key=f"eb_more_{current_subject.value}"):
+            _rest = [
+                qid for qid, rec in state_mgr.wrong_questions.items()
+                if rec.is_active_in_pool and rec.wrong_count > 0
+                and qid not in _eb_seen and qid in _q_by_id2
+            ]
+            _rest.sort(
+                key=lambda q: (state_mgr.wrong_questions[q].added_at or "", state_mgr.wrong_questions[q].wrong_count),
+                reverse=True,
+            )
+            _extra = _rest[:10]
+            if _extra:
+                st.session_state[_eb_list_key] = list(_eb_ids) + _extra
+                st.rerun()
+            else:
+                st.info("错题本里暂时没有更多可练的题目了。")
 
         # ---- PDF 导出（一步到位：A4 做题本一键下载；详细解析版点一下同轮补全+出下载） ----
         _eb_sig = hashlib.md5("|".join(_eb_ids).encode("utf-8")).hexdigest()[:8]
@@ -2347,7 +2370,7 @@ with tab_daily_hub:
                         st.markdown(f"**【详细解析】**：\\n{_q2.solution}")
                     else:
                         st.caption("（暂无解析，下载详细解析版 PDF 时由 AI 名师补全）")
-                _ec1, _ec2 = st.columns(2)
+                _ec1, _ec2, _ec3 = st.columns(3)
                 with _ec1:
                     if st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True):
                         state_mgr.record_review_result(_qid2, True)
@@ -2355,6 +2378,11 @@ with tab_daily_hub:
                 with _ec2:
                     if st.button("❌ 又错了", key=f"eb_no_{_qid2}", use_container_width=True):
                         state_mgr.record_review_result(_qid2, False)
+                        st.rerun()
+                with _ec3:
+                    if st.button("⏭️ 没做", key=f"eb_skip_{_qid2}", use_container_width=True,
+                                 help="今天没做这道题：保持到期状态，明天会继续推给你。"):
+                        state_mgr.mark_wrong_not_done(_qid2)
                         st.rerun()
 
 # 7. URL 错题码同步（把当前科目错题状态写回网址，保持链接可跨设备恢复）

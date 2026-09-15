@@ -727,6 +727,20 @@ class StateManager:
         self.save_state()
         return True
 
+    def mark_wrong_not_done(self, question_id: str, today=None) -> bool:
+        """标记"今天没做"：保持到期状态，明天继续推。
+
+        不改变复习阶段、错误次数与 last_reviewed_at（不占用今天的复习记录），
+        仅把 next_review_at 拉回今天，使明天 select_daily_wrong 的到期筛选仍能选中它。
+        """
+        rec = self.wrong_questions.get(question_id)
+        if not rec or not rec.is_active_in_pool:
+            return False  # 不存在或已归档：不做任何操作
+        today = today or self._today()
+        rec.next_review_at = today.isoformat()
+        self.save_state()
+        return True
+
     def batch_register_wrong(
         self,
         question_ids: list,

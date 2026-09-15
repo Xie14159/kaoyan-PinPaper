@@ -64,3 +64,5 @@ user_data/ai_solutions.json.bak
 user_data/paper_config.json
 user_data/pdf_index.json
 user_data/pdf_lookup_cache.json
+
+user_data/*.bak_*

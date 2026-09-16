@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import base64
 import binascii
+import functools
 import hashlib
 import html
 import io
@@ -38,6 +39,13 @@ from core.ai_tutor import AITutor
 from core.ai_health import probe_key
 from core.ai_solutions import ensure_solutions
 from core.state_manager import StateManager
+
+# 题干图片 base64 解码缓存：同一 data 串只解一次（fragment 局部 rerun 时全部剩余题目
+# 都会重新渲染，带图题每次都要 b64decode，缓存后从毫秒级降到微秒级）
+@functools.lru_cache(maxsize=256)
+def _b64decode_cached(data: str) -> bytes:
+    return base64.b64decode(data)
+
 
 # 题干里内联的 <img src="data:...base64,..."> 标签(loader 生成)
 _INLINE_IMG_RE = re.compile(
@@ -131,7 +139,7 @@ def render_stem(text: str) -> None:
         if pre.strip():
             st.markdown(pre, unsafe_allow_html=True)
         try:
-            st.image(base64.b64decode(m.group("data")))
+            st.image(_b64decode_cached(m.group("data")))
         except (binascii.Error, ValueError):
             st.caption("（图片加载失败）")
         pos = m.end()

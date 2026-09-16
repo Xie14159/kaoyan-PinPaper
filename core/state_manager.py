@@ -694,7 +694,7 @@ class StateManager:
         target: int = 10,
         today=None,
         max_stubborn: int = 5,
-        max_new: int = 3,
+        max_new: int = 3,  # 保留参数（兼容调用方）；新错题补足实际以"剩余缺口"为准，不足 target 时才启用
         exclude_ids: set | None = None,
         chapter_of: dict | None = None,
     ) -> list:
@@ -762,8 +762,9 @@ class StateManager:
                 break
             selected.append(qid)
             seen.add(qid)
-        # 3) 新错题补足（上限 max_new，考点轮转）
-        for qid in _rotate(newbie, min(target - len(selected), max_new), seen | exclude):
+        # 3) 新错题补足（上限=剩余缺口：错题本初期全是"从未复习的新题"时，到期/顽固池为空，
+        #    若沿用固定 max_new=3 每天只能推 3 道，凑不满 target；改为补足缺口，池空自然停止）
+        for qid in _rotate(newbie, target - len(selected), seen | exclude):
             if len(selected) >= target:
                 break
             selected.append(qid)

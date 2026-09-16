@@ -2133,17 +2133,30 @@ with tab_marker_hub:
     # ---- 底部翻页导航：一页显示所有题太卡时，切 25/50 分页逐页标错 ----
     if total_q_count > 25 and total_pages > 1:
         st.markdown("---")
+        # 用 on_click 回调改页码：回调在按钮点击后、脚本 rerun 前执行，此时顶部 number_input
+        # 尚未实例化，写其 key 安全；直接 if 分支写会在 widget 实例化后触发
+        # StreamlitWidgetAlreadyInstantiatedError。
+        _nav_key = f"p2_page_{current_subject.value}"
+        # 权威总页数：非 widget key，每次 rerun 刷新，回调读取时永远最新
+        _nav_total_key = f"p2_pages_total_{current_subject.value}"
+        st.session_state[_nav_total_key] = total_pages
+
+        def _nav_prev():
+            _cur = int(st.session_state.get(_nav_key, 1))
+            st.session_state[_nav_key] = max(1, _cur - 1)
+
+        def _nav_next():
+            _cur = int(st.session_state.get(_nav_key, 1))
+            _t = int(st.session_state.get(_nav_total_key, total_pages))
+            st.session_state[_nav_key] = min(_t, _cur + 1)
+
         nav1, nav2, nav3, nav4 = st.columns([1, 1, 2.2, 1.3])
         with nav1:
-            if st.button("⬅️ 上一页", key=f"p2_prev_{current_subject.value}", use_container_width=True,
-                         disabled=(current_page <= 1)):
-                st.session_state[f"p2_page_{current_subject.value}"] = max(1, current_page - 1)
-                st.rerun()
+            st.button("⬅️ 上一页", key=f"p2_prev_{current_subject.value}", use_container_width=True,
+                      disabled=(current_page <= 1), on_click=_nav_prev)
         with nav2:
-            if st.button("下一页 ➡️", key=f"p2_next_{current_subject.value}", use_container_width=True,
-                         disabled=(current_page >= total_pages)):
-                st.session_state[f"p2_page_{current_subject.value}"] = min(total_pages, current_page + 1)
-                st.rerun()
+            st.button("下一页 ➡️", key=f"p2_next_{current_subject.value}", use_container_width=True,
+                      disabled=(current_page >= total_pages), on_click=_nav_next)
         with nav3:
             st.caption(f"第 {current_page} / {total_pages} 页 · 每页 {page_size} 题 · 共 {total_q_count} 题（顶部可改每页题数）")
         with nav4:

@@ -1982,7 +1982,7 @@ with tab_marker_hub:
     if total_q_count > 25:
         pg_c1, pg_c2 = st.columns([1.5, 3.5])
         with pg_c1:
-            page_size_str = st.selectbox("每页展示题数", ["25 题 (极速流畅)", "50 题", "全部展示"], index=0, key=f"p2_pagesize_{current_subject.value}")
+            page_size_str = st.selectbox("每页展示题数", ["25 题 (极速流畅)", "50 题", "全部展示（题多时较慢，建议分页）"], index=0, key=f"p2_pagesize_{current_subject.value}")
         
         if page_size_str.startswith("25"):
             page_size = 25
@@ -2129,6 +2129,33 @@ with tab_marker_hub:
                         if q.solution: st.markdown(f"**【详细解析】**：\n{q.solution}")
 
     render_marker_cards()
+
+    # ---- 底部翻页导航：一页显示所有题太卡时，切 25/50 分页逐页标错 ----
+    if total_q_count > 25 and total_pages > 1:
+        st.markdown("---")
+        nav1, nav2, nav3, nav4 = st.columns([1, 1, 2.2, 1.3])
+        with nav1:
+            if st.button("⬅️ 上一页", key=f"p2_prev_{current_subject.value}", use_container_width=True,
+                         disabled=(current_page <= 1)):
+                st.session_state[f"p2_page_{current_subject.value}"] = max(1, current_page - 1)
+                st.rerun()
+        with nav2:
+            if st.button("下一页 ➡️", key=f"p2_next_{current_subject.value}", use_container_width=True,
+                         disabled=(current_page >= total_pages)):
+                st.session_state[f"p2_page_{current_subject.value}"] = min(total_pages, current_page + 1)
+                st.rerun()
+        with nav3:
+            st.caption(f"第 {current_page} / {total_pages} 页 · 每页 {page_size} 题 · 共 {total_q_count} 题（顶部可改每页题数）")
+        with nav4:
+            if st.button("⬆️ 返回顶部筛选", key=f"p2_top_{current_subject.value}", use_container_width=True):
+                st.session_state[f"p2_scroll_top_{current_subject.value}"] = True
+                st.rerun()
+        if st.session_state.get(f"p2_scroll_top_{current_subject.value}"):
+            st.components.v1.html(
+                "<script>setTimeout(function(){var el=window.parent.document.querySelector('section.main, section[data-testid=\"stMain\"], [data-testid=\"stMainBlockContainer\"]');if(el){el.scrollTo({top:0,behavior:'smooth'});}},120);</script>",
+                height=0,
+            )
+            st.session_state[f"p2_scroll_top_{current_subject.value}"] = False
 
 
 # -------------------------------------------------------------------------

@@ -7,12 +7,23 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
+import logging
+import os
+import tempfile
+import threading
 import zlib
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
 from core.models import QuestionItem, SubjectType, WrongQuestionRecord
+
+
+_state_rlock = threading.RLock()  # 同进程读写互斥（fragment 局部 rerun / 回调 / cron 线程）
+
+logger = logging.getLogger("pinpaper.state")
+if not logger.handlers:
+    logger.addHandler(logging.NullHandler())
 
 
 class StateManager:
@@ -98,6 +109,10 @@ class StateManager:
         return sorted(profiles)
 
     def load_state(self) -> None:
+        with _state_rlock:
+            self._load_state_unlocked()
+
+    def _load_state_unlocked(self) -> None:
         if not self.data_file.exists():
             return
         try:
@@ -125,23 +140,38 @@ class StateManager:
             pass
 
     def save_state(self) -> None:
-        try:
-            payload = {
-                "username": self.username,
-                "subject": self.subject,
-                "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "wrong_questions": {
-                    qid: rec.to_dict() for qid, rec in self.wrong_questions.items()
-                },
-                "seen_question_ids": list(self.historical_seen_ids),
-                "covered_chapters": list(self.historical_covered_chapters),
-                "last_papers_qids": self.last_papers_qids,
-                "processed_daily": self._processed_daily,
-                "assigned_daily": self._assigned_daily,
-            }
-            self.data_file.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-        except Exception:
-            pass
+        """原子写 + 线程锁：临时文件 + fsync + os.replace。
+        写失败不再静默——记录日志（pythonw 后台 → logs/app.log 可查）。"""
+        with _state_rlock:
+            try:
+                payload = {
+                    "username": self.username,
+                    "subject": self.subject,
+                    "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "wrong_questions": {
+                        qid: rec.to_dict() for qid, rec in self.wrong_questions.items()
+                    },
+                    "seen_question_ids": list(self.historical_seen_ids),
+                    "covered_chapters": list(self.historical_covered_chapters),
+                    "last_papers_qids": self.last_papers_qids,
+                    "processed_daily": self._processed_daily,
+                    "assigned_daily": self._assigned_daily,
+                }
+                fd, tmp = tempfile.mkstemp(dir=str(self.data_file.parent), prefix=".state_", suffix=".tmp")
+                try:
+                    with os.fdopen(fd, "w", encoding="utf-8") as f:
+                        json.dump(payload, f, ensure_ascii=False, indent=2)
+                        f.flush()
+                        os.fsync(f.fileno())
+                    os.replace(tmp, self.data_file)
+                except BaseException:
+                    try:
+                        os.unlink(tmp)
+                    except OSError:
+                        pass
+                    raise
+            except Exception:
+                logger.exception("save_state 失败: %s", self.data_file)
 
     def toggle_wrong_question(
         self,

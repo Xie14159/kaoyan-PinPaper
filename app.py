@@ -40,6 +40,20 @@ from core.ai_health import probe_key
 from core.ai_solutions import ensure_solutions
 from core.state_manager import StateManager
 
+# 日志基础设施：pythonw 后台运行无 stdout/stderr，统一写 logs/app.log（错误可见性）
+import logging
+_LOG_DIR = Path(__file__).resolve().parent / "logs"
+if not logging.getLogger().handlers:
+    try:
+        _LOG_DIR.mkdir(exist_ok=True)
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+            handlers=[logging.FileHandler(_LOG_DIR / "app.log", encoding="utf-8")],
+        )
+    except Exception:
+        pass
+
 # 题干图片 base64 解码缓存：同一 data 串只解一次（fragment 局部 rerun 时全部剩余题目
 # 都会重新渲染，带图题每次都要 b64decode，缓存后从毫秒级降到微秒级）
 @functools.lru_cache(maxsize=256)
@@ -93,7 +107,7 @@ def _start_bg_probe(skey: str, api_key: str, base_url: str, model: str, force: b
     ).start()
 
 
-@st.fragment(run_every=2.0)
+@st.fragment(run_every=5.0)
 def render_health_panel(_targets) -> None:
     """API 状态面板：轮询后台探测结果，探测完成自动刷新；重检走后台不阻塞。"""
     for _label, _k, _b, _m in _targets:
@@ -224,10 +238,23 @@ pdf_service = PDFService()
 AI_CONFIG_FILE = Path(__file__).resolve().parent / "user_data" / "ai_config.json"
 
 
+_ai_cfg_mtime = -1.0
+
+
+@functools.lru_cache(maxsize=1)
+def _load_ai_config_impl(_mtime: float) -> dict:
+    import json as _json
+    return _json.loads(AI_CONFIG_FILE.read_text(encoding="utf-8"))
+
+
 def load_ai_config() -> dict:
+    global _ai_cfg_mtime
     try:
-        import json as _json
-        return _json.loads(AI_CONFIG_FILE.read_text(encoding="utf-8"))
+        _mt = AI_CONFIG_FILE.stat().st_mtime
+        if _mt != _ai_cfg_mtime:
+            _load_ai_config_impl.cache_clear()
+            _ai_cfg_mtime = _mt
+        return _load_ai_config_impl(_mt)
     except Exception:
         return {}
 
@@ -258,10 +285,23 @@ _SUBJECT_CONFIG_PREFIXES = [
 ]
 
 
+_paper_cfg_mtime = -1.0
+
+
+@functools.lru_cache(maxsize=1)
+def _load_paper_config_impl(_mtime: float) -> dict:
+    import json as _json
+    return _json.loads(PAPER_CONFIG_FILE.read_text(encoding="utf-8"))
+
+
 def load_paper_config() -> dict:
+    global _paper_cfg_mtime
     try:
-        import json as _json
-        return _json.loads(PAPER_CONFIG_FILE.read_text(encoding="utf-8"))
+        _mt = PAPER_CONFIG_FILE.stat().st_mtime
+        if _mt != _paper_cfg_mtime:
+            _load_paper_config_impl.cache_clear()
+            _paper_cfg_mtime = _mt
+        return _load_paper_config_impl(_mt)
     except Exception:
         return {}
 
@@ -388,7 +428,7 @@ def _ensure_eb_pdf(sig, q_items, paper_id, title, subject_str, edition_str) -> b
     return False
 
 
-@st.fragment(run_every=2.0)
+@st.fragment(run_every=5.0)
 def render_eb_pdf_panel(sig: str, qs, paper_id: str, subject_str: str,
                         user_api_key: str, missing_qs, ai_ready_key: str) -> None:
     """每日错题 PDF 面板：A4 做题本常驻一键下载；详细解析版（AI 补全后）同样异步生成。

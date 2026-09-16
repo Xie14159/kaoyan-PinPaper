@@ -2001,127 +2001,134 @@ with tab_marker_hub:
     else:
         display_questions = ch_questions
 
-    # Question Cards List in Chapter (按 篇 -> 题型 分组展示,题号取 ID 第4段=原书题型内序号)
-    st.markdown(f"#### 📖 {target_ch} · 共 {len(ch_questions)} 题")
+    # Question Cards List in Chapter —— fragment 化：点「标为错题/移入历史/➕1」等按钮
+    # 只局部刷新本卡片区（毫秒级），不再重跑整个脚本（其它 tab/侧边栏/URL 同步全部跳过）。
+    # 筛选/分页控件在 fragment 外，改动时仍走全量 rerun 重建本区。
+    @st.fragment()
+    def render_marker_cards():
+        # Question Cards List in Chapter (按 篇 -> 题型 分组展示,题号取 ID 第4段=原书题型内序号)
+        st.markdown(f"#### 📖 {target_ch} · 共 {len(ch_questions)} 题")
 
-    _SEC_ORDER =[(DifficultyLevel.BASIC, "🟢 基础篇"), (DifficultyLevel.COMPREHENSIVE, "🔵 综合篇"), (DifficultyLevel.ADVANCED, "🟣 拓展篇")]
-    _TYPE_ORDER = [(QuestionType.CHOICE, "选择题"), (QuestionType.FILL_BLANK, "填空题"), (QuestionType.SOLUTION, "解答题")]
+        _SEC_ORDER =[(DifficultyLevel.BASIC, "🟢 基础篇"), (DifficultyLevel.COMPREHENSIVE, "🔵 综合篇"), (DifficultyLevel.ADVANCED, "🟣 拓展篇")]
+        _TYPE_ORDER = [(QuestionType.CHOICE, "选择题"), (QuestionType.FILL_BLANK, "填空题"), (QuestionType.SOLUTION, "解答题")]
 
-    def _seq_of(qid: str) -> int:
-        parts = qid.split("-")
-        # 序号取末段:880 四段取第4段,真题三段取第3段,均为题型内序号
-        return int(parts[-1]) if parts and parts[-1].isdigit() else 0
+        def _seq_of(qid: str) -> int:
+            parts = qid.split("-")
+            # 序号取末段:880 四段取第4段,真题三段取第3段,均为题型内序号
+            return int(parts[-1]) if parts and parts[-1].isdigit() else 0
 
-    sections_to_show = []
-    if is_zhenti:
-        # 真题无篇分层,直接按题型分组(标题只显示题型)
-        for qtype, type_label in _TYPE_ORDER:
-            grp = [q for q in display_questions if q.question_type == qtype]
-            if grp:
-                sections_to_show.append((f"📝 {type_label}", grp))
-    else:
-        for diff, sec_icon in _SEC_ORDER:
-            for qtype, type_label in _TYPE_ORDER:
-                grp = [q for q in display_questions if q.difficulty == diff and q.question_type == qtype]
-                if grp:
-                    sections_to_show.append((f"{sec_icon} · {type_label}", grp))
-
-    for sec_title, sec_q_list in sections_to_show:
-        # 总数/已标错取本章该组全量(chapter_all),不受分页与状态筛选影响。
-        # 真题按题型全量(无篇);880 按 篇·题型 全量。
-        diff0, qtype0 = sec_q_list[0].difficulty, sec_q_list[0].question_type
+        sections_to_show = []
         if is_zhenti:
-            full_group = [q for q in chapter_all if q.question_type == qtype0]
+            # 真题无篇分层,直接按题型分组(标题只显示题型)
+            for qtype, type_label in _TYPE_ORDER:
+                grp = [q for q in display_questions if q.question_type == qtype]
+                if grp:
+                    sections_to_show.append((f"📝 {type_label}", grp))
         else:
-            full_group = [q for q in chapter_all if q.difficulty == diff0 and q.question_type == qtype0]
-        sec_total = len(full_group)
-        sec_wrong_n = sum(1 for q in full_group if state_mgr.is_wrong_marked(q.id))
-        st.markdown(f"##### {sec_title} · 共 {sec_total} 题 · 已标错 {sec_wrong_n} 题")
+            for diff, sec_icon in _SEC_ORDER:
+                for qtype, type_label in _TYPE_ORDER:
+                    grp = [q for q in display_questions if q.difficulty == diff and q.question_type == qtype]
+                    if grp:
+                        sections_to_show.append((f"{sec_icon} · {type_label}", grp))
 
-        for q in sec_q_list:
-            q_idx_in_sec = _seq_of(q.id)
-            is_active = state_mgr.is_in_active_pool(q.id)
-            is_temp_mastered = state_mgr.is_temporarily_mastered(q.id)
-            w_cnt = state_mgr.get_wrong_count(q.id)
-            diff_cls = "badge-basic" if q.difficulty == DifficultyLevel.BASIC else ("badge-adv" if q.difficulty == DifficultyLevel.ADVANCED else "badge-comp")
+        for sec_title, sec_q_list in sections_to_show:
+            # 总数/已标错取本章该组全量(chapter_all),不受分页与状态筛选影响。
+            # 真题按题型全量(无篇);880 按 篇·题型 全量。
+            diff0, qtype0 = sec_q_list[0].difficulty, sec_q_list[0].question_type
+            if is_zhenti:
+                full_group = [q for q in chapter_all if q.question_type == qtype0]
+            else:
+                full_group = [q for q in chapter_all if q.difficulty == diff0 and q.question_type == qtype0]
+            sec_total = len(full_group)
+            sec_wrong_n = sum(1 for q in full_group if state_mgr.is_wrong_marked(q.id))
+            st.markdown(f"##### {sec_title} · 共 {sec_total} 题 · 已标错 {sec_wrong_n} 题")
 
-            with st.container(border=True):
-                # Header Row with integrated top-right toggle & count buttons
-                if is_active:
-                    th1, th2, th3 = st.columns([3.8, 1.4, 0.6])
-                    with th1:
-                        w2_header_html = (
-                            f'<div style="display:flex; align-items:center; margin-top:2px;">'
-                            f'<span style="font-weight:800; font-size:15px; color:#000000; margin-right:4px;">{q_idx_in_sec}.</span>'
-                            f'</div>'
-                        )
-                        st.markdown(w2_header_html, unsafe_allow_html=True)
-                    with th2:
-                        st.button("❌ 移入历史错题", key=f"p2_arch_{q.id}_{current_subject.value}", type="primary", use_container_width=True, help="做题已掌握？点击移入历史错题档案（保留做错次数，不再强制抽取）", on_click=cb_archive_to_history, args=(q.id,))
-                    with th3:
-                        st.button("➕1", key=f"p2_inc_{q.id}_{current_subject.value}", use_container_width=True, help="又做错了？点击做错次数+1", on_click=cb_inc_wrong, args=(q.id, 1))
+            for q in sec_q_list:
+                q_idx_in_sec = _seq_of(q.id)
+                is_active = state_mgr.is_in_active_pool(q.id)
+                is_temp_mastered = state_mgr.is_temporarily_mastered(q.id)
+                w_cnt = state_mgr.get_wrong_count(q.id)
+                diff_cls = "badge-basic" if q.difficulty == DifficultyLevel.BASIC else ("badge-adv" if q.difficulty == DifficultyLevel.ADVANCED else "badge-comp")
 
-                elif is_temp_mastered:
-                    th1, th2, th3 = st.columns([3.8, 1.4, 0.9])
-                    with th1:
-                        w2_header_html = (
-                            f'<div style="display:flex; align-items:center; margin-top:2px;">'
-                            f'<span style="font-weight:800; font-size:15px; color:#000000; margin-right:4px;">{q_idx_in_sec}.</span>'
-                            f'</div>'
-                        )
-                        st.markdown(w2_header_html, unsafe_allow_html=True)
-                    with th2:
-                        st.button("🎯 放回待练池", key=f"p2_react_{q.id}_{current_subject.value}", type="primary", use_container_width=True, help="点击重新放回活跃错题池参与组卷抽题", on_click=cb_reactivate_wrong, args=(q.id,))
-                    with th3:
-                        st.button("🗑️ 彻底删除", key=f"p2_del_{q.id}_{current_subject.value}", use_container_width=True, help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
-
-                else:
-                    th1, th2 = st.columns([4.4, 1.2])
-                    with th1:
-                        w2_header_html = (
-                            f'<div style="display:flex; align-items:center; margin-top:2px;">'
-                            f'<span style="font-weight:800; font-size:15px; color:#000000; margin-right:4px;">{q_idx_in_sec}.</span>'
-                            f'</div>'
-                        )
-                        st.markdown(w2_header_html, unsafe_allow_html=True)
-                    with th2:
-                        st.button("○ 标为错题", key=f"p2_toggle_{q.id}_{current_subject.value}", use_container_width=True, help="做错了？点击放入待练错题池", on_click=cb_toggle_wrong, args=(q.id,))
-
-                # 内联图片走 st.image,文字/公式/表格走 markdown
-                render_stem(q.stem)
-                if q.options:
-                    mc1, mc2 = st.columns(2)
-                    for oi, opt in enumerate(q.options):
-                        if oi % 2 == 0:
-                            with mc1: st.markdown(opt)
-                        else:
-                            with mc2: st.markdown(opt)
-
-                with st.expander("查看答案与解析"):
-                    tags_html = "".join(f'<span class="badge badge-tag">#{t}</span>' for t in q.tags) if q.tags else ""
+                with st.container(border=True):
+                    # Header Row with integrated top-right toggle & count buttons
                     if is_active:
-                        if w_cnt >= 2:
-                            status_badge = f'<span class="badge" style="background:#fff1f2; color:#be123c; border:1px solid #fda4af; font-weight:700;">🔥 顽固错题 · 累计做错 {w_cnt} 次</span>'
-                        else:
-                            status_badge = f'<span class="badge badge-adv" style="font-weight:700;">🎯 待练错题 · 累计做错 {w_cnt} 次</span>'
-                    elif is_temp_mastered:
-                        status_badge = f'<span class="badge" style="background:#fef3c7; color:#92400e; border:1px solid #fcd34d; font-weight:700;">🏆 历史错题 · 历史做错 {w_cnt} 次</span>'
-                    else:
-                        status_badge = ''
+                        th1, th2, th3 = st.columns([3.8, 1.4, 0.6])
+                        with th1:
+                            w2_header_html = (
+                                f'<div style="display:flex; align-items:center; margin-top:2px;">'
+                                f'<span style="font-weight:800; font-size:15px; color:#000000; margin-right:4px;">{q_idx_in_sec}.</span>'
+                                f'</div>'
+                            )
+                            st.markdown(w2_header_html, unsafe_allow_html=True)
+                        with th2:
+                            st.button("❌ 移入历史错题", key=f"p2_arch_{q.id}_{current_subject.value}", type="primary", use_container_width=True, help="做题已掌握？点击移入历史错题档案（保留做错次数，不再强制抽取）", on_click=cb_archive_to_history, args=(q.id,))
+                        with th3:
+                            st.button("➕1", key=f"p2_inc_{q.id}_{current_subject.value}", use_container_width=True, help="又做错了？点击做错次数+1", on_click=cb_inc_wrong, args=(q.id, 1))
 
-                    meta_tags_row = (
-                        f'<div style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">'
-                        f'<span class="badge badge-ch">《{getattr(q, "book", "880")}》</span>'
-                        + diff_badge(q)
-                        + f'<span class="badge badge-ch">{q.chapter}</span>'
-                        f'<span class="badge badge-ch">{q.question_type.value}</span>'
-                        f'<span style="font-size:11.5px; color:#64748b; font-family:monospace; margin-right:4px;">ID: {q.id}</span>'
-                        f'{tags_html} {status_badge}'
-                        f'</div>'
-                    )
-                    st.markdown(meta_tags_row, unsafe_allow_html=True)
-                    if q.answer: st.markdown(f"**【参考答案】**：`{q.answer}`")
-                    if q.solution: st.markdown(f"**【详细解析】**：\n{q.solution}")
+                    elif is_temp_mastered:
+                        th1, th2, th3 = st.columns([3.8, 1.4, 0.9])
+                        with th1:
+                            w2_header_html = (
+                                f'<div style="display:flex; align-items:center; margin-top:2px;">'
+                                f'<span style="font-weight:800; font-size:15px; color:#000000; margin-right:4px;">{q_idx_in_sec}.</span>'
+                                f'</div>'
+                            )
+                            st.markdown(w2_header_html, unsafe_allow_html=True)
+                        with th2:
+                            st.button("🎯 放回待练池", key=f"p2_react_{q.id}_{current_subject.value}", type="primary", use_container_width=True, help="点击重新放回活跃错题池参与组卷抽题", on_click=cb_reactivate_wrong, args=(q.id,))
+                        with th3:
+                            st.button("🗑️ 彻底删除", key=f"p2_del_{q.id}_{current_subject.value}", use_container_width=True, help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
+
+                    else:
+                        th1, th2 = st.columns([4.4, 1.2])
+                        with th1:
+                            w2_header_html = (
+                                f'<div style="display:flex; align-items:center; margin-top:2px;">'
+                                f'<span style="font-weight:800; font-size:15px; color:#000000; margin-right:4px;">{q_idx_in_sec}.</span>'
+                                f'</div>'
+                            )
+                            st.markdown(w2_header_html, unsafe_allow_html=True)
+                        with th2:
+                            st.button("○ 标为错题", key=f"p2_toggle_{q.id}_{current_subject.value}", use_container_width=True, help="做错了？点击放入待练错题池", on_click=cb_toggle_wrong, args=(q.id,))
+
+                    # 内联图片走 st.image,文字/公式/表格走 markdown
+                    render_stem(q.stem)
+                    if q.options:
+                        mc1, mc2 = st.columns(2)
+                        for oi, opt in enumerate(q.options):
+                            if oi % 2 == 0:
+                                with mc1: st.markdown(opt)
+                            else:
+                                with mc2: st.markdown(opt)
+
+                    with st.expander("查看答案与解析"):
+                        tags_html = "".join(f'<span class="badge badge-tag">#{t}</span>' for t in q.tags) if q.tags else ""
+                        if is_active:
+                            if w_cnt >= 2:
+                                status_badge = f'<span class="badge" style="background:#fff1f2; color:#be123c; border:1px solid #fda4af; font-weight:700;">🔥 顽固错题 · 累计做错 {w_cnt} 次</span>'
+                            else:
+                                status_badge = f'<span class="badge badge-adv" style="font-weight:700;">🎯 待练错题 · 累计做错 {w_cnt} 次</span>'
+                        elif is_temp_mastered:
+                            status_badge = f'<span class="badge" style="background:#fef3c7; color:#92400e; border:1px solid #fcd34d; font-weight:700;">🏆 历史错题 · 历史做错 {w_cnt} 次</span>'
+                        else:
+                            status_badge = ''
+
+                        meta_tags_row = (
+                            f'<div style="display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">'
+                            f'<span class="badge badge-ch">《{getattr(q, "book", "880")}》</span>'
+                            + diff_badge(q)
+                            + f'<span class="badge badge-ch">{q.chapter}</span>'
+                            f'<span class="badge badge-ch">{q.question_type.value}</span>'
+                            f'<span style="font-size:11.5px; color:#64748b; font-family:monospace; margin-right:4px;">ID: {q.id}</span>'
+                            f'{tags_html} {status_badge}'
+                            f'</div>'
+                        )
+                        st.markdown(meta_tags_row, unsafe_allow_html=True)
+                        if q.answer: st.markdown(f"**【参考答案】**：`{q.answer}`")
+                        if q.solution: st.markdown(f"**【详细解析】**：\n{q.solution}")
+
+    render_marker_cards()
 
 
 # -------------------------------------------------------------------------

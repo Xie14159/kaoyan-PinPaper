@@ -1173,19 +1173,22 @@ st.markdown(
 # =========================================================================
 # 6. Three Core Workspaces (Tabs)
 # =========================================================================
-tab_paper_hub, tab_marker_hub, tab_wrongbook_hub, tab_coverage_hub, tab_daily_hub = st.tabs([
-    "🎯 智能拼好卷",
-    "🏷️ 题库逐题标错",
-    "📕 我的错题本",
-    "📈 全科考点雷达",
-    "📅 每日错题",
-])
+# 惰性模块导航（替代 st.tabs）：st.tabs 每次全量 rerun 会执行全部 5 个 tab 内容，
+# 导致刷新页面要渲染所有模块而卡顿。segmented_control + if/elif 只渲染激活模块，
+# 其余模块点开才渲染 —— 首屏成本降到约 1/5。
+st.session_state.setdefault("active_ws", "🎯 智能拼好卷")
+active_module = st.segmented_control(
+    "模块导航",
+    options=["🎯 智能拼好卷", "🏷️ 题库逐题标错", "📕 我的错题本", "📈 全科考点雷达", "📅 每日错题"],
+    key="active_ws",
+    label_visibility="collapsed",
+) or "🎯 智能拼好卷"  # 点击已选中项可能返回 None，兜底回默认模块，防页面空白
 
 
 # -------------------------------------------------------------------------
 # WORKSPACE 1: 智能拼好卷大厅 (核心组卷与刷题，默认以错题组卷)
 # -------------------------------------------------------------------------
-with tab_paper_hub:
+if active_module == "🎯 智能拼好卷":
     # 从本地文件恢复上次的拼卷配置（仅首次进入时播种，之后由用户交互主导）
     if "_paper_cfg_seeded" not in st.session_state:
         st.session_state["_paper_cfg_seeded"] = True
@@ -1736,7 +1739,7 @@ with tab_paper_hub:
 # -------------------------------------------------------------------------
 # WORKSPACE 2: 题库逐题标错中枢
 # -------------------------------------------------------------------------
-with tab_marker_hub:
+elif active_module == "🏷️ 题库逐题标错":
     # 1. 顶部标错书籍选择 (让不同的书来标记)
     available_target_books = selected_books if selected_books else available_books
     m_top_c1, m_top_c2 = st.columns([1.5, 3.5])
@@ -2182,7 +2185,7 @@ with tab_marker_hub:
 # -------------------------------------------------------------------------
 # WORKSPACE 3: 我的错题本 (全科错题总览，看具体是哪几道)
 # -------------------------------------------------------------------------
-with tab_wrongbook_hub:
+elif active_module == "📕 我的错题本":
     st.markdown(f"### 📕 {current_subject.value} 错题本 · 全科错题一览")
 
     # 全科所有曾错题(含已归档历史);按 待练/顽固/历史 分类
@@ -2382,7 +2385,7 @@ with tab_wrongbook_hub:
 # -------------------------------------------------------------------------
 # WORKSPACE 4: 全科考点覆盖与错题画像 (进度雷达)
 # -------------------------------------------------------------------------
-with tab_coverage_hub:
+elif active_module == "📈 全科考点雷达":
     st.markdown(f"### 📈 {current_books_str} · {current_subject.value} 考点覆盖与错题画像")
 
     cov_chapters = state_mgr.historical_covered_chapters & default_target_chapters
@@ -2491,7 +2494,7 @@ with tab_coverage_hub:
 # -------------------------------------------------------------------------
 # WORKSPACE 5: 每日错题（艾宾浩斯抗遗忘独立模块）
 # -------------------------------------------------------------------------
-with tab_daily_hub:
+elif active_module == "📅 每日错题":
     st.markdown("### 📅 每日错题 · 艾宾浩斯抗遗忘")
     st.caption("到期优先、逾期越久越靠前；做对间隔翻倍、做错隔天回炉。")
     st.markdown("---")

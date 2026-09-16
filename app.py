@@ -2533,7 +2533,6 @@ with tab_daily_hub:
         st.info("今日安排已清空 🎉 点上方『再开 10 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
     else:
         _eb_qs = [_q_by_id2[qid] for qid in _eb_ids]
-        st.caption(f"今日安排 {len(_eb_ids)} 道：到期优先、逾期越久越靠前。")
         _clr_a, _clr_b = st.columns([4, 1])
         with _clr_b:
             if st.button("🗑️ 清空今日", use_container_width=True, key=f"eb_clear_{current_subject.value}",
@@ -2561,67 +2560,78 @@ with tab_daily_hub:
         )
 
         # ---- 题目卡片（智能拼好卷风格：题号 + 题干 + 选项 + 反馈按钮） ----
-        for _i2, _qid2 in enumerate(_eb_ids, 1):
-            _q2 = _q_by_id2[_qid2]
-            _r2 = state_mgr.wrong_questions.get(_qid2)
-            with st.container(border=True):
-                _head2 = (
-                    f'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">'
-                    f'<span style="font-weight:800;font-size:15px;">{_i2}.</span>'
-                    f'<span style="font-size:11px;color:#64748b;font-family:monospace;">{_qid2} · 错{_r2.wrong_count if _r2 else 1}次 · 阶段{_r2.review_stage if _r2 else 0}/5 · {_r2.error_tag if _r2 else "概念模糊"}</span>'
-                    f'</div>'
-                )
-                st.markdown(_head2, unsafe_allow_html=True)
-                render_stem(_q2.stem)
-                if _q2.options:
-                    _oc1, _oc2 = st.columns(2)
-                    for _oi, _opt in enumerate(_q2.options):
-                        (_oc1 if _oi % 2 == 0 else _oc2).markdown(_opt)
-                with st.expander("📖 查看答案与解析"):
-                    if _q2.answer:
-                        st.markdown(f"**【参考答案】**：`{_q2.answer}`")
-                    if _q2.solution:
-                        st.markdown(f"**【详细解析】**：\\n{_q2.solution}")
-                    else:
-                        st.caption("（暂无解析，下载详细解析版 PDF 时由 AI 名师补全）")
-                _ec1, _ec2, _ec3 = st.columns(3)
-                with _ec1:
-                    if st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True):
-                        state_mgr.record_review_result(_qid2, True)
-                        state_mgr.mark_processed_today([_qid2])
-                        _eb_lst = list(st.session_state.get(_eb_list_key, ()))
-                        if _qid2 in _eb_lst:
-                            _eb_lst.remove(_qid2)
-                        st.session_state[_eb_list_key] = _eb_lst
-                        _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
-                        _eb_pl.add(_qid2)
-                        st.session_state[_eb_processed_key] = list(_eb_pl)
-                        st.rerun()
-                with _ec2:
-                    if st.button("❌ 又错了", key=f"eb_no_{_qid2}", use_container_width=True):
-                        state_mgr.record_review_result(_qid2, False)
-                        state_mgr.mark_processed_today([_qid2])
-                        _eb_lst = list(st.session_state.get(_eb_list_key, ()))
-                        if _qid2 in _eb_lst:
-                            _eb_lst.remove(_qid2)
-                        st.session_state[_eb_list_key] = _eb_lst
-                        _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
-                        _eb_pl.add(_qid2)
-                        st.session_state[_eb_processed_key] = list(_eb_pl)
-                        st.rerun()
-                with _ec3:
-                    if st.button("⏭️ 没做", key=f"eb_skip_{_qid2}", use_container_width=True,
-                                 help="今天没做这道题：今天不再推，明天会继续推给你。"):
-                        state_mgr.mark_wrong_not_done(_qid2)
-                        state_mgr.mark_processed_today([_qid2])
-                        _eb_lst = list(st.session_state.get(_eb_list_key, ()))
-                        if _qid2 in _eb_lst:
-                            _eb_lst.remove(_qid2)
-                        st.session_state[_eb_list_key] = _eb_lst
-                        _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
-                        _eb_pl.add(_qid2)
-                        st.session_state[_eb_processed_key] = list(_eb_pl)
-                        st.rerun()
+        # fragment 化：点「做对/又错/没做」只局部刷新本卡片区（毫秒级），不再全量 rerun 整脚本
+        # （其它 tab / 侧边栏 / URL 同步 / PDF 面板全部跳过）。列表从 session_state 实时读，
+        # 处理过的题移除后 fragment 自动重渲染；空列表时显示清空提示。
+        @st.fragment()
+        def render_eb_cards():
+            # 防御：_q_by_id2 是 fragment 闭包捕获的静态题库快照（session 内题库不变），
+            # 过滤掉快照中不存在的 id，避免"再开 10 道/切科目"等全量 rerun 路径引入新 id 时 KeyError。
+            _ids = tuple(qid for qid in st.session_state.get(_eb_list_key, ()) if qid in _q_by_id2)
+            if not _ids:
+                st.info("今日安排已清空 🎉 点上方『再开 10 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
+                return
+            st.caption(f"今日安排 {len(_ids)} 道：到期优先、逾期越久越靠前。")
+            for _i2, _qid2 in enumerate(_ids, 1):
+                _q2 = _q_by_id2[_qid2]
+                _r2 = state_mgr.wrong_questions.get(_qid2)
+                with st.container(border=True):
+                    _head2 = (
+                        f'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">'
+                        f'<span style="font-weight:800;font-size:15px;">{_i2}.</span>'
+                        f'<span style="font-size:11px;color:#64748b;font-family:monospace;">{_qid2} · 错{_r2.wrong_count if _r2 else 1}次 · 阶段{_r2.review_stage if _r2 else 0}/5 · {_r2.error_tag if _r2 else "概念模糊"}</span>'
+                        f'</div>'
+                    )
+                    st.markdown(_head2, unsafe_allow_html=True)
+                    render_stem(_q2.stem)
+                    if _q2.options:
+                        _oc1, _oc2 = st.columns(2)
+                        for _oi, _opt in enumerate(_q2.options):
+                            (_oc1 if _oi % 2 == 0 else _oc2).markdown(_opt)
+                    with st.expander("📖 查看答案与解析"):
+                        if _q2.answer:
+                            st.markdown(f"**【参考答案】**：`{_q2.answer}`")
+                        if _q2.solution:
+                            st.markdown(f"**【详细解析】**：\\n{_q2.solution}")
+                        else:
+                            st.caption("（暂无解析，下载详细解析版 PDF 时由 AI 名师补全）")
+                    _ec1, _ec2, _ec3 = st.columns(3)
+                    with _ec1:
+                        if st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True):
+                            state_mgr.record_review_result(_qid2, True)
+                            state_mgr.mark_processed_today([_qid2])
+                            _eb_lst = list(st.session_state.get(_eb_list_key, ()))
+                            if _qid2 in _eb_lst:
+                                _eb_lst.remove(_qid2)
+                            st.session_state[_eb_list_key] = _eb_lst
+                            _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
+                            _eb_pl.add(_qid2)
+                            st.session_state[_eb_processed_key] = list(_eb_pl)
+                    with _ec2:
+                        if st.button("❌ 又错了", key=f"eb_no_{_qid2}", use_container_width=True):
+                            state_mgr.record_review_result(_qid2, False)
+                            state_mgr.mark_processed_today([_qid2])
+                            _eb_lst = list(st.session_state.get(_eb_list_key, ()))
+                            if _qid2 in _eb_lst:
+                                _eb_lst.remove(_qid2)
+                            st.session_state[_eb_list_key] = _eb_lst
+                            _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
+                            _eb_pl.add(_qid2)
+                            st.session_state[_eb_processed_key] = list(_eb_pl)
+                    with _ec3:
+                        if st.button("⏭️ 没做", key=f"eb_skip_{_qid2}", use_container_width=True,
+                                     help="今天没做这道题：今天不再推，明天会继续推给你。"):
+                            state_mgr.mark_wrong_not_done(_qid2)
+                            state_mgr.mark_processed_today([_qid2])
+                            _eb_lst = list(st.session_state.get(_eb_list_key, ()))
+                            if _qid2 in _eb_lst:
+                                _eb_lst.remove(_qid2)
+                            st.session_state[_eb_list_key] = _eb_lst
+                            _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
+                            _eb_pl.add(_qid2)
+                            st.session_state[_eb_processed_key] = list(_eb_pl)
+
+        render_eb_cards()
 
 # 7. URL 错题码同步（把当前科目错题状态写回网址，保持链接可跨设备恢复）
 # =========================================================================

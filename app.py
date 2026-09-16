@@ -2617,6 +2617,30 @@ elif active_module == "📅 每日错题":
         def render_eb_cards():
             # 防御：_q_by_id2 是 fragment 闭包捕获的静态题库快照（session 内题库不变），
             # 过滤掉快照中不存在的 id，避免"再开 10 道/切科目"等全量 rerun 路径引入新 id 时 KeyError。
+            def _eb_finish(_qid: str, _ok: bool) -> None:
+                """on_click 回调：fragment rerun 前先落地状态+今日列表，本次渲染即移除（不用点两次）。"""
+                state_mgr.record_review_result(_qid, bool(_ok))
+                state_mgr.mark_processed_today([_qid])
+                _eb_lst = list(st.session_state.get(_eb_list_key, ()))
+                if _qid in _eb_lst:
+                    _eb_lst.remove(_qid)
+                st.session_state[_eb_list_key] = _eb_lst
+                _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
+                _eb_pl.add(_qid)
+                st.session_state[_eb_processed_key] = list(_eb_pl)
+
+            def _eb_skip(_qid: str) -> None:
+                """没做：今天不再推，明天继续推。"""
+                state_mgr.mark_wrong_not_done(_qid)
+                state_mgr.mark_processed_today([_qid])
+                _eb_lst = list(st.session_state.get(_eb_list_key, ()))
+                if _qid in _eb_lst:
+                    _eb_lst.remove(_qid)
+                st.session_state[_eb_list_key] = _eb_lst
+                _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
+                _eb_pl.add(_qid)
+                st.session_state[_eb_processed_key] = list(_eb_pl)
+
             _ids = tuple(qid for qid in st.session_state.get(_eb_list_key, ()) if qid in _q_by_id2)
             if not _ids:
                 st.info("今日安排已清空 🎉 点上方『再开 10 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
@@ -2647,39 +2671,15 @@ elif active_module == "📅 每日错题":
                             st.caption("（暂无解析，下载详细解析版 PDF 时由 AI 名师补全）")
                     _ec1, _ec2, _ec3 = st.columns(3)
                     with _ec1:
-                        if st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True):
-                            state_mgr.record_review_result(_qid2, True)
-                            state_mgr.mark_processed_today([_qid2])
-                            _eb_lst = list(st.session_state.get(_eb_list_key, ()))
-                            if _qid2 in _eb_lst:
-                                _eb_lst.remove(_qid2)
-                            st.session_state[_eb_list_key] = _eb_lst
-                            _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
-                            _eb_pl.add(_qid2)
-                            st.session_state[_eb_processed_key] = list(_eb_pl)
+                        st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True,
+                                  on_click=_eb_finish, args=(_qid2, True))
                     with _ec2:
-                        if st.button("❌ 又错了", key=f"eb_no_{_qid2}", use_container_width=True):
-                            state_mgr.record_review_result(_qid2, False)
-                            state_mgr.mark_processed_today([_qid2])
-                            _eb_lst = list(st.session_state.get(_eb_list_key, ()))
-                            if _qid2 in _eb_lst:
-                                _eb_lst.remove(_qid2)
-                            st.session_state[_eb_list_key] = _eb_lst
-                            _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
-                            _eb_pl.add(_qid2)
-                            st.session_state[_eb_processed_key] = list(_eb_pl)
+                        st.button("❌ 又错了", key=f"eb_no_{_qid2}", use_container_width=True,
+                                  on_click=_eb_finish, args=(_qid2, False))
                     with _ec3:
-                        if st.button("⏭️ 没做", key=f"eb_skip_{_qid2}", use_container_width=True,
-                                     help="今天没做这道题：今天不再推，明天会继续推给你。"):
-                            state_mgr.mark_wrong_not_done(_qid2)
-                            state_mgr.mark_processed_today([_qid2])
-                            _eb_lst = list(st.session_state.get(_eb_list_key, ()))
-                            if _qid2 in _eb_lst:
-                                _eb_lst.remove(_qid2)
-                            st.session_state[_eb_list_key] = _eb_lst
-                            _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
-                            _eb_pl.add(_qid2)
-                            st.session_state[_eb_processed_key] = list(_eb_pl)
+                        st.button("⏭️ 没做", key=f"eb_skip_{_qid2}", use_container_width=True,
+                                  help="今天没做这道题：今天不再推，明天会继续推给你。",
+                                  on_click=_eb_skip, args=(_qid2,))
 
         render_eb_cards()
 

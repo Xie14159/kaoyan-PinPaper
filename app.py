@@ -1476,12 +1476,35 @@ if active_module == "🎯 智能拼好卷":
             ("三、解答题", active_paper.solution_questions),
         ]
 
-        q_idx = 1
-        for title, q_list in sections:
-            if not q_list:
-                continue
-            st.markdown(f"#### {title}")
-            for q in q_list:
+        # ---- 分页 + 局部刷新：点标错等按钮只 rerun 当前页卡片区（毫秒~百毫秒级），
+        # 不再全量渲染配置区 + 全部题目 + PDF 面板 + 侧边栏。分页控件在 fragment 外。 ----
+        _pq_flat: list = []
+        for _t, _ql in sections:
+            for _q in _ql:
+                _pq_flat.append((_t, _q))
+        _pq_total = len(_pq_flat)
+        _pq_page_size = _pq_total
+        _pq_total_pages = 1
+        _pq_page = 1
+        _pq_start = 0
+        if _pq_total > 25:
+            _ps_sel = st.selectbox("每页展示题数", ["25 题 (极速流畅)", "50 题", "全部展示（较慢）"], index=0, key=f"p1_pagesize_{current_subject.value}")
+            _pq_page_size = 25 if _ps_sel.startswith("25") else (50 if _ps_sel.startswith("50") else _pq_total)
+            _pq_total_pages = max(1, (_pq_total + _pq_page_size - 1) // _pq_page_size)
+            _pq_page = st.number_input(f"当前页码 (共 {_pq_total_pages} 页 · {_pq_total} 题)", min_value=1, max_value=_pq_total_pages, value=1, step=1, key=f"p1_page_{current_subject.value}")
+            _pq_start = (_pq_page - 1) * _pq_page_size
+        _pq_end = min(_pq_total, _pq_start + _pq_page_size)
+        _pq_cur = _pq_flat[_pq_start:_pq_end]
+
+        @st.fragment()
+        def render_paper_cards():
+            _prev_t = None
+            _qi = _pq_start
+            for _t, q in _pq_cur:
+                if _t != _prev_t:
+                    st.markdown(f"#### {_t}")
+                    _prev_t = _t
+                _qi += 1
                 is_active = state_mgr.is_in_active_pool(q.id)
                 is_temp_mastered = state_mgr.is_temporarily_mastered(q.id)
                 w_cnt = state_mgr.get_wrong_count(q.id)
@@ -1494,40 +1517,40 @@ if active_module == "🎯 智能拼好卷":
                         with c_h1:
                             card_header_html = (
                                 f'<div style="display:flex; align-items:center; margin-top:2px;">'
-                                f'<span style="font-weight:800; font-size:16px; color:#000000; margin-right:4px;">{q_idx}.</span>'
+                                f'<span style="font-weight:800; font-size:16px; color:#000000; margin-right:4px;">{_qi}.</span>'
                                 f'</div>'
                             )
                             st.markdown(card_header_html, unsafe_allow_html=True)
                         with c_h2:
-                            st.button(f"❌ 移入历史错题", key=f"p1_arch_{q.id}_{q_idx}_{current_subject.value}", type="primary", use_container_width=True, help="做题已掌握？点击移入历史错题档案（保留做错次数，不再强制抽取）", on_click=cb_archive_to_history, args=(q.id,))
+                            st.button(f"❌ 移入历史错题", key=f"p1_arch_{q.id}_{_qi}_{current_subject.value}", type="primary", use_container_width=True, help="做题已掌握？点击移入历史错题档案（保留做错次数，不再强制抽取）", on_click=cb_archive_to_history, args=(q.id,))
                         with c_h3:
-                            st.button("➕1", key=f"p1_inc_{q.id}_{q_idx}_{current_subject.value}", use_container_width=True, help="又做错了？点击做错次数+1", on_click=cb_inc_wrong, args=(q.id, 1))
+                            st.button("➕1", key=f"p1_inc_{q.id}_{_qi}_{current_subject.value}", use_container_width=True, help="又做错了？点击做错次数+1", on_click=cb_inc_wrong, args=(q.id, 1))
 
                     elif is_temp_mastered:
                         c_h1, c_h2, c_h3 = st.columns([3.8, 1.4, 0.9])
                         with c_h1:
                             card_header_html = (
                                 f'<div style="display:flex; align-items:center; margin-top:2px;">'
-                                f'<span style="font-weight:800; font-size:16px; color:#000000; margin-right:4px;">{q_idx}.</span>'
+                                f'<span style="font-weight:800; font-size:16px; color:#000000; margin-right:4px;">{_qi}.</span>'
                                 f'</div>'
                             )
                             st.markdown(card_header_html, unsafe_allow_html=True)
                         with c_h2:
-                            st.button("🎯 放回待练池", key=f"p1_react_{q.id}_{q_idx}_{current_subject.value}", type="primary", use_container_width=True, help="点击重新放回活跃错题池参与组卷抽题", on_click=cb_reactivate_wrong, args=(q.id,))
+                            st.button("🎯 放回待练池", key=f"p1_react_{q.id}_{_qi}_{current_subject.value}", type="primary", use_container_width=True, help="点击重新放回活跃错题池参与组卷抽题", on_click=cb_reactivate_wrong, args=(q.id,))
                         with c_h3:
-                            st.button("🗑️ 彻底删除", key=f"p1_del_{q.id}_{q_idx}_{current_subject.value}", use_container_width=True, help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
+                            st.button("🗑️ 彻底删除", key=f"p1_del_{q.id}_{_qi}_{current_subject.value}", use_container_width=True, help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
 
                     else:
                         c_h1, c_h2 = st.columns([4.4, 1.2])
                         with c_h1:
                             card_header_html = (
                                 f'<div style="display:flex; align-items:center; margin-top:2px;">'
-                                f'<span style="font-weight:800; font-size:16px; color:#000000; margin-right:4px;">{q_idx}.</span>'
+                                f'<span style="font-weight:800; font-size:16px; color:#000000; margin-right:4px;">{_qi}.</span>'
                                 f'</div>'
                             )
                             st.markdown(card_header_html, unsafe_allow_html=True)
                         with c_h2:
-                            st.button("○ 标为错题", key=f"p1_mark_{q.id}_{q_idx}_{current_subject.value}", use_container_width=True, help="做错了？点击放入待练错题池", on_click=cb_toggle_wrong, args=(q.id,))
+                            st.button("○ 标为错题", key=f"p1_mark_{q.id}_{_qi}_{current_subject.value}", use_container_width=True, help="做错了？点击放入待练错题池", on_click=cb_toggle_wrong, args=(q.id,))
 
                     # Question Stem（内联图片走 st.image,文字/公式/表格走 markdown)
                     render_stem(q.stem)
@@ -1542,7 +1565,7 @@ if active_module == "🎯 智能拼好卷":
                                 with oc2: st.markdown(opt)
 
                     # Solutions Callout (含书籍、难度、章节、ID、题目标签与做错统计)
-                    if show_all_ans or st.checkbox(f"查看答案与解析", key=f"p1_ans_cb_{q.id}_{q_idx}_{current_subject.value}"):
+                    if show_all_ans or st.checkbox(f"查看答案与解析", key=f"p1_ans_cb_{q.id}_{_qi}_{current_subject.value}"):
                         tags_html = "".join(f'<span class="badge badge-tag">#{t}</span>' for t in q.tags) if q.tags else ""
                         if is_active:
                             if w_cnt >= 2:
@@ -1569,7 +1592,7 @@ if active_module == "🎯 智能拼好卷":
                         if q.solution: st.markdown(f"**【详细解析】**：\n{q.solution}")
 
                     with st.expander("🤖 呼叫 AI 名师解答"):
-                        if st.button("🚀 运行 AI 详细推导", key=f"p1_ai_btn_{q.id}_{q_idx}_{current_subject.value}"):
+                        if st.button("🚀 运行 AI 详细推导", key=f"p1_ai_btn_{q.id}_{_qi}_{current_subject.value}"):
                             # 缓存优先：已生成过解析（含详细解析 PDF 产物）→ 直接显示缓存，0 次 API
                             _cached_sol = ""
                             _cached_status = ""
@@ -1616,7 +1639,7 @@ if active_module == "🎯 智能拼好卷":
                                     except Exception:
                                         pass
 
-                q_idx += 1
+        render_paper_cards()
 
         # 题目下方按需导出 PDF 专区
         st.markdown("---")

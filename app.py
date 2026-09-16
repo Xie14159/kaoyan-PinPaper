@@ -37,7 +37,7 @@ from core.paper_engine import EngineRequest, PaperEngine
 from core.pdf_service import PDFEdition, PDFService
 from core.ai_tutor import AITutor
 from core.ai_health import probe_key
-from core.ai_solutions import ensure_solutions
+from core.ai_solutions import ensure_solutions, needs_solution
 from core.state_manager import StateManager
 
 # 日志基础设施：pythonw 后台运行无 stdout/stderr，统一写 logs/app.log（错误可见性）
@@ -1744,7 +1744,7 @@ if active_module == "🎯 智能拼好卷":
             with tb3:
                 # 详细解析版：点击下载时才触发 AI 名师补全缺失答案解析（做题阶段不等待）
                 _ai_ready_key = f"p1_ai_ready_{active_paper.paper_id}"
-                _missing_now = [q for q in active_paper.questions if not (q.answer and q.solution)]
+                _missing_now = [q for q in active_paper.questions if needs_solution(q)]
                 if user_api_key and _missing_now and not st.session_state.get(_ai_ready_key):
                     if st.button(
                         "📥 下载详细解析版 PDF（AI 补全解析）",
@@ -2638,7 +2638,7 @@ elif active_module == "📅 每日错题":
         # ---- PDF 导出（异步后台生成 + 文件缓存：点按钮秒回，PDF 生成完自动出现下载按钮） ----
         _eb_sig = hashlib.md5("|".join(_eb_ids).encode("utf-8")).hexdigest()[:8]
         _eb_pdf_id = f"今日错题_{current_subject.value}_{_eb_sig}"
-        _eb_missing = [q for q in _eb_qs if not (q.answer and q.solution)]
+        _eb_missing = [q for q in _eb_qs if needs_solution(q)]
         render_eb_pdf_panel(
             sig=_eb_sig,
             qs=_eb_qs,

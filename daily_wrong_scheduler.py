@@ -39,11 +39,50 @@ SUBJECT = SubjectType.MATH_2  # 数二考生
 TARGET = 10
 
 
+def _precache_solutions(questions) -> None:
+    """为给定题目预生成 AI 名师解析并写入本地缓存（user_data/ai_solutions.json）。
+
+    复用 app.py 的生成管线（Claude 中转生成 + DeepSeek 独立审核 + 原子写缓存）：
+    - 缺答案/解析（含"略"占位）的题才走 AI，已有官方答案的题不烧钱；
+    - 低并发（max_workers=2）防中转限流；失败不阻断主流程（安排已完成）。
+    """
+    try:
+        from core.ai_solutions import ensure_solutions, needs_solution
+        from core.ai_tutor import AITutor
+        import json as _json
+
+        cfg = _json.loads(io.open(os.path.join(PROJECT_ROOT, "user_data", "ai_config.json"), encoding="utf-8").read())
+    except Exception as ex:
+        print(f"预缓存跳过（配置不可读）：{ex}")
+        return
+    if not (cfg.get("solution_api_key") and cfg.get("solution_base_url")):
+        print("预缓存跳过：未配置 AI 名师（user_data/ai_config.json 缺 solution_api_key/solution_base_url）。")
+        return
+
+    missing = [q for q in questions if needs_solution(q)]
+    if not missing:
+        print(f"今日 {len(questions)} 道题均有官方答案/解析，无需 AI 预缓存。")
+        return
+
+    tutor = AITutor(
+        api_key=cfg["solution_api_key"],
+        base_url=cfg["solution_base_url"],
+        model=cfg.get("solution_model") or "claude-sonnet-4-5-20250929",
+    )
+    print(f"开始为今日 {len(missing)} 道缺解析题预生成 AI 答案并缓存…")
+    try:
+        gen, cached = ensure_solutions(missing, tutor, max_workers=2)
+        print(f"预缓存完成：新生成 {gen} 道，复用缓存 {cached} 道。")
+    except Exception as ex:
+        print(f"预缓存失败（不影响今日安排）：{ex}")
+
+
 def main() -> int:
     try:
         loader = BankLoader(subject=SUBJECT)
         questions = loader.load()
         chapter_map = {q.id: (q.chapter or "") for q in questions}
+        q_by_id = {q.id: q for q in questions}
 
         mgr = StateManager(username="local", subject=SUBJECT)
         if mgr.get_assigned_today():
@@ -62,6 +101,10 @@ def main() -> int:
         print(f"已安排 {len(qids)} 道错题，覆盖 {len(chapters)} 个考点章节：")
         for q in qids:
             print(f"  {q}  [{chapter_map.get(q, '')}]")
+
+        # 安排的同时预生成 AI 名师解析并缓存（做题/下载解析时秒出，不等生成）
+        _assigned_qs = [q_by_id[q] for q in qids if q in q_by_id]
+        _precache_solutions(_assigned_qs)
         return 0
     except Exception as ex:  # 定时任务内兜底，不静默失败
         print(f"每日错题安排脚本失败：{ex}")

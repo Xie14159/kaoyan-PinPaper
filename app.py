@@ -45,6 +45,77 @@ _INLINE_IMG_RE = re.compile(
 )
 
 
+# =========================================================================
+# API 健康探测：后台线程 + fragment 轮询（探测绝不阻塞主脚本 rerun）
+# 这是"点标错/做题后页面一直转圈"的主要修复：探测走网络、单次最多超时 8s，
+# 若在主脚本同步等待，任何交互（含 on_click 回调触发的 rerun）都会卡住。
+# key/base/model 变化时自动重探（避免换了 Key 仍显示旧结果）。
+# =========================================================================
+_bg_health: dict = {}          # _skey -> {"fp": str, "res": HealthResult|None}
+_bg_health_probing: set = set()
+_bg_health_lock = threading.Lock()
+
+
+def _health_fp(k: str, b: str, m: str) -> str:
+    _kh = hashlib.sha256((k or "").encode("utf-8")).hexdigest()[:12]
+    return f"{_kh}|{b}|{m}"
+
+
+def _bg_probe_worker(skey: str, api_key: str, base_url: str, model: str, force: bool = False) -> None:
+    try:
+        try:
+            _res = probe_key(api_key, base_url, model, force=force)
+        except Exception:
+            _res = None
+        with _bg_health_lock:
+            _bg_health[skey] = {"fp": _health_fp(api_key, base_url, model), "res": _res}
+    finally:
+        # 无论异常类型（含 BaseException）都必须清理探测标记，否则该 skey 永久停摆
+        with _bg_health_lock:
+            _bg_health_probing.discard(skey)
+
+
+def _start_bg_probe(skey: str, api_key: str, base_url: str, model: str, force: bool = False) -> None:
+    with _bg_health_lock:
+        if skey in _bg_health_probing:
+            return
+        _bg_health_probing.add(skey)
+    threading.Thread(
+        target=_bg_probe_worker, args=(skey, api_key, base_url, model, force), daemon=True
+    ).start()
+
+
+@st.fragment(run_every=2.0)
+def render_health_panel(_targets) -> None:
+    """API 状态面板：轮询后台探测结果，探测完成自动刷新；重检走后台不阻塞。"""
+    for _label, _k, _b, _m in _targets:
+        _skey = f"_health_{_label}"
+        _cur_fp = _health_fp(_k, _b, _m)
+        _ent = _bg_health.get(_skey)
+        # 必须校验 fp：换 key 后、新探测未返回前，旧结果不得显示（防止"假绿"）
+        _res = _ent.get("res") if (_ent and _ent.get("fp") == _cur_fp) else None
+        _c1, _c2 = st.columns([4, 1])
+        with _c1:
+            if _res is None:
+                st.caption(f"🔍 {_label}：检测中…")
+            elif _res.ok:
+                st.success(f"✅ {_label} 可用（{_res.latency_ms}ms）")
+            elif _res.status == "auth":
+                st.error(f"❌ {_label} 鉴权失败：{_res.detail}")
+            elif _res.status == "model":
+                st.error(f"❌ {_label} 模型无效：{_res.detail}")
+            elif _res.status == "rate":
+                st.warning(f"⚠️ {_label} 限流：{_res.detail}")
+            else:
+                st.warning(f"⚠️ {_label} 异常：{_res.detail}")
+        with _c2:
+            if st.button("重检", key=f"{_skey}_btn", help="强制重新探测该 Key"):
+                with _bg_health_lock:
+                    _bg_health.pop(_skey, None)
+                _start_bg_probe(_skey, _k, _b, _m, force=True)
+                st.rerun(scope="fragment")
+
+
 def render_stem(text: str) -> None:
     """渲染题干:文字段走 st.markdown,内联 base64 图片走 st.image。
 
@@ -1057,43 +1128,15 @@ with st.sidebar:
         if not _health_targets:
             st.caption("未配置 API Key，AI 解析功能不可用。")
         else:
-            # 并行探测：首屏等待 = 最慢单个探测（而非串行累加）
-            import concurrent.futures
-            _need_probe = []
+            # 后台探测：主脚本 0 等待（结果由 fragment 轮询自动显示，不阻塞任何 rerun；
+            # key/base/model 变化时自动重探）
             for _label, _k, _b, _m in _health_targets:
                 _skey = f"_health_{_label}"
-                if _skey not in st.session_state:
-                    _need_probe.append((_skey, _label, _k, _b, _m))
-            if _need_probe:
-                with concurrent.futures.ThreadPoolExecutor(max_workers=len(_need_probe)) as _ex:
-                    _futs = {_ex.submit(probe_key, _k, _b, _m): (_skey, _label) for _skey, _label, _k, _b, _m in _need_probe}
-                    for _f in concurrent.futures.as_completed(_futs):
-                        _skey, _label = _futs[_f]
-                        try:
-                            st.session_state[_skey] = _f.result()
-                        except Exception:
-                            st.session_state[_skey] = None
-            for _label, _k, _b, _m in _health_targets:
-                _skey = f"_health_{_label}"
-                _res = st.session_state.get(_skey)
-                _c1, _c2 = st.columns([4, 1])
-                with _c1:
-                    if _res is None:
-                        st.caption(f"🔍 {_label}：未检测")
-                    elif _res.ok:
-                        st.success(f"✅ {_label} 可用（{_res.latency_ms}ms）")
-                    elif _res.status == "auth":
-                        st.error(f"❌ {_label} 鉴权失败：{_res.detail}")
-                    elif _res.status == "model":
-                        st.error(f"❌ {_label} 模型无效：{_res.detail}")
-                    elif _res.status == "rate":
-                        st.warning(f"⚠️ {_label} 限流：{_res.detail}")
-                    else:
-                        st.warning(f"⚠️ {_label} 异常：{_res.detail}")
-                with _c2:
-                    if st.button("重检", key=f"{_skey}_btn", help="强制重新探测该 Key"):
-                        st.session_state[_skey] = probe_key(_k, _b, _m, force=True)
-                        st.rerun()
+                _ent = _bg_health.get(_skey)
+                if _ent is None or _ent.get("fp") != _health_fp(_k, _b, _m):
+                    # key/base/model 变化 → force 重探（绕过 ai_health TTL 缓存，防止旧指纹误命中）
+                    _start_bg_probe(_skey, _k, _b, _m, force=(_ent is not None))
+            render_health_panel(_health_targets)
         st.markdown("---")
 
 

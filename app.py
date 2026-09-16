@@ -173,6 +173,15 @@ def get_bank_loader(subject: SubjectType = SubjectType.MATH_1) -> BankLoader:
     return loader
 
 
+@functools.lru_cache(maxsize=16)
+def _cached_questions(subject_value: str) -> tuple:
+    """缓存 BankLoader.load() 结果：全量 rerun 时侧边栏不再每次重新解析题库 JSON（~227ms）。
+    题库为静态文件；新增/更新题库后重启服务即刷新缓存。返回 tuple 只读引用，安全。"""
+    _ld = get_bank_loader(SubjectType(subject_value))
+    return tuple(_ld.load())
+
+
+
 @st.cache_data(show_spinner=False)
 def get_chapter_dist() -> dict:
     """真题章节分布模型 {科: {题型: {章名: 权重}}};文件缺失(如云端未提交)则返回空 → 特性静默不启用。"""
@@ -772,7 +781,7 @@ with st.sidebar:
 
     # 先加载题库(含 880 + 真题),再据实际书籍渲染多选
     loader = get_bank_loader(current_subject if current_subject != SubjectType.CUSTOM else SubjectType.MATH_1)
-    raw_questions = loader.load()
+    raw_questions = list(_cached_questions((current_subject if current_subject != SubjectType.CUSTOM else SubjectType.MATH_1).value))
 
     # 2. 选择参考书籍 (勾选，多选汇聚题库池)。选项来自题库实际书籍,880 置顶。
     # 勾选状态编码进网址 bk1/bk2/bk3(按科目)，下次打开自动恢复上次的选择，不写死默认 880。
@@ -2371,40 +2380,47 @@ elif active_module == "📕 我的错题本":
             with wp3:
                 st.caption("💡 生成约十几秒")
 
-        for q in shown:
-            stt = _wb_status(q.id)
-            w_cnt = state_mgr.get_wrong_count(q.id)
-            label, _ = _STATUS_LABEL.get(stt, ('', ''))
-            # 摘要标题:一眼看清"哪几道" + 状态 + 做错次数
-            head = f"{label}　{q.id}　·　{q.chapter}　·　[{q.difficulty.value}]　·　做错 {w_cnt} 次"
-            with st.expander(head):
-                render_stem(q.stem)
-                if q.options:
-                    oc1, oc2 = st.columns(2)
-                    for oi, opt in enumerate(q.options):
-                        (oc1 if oi % 2 == 0 else oc2).markdown(opt)
-                if q.answer:
-                    st.markdown(f"**【参考答案】**：`{q.answer}`")
-                if q.solution:
-                    st.markdown(f"**【详细解析】**：\n{q.solution}")
-                # 操作按钮(按状态给对应动作)
-                b1, b2, b3, b4 = st.columns(4)
-                if stt in ("active", "stubborn"):
-                    with b1:
-                        st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
-                                  help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
-                    with b2:
-                        st.button("➕ 又错一次", key=f"wb_inc_{q.id}", use_container_width=True,
-                                  help="再次做错，做错次数+1", on_click=cb_inc_wrong, args=(q.id,))
-                elif stt == "history":
-                    with b1:
-                        st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
-                                  help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
-                with b4:
-                    st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
-                              help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
+        @st.fragment()
+        def render_wrongbook_cards():
+            _wb_cur = tuple(q for q in shown if state_mgr.is_in_active_pool(q.id) or state_mgr.is_temporarily_mastered(q.id))
+            if not _wb_cur:
+                st.info("当前筛选下没有错题。")
+            for q in _wb_cur:
+                stt = _wb_status(q.id)
+                w_cnt = state_mgr.get_wrong_count(q.id)
+                label, _ = _STATUS_LABEL.get(stt, ('', ''))
+                # 摘要标题:一眼看清"哪几道" + 状态 + 做错次数
+                head = f"{label}　{q.id}　·　{q.chapter}　·　[{q.difficulty.value}]　·　做错 {w_cnt} 次"
+                with st.expander(head):
+                    render_stem(q.stem)
+                    if q.options:
+                        oc1, oc2 = st.columns(2)
+                        for oi, opt in enumerate(q.options):
+                            (oc1 if oi % 2 == 0 else oc2).markdown(opt)
+                    if q.answer:
+                        st.markdown(f"**【参考答案】**：`{q.answer}`")
+                    if q.solution:
+                        st.markdown(f"**【详细解析】**：\n{q.solution}")
+                    # 操作按钮(按状态给对应动作)
+                    b1, b2, b3, b4 = st.columns(4)
+                    if stt in ("active", "stubborn"):
+                        with b1:
+                            st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
+                                      help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
+                        with b2:
+                            st.button("➕ 又错一次", key=f"wb_inc_{q.id}", use_container_width=True,
+                                      help="再次做错，做错次数+1", on_click=cb_inc_wrong, args=(q.id,))
+                    elif stt == "history":
+                        with b1:
+                            st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
+                                      help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
+                    with b4:
+                        st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
+                                  help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
 
 
+
+        render_wrongbook_cards()
 # -------------------------------------------------------------------------
 # WORKSPACE 4: 全科考点覆盖与错题画像 (进度雷达)
 # -------------------------------------------------------------------------

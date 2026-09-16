@@ -666,14 +666,19 @@ class StateManager:
         max_stubborn: int = 5,
         max_new: int = 3,
         exclude_ids: set | None = None,
+        chapter_of: dict | None = None,
     ) -> list:
-        """艾宾浩斯选题：到期优先 -> 顽固题补足(上限) -> 新错题补足(上限) -> 不硬凑。
+        """艾宾浩斯选题 + 考点轮转：到期优先 -> 顽固题补足(上限) -> 新错题补足(上限) -> 不硬凑。
 
-        返回 qid 列表（已去重）。到期题填满 target；不足时依次用顽固/新错题补，
-        仍不足则返回现有数量（前端显示"今日复习 N 道"）。
+        chapter_of: {qid: 章节} 映射。传入时按章节分组、轮流取题，使 target 道题覆盖尽量多考点
+        （每章先各取一道，再第二轮补足；同章内仍按优先级顺序）。不传时退化为纯优先级顺序。
+        返回 qid 列表（已去重）。到期题填满 target；不足时依次用顽固/新错题补。
+        注意：启用 chapter_of 后，"考点覆盖"优先于"跨章紧急度"——不同章节的到期题按轮转次序展示，
+        同章节内仍严格按到期优先级排序。这是有意 trade-off（用户要求每日错题覆盖多考点）。
         """
         today = today or self._today()
         exclude = set(exclude_ids or ())
+        chapter_of = chapter_of or {}
         active = {
             qid for qid, rec in self.wrong_questions.items()
             if rec.is_active_in_pool and rec.wrong_count > 0
@@ -694,39 +699,45 @@ class StateManager:
         stubborn.sort(key=lambda q: -self.wrong_questions[q].wrong_count)
         newbie.sort(key=lambda q: self._parse_date(self.wrong_questions[q].added_at) or today)
 
-        selected = []
-        seen = set()
-        stubborn_set = set(stubborn)
-        newbie_set = set(newbie)
+        def _rotate(pool: list, limit: int, skip: set) -> list:
+            """按章节轮流取题：每章先取队首（同章内保持传入的优先级顺序），再循环补足，覆盖考点最大化。"""
+            buckets: dict[str, list] = {}
+            for qid in pool:
+                if qid in skip:
+                    continue
+                buckets.setdefault(chapter_of.get(qid, ""), []).append(qid)
+            cursors = {ch: 0 for ch in buckets}
+            picked: list = []
+            while len(picked) < limit:
+                advanced = False
+                for ch, bucket in buckets.items():
+                    if len(picked) >= limit:
+                        break
+                    if cursors[ch] < len(bucket):
+                        picked.append(bucket[cursors[ch]])
+                        cursors[ch] += 1
+                        advanced = True
+                if not advanced:
+                    break
+            return picked
 
-        # 1) 到期题填满 target
-        for qid in due:
+        # due/stubborn/newbie 三池互斥（if/elif/elif），选中集内不可能混入对方池的题，
+        # 补足上限直接用 max_stubborn / max_new 即可。
+        # 1) 到期题：考点轮转填满 target（每章先取一道，再循环补足）
+        selected = _rotate(due, target, exclude)
+        seen = set(selected)
+        # 2) 顽固题补足（上限 max_stubborn，考点轮转）
+        for qid in _rotate(stubborn, min(target - len(selected), max_stubborn), seen | exclude):
             if len(selected) >= target:
                 break
-            if qid in exclude:
-                continue
             selected.append(qid)
             seen.add(qid)
-        # 2) 顽固题补足（上限 max_stubborn，去重）
-        st_count = sum(1 for q in selected if q in stubborn_set)
-        for qid in stubborn:
-            if len(selected) >= target or st_count >= max_stubborn:
+        # 3) 新错题补足（上限 max_new，考点轮转）
+        for qid in _rotate(newbie, min(target - len(selected), max_new), seen | exclude):
+            if len(selected) >= target:
                 break
-            if qid in seen or qid in exclude:
-                continue
             selected.append(qid)
             seen.add(qid)
-            st_count += 1
-        # 3) 新错题补足（上限 max_new，去重）
-        nb_count = sum(1 for q in selected if q in newbie_set)
-        for qid in newbie:
-            if len(selected) >= target or nb_count >= max_new:
-                break
-            if qid in seen or qid in exclude:
-                continue
-            selected.append(qid)
-            seen.add(qid)
-            nb_count += 1
         return selected
 
     def record_review_result(self, question_id: str, correct: bool, today=None) -> bool:

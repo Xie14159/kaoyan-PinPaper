@@ -2239,9 +2239,12 @@ with tab_daily_hub:
     _eb_processed_key = f"eb_processed_{current_subject.value}"
     _eb_processed = set(state_mgr.get_processed_today()) | set(st.session_state.get(_eb_processed_key, ()))  # 持久化(刷新不失效) + 会话级
     # 今日安排持久化：每天首次进入自动选一批并记录；刷新后恢复同一份安排（减去已处理），不再自动生成新题
+    # 考点覆盖：qid -> 章节 映射，选题按章节轮转，10 道尽量覆盖不同考点
+    # 考点覆盖：qid -> 章节 映射（无 chapter 的题回退到 qid 前缀作伪章节，防止全部落入空桶稀释覆盖）
+    _eb_chapter_map = {qid: (_q_by_id2[qid].chapter or qid.split("-")[0] or "其他") for qid in _q_by_id2}
     _eb_assigned = state_mgr.get_assigned_today()
     if not _eb_assigned:
-        _due_qids = state_mgr.select_daily_wrong(target=10, exclude_ids=_eb_processed)
+        _due_qids = state_mgr.select_daily_wrong(target=10, exclude_ids=_eb_processed, chapter_of=_eb_chapter_map)
         _eb_assigned = [qid for qid in _due_qids if qid in _q_by_id2 and qid not in _eb_processed]
         if _eb_assigned:
             state_mgr.mark_assigned_today(_eb_assigned)

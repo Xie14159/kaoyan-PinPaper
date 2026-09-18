@@ -1238,12 +1238,12 @@ active_module = st.segmented_control(
 # WORKSPACE 1: 智能拼好卷大厅 (核心组卷与刷题，默认以错题组卷)
 # -------------------------------------------------------------------------
 if active_module == "🎯 智能拼好卷":
-    # 从本地文件恢复上次的拼卷配置（仅首次进入时播种，之后由用户交互主导）
-    if "_paper_cfg_seeded" not in st.session_state:
-        st.session_state["_paper_cfg_seeded"] = True
-        _saved_paper_cfg = load_paper_config()
-        for k, v in _saved_paper_cfg.items():
-            st.session_state.setdefault(k, v)
+    # 从本地文件恢复拼卷配置：每次渲染都 setdefault 注入文件值。
+    # setdefault 只在 key 缺失时写入，不覆盖用户本次已调整的值；
+    # 修复"仅 seed 一次"导致会话异常后配置永久停留在代码默认值的问题。
+    _saved_paper_cfg = load_paper_config()
+    for k, v in _saved_paper_cfg.items():
+        st.session_state.setdefault(k, v)
 
     st.markdown("#### 🎯 智能拼卷配置")
 

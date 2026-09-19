@@ -2593,8 +2593,22 @@ elif active_module == "📅 每日错题":
         if _eb_assigned:
             state_mgr.mark_assigned_today(_eb_assigned)
     _eb_ids = tuple(q for q in _eb_assigned if q in _q_by_id2 and q not in _eb_processed)
-    # 统一题号：按题型分组排序（选择→填空→解答，组内保持原相对顺序），保证做题本/解析版/网页三处题号一致
-    _eb_ids = tuple(sorted(_eb_ids, key=lambda _qid: (QuestionType.CHOICE, QuestionType.FILL_BLANK, QuestionType.SOLUTION).index(_q_by_id2[_qid].question_type) if _q_by_id2[_qid].question_type in (QuestionType.CHOICE, QuestionType.FILL_BLANK, QuestionType.SOLUTION) else 9))
+    # 统一题号：按学科分块(高数在前/线代在后),块内按题型分组(选择→填空→解答),
+    # 保证做题本/解析版/网页三处题号一致
+    def _eb_order(_qid):
+        _qq = _q_by_id2[_qid]
+        # 学科分块:高数0 → 线代1 → 概率论2 → 未知9(显式分支,避免概率论被else误归线代块)
+        if _qq.category == ChapterCategory.ADVANCED_MATH:
+            _subj_rank = 0
+        elif _qq.category == ChapterCategory.LINEAR_ALGEBRA:
+            _subj_rank = 1
+        elif _qq.category == ChapterCategory.PROBABILITY:
+            _subj_rank = 2
+        else:
+            _subj_rank = 9
+        _type_rank = (QuestionType.CHOICE, QuestionType.FILL_BLANK, QuestionType.SOLUTION).index(_qq.question_type) if _qq.question_type in (QuestionType.CHOICE, QuestionType.FILL_BLANK, QuestionType.SOLUTION) else 9
+        return (_subj_rank, _type_rank)
+    _eb_ids = tuple(sorted(_eb_ids, key=_eb_order))
     st.session_state[_eb_list_key] = list(_eb_ids)
     # 再开 10 道：显式追加到今日安排（刷新后仍保留），不触发自动重新安排
     _eb_seen = set(_eb_ids)

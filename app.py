@@ -1244,6 +1244,8 @@ if active_module == "🎯 智能拼好卷":
     _saved_paper_cfg = load_paper_config()
     for k, v in _saved_paper_cfg.items():
         st.session_state.setdefault(k, v)
+    # "展开全部解析"常开:每次进入拼卷页强制展开(用户要求默认展示完整解析,不保留上次收起状态)
+    st.session_state["p1_show_ans_cb"] = True
 
     st.markdown("#### 🎯 智能拼卷配置")
 
@@ -1516,7 +1518,7 @@ if active_module == "🎯 智能拼好卷":
             st.markdown(f"### 📝 {active_paper.title}")
             st.caption(f"卷号: {active_paper.paper_id} · 共 {active_paper.total_count} 题 · 选择 {len(active_paper.choice_questions)} 空 {len(active_paper.fill_questions)} 答 {len(active_paper.solution_questions)}")
         with top_bar_c2:
-            show_all_ans = st.checkbox("📖 展开全部解析", value=False, key="p1_show_ans_cb")
+            show_all_ans = st.checkbox("📖 展开全部解析", value=True, key="p1_show_ans_cb")
 
         # 立即展示完整题目列表（0 毫秒即时呈现，不阻塞等待后台 PDF 编译）
         sections = [

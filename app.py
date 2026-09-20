@@ -2590,8 +2590,22 @@ elif active_module == "📅 每日错题":
     _eb_chapter_map = {qid: (_q_by_id2[qid].chapter or qid.split("-")[0] or "其他") for qid in _q_by_id2}
     _eb_assigned = state_mgr.get_assigned_today()
     if not _eb_assigned:
-        _due_qids = state_mgr.select_daily_wrong(target=10, exclude_ids=_eb_processed, chapter_of=_eb_chapter_map)
-        _eb_assigned = [qid for qid in _due_qids if qid in _q_by_id2 and qid not in _eb_processed]
+        # 循环补选:过滤掉"不在当前加载题库/已处理"后不足10道就继续从池子补选,直到凑满10道或池子空。
+        # 修复:原逻辑 select 一次就过滤,若其中有道不在加载题库就会少推(如9道)。
+        _picked = []
+        _excl = set(_eb_processed)
+        while len(_picked) < 10:
+            _batch = state_mgr.select_daily_wrong(target=10, exclude_ids=_excl, chapter_of=_eb_chapter_map)
+            _batch = [q for q in _batch if q in _q_by_id2 and q not in _eb_processed and q not in _picked]
+            if not _batch:
+                break
+            for q in _batch:
+                if len(_picked) < 10:
+                    _picked.append(q)
+                    _excl.add(q)
+            if len(_batch) < 10:
+                break  # 池子不足,防死循环
+        _eb_assigned = _picked
         if _eb_assigned:
             state_mgr.mark_assigned_today(_eb_assigned)
     _eb_ids = tuple(q for q in _eb_assigned if q in _q_by_id2 and q not in _eb_processed)

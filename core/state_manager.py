@@ -132,6 +132,9 @@ class StateManager:
                     review_stage=int(data.get("review_stage", 0)),
                 )
             self.historical_seen_ids = set(payload.get("seen_question_ids", []))
+            # 迁移:凡录过错题的题一律视为已做过(标错=纸质书做过),拼卷不再当新题推
+            for _qid in self.wrong_questions:
+                self.historical_seen_ids.add(_qid)
             self.historical_covered_chapters = set(payload.get("covered_chapters", []))
             self.last_papers_qids = payload.get("last_papers_qids", []) or []
             self._processed_daily = payload.get("processed_daily", {}) or {}
@@ -191,6 +194,7 @@ class StateManager:
                 is_active_in_pool=True,
                 subject=self.subject,
             )
+            self.historical_seen_ids.add(question_id)  # 标错=已做过,拼卷不再当新题推
             is_added = True
         self.save_state()
         return is_added
@@ -217,6 +221,7 @@ class StateManager:
                     is_active_in_pool=True,
                     subject=self.subject,
                 )
+                self.historical_seen_ids.add(question_id)  # 标错=已做过
         self.save_state()
 
     def increment_wrong_count(self, question_id: str, delta: int = 1) -> int:
@@ -233,6 +238,7 @@ class StateManager:
                 is_active_in_pool=True,
                 subject=self.subject,
             )
+            self.historical_seen_ids.add(question_id)  # 标错=已做过
             self.save_state()
             return self.wrong_questions[question_id].wrong_count
 

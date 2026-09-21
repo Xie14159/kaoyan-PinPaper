@@ -2603,8 +2603,8 @@ elif active_module == "📅 每日错题":
                 if len(_picked) < 10:
                     _picked.append(q)
                     _excl.add(q)
-            if len(_batch) < 10:
-                break  # 池子不足,防死循环
+            # 只要还没凑满10道就继续补选;_batch为空(池子真空)才停。
+            # 旧bug:过滤后不足10就break,导致连续每天少1道。
         _eb_assigned = _picked
         if _eb_assigned:
             state_mgr.mark_assigned_today(_eb_assigned)

@@ -469,11 +469,31 @@ class StateManager:
                 restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=2, is_active_in_pool=True, subject=self.subject)
             else:  # 3 历史
                 restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=1, is_active_in_pool=False, subject=self.subject)
+            # 保留本地已有记录的 added_at 与艾宾浩斯进度,避免 URL 恢复整体替换时
+            # 时间戳被刷成当前时间,导致 added_at 排序失效、每日错题反复推同一批题。
+            _local = self.wrong_questions.get(qid)
+            if _local:
+                restored[qid].added_at = _local.added_at
+                restored[qid].review_stage = _local.review_stage
+                restored[qid].last_reviewed_at = _local.last_reviewed_at
+                restored[qid].next_review_at = _local.next_review_at
+                restored[qid].user_note = _local.user_note
+                restored[qid].error_tag = _local.error_tag
 
         if not restored:
             return (0, "empty")
         if merge:
-            self.wrong_questions.update(restored)  # 合并:不覆盖另一本书的错题
+            # 合并:不覆盖另一本书的错题;同样保留本地时间/进度
+            for _qid, _rec in restored.items():
+                _local = self.wrong_questions.get(_qid)
+                if _local:
+                    _rec.added_at = _local.added_at
+                    _rec.review_stage = _local.review_stage
+                    _rec.last_reviewed_at = _local.last_reviewed_at
+                    _rec.next_review_at = _local.next_review_at
+                    _rec.user_note = _local.user_note
+                    _rec.error_tag = _local.error_tag
+                self.wrong_questions[_qid] = _rec
         else:
             self.wrong_questions = restored
         self.save_state()

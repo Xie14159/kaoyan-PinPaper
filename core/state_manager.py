@@ -143,10 +143,20 @@ class StateManager:
                         "状态文件缺失但 user_data 目录非空(%d项),判定历史数据异常缺失:进入只读保护,拒绝写盘。",
                         len(_dir_files))
                     self._load_failed = True
+                elif (self.storage_dir / ".initialized").exists():
+                    # 存在"曾初始化"哨兵(DS终审3残留#1):说明本系统曾正常产生过数据,
+                    # 即使当前目录恰好为空也绝不当"全新用户"空写覆盖。
+                    logger.error(
+                        "状态文件缺失但存在初始化哨兵(.initialized),判定历史数据异常缺失:进入只读保护,拒绝写盘。")
+                    self._load_failed = True
             except Exception as _e:
                 # glob/iterdir 异常(权限等)同样不能信任"全新用户",保守置只读
                 logger.error("检查状态文件缺失原因时出错(%s),保守置只读保护", _e)
                 self._load_failed = True
+            # 全新用户路径:显式复位标志(DS终审3残留#2),防同一进程内
+            # 先加载失败(置True)后文件被删重载时标志残留 -> 永久禁写。
+            if not self._load_failed:
+                self._load_failed = False
             return
         # 注意:加载前【不】清空内存(DS 终审):加载失败时保留原内存,避免"空状态"
         # 成为唯一内存副本;仅当解析成功后才整体替换为磁盘内容(磁盘为唯一真源)。
@@ -265,7 +275,18 @@ class StateManager:
                 return False
             finally:
                 self._release_process_lock(_lock_fd)
-        self._last_save_error = ""
+            # 成功复位移入 with 块内(DS终审3残留#3):避免 with 退出与赋值之间
+            # 异常/线程切换导致上次错误信息残留、UI 误报保存失败。
+            self._last_save_error = ""
+            # 首次成功写盘:创建"曾初始化"哨兵(DS终审3残留#1)。此后即使数据文件
+            # 被误删/目录被清空,加载时也能识别"老用户"而非误判全新用户空写覆盖。
+            try:
+                _init_flag = self.storage_dir / ".initialized"
+                if not _init_flag.exists():
+                    _init_flag.write_text(
+                        datetime.now().strftime("%Y-%m-%d %H:%M:%S"), encoding="utf-8")
+            except Exception:
+                logger.exception("创建初始化哨兵 .initialized 失败(不影响本次保存)")
         return True
 
     def toggle_wrong_question(
@@ -966,7 +987,9 @@ class StateManager:
             return False
         today = today or self._today()
         today_s = today.isoformat()
-        if rec.last_reviewed_at == today_s:
+        # 幂等比较规范化(DS终审3残留#4):last_reviewed_at 可能为带时间的历史格式,
+        # 统一取前10位(YYYY-MM-DD)比较,避免格式差异导致幂等失效、重复回写。
+        if str(rec.last_reviewed_at or "")[:10] == today_s:
             return False  # 今日已复习过，幂等保护(DS终审:不看is_active,防双击/重试重复回写)
         rec.last_reviewed_at = today_s
         if correct:

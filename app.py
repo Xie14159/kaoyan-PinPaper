@@ -953,6 +953,11 @@ with st.sidebar:
                 n_restored, restore_status = state_mgr.apply_url_code(incoming_code, canonical_ids)
                 if restore_status == "stale":
                     st.session_state["_url_restore_stale"] = active_sub.value
+                elif restore_status == "conflict":
+                    # DS 终审4 高危-1:URL 未覆盖本地独有错题,整体替换会静默丢失,已拒绝。
+                    st.session_state["_url_restore_conflict"] = active_sub.value
+                elif restore_status == "save_failed":
+                    st.session_state["_url_restore_save_failed"] = active_sub.value
             # 真题错题码:merge=True 合并,不覆盖上面恢复的 880 错题(题号不撞)
             incoming_zt = st.query_params.get(url_zhenti_key) if url_zhenti_key else None
             if incoming_zt and zhenti_canonical:
@@ -1074,6 +1079,13 @@ with st.sidebar:
 
     if st.session_state.get("_url_restore_stale") == active_sub.value:
         st.warning("⚠️ 网址中的错题码与当前题库版本不匹配（题库已更新），未自动恢复，以本地记录为准。")
+    if st.session_state.get("_url_restore_conflict") == active_sub.value:
+        st.warning(
+            "⚠️ 网址中的错题码未包含你本地的全部错题（本机数据比链接更新），"
+            "为避免静默丢失，**未用链接覆盖本地错题**，以本地记录为准。"
+        )
+    if st.session_state.get("_url_restore_save_failed") == active_sub.value:
+        st.error("⚠️ 错题恢复未能写入磁盘（保存失败），本次恢复未持久化，请检查磁盘后重试。")
 
     if IS_CLOUD:
         st.markdown(

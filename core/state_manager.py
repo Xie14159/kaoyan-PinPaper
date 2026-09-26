@@ -213,6 +213,15 @@ class StateManager:
                 )
                 os.replace(self.data_file, _corrupt)  # 移走而非复制
                 logger.error("损坏状态文件已移走备份到: %s (原位置不再有文件,防误判全新用户)", _corrupt)
+                # 同步创建"曾初始化"哨兵(DS 终审4 中危-1):损坏本身也是"曾有数据"的铁证,
+                # 不能只依赖 save 成功路径——否则"损坏→移走→备份被清→空目录"链会误判全新用户。
+                try:
+                    _init_flag = self.storage_dir / ".initialized"
+                    if not _init_flag.exists():
+                        _init_flag.write_text(
+                            datetime.now().strftime("%Y-%m-%d %H:%M:%S"), encoding="utf-8")
+                except Exception:
+                    logger.exception("损坏分支创建初始化哨兵失败(不影响备份)")
             except Exception:
                 logger.exception("移走损坏状态文件失败")
             # 关键防护(DS 审计高危):加载失败 = 内存状态不可信,
@@ -508,7 +517,9 @@ class StateManager:
             self._keep_local_meta(_rec, self.wrong_questions.get(qid), prefer_local_note=False)
             self.wrong_questions[qid] = _rec
             imported += 1
-        self.save_state()
+        if not self.save_state():
+            logger.error("import_wrong_questions_json 保存失败(导入未持久化,共%d条)", imported)
+            return (-1, skipped)  # -1 表示保存失败,调用方可提示
         return (imported, skipped)
 
     # =====================================================================
@@ -669,8 +680,19 @@ class StateManager:
             for _qid, _rec in restored.items():
                 self.wrong_questions[_qid] = _rec
         else:
+            # DS 终审4 高危-1:merge=False 整体替换会静默丢弃"本地存在但 URL 未覆盖"的错题。
+            # 本地独有错题(如另一本书的、URL 位图区间外的)绝不允许被覆盖丢失。
+            _local_only = set(self.wrong_questions) - set(restored)
+            if _local_only:
+                logger.warning(
+                    "apply_url_code(merge=False) 拒绝整体替换:本地有 %d 道错题不在 URL 中(%s),"
+                    "已保留本地数据防止静默丢失,请改用导出/合并方式迁移。",
+                    len(_local_only), ",".join(sorted(_local_only)[:5]))
+                return (0, "conflict")
             self.wrong_questions = restored
-        self.save_state()
+        if not self.save_state():
+            logger.error("apply_url_code 保存失败(恢复未持久化): 状态=%s", ("merge" if merge else "replace"))
+            return (len(restored), "save_failed")
         return (len(restored), "ok")
 
     # =====================================================================
@@ -722,7 +744,9 @@ class StateManager:
         if not restored:
             return (0, "empty")
         self.historical_seen_ids |= restored  # 合并,不覆盖
-        self.save_state()
+        if not self.save_state():
+            logger.error("apply_seen_url_code 保存失败(恢复未持久化,共%d道)", len(restored))
+            return (len(restored), "save_failed")
         return (len(restored), "ok")
 
     # =====================================================================

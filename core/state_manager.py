@@ -162,8 +162,7 @@ class StateManager:
                 self._load_failed = True
             # 全新用户路径:显式复位标志(DS终审3残留#2),防同一进程内
             # 先加载失败(置True)后文件被删重载时标志残留 -> 永久禁写。
-            if not self._load_failed:
-                self._load_failed = False
+            self._load_failed = False
             return
         # 注意:加载前【不】清空内存(DS 终审):加载失败时保留原内存,避免"空状态"
         # 成为唯一内存副本;仅当解析成功后才整体替换为磁盘内容(磁盘为唯一真源)。
@@ -1034,6 +1033,9 @@ class StateManager:
         # 统一取前10位(YYYY-MM-DD)比较,避免格式差异导致幂等失效、重复回写。
         if str(rec.last_reviewed_at or "")[:10] == today_s:
             return False  # 今日已复习过，幂等保护(DS终审:不看is_active,防双击/重试重复回写)
+        # 快照关键字段(DS终审7中危):save 失败时回滚,防'内存与磁盘不一致+幂等键被吞'
+        _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool,
+                 rec.last_reviewed_at, rec.next_review_at)
         rec.last_reviewed_at = today_s
         if correct:
             new_stage = rec.review_stage + 1
@@ -1056,7 +1058,10 @@ class StateManager:
                 rec.review_stage = max(0, rec.review_stage - 1)
             rec.next_review_at = (today + timedelta(days=1)).isoformat()
         if not self.save_state():
-            logger.error("record_review_result 保存失败(复习进度未持久化): %s", question_id)
+            # 回滚(DS终审7):还原快照,保持内存=磁盘一致;幂等键未被吞,下次可正常回写
+            (rec.review_stage, rec.wrong_count, rec.is_active_in_pool,
+             rec.last_reviewed_at, rec.next_review_at) = _snap
+            logger.error("record_review_result 保存失败(复习进度未持久化,已回滚): %s", question_id)
             return False
         return True
 
@@ -1070,9 +1075,11 @@ class StateManager:
         if not rec or not rec.is_active_in_pool:
             return False  # 不存在或已归档：不做任何操作
         today = today or self._today()
+        _snap = rec.next_review_at  # 快照(DS终审7中危):save 失败回滚
         rec.next_review_at = today.isoformat()
         if not self.save_state():
-            logger.error("mark_wrong_not_done 保存失败(没做状态未持久化): %s", question_id)
+            rec.next_review_at = _snap  # 回滚,保持内存=磁盘一致
+            logger.error("mark_wrong_not_done 保存失败(没做状态未持久化,已回滚): %s", question_id)
             return False
         return True
 

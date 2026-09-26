@@ -73,6 +73,7 @@ class StateManager:
         self.last_papers_qids: list[list[str]] = []  # 上次生成的试卷（每份卷一个题号列表）
         self._processed_daily: dict[str, list[str]] = {}  # 按日期持久化的"今日已处理"qid
         self._assigned_daily: dict[str, list[str]] = {}  # 按日期持久化的"今日安排"qid（每天只自动安排一次）
+        self._load_failed = False  # 加载失败标志:True 时禁止写盘,防空状态覆盖真数据(DS审计)
         self.load_state()
 
     @staticmethod
@@ -115,11 +116,14 @@ class StateManager:
     def _load_state_unlocked(self) -> None:
         if not self.data_file.exists():
             return
+        # 注意:加载前【不】清空内存(DS 终审):加载失败时保留原内存,避免"空状态"
+        # 成为唯一内存副本;仅当解析成功后才整体替换为磁盘内容(磁盘为唯一真源)。
         try:
             payload = json.loads(self.data_file.read_text(encoding="utf-8"))
-            records = payload.get("wrong_questions", {})
-            for qid, data in records.items():
-                self.wrong_questions[qid] = WrongQuestionRecord(
+            _records = payload.get("wrong_questions", {})
+            _new_wrong = {}
+            for qid, data in _records.items():
+                _new_wrong[qid] = WrongQuestionRecord(
                     question_id=qid,
                     added_at=data.get("added_at", ""),
                     user_note=data.get("user_note", ""),
@@ -131,6 +135,8 @@ class StateManager:
                     next_review_at=data.get("next_review_at", ""),
                     review_stage=int(data.get("review_stage", 0)),
                 )
+            # 解析成功:整体替换内存(替换而非 merge,保证与磁盘一致)
+            self.wrong_questions = _new_wrong
             self.historical_seen_ids = set(payload.get("seen_question_ids", []))
             # 迁移:凡录过错题的题一律视为已做过(标错=纸质书做过),拼卷不再当新题推
             for _qid in self.wrong_questions:
@@ -139,6 +145,9 @@ class StateManager:
             self.last_papers_qids = payload.get("last_papers_qids", []) or []
             self._processed_daily = payload.get("processed_daily", {}) or {}
             self._assigned_daily = payload.get("assigned_daily", {}) or {}
+            # 成功加载:复位失败标志(DS 终审高危:不复位会导致一次失败后永久禁写,
+            # 后续正常保存全部被拒,进度只存内存、退出即丢)
+            self._load_failed = False
         except Exception as _ex:
             # 不再静默吞异常(DS 审查高危项):损坏文件若被忽略,后续任一 save_state
             # 会把空状态覆盖写回,历史错题/seen/进度全部永久丢失。
@@ -153,11 +162,27 @@ class StateManager:
                 logger.error("损坏状态文件已备份到: %s", _corrupt)
             except Exception:
                 logger.exception("备份损坏状态文件失败")
+            # 关键防护(DS 审计高危):加载失败 = 内存状态不可信,
+            # 置标志禁止后续 save_state 用空状态覆盖真数据(已备份留证,可手动恢复)。
+            # 注意:此处【不】清空内存(DS 终审)——保留旧内存,双保险防空状态覆盖。
+            self._load_failed = True
 
     def save_state(self) -> bool:
-        """原子写 + 线程锁：临时文件 + fsync + os.replace。
+        """原子写 + 线程锁 + 跨进程文件锁：临时文件 + fsync + os.replace。
         返回 True=写盘成功 / False=失败(调用方可提示用户"保存失败,数据未持久化")。
-        不再静默失败(DS 审查高危项):失败记录日志(→ logs/app.log)。"""
+        不再静默失败(DS 审查高危项):失败记录日志(→ logs/app.log)。
+        数据安全三重防护(DS 双审):
+        1) 加载失败标志 → 拒绝写盘,防空状态覆盖真数据;
+        2) 跨进程文件锁 → 防定时脚本(独立进程)与网页端并发读-改-写互相覆盖;
+        3) 原子写 → 防写入中途崩溃产生半截 JSON。"""
+        if self._load_failed:
+            logger.error("save_state 拒绝执行:状态文件此前加载失败,内存状态不可信(已备份损坏文件),请手动恢复后重启。")
+            return False
+        _lock_fd = self._acquire_process_lock()
+        if _lock_fd is None:
+            # 拿不到跨进程锁(另一进程持锁):拒绝写,绝不降级覆盖(数据安全硬约束)
+            logger.error("save_state 拒绝执行:跨进程文件锁获取失败(可能另一进程正在写入),放弃本次保存以防覆盖。")
+            return False
         with _state_rlock:
             try:
                 self.data_file.parent.mkdir(parents=True, exist_ok=True)
@@ -190,6 +215,8 @@ class StateManager:
             except Exception:
                 logger.exception("save_state 失败: %s", self.data_file)
                 return False
+            finally:
+                self._release_process_lock(_lock_fd)
         return True
 
     def toggle_wrong_question(
@@ -430,6 +457,45 @@ class StateManager:
         """题库 canonical ID 列表的短签名，用于校验 URL 位图与当前题库是否匹配"""
         joined = "\n".join(ordered_ids)
         return hashlib.sha1(joined.encode("utf-8")).hexdigest()[:8]
+
+    def _acquire_process_lock(self):
+        """跨进程文件锁(Windows msvcrt):写盘前独占锁文件,防止多进程(定时脚本+网页端)并发写覆盖。
+        拿不到锁**拒绝写**(返回 None,save_state 会返回 False)——绝不降级为无锁写(降级即放弃防并发,
+        等于允许"后写覆盖先写",数据可能静默丢失)。等待上限 30 秒(每次重试 1 秒)。"""
+        try:
+            import msvcrt
+            lock_path = self.data_file.with_suffix(self.data_file.suffix + ".lock")
+            fd = os.open(str(lock_path), os.O_RDWR | os.O_CREAT, 0o666)
+            os.lseek(fd, 0, os.SEEK_SET)
+            for _ in range(30):
+                try:
+                    msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)
+                    return fd
+                except OSError:
+                    import time as _time
+                    _time.sleep(1)
+            # 30 秒仍拿不到锁:另一进程持锁过久或锁文件僵死,拒绝写,由调用方提示失败
+            os.close(fd)
+            return None
+        except Exception:
+            return None
+
+    def _release_process_lock(self, fd) -> None:
+        if fd is None:
+            return
+        try:
+            import msvcrt
+            os.lseek(fd, 0, os.SEEK_SET)
+            msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+            os.close(fd)
+            # 注意:【不】unlink 锁文件(DS 终审中危):unlink 会破坏 inode 一致性,
+            # 新进程可能创建新 inode 锁文件,导致两个进程各持不同锁 -> 互斥失效 -> 并发写覆盖。
+            # 锁文件常驻(极小,单文件),只加解锁,永不删除。
+        except Exception:
+            try:
+                os.close(fd)
+            except Exception:
+                pass
 
     @staticmethod
     def _keep_local_meta(record: "WrongQuestionRecord", local: "WrongQuestionRecord | None",
@@ -735,7 +801,8 @@ class StateManager:
             if q not in merged:
                 merged.append(q)
         self._assigned_daily = {today_s: merged}  # 保序：首次 select 优先级顺序 + 再开追加顺序
-        self.save_state()
+        if not self.save_state():
+            logger.error("mark_assigned_today 保存失败(今日安排未持久化,共%d道)", len(merged))
         return len(merged)
 
     def get_processed_today(self, today=None) -> set:
@@ -750,7 +817,8 @@ class StateManager:
         cur = set(self._processed_daily.get(today_s, []))
         cur.update(question_ids)
         self._processed_daily = {today_s: sorted(cur)}  # 只保留今天，防无限增长
-        self.save_state()
+        if not self.save_state():
+            logger.error("mark_processed_today 保存失败(今日已处理未持久化,共%d道)", len(cur))
         return len(cur)
 
     def select_daily_wrong(
@@ -872,7 +940,9 @@ class StateManager:
             else:
                 rec.review_stage = max(0, rec.review_stage - 1)
             rec.next_review_at = (today + timedelta(days=1)).isoformat()
-        self.save_state()
+        if not self.save_state():
+            logger.error("record_review_result 保存失败(复习进度未持久化): %s", question_id)
+            return False
         return True
 
     def mark_wrong_not_done(self, question_id: str, today=None) -> bool:
@@ -886,7 +956,9 @@ class StateManager:
             return False  # 不存在或已归档：不做任何操作
         today = today or self._today()
         rec.next_review_at = today.isoformat()
-        self.save_state()
+        if not self.save_state():
+            logger.error("mark_wrong_not_done 保存失败(没做状态未持久化): %s", question_id)
+            return False
         return True
 
     def postpone_review(self, question_ids: list, days: int = 1, today=None) -> int:
@@ -904,8 +976,8 @@ class StateManager:
             if rec and rec.is_active_in_pool:
                 rec.next_review_at = nxt
                 cnt += 1
-        if cnt:
-            self.save_state()
+        if cnt and not self.save_state():
+            logger.error("postpone_review 保存失败(顺延未持久化,共%d道)", cnt)
         return cnt
 
     def batch_register_wrong(

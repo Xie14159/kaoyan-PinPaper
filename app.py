@@ -2739,10 +2739,10 @@ elif active_module == "📅 每日错题":
             # 过滤掉快照中不存在的 id，避免"再开 10 道/切科目"等全量 rerun 路径引入新 id 时 KeyError。
             def _eb_finish(_qid: str, _ok: bool) -> None:
                 """on_click 回调：fragment rerun 前先落地状态+今日列表，本次渲染即移除（不用点两次）。
+                (流畅度优化)finish_daily_review 一次保存复习回写+今日已处理,点击一次只写一次盘;
                 (DS终审13高危-2)保存失败必须可见:不移除/不标记,提示重试,杜绝"UI显示已处理但磁盘未持久化"。"""
-                _ok1 = state_mgr.record_review_result(_qid, bool(_ok))
-                _ok2 = state_mgr.mark_processed_today([_qid]) != -1
-                if not (_ok1 and _ok2):
+                _ok1 = state_mgr.finish_daily_review(_qid, bool(_ok))
+                if not _ok1:
                     st.session_state["_eb_save_error"] = f"保存失败：{_qid} 未记录，请检查磁盘/权限后重试"
                     return
                 _eb_lst = list(st.session_state.get(_eb_list_key, ()))
@@ -2755,10 +2755,10 @@ elif active_module == "📅 每日错题":
 
             def _eb_skip(_qid: str) -> None:
                 """没做：今天不再推，明天继续推。
+                (流畅度优化)skip_daily_review 一次保存"没做"+今日已处理,点击一次只写一次盘;
                 (DS终审13高危-2)保存失败不移除,提示重试。"""
-                _ok1 = state_mgr.mark_wrong_not_done(_qid)
-                _ok2 = state_mgr.mark_processed_today([_qid]) != -1
-                if not (_ok1 and _ok2):
+                _ok1 = state_mgr.skip_daily_review(_qid)
+                if not _ok1:
                     st.session_state["_eb_save_error"] = f"保存失败：{_qid} 未记录，请检查磁盘/权限后重试"
                     return
                 _eb_lst = list(st.session_state.get(_eb_list_key, ()))

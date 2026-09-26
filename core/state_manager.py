@@ -1048,6 +1048,94 @@ class StateManager:
             seen.add(qid)
         return selected
 
+    def finish_daily_review(self, question_id: str, correct: bool, today=None) -> bool:
+        """每日错题"做对/又错" + 标记今日已处理：一次保存（流畅度优化，点击一次只写一次盘）。
+        失败整体回滚：复习回写与已处理标记要么都落盘要么都不落盘（数据一致性，DS审核要求）。
+        幂等：同一题同一天只能回写一次（last_reviewed_at==今天 -> False）。"""
+        rec = self.wrong_questions.get(question_id)
+        if not rec:
+            return False
+        today = today or self._today()
+        today_s = today.isoformat()
+        if rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == today_s:
+            # 幂等命中=今日已复习过=用户目的已达到,视为成功(点击场景不误报"保存失败",
+            # DS审核建议;原 record_review_result 的 False 语义保留在其自身)
+            return True
+        _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool,
+                 rec.last_reviewed_at, rec.next_review_at)
+        _pd_snap = {k: list(v) for k, v in self._processed_daily.items()}
+        # —— 复习回写内存逻辑（不落盘，与 record_review_result 保持一致）——
+        rec.last_reviewed_at = today_s
+        if correct:
+            new_stage = rec.review_stage + 1
+            if new_stage >= self.ARCHIVE_STAGE:
+                rec.review_stage = self.ARCHIVE_STAGE
+                rec.is_active_in_pool = False  # 归档
+                rec.next_review_at = ""
+            else:
+                rec.review_stage = new_stage
+                rec.next_review_at = (today + timedelta(days=self.EBBINGHAUS_INTERVALS[new_stage])).isoformat()
+        else:
+            rec.wrong_count += 1
+            if not rec.is_active_in_pool:
+                rec.is_active_in_pool = True  # 归档题做错重新激活
+                rec.review_stage = 0
+            elif rec.wrong_count >= self.STUBBORN_THRESHOLD and rec.review_stage > 0:
+                rec.review_stage = 0  # 顽固题强制回 0
+            else:
+                rec.review_stage = max(0, rec.review_stage - 1)
+            rec.next_review_at = (today + timedelta(days=1)).isoformat()
+        # —— 今日已处理内存逻辑（不落盘，与 mark_processed_today 保持一致：只保留当天）——
+        cur = set(self._processed_daily.get(today_s, []))
+        cur.add(question_id)
+        self._processed_daily = {today_s: sorted(cur)}
+        try:
+            _ok_save = self.save_state()
+        except Exception as _e:
+            # (DS审核必改)save_state 抛异常也必须回滚,否则内存改成功但磁盘未写
+            logger.error("finish_daily_review save_state 异常: %s: %s", question_id, _e)
+            _ok_save = False
+        if not _ok_save:
+            # 整体回滚：内存=磁盘一致，幂等键未被吞
+            (rec.review_stage, rec.wrong_count, rec.is_active_in_pool,
+             rec.last_reviewed_at, rec.next_review_at) = _snap
+            self._processed_daily = _pd_snap
+            logger.error("finish_daily_review 保存失败(已整体回滚): %s", question_id)
+            return False
+        return True
+
+    def skip_daily_review(self, question_id: str, today=None) -> bool:
+        """每日错题"没做" + 标记今日已处理：一次保存（流畅度优化）。
+        不改变复习阶段/错误次数/last_reviewed_at（不占用今日复习记录），
+        仅把 next_review_at 拉回今天，使明天 select_daily_wrong 仍能选中它。
+        失败整体回滚。"""
+        rec = self.wrong_questions.get(question_id)
+        if not rec or not rec.is_active_in_pool:
+            return False  # 不存在或已归档
+        today = today or self._today()
+        today_s = today.isoformat()
+        # (DS审核建议)幂等防御:今日已处理过(做对/又错/没做) -> 视为成功,不重复写盘
+        if question_id in set(self._processed_daily.get(today_s, [])):
+            return True
+        _snap = rec.next_review_at
+        _pd_snap = {k: list(v) for k, v in self._processed_daily.items()}
+        rec.next_review_at = today.isoformat()
+        cur = set(self._processed_daily.get(today_s, []))
+        cur.add(question_id)
+        self._processed_daily = {today_s: sorted(cur)}
+        try:
+            _ok_save = self.save_state()
+        except Exception as _e:
+            # (DS审核必改)save_state 抛异常也必须回滚
+            logger.error("skip_daily_review save_state 异常: %s: %s", question_id, _e)
+            _ok_save = False
+        if not _ok_save:
+            rec.next_review_at = _snap
+            self._processed_daily = _pd_snap
+            logger.error("skip_daily_review 保存失败(已整体回滚): %s", question_id)
+            return False
+        return True
+
     def record_review_result(self, question_id: str, correct: bool, today=None) -> bool:
         """艾宾浩斯复习回写。
 

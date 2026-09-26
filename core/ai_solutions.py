@@ -83,11 +83,27 @@ def _validate_and_repair(data) -> dict:
     return cleaned
 
 
+_cache_holder = {"mtime": -1, "data": None}
+_cache_lock = threading.Lock()  # (DS审核必改)load_cache/save_cache 共享状态并发保护
+
+
 def load_cache() -> dict:
-    """加载缓存；JSON 损坏时备份现场（.corrupt-<ts>.bak）并返回空，不静默丢弃数据。"""
+    """加载缓存；JSON 损坏时备份现场（.corrupt-<ts>.bak）并返回空，不静默丢弃数据。
+    (流畅度优化)按文件 mtime(纳秒)缓存解析结果:页面一次渲染多题解析时不再反复读盘+全量解析;
+    save_cache/跨进程写入会更新 mtime 自动失效。返回 entry 级深拷贝,防调用方误改污染缓存。
+    (DS审核)entry schema 全为标量(str/int/bool),浅拷贝 entry 足够;加新字段若含嵌套可变对象需升级 deepcopy。"""
     path = _cache_file()
     if not path.exists():
         return {}
+    try:
+        mt = path.stat().st_mtime_ns
+    except OSError:
+        mt = -1
+    with _cache_lock:
+        _snap = _cache_holder["data"]
+        _mt_cur = _cache_holder["mtime"]
+    if _snap is not None and _mt_cur == mt:
+        return {k: dict(v) for k, v in _snap.items()}
     try:
         raw = path.read_text(encoding="utf-8")
         data = json.loads(raw)
@@ -100,7 +116,11 @@ def load_cache() -> dict:
         except Exception as _e2:
             print(f"[ai_solutions] 损坏缓存备份失败: {_e2}", flush=True)
         return {}
-    return _validate_and_repair(data)
+    cleaned = _validate_and_repair(data)
+    with _cache_lock:
+        _cache_holder["mtime"] = mt
+        _cache_holder["data"] = cleaned
+    return {k: dict(v) for k, v in cleaned.items()}
 
 
 def save_cache(data: dict) -> None:
@@ -123,6 +143,12 @@ def save_cache(data: dict) -> None:
             raise
     except Exception as _e:
         print(f"[ai_solutions] 缓存写入失败: {type(_e).__name__}: {_e}", flush=True)
+    else:
+        # 写盘成功后失效解析缓存：调用方传入的 data 后续可能被修改，不能缓存引用；
+        # 下次 load_cache 按新 mtime 重读（最安全，代价仅一次读盘+解析）
+        with _cache_lock:
+            _cache_holder["mtime"] = -1
+            _cache_holder["data"] = None
 
 
 def get_ai_solution(qid: str, stem_fp: str) -> dict | None:

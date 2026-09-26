@@ -119,22 +119,18 @@ class StateManager:
             # 文件不存在:绝不允许无条件当"全新用户"空写覆盖(DS 终审2 高危-A)。
             # 以下任一情况判定为"历史数据异常缺失" -> 置只读保护:
             #   a) 存在 .corrupt 损坏备份(说明此前数据损坏被移走);
-            #   b) storage_dir 非全新(有其他 wrong_notebook 档案 / 其他文件),说明是老用户,
+            #   b) 存在其他 wrong_notebook_*.json 档案(其他用户/科目),说明是老环境,
             #      但本档案文件却缺失 -> 极可能被误删,空写将覆盖一切痕迹。
-            # 仅当 storage_dir 为空或不存在(真正首次部署)才视为全新用户,允许初始化。
+            #   c) 存在 .initialized 哨兵(曾正常初始化过)。
+            # 【DS终审9中危-1】刻意【不】用"目录非空"宽判定:ai_config.json/
+            # ai_solutions.json 等配置文件不属于数据痕迹,新用户(新电脑)先填配置
+            # 再进错题板块时必须能初始化;数据痕迹已由 corrupt/siblings/哨兵三项精准覆盖。
+            # 仅当三项全无(真正首次部署)才视为全新用户,允许初始化。
             try:
                 _corrupts = list(self.data_file.parent.glob(
                     f"{self.data_file.stem}.corrupt.*{self.data_file.suffix}"
                 ))
                 _siblings = list(self.data_file.parent.glob("wrong_notebook_*.json"))
-                # 低危-5(DS 终审5):只统计"业务文件",过滤 .lock/.tmp/.initialized 等
-                # 系统痕迹——锁文件常驻不删,若不过滤,首次部署 save 前留下的 .lock
-                # 会误判老用户,新用户永远无法初始化。
-                _sys_names = (".lock", ".tmp", ".initialized")
-                _dir_files = [
-                    _p for _p in (self.data_file.parent.iterdir() if self.data_file.parent.exists() else [])
-                    if not (_p.name.endswith(_sys_names) or _p.name.startswith(".state_"))
-                ]
                 if _corrupts:
                     logger.error(
                         "状态文件缺失但存在损坏备份(%d个),判定此前数据损坏:进入只读保护,拒绝写盘。请手动恢复: %s",
@@ -145,12 +141,6 @@ class StateManager:
                     logger.error(
                         "状态文件缺失但存在其他档案(%d个),判定历史数据异常缺失(可能被误删):进入只读保护,拒绝写盘。",
                         len(_siblings))
-                    self._load_failed = True
-                    return
-                elif _dir_files:
-                    logger.error(
-                        "状态文件缺失但 user_data 目录非空(%d项),判定历史数据异常缺失:进入只读保护,拒绝写盘。",
-                        len(_dir_files))
                     self._load_failed = True
                     return
                 elif (self.storage_dir / ".initialized").exists():
@@ -774,9 +764,13 @@ class StateManager:
 
         if not restored:
             return (0, "empty")
+        # seen 快照(DS终审9低危-5):保存失败回滚,与 apply_url_code 对称,
+        # 防'内存已并入但磁盘未持久化→进程退出后 seen 进度回退'。
+        _seen_snap = set(self.historical_seen_ids)
         self.historical_seen_ids |= restored  # 合并,不覆盖
         if not self.save_state():
-            logger.error("apply_seen_url_code 保存失败(恢复未持久化,共%d道)", len(restored))
+            self.historical_seen_ids = _seen_snap  # 回滚(DS终审9低危-5)
+            logger.error("apply_seen_url_code 保存失败(恢复未持久化,已回滚seen,共%d道)", len(restored))
             return (len(restored), "save_failed")
         return (len(restored), "ok")
 

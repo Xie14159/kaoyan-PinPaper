@@ -2643,7 +2643,9 @@ elif active_module == "📅 每日错题":
             state_mgr.mark_assigned_today(_extra)
             _eb_assigned = state_mgr.get_assigned_today()
             _eb_ids = tuple(q for q in _eb_assigned if q in _q_by_id2 and q not in _eb_processed)
-            _eb_ids = tuple(sorted(_eb_ids, key=lambda _qid: (QuestionType.CHOICE, QuestionType.FILL_BLANK, QuestionType.SOLUTION).index(_q_by_id2[_qid].question_type) if _q_by_id2[_qid].question_type in (QuestionType.CHOICE, QuestionType.FILL_BLANK, QuestionType.SOLUTION) else 9))
+            # 与首次进入共用 _eb_order:学科分块(高数→线代)+题型分组(选择→填空→解答),
+            # 保证"再开 10 道"后题号顺序与做题本/解析版一致(DS 审查问题8)
+            _eb_ids = tuple(sorted(_eb_ids, key=_eb_order))
             st.session_state[_eb_list_key] = list(_eb_ids)
             st.rerun()
         else:

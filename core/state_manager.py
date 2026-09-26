@@ -139,14 +139,28 @@ class StateManager:
             self.last_papers_qids = payload.get("last_papers_qids", []) or []
             self._processed_daily = payload.get("processed_daily", {}) or {}
             self._assigned_daily = payload.get("assigned_daily", {}) or {}
-        except Exception:
-            pass
+        except Exception as _ex:
+            # 不再静默吞异常(DS 审查高危项):损坏文件若被忽略,后续任一 save_state
+            # 会把空状态覆盖写回,历史错题/seen/进度全部永久丢失。
+            # 此处把损坏文件备份为 .corrupt.<时间戳> 留证,并记日志供排查。
+            logger.exception("加载错题状态文件失败(已备份损坏文件): %s", self.data_file)
+            try:
+                import shutil as _shutil
+                _corrupt = self.data_file.with_name(
+                    f"{self.data_file.stem}.corrupt.{datetime.now().strftime('%Y%m%d_%H%M%S')}{self.data_file.suffix}"
+                )
+                _shutil.copy2(self.data_file, _corrupt)
+                logger.error("损坏状态文件已备份到: %s", _corrupt)
+            except Exception:
+                logger.exception("备份损坏状态文件失败")
 
-    def save_state(self) -> None:
+    def save_state(self) -> bool:
         """原子写 + 线程锁：临时文件 + fsync + os.replace。
-        写失败不再静默——记录日志（pythonw 后台 → logs/app.log 可查）。"""
+        返回 True=写盘成功 / False=失败(调用方可提示用户"保存失败,数据未持久化")。
+        不再静默失败(DS 审查高危项):失败记录日志(→ logs/app.log)。"""
         with _state_rlock:
             try:
+                self.data_file.parent.mkdir(parents=True, exist_ok=True)
                 payload = {
                     "username": self.username,
                     "subject": self.subject,
@@ -175,6 +189,8 @@ class StateManager:
                     raise
             except Exception:
                 logger.exception("save_state 失败: %s", self.data_file)
+                return False
+        return True
 
     def toggle_wrong_question(
         self,
@@ -498,7 +514,17 @@ class StateManager:
                 restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=1, is_active_in_pool=False, subject=self.subject)
             # 统一保留本地已有记录的 added_at 与艾宾浩斯进度(单一入口,DS 审查要求),
             # 避免 URL 恢复整体替换时时间戳被刷成当前时间、进度被清空。
-            self._keep_local_meta(restored[qid], self.wrong_questions.get(qid))
+            _local = self.wrong_questions.get(qid)
+            self._keep_local_meta(restored[qid], _local)
+            if _local:
+                # 防回访抹平(DS 审查):URL 只编码 1/2/3 四档,本地 wrong_count 可能更高,
+                # 取 max 保留用户积累的错误次数,顽固题(STUBBORN_THRESHOLD)判定不失效。
+                restored[qid].wrong_count = max(_local.wrong_count, restored[qid].wrong_count)
+                # 防打回归档:用户已重新激活(做题/手动)的题,URL 快照(可能 old inactive)不应把它
+                # 又变回归档;取"任一激活"即不降级。
+                restored[qid].is_active_in_pool = _local.is_active_in_pool or restored[qid].is_active_in_pool
+            # 与"标错=已做过"语义一致:恢复进来的错题也视为已做过,拼卷不再当新题推
+            self.historical_seen_ids.add(qid)
 
         if not restored:
             return (0, "empty")

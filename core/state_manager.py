@@ -127,7 +127,14 @@ class StateManager:
                     f"{self.data_file.stem}.corrupt.*{self.data_file.suffix}"
                 ))
                 _siblings = list(self.data_file.parent.glob("wrong_notebook_*.json"))
-                _dir_files = list(self.data_file.parent.iterdir()) if self.data_file.parent.exists() else []
+                # 低危-5(DS 终审5):只统计"业务文件",过滤 .lock/.tmp/.initialized 等
+                # 系统痕迹——锁文件常驻不删,若不过滤,首次部署 save 前留下的 .lock
+                # 会误判老用户,新用户永远无法初始化。
+                _sys_names = (".lock", ".tmp", ".initialized")
+                _dir_files = [
+                    _p for _p in (self.data_file.parent.iterdir() if self.data_file.parent.exists() else [])
+                    if not (_p.name.endswith(_sys_names) or _p.name.startswith(".state_"))
+                ]
                 if _corrupts:
                     logger.error(
                         "状态文件缺失但存在损坏备份(%d个),判定此前数据损坏:进入只读保护,拒绝写盘。请手动恢复: %s",
@@ -213,17 +220,18 @@ class StateManager:
                 )
                 os.replace(self.data_file, _corrupt)  # 移走而非复制
                 logger.error("损坏状态文件已移走备份到: %s (原位置不再有文件,防误判全新用户)", _corrupt)
-                # 同步创建"曾初始化"哨兵(DS 终审4 中危-1):损坏本身也是"曾有数据"的铁证,
-                # 不能只依赖 save 成功路径——否则"损坏→移走→备份被清→空目录"链会误判全新用户。
-                try:
-                    _init_flag = self.storage_dir / ".initialized"
-                    if not _init_flag.exists():
-                        _init_flag.write_text(
-                            datetime.now().strftime("%Y-%m-%d %H:%M:%S"), encoding="utf-8")
-                except Exception:
-                    logger.exception("损坏分支创建初始化哨兵失败(不影响备份)")
             except Exception:
                 logger.exception("移走损坏状态文件失败")
+            # 哨兵创建【无条件执行】(DS 终审5 高危-1):无论 os.replace 成功还是失败,
+            # 损坏本身已是"曾有数据"的铁证。若 replace 失败(文件被占/权限),原文件仍在,
+            # 用户之后可能手动删除它——若哨兵未建,空目录会误判全新用户,空写覆盖。
+            try:
+                _init_flag = self.storage_dir / ".initialized"
+                if not _init_flag.exists():
+                    _init_flag.write_text(
+                        datetime.now().strftime("%Y-%m-%d %H:%M:%S"), encoding="utf-8")
+            except Exception:
+                logger.exception("损坏分支创建初始化哨兵失败(不影响备份)")
             # 关键防护(DS 审计高危):加载失败 = 内存状态不可信,
             # 置标志禁止后续 save_state 用空状态覆盖真数据(已备份留证,可手动恢复)。
             # 注意:此处【不】清空内存(DS 终审)——保留旧内存,双保险防空状态覆盖。
@@ -492,8 +500,11 @@ class StateManager:
         """
         data = json.loads(raw_json_str)
         records = data.get("records", [])
-        if not merge:
-            self.wrong_questions = {}
+        # 中危-3(DS 终审5):merge=False 先备份本地,在临时 dict 上构建导入结果,
+        # save 成功才整体提交——save 失败时回滚内存,绝不把"清空+半成品"交给后续
+        # 任何 save 静默写盘覆盖本地错题。
+        _old_wrong = self.wrong_questions
+        _work = {} if not merge else dict(self.wrong_questions)
         imported = 0
         skipped = 0
         for item in records:
@@ -514,12 +525,14 @@ class StateManager:
             )
             # 导入文件若缺少进度字段,保留本地已有进度,避免导入即清空艾宾浩斯曲线(DS 审查高危项);
             # 笔记/标签:备份文件非空则优先采用备份值(恢复用户内容),本地值仅兜底
-            self._keep_local_meta(_rec, self.wrong_questions.get(qid), prefer_local_note=False)
-            self.wrong_questions[qid] = _rec
+            self._keep_local_meta(_rec, _work.get(qid), prefer_local_note=False)
+            _work[qid] = _rec
             imported += 1
         if not self.save_state():
-            logger.error("import_wrong_questions_json 保存失败(导入未持久化,共%d条)", imported)
+            self.wrong_questions = _old_wrong  # 回滚,内存保持磁盘一致
+            logger.error("import_wrong_questions_json 保存失败(导入未持久化,已回滚,共%d条)", imported)
             return (-1, skipped)  # -1 表示保存失败,调用方可提示
+        self.wrong_questions = _work  # 仅成功才提交
         return (imported, skipped)
 
     # =====================================================================
@@ -654,11 +667,11 @@ class StateManager:
             if code_val == 0:
                 continue
             if code_val == 1:
-                restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=1, is_active_in_pool=True, subject=self.subject)
+                restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=1, is_active_in_pool=True, subject=self.subject, added_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             elif code_val == 2:
-                restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=2, is_active_in_pool=True, subject=self.subject)
+                restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=2, is_active_in_pool=True, subject=self.subject, added_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             else:  # 3 历史
-                restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=1, is_active_in_pool=False, subject=self.subject)
+                restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=1, is_active_in_pool=False, subject=self.subject, added_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             # 统一保留本地已有记录的 added_at 与艾宾浩斯进度(单一入口,DS 审查要求),
             # 避免 URL 恢复整体替换时时间戳被刷成当前时间、进度被清空。
             _local = self.wrong_questions.get(qid)

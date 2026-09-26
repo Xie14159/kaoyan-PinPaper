@@ -187,6 +187,16 @@ class StateManager:
                     _bad_records += 1
             if _bad_records:
                 logger.warning("加载错题状态:有 %d 条记录字段异常已跳过(其余正常加载)", _bad_records)
+                # 部分脏(DS终审10增强):有脏记录被跳过时,给原文件留 .corrupt 备份,
+                # 供人工核对被跳过的题;不打断加载(容错优先),只留痕不置只读。
+                try:
+                    _ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    _corrupt_path = self.data_file.with_name(
+                        f"{self.data_file.stem}.corrupt.{_ts}{self.data_file.suffix}")
+                    _corrupt_path.write_text(self.data_file.read_text(encoding="utf-8"), encoding="utf-8")
+                    logger.warning("部分脏数据(%d条)已跳过,原文件已备份: %s", _bad_records, _corrupt_path)
+                except Exception:
+                    logger.error("部分脏数据备份失败(不影响加载): %s", self.data_file)
             # 全量脏保护(DS 终审2 中危-B):原始记录>0 但成功解析=0,说明整体 schema 不匹配,
             # 若继续会得到空库并随后被 save 覆盖全部错题 -> 升级为加载失败(进入只读+备份)。
             if _records and not _new_wrong:
@@ -552,6 +562,7 @@ class StateManager:
         """跨进程文件锁(Windows msvcrt):写盘前独占锁文件,防止多进程(定时脚本+网页端)并发写覆盖。
         拿不到锁**拒绝写**(返回 None,save_state 会返回 False)——绝不降级为无锁写(降级即放弃防并发,
         等于允许"后写覆盖先写",数据可能静默丢失)。等待上限 30 秒(每次重试 1 秒)。"""
+        fd = None
         try:
             import msvcrt
             lock_path = self.data_file.with_suffix(self.data_file.suffix + ".lock")

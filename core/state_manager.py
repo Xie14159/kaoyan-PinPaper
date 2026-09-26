@@ -571,8 +571,8 @@ class StateManager:
             lock_path = self.data_file.with_suffix(self.data_file.suffix + ".lock")
             fd = os.open(str(lock_path), os.O_RDWR | os.O_CREAT, 0o666)
             os.lseek(fd, 0, os.SEEK_SET)
-            # 指数退避(DS终审11#4):单进程场景锁冲突罕见;真冲突(双开实例)时
-            # 快速感知,总等待约0.05+0.1+0.2+0.4+0.8+1*4≈5.6s,不假死30s
+            # 指数退避(DS终审11#4/12):单进程场景锁冲突罕见;真冲突(双开实例)时
+            # 快速感知,总等待约0.05+0.1+0.2+0.4+0.8+1*7≈8.55s,不假死30s
             _wait = 0.05
             for _ in range(12):
                 try:
@@ -601,8 +601,8 @@ class StateManager:
             import msvcrt
             os.lseek(fd, 0, os.SEEK_SET)
             msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
-            os.close(fd)
-            fd = None  # 已关闭(DS终审11#9):防异常分支二次 close 误关复用 fd
+            _fd, fd = fd, None  # 先置None再close(DS终审11#9/12):即使close抛异常
+            os.close(_fd)       # 异常分支 fd=None 短路,绝不二次close误关复用fd
             # 注意:【不】unlink 锁文件(DS 终审中危):unlink 会破坏 inode 一致性,
             # 新进程可能创建新 inode 锁文件,导致两个进程各持不同锁 -> 互斥失效 -> 并发写覆盖。
             # 锁文件常驻(极小,单文件),只加解锁,永不删除。

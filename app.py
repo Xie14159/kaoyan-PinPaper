@@ -484,14 +484,21 @@ def render_eb_pdf_panel(sig: str, qs, paper_id: str, subject_str: str,
                     elif status == "review_failed":
                         _bar_eb.progress(done / total, text=f"AI 审核失败，已标记未审核 ({done}/{total})：{qid}")
                 try:
-                    ensure_solutions(
-                        qs,
+                    # (DS终审14中危-1)传 missing_qs 而非全量 qs:ensure_solutions 内部
+                    # missing 与面板 missing_qs 严格同源,gen+cached 与 len(missing_qs) 才可比
+                    _gen_cnt, _cached_cnt = ensure_solutions(
+                        missing_qs,
                         _build_solution_tutor(user_api_key, user_api_url, user_model_name),
                         progress_cb=_cb_eb,
                     )
                 except Exception:
-                    pass
-                st.session_state[ai_ready_key] = True
+                    _gen_cnt, _cached_cnt = 0, 0
+                # (DS终审13中危-1)部分失败时不得置"已就绪":PDF不残缺,提示可重试
+                if _gen_cnt + _cached_cnt >= len(missing_qs):
+                    st.session_state[ai_ready_key] = True
+                else:
+                    st.session_state[ai_ready_key] = False
+                    st.warning(f"AI 补全完成 {_gen_cnt + _cached_cnt}/{len(missing_qs)} 道，其余生成失败，可再次点击重试。")
                 st.rerun(scope="fragment")
         else:
             st.info("未配置 API Key，AI 名师暂不可用。")
@@ -2613,7 +2620,13 @@ elif active_module == "📅 每日错题":
     _q_by_id2 = {q.id: q for q in all_questions}
     _eb_list_key = f"eb_list_{current_subject.value}"
     # 今日已处理集合（做对/又错/没做都计入）：防止重新 select 或"再开 10 道"把当天已处理题拉回
-    _eb_processed_key = f"eb_processed_{current_subject.value}"
+    # (DS终审13高危-3)key 带日期后缀:session_state 里的 processed 不得跨天累积,
+    # 否则用户页面常驻过夜后,第二天该复习的题会被昨天的陈旧 processed 挡住
+    from datetime import datetime as _dt_eb
+    _eb_today_s = _dt_eb.now().strftime("%Y-%m-%d")
+    _eb_processed_key = f"eb_processed_{current_subject.value}_{_eb_today_s}"
+    # 清理旧版无日期后缀的 key(升级兼容,避免 session 残留)(DS终审14建议)
+    st.session_state.pop(f"eb_processed_{current_subject.value}", None)
     _eb_processed = set(state_mgr.get_processed_today()) | set(st.session_state.get(_eb_processed_key, ()))  # 持久化(刷新不失效) + 会话级
     # 今日安排持久化：每天首次进入自动选一批并记录；刷新后恢复同一份安排（减去已处理），不再自动生成新题
     # 考点覆盖：qid -> 章节 映射，选题按章节轮转，10 道尽量覆盖不同考点
@@ -2639,7 +2652,9 @@ elif active_module == "📅 每日错题":
         _eb_assigned = _picked
         if _eb_assigned:
             state_mgr.mark_assigned_today(_eb_assigned)
-    _eb_ids = tuple(q for q in _eb_assigned if q in _q_by_id2 and q not in _eb_processed)
+    # (DS终审13高危-1)过滤已归档/已删除题:用户安排后去错题本归档,今日安排不得再渲染
+    # (否则幽灵卡片+点"又错了"会撤销归档,违背"移入历史错题"意图)
+    _eb_ids = tuple(q for q in _eb_assigned if q in _q_by_id2 and q not in _eb_processed and state_mgr.is_in_active_pool(q))
     # 统一题号：按学科分块(高数在前/线代在后),块内按题型分组(选择→填空→解答),
     # 保证做题本/解析版/网页三处题号一致
     def _eb_order(_qid):
@@ -2673,7 +2688,8 @@ elif active_module == "📅 每日错题":
         if _extra:
             state_mgr.mark_assigned_today(_extra)
             _eb_assigned = state_mgr.get_assigned_today()
-            _eb_ids = tuple(q for q in _eb_assigned if q in _q_by_id2 and q not in _eb_processed)
+            # (DS终审13高危-1)与首次进入一致:过滤已归档/已删除题
+            _eb_ids = tuple(q for q in _eb_assigned if q in _q_by_id2 and q not in _eb_processed and state_mgr.is_in_active_pool(q))
             # 与首次进入共用 _eb_order:学科分块(高数→线代)+题型分组(选择→填空→解答),
             # 保证"再开 10 道"后题号顺序与做题本/解析版一致(DS 审查问题8)
             _eb_ids = tuple(sorted(_eb_ids, key=_eb_order))
@@ -2699,7 +2715,8 @@ elif active_module == "📅 每日错题":
                 st.rerun()
 
         # ---- PDF 导出（异步后台生成 + 文件缓存：点按钮秒回，PDF 生成完自动出现下载按钮） ----
-        _eb_sig = hashlib.md5("|".join(_eb_ids).encode("utf-8")).hexdigest()[:8]
+        # (DS终审13中危-2)顺序无关:同一批题无论排序变化,PDF缓存都命中,不重复生成
+        _eb_sig = hashlib.md5("|".join(sorted(_eb_ids)).encode("utf-8")).hexdigest()[:8]
         _eb_pdf_id = f"今日错题_{current_subject.value}_{_eb_sig}"
         _eb_missing = [q for q in _eb_qs if needs_solution(q)]
         render_eb_pdf_panel(
@@ -2721,9 +2738,13 @@ elif active_module == "📅 每日错题":
             # 防御：_q_by_id2 是 fragment 闭包捕获的静态题库快照（session 内题库不变），
             # 过滤掉快照中不存在的 id，避免"再开 10 道/切科目"等全量 rerun 路径引入新 id 时 KeyError。
             def _eb_finish(_qid: str, _ok: bool) -> None:
-                """on_click 回调：fragment rerun 前先落地状态+今日列表，本次渲染即移除（不用点两次）。"""
-                state_mgr.record_review_result(_qid, bool(_ok))
-                state_mgr.mark_processed_today([_qid])
+                """on_click 回调：fragment rerun 前先落地状态+今日列表，本次渲染即移除（不用点两次）。
+                (DS终审13高危-2)保存失败必须可见:不移除/不标记,提示重试,杜绝"UI显示已处理但磁盘未持久化"。"""
+                _ok1 = state_mgr.record_review_result(_qid, bool(_ok))
+                _ok2 = state_mgr.mark_processed_today([_qid]) != -1
+                if not (_ok1 and _ok2):
+                    st.session_state["_eb_save_error"] = f"保存失败：{_qid} 未记录，请检查磁盘/权限后重试"
+                    return
                 _eb_lst = list(st.session_state.get(_eb_list_key, ()))
                 if _qid in _eb_lst:
                     _eb_lst.remove(_qid)
@@ -2733,9 +2754,13 @@ elif active_module == "📅 每日错题":
                 st.session_state[_eb_processed_key] = list(_eb_pl)
 
             def _eb_skip(_qid: str) -> None:
-                """没做：今天不再推，明天继续推。"""
-                state_mgr.mark_wrong_not_done(_qid)
-                state_mgr.mark_processed_today([_qid])
+                """没做：今天不再推，明天继续推。
+                (DS终审13高危-2)保存失败不移除,提示重试。"""
+                _ok1 = state_mgr.mark_wrong_not_done(_qid)
+                _ok2 = state_mgr.mark_processed_today([_qid]) != -1
+                if not (_ok1 and _ok2):
+                    st.session_state["_eb_save_error"] = f"保存失败：{_qid} 未记录，请检查磁盘/权限后重试"
+                    return
                 _eb_lst = list(st.session_state.get(_eb_list_key, ()))
                 if _qid in _eb_lst:
                     _eb_lst.remove(_qid)
@@ -2744,7 +2769,11 @@ elif active_module == "📅 每日错题":
                 _eb_pl.add(_qid)
                 st.session_state[_eb_processed_key] = list(_eb_pl)
 
-            _ids = tuple(qid for qid in st.session_state.get(_eb_list_key, ()) if qid in _q_by_id2)
+            if "_eb_save_error" in st.session_state:
+                st.error(st.session_state.pop("_eb_save_error"))
+            # (DS终审13高危-1/低危-2)过滤已归档/已删除题:卡片不渲染幽灵题
+            _ids = tuple(qid for qid in st.session_state.get(_eb_list_key, ())
+                         if qid in _q_by_id2 and state_mgr.is_in_active_pool(qid))
             if not _ids:
                 st.info("今日安排已清空 🎉 点上方『再开 10 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
                 return

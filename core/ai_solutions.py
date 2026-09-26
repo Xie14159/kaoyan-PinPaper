@@ -585,9 +585,16 @@ def _retry_review(q, entry, ai_tutor=None):
         if review["verdict"] == "verified":
             entry2["review_status"] = "verified"
         elif review["verdict"] == "fixed" and review.get("corrected_text"):
-            entry2["solution"] = review["corrected_text"]
-            entry2["answer"] = split_answer_from_text(review["corrected_text"], is_choice=_is_choice_type(q)) or entry.get("answer") or ""
-            entry2["review_status"] = "fixed"
+            # (DS终审13/14中危-4)修正版必须能提取到明确答案才落地修正:
+            # solution 与 answer 同步更新,杜绝"新解析+旧答案"矛盾组合(数据正确性,宁缺毋滥)
+            _parsed_ans = split_answer_from_text(review["corrected_text"], is_choice=_is_choice_type(q))
+            if _parsed_ans:
+                entry2["solution"] = review["corrected_text"]
+                entry2["answer"] = _parsed_ans
+                entry2["review_status"] = "fixed"
+            else:
+                # 提取失败:不落地修正版,标未审核(不冒充已审核修正)
+                entry2["review_status"] = "unchecked"
         else:
             # unknown/存疑 → 标"未审核"（与主流程 S5 一致；不做视觉核验，避免重审路径复杂化）
             entry2["review_status"] = "unchecked"

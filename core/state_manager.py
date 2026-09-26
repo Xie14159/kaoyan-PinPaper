@@ -74,6 +74,7 @@ class StateManager:
         self._processed_daily: dict[str, list[str]] = {}  # 按日期持久化的"今日已处理"qid
         self._assigned_daily: dict[str, list[str]] = {}  # 按日期持久化的"今日安排"qid（每天只自动安排一次）
         self._load_failed = False  # 加载失败标志:True 时禁止写盘,防空状态覆盖真数据(DS审计)
+        self._last_save_error: str = ""  # 最近一次保存失败原因(供UI横幅提示,DS终审2低危-D)
         self.load_state()
 
     @staticmethod
@@ -115,19 +116,37 @@ class StateManager:
 
     def _load_state_unlocked(self) -> None:
         if not self.data_file.exists():
-            # 文件不存在:若存在 .corrupt 备份,说明此前发生过损坏(已被移走),
-            # 绝不允许当"全新用户"空写覆盖——同样进入只读保护(DS 终审高危-1)。
+            # 文件不存在:绝不允许无条件当"全新用户"空写覆盖(DS 终审2 高危-A)。
+            # 以下任一情况判定为"历史数据异常缺失" -> 置只读保护:
+            #   a) 存在 .corrupt 损坏备份(说明此前数据损坏被移走);
+            #   b) storage_dir 非全新(有其他 wrong_notebook 档案 / 其他文件),说明是老用户,
+            #      但本档案文件却缺失 -> 极可能被误删,空写将覆盖一切痕迹。
+            # 仅当 storage_dir 为空或不存在(真正首次部署)才视为全新用户,允许初始化。
             try:
                 _corrupts = list(self.data_file.parent.glob(
                     f"{self.data_file.stem}.corrupt.*{self.data_file.suffix}"
                 ))
+                _siblings = list(self.data_file.parent.glob("wrong_notebook_*.json"))
+                _dir_files = list(self.data_file.parent.iterdir()) if self.data_file.parent.exists() else []
                 if _corrupts:
                     logger.error(
                         "状态文件缺失但存在损坏备份(%d个),判定此前数据损坏:进入只读保护,拒绝写盘。请手动恢复: %s",
                         len(_corrupts), _corrupts[0])
                     self._load_failed = True
-            except Exception:
-                pass
+                elif _siblings:
+                    logger.error(
+                        "状态文件缺失但存在其他档案(%d个),判定历史数据异常缺失(可能被误删):进入只读保护,拒绝写盘。",
+                        len(_siblings))
+                    self._load_failed = True
+                elif _dir_files:
+                    logger.error(
+                        "状态文件缺失但 user_data 目录非空(%d项),判定历史数据异常缺失:进入只读保护,拒绝写盘。",
+                        len(_dir_files))
+                    self._load_failed = True
+            except Exception as _e:
+                # glob/iterdir 异常(权限等)同样不能信任"全新用户",保守置只读
+                logger.error("检查状态文件缺失原因时出错(%s),保守置只读保护", _e)
+                self._load_failed = True
             return
         # 注意:加载前【不】清空内存(DS 终审):加载失败时保留原内存,避免"空状态"
         # 成为唯一内存副本;仅当解析成功后才整体替换为磁盘内容(磁盘为唯一真源)。
@@ -155,6 +174,10 @@ class StateManager:
                     _bad_records += 1
             if _bad_records:
                 logger.warning("加载错题状态:有 %d 条记录字段异常已跳过(其余正常加载)", _bad_records)
+            # 全量脏保护(DS 终审2 中危-B):原始记录>0 但成功解析=0,说明整体 schema 不匹配,
+            # 若继续会得到空库并随后被 save 覆盖全部错题 -> 升级为加载失败(进入只读+备份)。
+            if _records and not _new_wrong:
+                raise ValueError(f"wrong_questions 共 {len(_records)} 条但全部解析失败,判定整体数据损坏")
             # 解析成功:整体替换内存(替换而非 merge,保证与磁盘一致)
             self.wrong_questions = _new_wrong
             self.historical_seen_ids = set(payload.get("seen_question_ids", []))
@@ -197,13 +220,17 @@ class StateManager:
         3) 原子写 → 防写入中途崩溃产生半截 JSON。"""
         if self._load_failed:
             logger.error("save_state 拒绝执行:状态文件此前加载失败,内存状态不可信(已备份损坏文件),请手动恢复后重启。")
-            return False
-        _lock_fd = self._acquire_process_lock()
-        if _lock_fd is None:
-            # 拿不到跨进程锁(另一进程持锁):拒绝写,绝不降级覆盖(数据安全硬约束)
-            logger.error("save_state 拒绝执行:跨进程文件锁获取失败(可能另一进程正在写入),放弃本次保存以防覆盖。")
+            self._last_save_error = "数据文件异常,已进入只读保护,本次操作未保存"
             return False
         with _state_rlock:
+            # 跨进程锁获取移入 with 内(DS 终审2 中危-C):保证无论何种路径 finally 必释放,
+            # 且 acquire 本身不会在锁保护外泄漏 fd。
+            _lock_fd = self._acquire_process_lock()
+            if _lock_fd is None:
+                # 拿不到跨进程锁(另一进程持锁):拒绝写,绝不降级覆盖(数据安全硬约束)
+                logger.error("save_state 拒绝执行:跨进程文件锁获取失败(可能另一进程正在写入),放弃本次保存以防覆盖。")
+                self._last_save_error = "系统繁忙(数据文件被其他进程占用),本次操作未保存,请稍后重试"
+                return False
             try:
                 self.data_file.parent.mkdir(parents=True, exist_ok=True)
                 payload = {
@@ -234,9 +261,11 @@ class StateManager:
                     raise
             except Exception:
                 logger.exception("save_state 失败: %s", self.data_file)
+                self._last_save_error = "数据写入失败(磁盘/权限异常),本次操作未保存,请检查后重试"
                 return False
             finally:
                 self._release_process_lock(_lock_fd)
+        self._last_save_error = ""
         return True
 
     def toggle_wrong_question(

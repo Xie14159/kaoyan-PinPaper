@@ -66,3 +66,8 @@ user_data/pdf_index.json
 user_data/pdf_lookup_cache.json
 
 user_data/*.bak_*
+
+# 运行时痕迹(DS终审11#15):哨兵/跨进程锁文件/损坏备份 均含敏感数据,不提交
+user_data/.initialized
+user_data/*.lock
+user_data/*.corrupt.*

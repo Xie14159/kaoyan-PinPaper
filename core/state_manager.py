@@ -164,7 +164,8 @@ class StateManager:
         # 注意:加载前【不】清空内存(DS 终审):加载失败时保留原内存,避免"空状态"
         # 成为唯一内存副本;仅当解析成功后才整体替换为磁盘内容(磁盘为唯一真源)。
         try:
-            payload = json.loads(self.data_file.read_text(encoding="utf-8"))
+            _raw_text = self.data_file.read_text(encoding="utf-8")  # 保留原始串(DS终审11#8)
+            payload = json.loads(_raw_text)
             _records = payload.get("wrong_questions", {})
             _new_wrong = {}
             _bad_records = 0
@@ -193,7 +194,7 @@ class StateManager:
                     _ts = datetime.now().strftime("%Y%m%d_%H%M%S")
                     _corrupt_path = self.data_file.with_name(
                         f"{self.data_file.stem}.corrupt.{_ts}{self.data_file.suffix}")
-                    _corrupt_path.write_text(self.data_file.read_text(encoding="utf-8"), encoding="utf-8")
+                    _corrupt_path.write_text(_raw_text, encoding="utf-8")  # 复用首次读取(DS终审11#8)
                     logger.warning("部分脏数据(%d条)已跳过,原文件已备份: %s", _bad_records, _corrupt_path)
                 except Exception:
                     logger.error("部分脏数据备份失败(不影响加载): %s", self.data_file)
@@ -282,7 +283,9 @@ class StateManager:
                 fd, tmp = tempfile.mkstemp(dir=str(self.data_file.parent), prefix=".state_", suffix=".tmp")
                 try:
                     with os.fdopen(fd, "w", encoding="utf-8") as f:
-                        json.dump(payload, f, ensure_ascii=False, indent=2)
+                        # 紧凑序列化(DS终审11#1):体积小30%+、dump更快;
+                        # 调试可读性用 python -m json.tool 查看;fsync 保留(数据安全)
+                        json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
                         f.flush()
                         os.fsync(f.fileno())
                     os.replace(tmp, self.data_file)
@@ -568,14 +571,18 @@ class StateManager:
             lock_path = self.data_file.with_suffix(self.data_file.suffix + ".lock")
             fd = os.open(str(lock_path), os.O_RDWR | os.O_CREAT, 0o666)
             os.lseek(fd, 0, os.SEEK_SET)
-            for _ in range(30):
+            # 指数退避(DS终审11#4):单进程场景锁冲突罕见;真冲突(双开实例)时
+            # 快速感知,总等待约0.05+0.1+0.2+0.4+0.8+1*4≈5.6s,不假死30s
+            _wait = 0.05
+            for _ in range(12):
                 try:
                     msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)
                     return fd
                 except OSError:
                     import time as _time
-                    _time.sleep(1)
-            # 30 秒仍拿不到锁:另一进程持锁过久或锁文件僵死,拒绝写,由调用方提示失败
+                    _time.sleep(_wait)
+                    _wait = min(_wait * 2, 1.0)
+            # 仍拿不到锁:另一进程持锁过久或锁文件僵死,拒绝写,由调用方提示失败
             os.close(fd)
             return None
         except Exception:
@@ -595,14 +602,16 @@ class StateManager:
             os.lseek(fd, 0, os.SEEK_SET)
             msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
             os.close(fd)
+            fd = None  # 已关闭(DS终审11#9):防异常分支二次 close 误关复用 fd
             # 注意:【不】unlink 锁文件(DS 终审中危):unlink 会破坏 inode 一致性,
             # 新进程可能创建新 inode 锁文件,导致两个进程各持不同锁 -> 互斥失效 -> 并发写覆盖。
             # 锁文件常驻(极小,单文件),只加解锁,永不删除。
         except Exception:
-            try:
-                os.close(fd)
-            except Exception:
-                pass
+            if fd is not None:
+                try:
+                    os.close(fd)
+                except Exception:
+                    pass
 
     @staticmethod
     def _keep_local_meta(record: "WrongQuestionRecord", local: "WrongQuestionRecord | None",
@@ -1055,7 +1064,8 @@ class StateManager:
         today_s = today.isoformat()
         # 幂等比较规范化(DS终审3残留#4):last_reviewed_at 可能为带时间的历史格式,
         # 统一取前10位(YYYY-MM-DD)比较,避免格式差异导致幂等失效、重复回写。
-        if str(rec.last_reviewed_at or "")[:10] == today_s:
+        # (DS终审11#6)显式判空:空串/非法格式视为"未复习过",可正常回写
+        if rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == today_s:
             return False  # 今日已复习过，幂等保护(DS终审:不看is_active,防双击/重试重复回写)
         # 快照关键字段(DS终审7中危):save 失败时回滚,防'内存与磁盘不一致+幂等键被吞'
         _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool,

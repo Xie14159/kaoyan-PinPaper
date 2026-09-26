@@ -381,7 +381,7 @@ class StateManager:
             if valid_ids is not None and qid not in valid_ids:
                 skipped += 1
                 continue
-            self.wrong_questions[qid] = WrongQuestionRecord(
+            _rec = WrongQuestionRecord(
                 question_id=qid,
                 added_at=item.get("added_at", ""),
                 user_note=item.get("user_note", ""),
@@ -390,6 +390,10 @@ class StateManager:
                 is_active_in_pool=bool(item.get("is_active_in_pool", True)),
                 subject=item.get("subject", self.subject),
             )
+            # 导入文件若缺少进度字段,保留本地已有进度,避免导入即清空艾宾浩斯曲线(DS 审查高危项);
+            # 笔记/标签:备份文件非空则优先采用备份值(恢复用户内容),本地值仅兜底
+            self._keep_local_meta(_rec, self.wrong_questions.get(qid), prefer_local_note=False)
+            self.wrong_questions[qid] = _rec
             imported += 1
         self.save_state()
         return (imported, skipped)
@@ -410,6 +414,29 @@ class StateManager:
         """题库 canonical ID 列表的短签名，用于校验 URL 位图与当前题库是否匹配"""
         joined = "\n".join(ordered_ids)
         return hashlib.sha1(joined.encode("utf-8")).hexdigest()[:8]
+
+    @staticmethod
+    def _keep_local_meta(record: "WrongQuestionRecord", local: "WrongQuestionRecord | None",
+                         prefer_local_note: bool = True) -> None:
+        """统一保留本地已有记录的关键元数据(单一入口,DS 审查要求)。
+
+        所有会"重建/覆盖"错题记录的路径(URL 恢复、JSON 导入等)都必须调用本方法:
+        - 进度字段(added_at/review_stage/last_reviewed_at/next_review_at):一律保留本地,
+          避免重建时 added_at 被刷成当前时间、艾宾浩斯曲线被清空(本次 bug 根因)。
+        - 用户内容字段(user_note/error_tag):prefer_local_note=True(URL 恢复等)用本地值;
+          prefer_local_note=False(JSON 备份导入等)时,备份文件非空则优先采用备份值,
+          本地值仅作兜底——保证"从备份恢复"能还原用户笔记,不会被本地空值覆盖(DS 复审)。
+        """
+        if local is None:
+            return
+        record.added_at = local.added_at
+        record.review_stage = local.review_stage
+        record.last_reviewed_at = local.last_reviewed_at
+        record.next_review_at = local.next_review_at
+        if prefer_local_note or not record.user_note:
+            record.user_note = local.user_note
+        if prefer_local_note or not record.error_tag or record.error_tag == "概念模糊":
+            record.error_tag = local.error_tag
 
     def _state_code_for(self, qid: str) -> int:
         rec = self.wrong_questions.get(qid)
@@ -469,30 +496,15 @@ class StateManager:
                 restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=2, is_active_in_pool=True, subject=self.subject)
             else:  # 3 历史
                 restored[qid] = WrongQuestionRecord(question_id=qid, wrong_count=1, is_active_in_pool=False, subject=self.subject)
-            # 保留本地已有记录的 added_at 与艾宾浩斯进度,避免 URL 恢复整体替换时
-            # 时间戳被刷成当前时间,导致 added_at 排序失效、每日错题反复推同一批题。
-            _local = self.wrong_questions.get(qid)
-            if _local:
-                restored[qid].added_at = _local.added_at
-                restored[qid].review_stage = _local.review_stage
-                restored[qid].last_reviewed_at = _local.last_reviewed_at
-                restored[qid].next_review_at = _local.next_review_at
-                restored[qid].user_note = _local.user_note
-                restored[qid].error_tag = _local.error_tag
+            # 统一保留本地已有记录的 added_at 与艾宾浩斯进度(单一入口,DS 审查要求),
+            # 避免 URL 恢复整体替换时时间戳被刷成当前时间、进度被清空。
+            self._keep_local_meta(restored[qid], self.wrong_questions.get(qid))
 
         if not restored:
             return (0, "empty")
         if merge:
-            # 合并:不覆盖另一本书的错题;同样保留本地时间/进度
+            # 合并:不覆盖另一本书的错题(进度/时间已在循环内统一保留)
             for _qid, _rec in restored.items():
-                _local = self.wrong_questions.get(_qid)
-                if _local:
-                    _rec.added_at = _local.added_at
-                    _rec.review_stage = _local.review_stage
-                    _rec.last_reviewed_at = _local.last_reviewed_at
-                    _rec.next_review_at = _local.next_review_at
-                    _rec.user_note = _local.user_note
-                    _rec.error_tag = _local.error_tag
                 self.wrong_questions[_qid] = _rec
         else:
             self.wrong_questions = restored

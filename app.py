@@ -894,6 +894,18 @@ with st.sidebar:
     active_sub = current_subject if current_subject != SubjectType.CUSTOM else SubjectType.MATH_1
     state_mgr = StateManager(username=current_user_param, subject=active_sub)
 
+    # 数据只读保护横幅(DS 终审中危-2):加载失败/检测到损坏备份时,内存状态不可信,
+    # 所有写操作被 state_manager 拒绝。必须在 UI 顶部强提示用户,否则用户无感知地
+    # 以为在正常刷题,实际进度不会保存(静默丢失红线)。
+    if getattr(state_mgr, "_load_failed", False):
+        st.error(
+            "⚠️ 数据文件异常：已进入**只读保护模式**，本次操作不会保存！\n\n"
+            "损坏/缺失的原始文件已被自动备份（同目录下 `.corrupt.*` 文件）。\n\n"
+            "请先恢复备份：找到 `user_data/wrong_notebook_*.corrupt.*.json`，"
+            "重命名为 `wrong_notebook_local_数学二.json` 后**重启系统**；"
+            "或联系维护人员处理。恢复前请勿继续刷题，避免误以为进度已保存。"
+        )
+
     # URL 位图：每科目一个查询参数键，可在同一网址里并存三科错题状态
     URL_SUBJECT_KEY = {
         SubjectType.MATH_1: "d1",

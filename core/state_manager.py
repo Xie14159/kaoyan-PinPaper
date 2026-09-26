@@ -115,6 +115,19 @@ class StateManager:
 
     def _load_state_unlocked(self) -> None:
         if not self.data_file.exists():
+            # 文件不存在:若存在 .corrupt 备份,说明此前发生过损坏(已被移走),
+            # 绝不允许当"全新用户"空写覆盖——同样进入只读保护(DS 终审高危-1)。
+            try:
+                _corrupts = list(self.data_file.parent.glob(
+                    f"{self.data_file.stem}.corrupt.*{self.data_file.suffix}"
+                ))
+                if _corrupts:
+                    logger.error(
+                        "状态文件缺失但存在损坏备份(%d个),判定此前数据损坏:进入只读保护,拒绝写盘。请手动恢复: %s",
+                        len(_corrupts), _corrupts[0])
+                    self._load_failed = True
+            except Exception:
+                pass
             return
         # 注意:加载前【不】清空内存(DS 终审):加载失败时保留原内存,避免"空状态"
         # 成为唯一内存副本;仅当解析成功后才整体替换为磁盘内容(磁盘为唯一真源)。
@@ -122,19 +135,26 @@ class StateManager:
             payload = json.loads(self.data_file.read_text(encoding="utf-8"))
             _records = payload.get("wrong_questions", {})
             _new_wrong = {}
+            _bad_records = 0
             for qid, data in _records.items():
-                _new_wrong[qid] = WrongQuestionRecord(
-                    question_id=qid,
-                    added_at=data.get("added_at", ""),
-                    user_note=data.get("user_note", ""),
-                    error_tag=data.get("error_tag", "概念模糊"),
-                    wrong_count=int(data.get("wrong_count", 1)),
-                    is_active_in_pool=bool(data.get("is_active_in_pool", True)),
-                    subject=data.get("subject", self.subject),
-                    last_reviewed_at=data.get("last_reviewed_at", ""),
-                    next_review_at=data.get("next_review_at", ""),
-                    review_stage=int(data.get("review_stage", 0)),
-                )
+                # 单条脏数据不拖垮全量加载(DS 终审低危-5):解析失败的记录跳过并计数告警
+                try:
+                    _new_wrong[qid] = WrongQuestionRecord(
+                        question_id=qid,
+                        added_at=data.get("added_at", ""),
+                        user_note=data.get("user_note", ""),
+                        error_tag=data.get("error_tag", "概念模糊"),
+                        wrong_count=int(data.get("wrong_count", 1)),
+                        is_active_in_pool=bool(data.get("is_active_in_pool", True)),
+                        subject=data.get("subject", self.subject),
+                        last_reviewed_at=data.get("last_reviewed_at", ""),
+                        next_review_at=data.get("next_review_at", ""),
+                        review_stage=int(data.get("review_stage", 0)),
+                    )
+                except Exception:
+                    _bad_records += 1
+            if _bad_records:
+                logger.warning("加载错题状态:有 %d 条记录字段异常已跳过(其余正常加载)", _bad_records)
             # 解析成功:整体替换内存(替换而非 merge,保证与磁盘一致)
             self.wrong_questions = _new_wrong
             self.historical_seen_ids = set(payload.get("seen_question_ids", []))
@@ -151,17 +171,17 @@ class StateManager:
         except Exception as _ex:
             # 不再静默吞异常(DS 审查高危项):损坏文件若被忽略,后续任一 save_state
             # 会把空状态覆盖写回,历史错题/seen/进度全部永久丢失。
-            # 此处把损坏文件备份为 .corrupt.<时间戳> 留证,并记日志供排查。
-            logger.exception("加载错题状态文件失败(已备份损坏文件): %s", self.data_file)
+            # 关键(DS 终审高危-1):必须把损坏文件【移走】(os.replace)而非 copy——
+            # 否则原文件留在原地,下次启动 not exists 分支不触发,误判"全新用户"空写覆盖。
+            logger.exception("加载错题状态文件失败(损坏文件已移走备份): %s", self.data_file)
             try:
-                import shutil as _shutil
                 _corrupt = self.data_file.with_name(
                     f"{self.data_file.stem}.corrupt.{datetime.now().strftime('%Y%m%d_%H%M%S')}{self.data_file.suffix}"
                 )
-                _shutil.copy2(self.data_file, _corrupt)
-                logger.error("损坏状态文件已备份到: %s", _corrupt)
+                os.replace(self.data_file, _corrupt)  # 移走而非复制
+                logger.error("损坏状态文件已移走备份到: %s (原位置不再有文件,防误判全新用户)", _corrupt)
             except Exception:
-                logger.exception("备份损坏状态文件失败")
+                logger.exception("移走损坏状态文件失败")
             # 关键防护(DS 审计高危):加载失败 = 内存状态不可信,
             # 置标志禁止后续 save_state 用空状态覆盖真数据(已备份留证,可手动恢复)。
             # 注意:此处【不】清空内存(DS 终审)——保留旧内存,双保险防空状态覆盖。
@@ -917,8 +937,8 @@ class StateManager:
             return False
         today = today or self._today()
         today_s = today.isoformat()
-        if rec.last_reviewed_at == today_s and rec.is_active_in_pool:
-            return False  # 今日已复习过，幂等保护（归档题当天做错仍可重激活）
+        if rec.last_reviewed_at == today_s:
+            return False  # 今日已复习过，幂等保护(DS终审:不看is_active,防双击/重试重复回写)
         rec.last_reviewed_at = today_s
         if correct:
             new_stage = rec.review_stage + 1

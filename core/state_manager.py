@@ -140,28 +140,35 @@ class StateManager:
                         "状态文件缺失但存在损坏备份(%d个),判定此前数据损坏:进入只读保护,拒绝写盘。请手动恢复: %s",
                         len(_corrupts), _corrupts[0])
                     self._load_failed = True
+                    return  # 置位后必须直接返回(DS终审8),绝不让末尾复位抹掉
                 elif _siblings:
                     logger.error(
                         "状态文件缺失但存在其他档案(%d个),判定历史数据异常缺失(可能被误删):进入只读保护,拒绝写盘。",
                         len(_siblings))
                     self._load_failed = True
+                    return
                 elif _dir_files:
                     logger.error(
                         "状态文件缺失但 user_data 目录非空(%d项),判定历史数据异常缺失:进入只读保护,拒绝写盘。",
                         len(_dir_files))
                     self._load_failed = True
+                    return
                 elif (self.storage_dir / ".initialized").exists():
                     # 存在"曾初始化"哨兵(DS终审3残留#1):说明本系统曾正常产生过数据,
                     # 即使当前目录恰好为空也绝不当"全新用户"空写覆盖。
                     logger.error(
                         "状态文件缺失但存在初始化哨兵(.initialized),判定历史数据异常缺失:进入只读保护,拒绝写盘。")
                     self._load_failed = True
+                    return
             except Exception as _e:
                 # glob/iterdir 异常(权限等)同样不能信任"全新用户",保守置只读
+                # 并【直接 return】(DS终审8高危回归):末尾若再复位会抹掉保守置位,
+                # 重新打开空写覆盖窗口——检查出错时必须保持只读,绝不复位。
                 logger.error("检查状态文件缺失原因时出错(%s),保守置只读保护", _e)
                 self._load_failed = True
-            # 全新用户路径:显式复位标志(DS终审3残留#2),防同一进程内
-            # 先加载失败(置True)后文件被删重载时标志残留 -> 永久禁写。
+                return
+            # 确认真正全新(无corrupt/无其他档案/目录空/无哨兵):显式复位标志
+            # (DS终审3残留#2),防同一进程内先加载失败(置True)后文件被删重载时标志残留。
             self._load_failed = False
             return
         # 注意:加载前【不】清空内存(DS 终审):加载失败时保留原内存,避免"空状态"
@@ -571,6 +578,12 @@ class StateManager:
             os.close(fd)
             return None
         except Exception:
+            # 外层兜底(DS终审8低危):locking 抛非 OSError(罕见)时 fd 已开,
+            # 必须关闭防泄漏;fd 未开成功时 os.close 抛错被内层 try 吞,安全。
+            try:
+                os.close(fd)
+            except Exception:
+                pass
             return None
 
     def _release_process_lock(self, fd) -> None:
@@ -658,6 +671,10 @@ class StateManager:
             return (0, "invalid")
 
         restored: dict[str, WrongQuestionRecord] = {}
+        # seen 快照(DS终审8低危):必须在任何 add 之前创建——循环内会
+        # self.historical_seen_ids.add(qid),若快照在循环后创建则已含污染值,
+        # 恢复等于无效。
+        _seen_snap = set(self.historical_seen_ids)
         for i, qid in enumerate(ordered_ids):
             byte_i = i >> 2
             if byte_i >= len(packed):
@@ -696,6 +713,7 @@ class StateManager:
             # 本地独有错题(如另一本书的、URL 位图区间外的)绝不允许被覆盖丢失。
             _local_only = set(self.wrong_questions) - set(restored)
             if _local_only:
+                self.historical_seen_ids = _seen_snap  # 恢复 seen,防污染
                 logger.warning(
                     "apply_url_code(merge=False) 拒绝整体替换:本地有 %d 道错题不在 URL 中(%s),"
                     "已保留本地数据防止静默丢失,请改用导出/合并方式迁移。",
@@ -703,7 +721,8 @@ class StateManager:
                 return (0, "conflict")
             self.wrong_questions = restored
         if not self.save_state():
-            logger.error("apply_url_code 保存失败(恢复未持久化): 状态=%s", ("merge" if merge else "replace"))
+            self.historical_seen_ids = _seen_snap  # 恢复 seen(DS终审8低危):失败不污染
+            logger.error("apply_url_code 保存失败(恢复未持久化,已恢复seen): 状态=%s", ("merge" if merge else "replace"))
             return (len(restored), "save_failed")
         return (len(restored), "ok")
 

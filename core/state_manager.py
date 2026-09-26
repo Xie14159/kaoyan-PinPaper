@@ -907,9 +907,12 @@ class StateManager:
         for q in question_ids:
             if q not in merged:
                 merged.append(q)
+        _old = self._assigned_daily
         self._assigned_daily = {today_s: merged}  # 保序：首次 select 优先级顺序 + 再开追加顺序
         if not self.save_state():
-            logger.error("mark_assigned_today 保存失败(今日安排未持久化,共%d道)", len(merged))
+            self._assigned_daily = _old  # 回滚(DS终审6中危):防内存与磁盘不一致+崩溃后进度回退
+            logger.error("mark_assigned_today 保存失败(今日安排未持久化,已回滚,共%d道)", len(merged))
+            return -1  # -1 表示保存失败,调用方可感知
         return len(merged)
 
     def get_processed_today(self, today=None) -> set:
@@ -923,9 +926,12 @@ class StateManager:
         today_s = today.isoformat()
         cur = set(self._processed_daily.get(today_s, []))
         cur.update(question_ids)
+        _old = self._processed_daily
         self._processed_daily = {today_s: sorted(cur)}  # 只保留今天，防无限增长
         if not self.save_state():
-            logger.error("mark_processed_today 保存失败(今日已处理未持久化,共%d道)", len(cur))
+            self._processed_daily = _old  # 回滚(DS终审6中危):防内存与磁盘不一致+崩溃后进度回退
+            logger.error("mark_processed_today 保存失败(今日已处理未持久化,已回滚,共%d道)", len(cur))
+            return -1  # -1 表示保存失败,调用方可感知
         return len(cur)
 
     def select_daily_wrong(

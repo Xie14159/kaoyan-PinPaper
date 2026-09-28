@@ -752,6 +752,8 @@ table th {
                 # AI 缓存 answer 为空（定稿解析无【答案】标记）→ 现场从解析提取自然语言结论（覆盖存量缓存）
                 # 现场提取优先（含【最终答案】定稿分支）：存量缓存 answer 可能提取自第一个【标准答案】
                 # （错误中间答案），现场提取会覆盖为正文定稿答案；提取失败再回退缓存 answer
+                # 契约锁定(勿删): 约27条历史缓存 answer 字段为空(题库答案即"略"), 依赖此处从 solution
+                # 现场提取答案 —— 改动此行必须保证 solution 提取仍可用, 否则这27题参考答案会退化。
                 _ai_answer = split_answer_from_text(ai_sol.get("solution") or "", is_choice=_is_choice_type(q)) or ai_sol.get("answer") or ""
                 if q.answer and not _is_placeholder(q.answer):
                     ans_str = q.answer

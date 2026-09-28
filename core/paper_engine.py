@@ -716,6 +716,7 @@ class PaperEngine:
     ) -> list[QuestionItem]:
         """错题占比抽题：先从错题子集抽 round(needed*ratio)，其余用新题补；
         任一侧不足由另一侧自动补齐。ratio<=0 或无错题 → 全部普通抽。
+        注意：占比≈0 时软重置补齐池为"非错题完整池"(new_full)，绝不回退到含错题的 cat_pool。
         """
         ratio = max(0.0, min(1.0, request.priority_ratio))
         pri_ids = request.priority_pool_ids
@@ -729,14 +730,16 @@ class PaperEngine:
             filtered = [q for q in pool if q.id not in seen]
             return filtered if filtered else pool
 
-        if ratio <= 0.0 or not pri_ids:
-            # 全部普通抽 → 整个 cat_pool 都是"新题",按 seen 过滤 + 软重置
-            new_only = _drop_seen(cat_pool)
+        if ratio <= 0.0 or int(round(needed * ratio)) <= 0 or not pri_ids:
+            # 错题占比≈0（含极小正数）→ 全部普通抽：先排除错题优先池，再按 seen 过滤 + 软重置；
+            # 兜底补齐也只回退到"非错题"完整池，绝不掺入错题（用户明确要求 0 错题）。
+            new_full = [q for q in cat_pool if q.id not in pri_ids]
+            new_only = _drop_seen(new_full)
             chosen = self._pick_from_pool(new_only, needed, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng)
-            # 过滤后抽不满(未见题不够) → 从完整池软重置补齐
+            # 过滤后抽不满(未见题不够) → 从非错题完整池软重置补齐
             remaining = needed - len(chosen)
             if remaining > 0 and seen:
-                chosen += self._pick_from_pool(cat_pool, remaining, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng)
+                chosen += self._pick_from_pool(new_full, remaining, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng)
             return chosen
 
         want_pri = int(round(needed * ratio))

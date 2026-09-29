@@ -1180,6 +1180,48 @@ with st.sidebar:
         help="调用的模型名称（例如 deepseek-chat, gpt-4o, qwen-plus 等）。",
     )
 
+    # ===== 审核模型配置（DeepSeek 独立入口：AI 解析生成后独立审核，与答疑/生成 Key 相互独立）=====
+    with st.container():
+        st.markdown("#### 🔍 审核模型配置（AI 解析审核）")
+        _rv_cfg0 = load_ai_config()
+        if "_rv_seeded" not in st.session_state:
+            st.session_state["_rv_seeded"] = True
+            st.session_state.setdefault("rv_base_url", _rv_cfg0.get("review_base_url") or "https://api.deepseek.com")
+            st.session_state.setdefault("rv_model", _rv_cfg0.get("review_model") or "deepseek-chat")
+            if not st.session_state.get("rv_api_key"):
+                st.session_state["rv_api_key"] = _rv_cfg0.get("review_api_key", "")
+        _rv_url = st.text_input(
+            "审核 API Base URL",
+            key="rv_base_url",
+            help="审核模型 API Base URL（默认 DeepSeek https://api.deepseek.com）。",
+        )
+        _rv_key = st.text_input(
+            "审核 API Key",
+            key="rv_api_key",
+            type="password",
+            help="审核模型 API Key，保存到 user_data/ai_config.json 的 review_api_key 字段，刷新不丢失。",
+        )
+        _rv_model = st.text_input(
+            "审核 Model 模型名称",
+            key="rv_model",
+            help="审核调用的模型名称（例如 deepseek-chat）。",
+        )
+        # 审核配置变化时自动保存（与上方答疑 Key 同模式：非空才写，避免误清空）
+        if _rv_key:
+            _rc = load_ai_config()
+            _rv_need = False
+            if _rc.get("review_api_key", "") != _rv_key:
+                _rc["review_api_key"] = _rv_key
+                _rv_need = True
+            if _rc.get("review_base_url", "") != (_rv_url or "").strip():
+                _rc["review_base_url"] = (_rv_url or "").strip()
+                _rv_need = True
+            if _rc.get("review_model", "") != (_rv_model or "").strip():
+                _rc["review_model"] = (_rv_model or "").strip()
+                _rv_need = True
+            if _rv_need:
+                save_ai_config(_rc)
+
     # ===== API Key 健康检查（缓存加固配套：进入页面惰性探测，TTL 5 分钟防重复打；并行探测两个配置）=====
     # 只查在用配置：生成（solution_* Claude 中转）与审核（review_* DeepSeek）；双模型未配置时兜底查侧边栏 Key。
     # 结果存 session_state（跨 rerun 保留）+ ai_health 内部 TTL 缓存（跨调用去重），"重新检测"按钮 force 重探。

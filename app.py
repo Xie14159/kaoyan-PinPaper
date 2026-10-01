@@ -196,7 +196,7 @@ st.markdown(
     f"""
 <style>
 #kaoyan-countdown {{
-    position: fixed; top: 5px; right: 170px; z-index: 999999;
+    position: fixed; top: 12px; right: 200px; z-index: 10000;
     display: flex; align-items: center; gap: 8px;
     background: linear-gradient(135deg, #EAF1FC 0%, #D7E4F8 100%);
     color: #1F4E79;
@@ -206,7 +206,13 @@ st.markdown(
     box-shadow: 0 2px 8px rgba(31, 78, 121, 0.14);
     font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
     white-space: nowrap;
+    opacity: 0;
+    animation: kyd-fadein 0.35s ease 1.2s forwards;
     pointer-events: none; user-select: none;
+}}
+@keyframes kyd-fadein {{ to {{ opacity: 1; }} }}
+@media (max-width: 1200px) {{
+    #kaoyan-countdown {{ right: 150px; }}
 }}
 #kaoyan-countdown .kc-ico {{ display: flex; }}
 #kaoyan-countdown .kc-main {{

@@ -184,29 +184,43 @@ st.set_page_config(
 _EXAM_DATE = datetime.date(2026, 12, 20)
 _EXAM_DELTA = (_EXAM_DATE - datetime.date.today()).days
 if _EXAM_DELTA > 0:
-    _CD_TEXT = f"距 12.20 考研还有 <b>{_EXAM_DELTA}</b> 天"
-    _CD_BAR = "#C00000"
+    _CD_MAIN = "距 12.20 考研"
+    _CD_NUM = f"{_EXAM_DELTA} 天"
 elif _EXAM_DELTA == 0:
-    _CD_TEXT = "今天就是 12.20，冲！"
-    _CD_BAR = "#B00000"
+    _CD_MAIN = "今天就是 12.20"
+    _CD_NUM = "冲！"
 else:
-    _CD_TEXT = "考研已结束，感谢坚持"
-    _CD_BAR = "#595959"
+    _CD_MAIN = "考研已结束"
+    _CD_NUM = "感谢坚持"
 st.markdown(
     f"""
 <style>
 #kaoyan-countdown {{
     position: fixed; top: 5px; right: 170px; z-index: 999999;
-    background: linear-gradient(135deg, {_CD_BAR}, #8B0000);
-    color: #ffffff; font-weight: 700; font-size: 13px; line-height: 1.2;
-    padding: 6px 12px; border-radius: 14px; white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    display: flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #2E2E6E 0%, #1A1F4A 100%);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    padding: 5px 14px 6px;
+    box-shadow: 0 3px 12px rgba(18, 22, 66, 0.38);
     font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+    white-space: nowrap;
     pointer-events: none; user-select: none;
 }}
-#kaoyan-countdown b {{ font-size: 16px; }}
+#kaoyan-countdown .kc-ico {{ display: flex; }}
+#kaoyan-countdown .kc-main {{
+    font-size: 11.5px; color: #C9D3F4; letter-spacing: 0.6px;
+}}
+#kaoyan-countdown .kc-num {{
+    font-size: 16px; font-weight: 700; color: #FFFFFF; line-height: 1.1;
+}}
 </style>
-<div id="kaoyan-countdown">{_CD_TEXT}</div>
+<div id="kaoyan-countdown">
+  <svg class="kc-ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E3C878" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+  <span class="kc-main">{_CD_MAIN}</span>
+  <span class="kc-num">{_CD_NUM}</span>
+</div>
 """,
     unsafe_allow_html=True,
 )

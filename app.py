@@ -198,26 +198,26 @@ st.markdown(
 #kaoyan-countdown {{
     position: fixed; top: 5px; right: 170px; z-index: 999999;
     display: flex; align-items: center; gap: 8px;
-    background: linear-gradient(135deg, #2E2E6E 0%, #1A1F4A 100%);
-    color: #FFFFFF;
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: linear-gradient(135deg, #EAF1FC 0%, #D7E4F8 100%);
+    color: #1F4E79;
+    border: 1px solid rgba(31, 78, 121, 0.22);
     border-radius: 999px;
     padding: 5px 14px 6px;
-    box-shadow: 0 3px 12px rgba(18, 22, 66, 0.38);
+    box-shadow: 0 2px 8px rgba(31, 78, 121, 0.14);
     font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
     white-space: nowrap;
     pointer-events: none; user-select: none;
 }}
 #kaoyan-countdown .kc-ico {{ display: flex; }}
 #kaoyan-countdown .kc-main {{
-    font-size: 11.5px; color: #C9D3F4; letter-spacing: 0.6px;
+    font-size: 11.5px; color: #4A6FA5; letter-spacing: 0.6px;
 }}
 #kaoyan-countdown .kc-num {{
-    font-size: 16px; font-weight: 700; color: #FFFFFF; line-height: 1.1;
+    font-size: 16px; font-weight: 700; color: #1F4E79; line-height: 1.1;
 }}
 </style>
 <div id="kaoyan-countdown">
-  <svg class="kc-ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E3C878" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+  <svg class="kc-ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3B5BA9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
   <span class="kc-main">{_CD_MAIN}</span>
   <span class="kc-num">{_CD_NUM}</span>
 </div>

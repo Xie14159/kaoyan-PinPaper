@@ -1071,7 +1071,7 @@ with st.sidebar:
         value=f"{repeated_wrong_count} 题",
     )
 
-    _due_today = state_mgr.get_due_wrong_count()
+    _due_today = state_mgr.get_due_wrong_count(valid_ids={q.id for q in all_questions})
     st.metric(
         label="⏰ 今日到期（艾宾浩斯）",
         value=f"{_due_today} 题",

@@ -43,10 +43,14 @@ core/build_math2_math3_data.py
 # 生成产物 (generated artifacts)
 试卷库/
 
-# User ephemeral session data (keep default template seeds only)
+# User ephemeral session data（错题/已做档案按用户与科目隔离，全部不提交）
+# 注：早期把 wrong_notebook_default*.json 当模板种子提交，曾导致新用户 clone 后
+# 自动复制出旧格式题号（三段式）错题，在当前题库中全部失配、虚增艾宾浩斯到期数。
 user_data/wrong_notebook_*.json
-!user_data/wrong_notebook_default*.json
+user_data/*.test_bak*
 user_wrong_notebook.json
+user_data/full_backup_*/
+user_data/data_checksum.json
 
 # Secrets & Local Configs
 .streamlit/secrets.toml

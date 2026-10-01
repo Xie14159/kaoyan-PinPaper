@@ -1268,12 +1268,19 @@ class StateManager:
             self.save_state()
         return registered, skipped
 
-    def get_due_wrong_count(self, today=None) -> int:
-        """今日到期待复习的错题数（用于前端画像展示）。"""
+    def get_due_wrong_count(self, today=None, valid_ids: set | None = None) -> int:
+        """今日到期待复习的错题数（用于前端画像展示）。
+
+        valid_ids: 当前加载题库的题号集合。传入后只统计仍存在于当前题库的题——
+        与"待练错题/每日错题"口径一致，避免旧格式题号、已下架题等失配记录虚增到期数
+        （典型场景：新环境从 default 模板复制来的旧格式错题全部失配，曾导致到期数远超实际待练数）。
+        """
         today = today or self._today()
         n = 0
-        for rec in self.wrong_questions.values():
+        for qid, rec in self.wrong_questions.items():
             if not (rec.is_active_in_pool and rec.wrong_count > 0):
+                continue
+            if valid_ids is not None and qid not in valid_ids:
                 continue
             if self._due_date(rec, today) <= today:
                 n += 1

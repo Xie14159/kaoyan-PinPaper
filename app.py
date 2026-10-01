@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import base64
 import binascii
+import datetime
 import functools
 import hashlib
 import html
@@ -176,6 +177,38 @@ st.set_page_config(
     page_icon="📚",
     layout="wide",
     initial_sidebar_state="expanded",
+)
+
+# 1.5 考研倒计时（右上角 Deploy 左侧，每次加载自动按当天更新）
+# =========================================================================
+_EXAM_DATE = datetime.date(2026, 12, 20)
+_EXAM_DELTA = (_EXAM_DATE - datetime.date.today()).days
+if _EXAM_DELTA > 0:
+    _CD_TEXT = f"距 12.20 考研还有 <b>{_EXAM_DELTA}</b> 天"
+    _CD_BAR = "#C00000"
+elif _EXAM_DELTA == 0:
+    _CD_TEXT = "今天就是 12.20，冲！"
+    _CD_BAR = "#B00000"
+else:
+    _CD_TEXT = "考研已结束，感谢坚持"
+    _CD_BAR = "#595959"
+st.markdown(
+    f"""
+<style>
+#kaoyan-countdown {{
+    position: fixed; top: 5px; right: 170px; z-index: 999999;
+    background: linear-gradient(135deg, {_CD_BAR}, #8B0000);
+    color: #ffffff; font-weight: 700; font-size: 13px; line-height: 1.2;
+    padding: 6px 12px; border-radius: 14px; white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+    pointer-events: none; user-select: none;
+}}
+#kaoyan-countdown b {{ font-size: 16px; }}
+</style>
+<div id="kaoyan-countdown">{_CD_TEXT}</div>
+""",
+    unsafe_allow_html=True,
 )
 
 # 2. Global Singletons & Data Loader

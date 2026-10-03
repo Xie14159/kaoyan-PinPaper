@@ -229,6 +229,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# 1.6 双保险：侧边栏顶部原生倒计时（部分嵌入式 webview 对 st.markdown 注入的
+#     fixed 元素渲染不稳定，原生 metric 组件任何浏览器 100% 可见）
+st.sidebar.metric(_CD_MAIN, _CD_NUM)
+
 # 2. Global Singletons & Data Loader
 # =========================================================================
 @st.cache_resource(show_spinner="⚡ 正在初始化 880 题库与知识图谱引擎...")

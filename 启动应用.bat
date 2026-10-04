@@ -5,8 +5,15 @@ cd /d "%~dp0"
 
 echo ===================================================
 echo   正在启动 考研拼好卷系统...
-echo   系统将在默认浏览器中自动打开: http://localhost:8501
 echo ===================================================
+
+:: 检查 8501 是否已在运行（防止重复启动多个实例）
+netstat -ano | findstr ":8501 " | findstr "LISTENING" >nul 2>&1
+if %errorlevel%==0 (
+    echo   [提示] 系统已在运行，直接打开浏览器访问。
+    start http://localhost:8501
+    exit /b 0
+)
 
 :: 自动在系统默认浏览器中打开页面
 start http://localhost:8501

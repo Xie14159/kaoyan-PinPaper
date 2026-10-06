@@ -181,13 +181,13 @@ st.set_page_config(
 
 # 1.5 考研倒计时（右上角 Deploy 左侧，每次加载自动按当天更新）
 # =========================================================================
-_EXAM_DATE = datetime.date(2026, 12, 20)
+_EXAM_DATE = datetime.date(2026, 12, 19)
 _EXAM_DELTA = (_EXAM_DATE - datetime.date.today()).days
 if _EXAM_DELTA > 0:
-    _CD_MAIN = "距 12.20 考研"
+    _CD_MAIN = "距 12.19 考研"
     _CD_NUM = f"{_EXAM_DELTA} 天"
 elif _EXAM_DELTA == 0:
-    _CD_MAIN = "今天就是 12.20"
+    _CD_MAIN = "今天就是 12.19"
     _CD_NUM = "冲！"
 else:
     _CD_MAIN = "考研已结束"

@@ -2755,6 +2755,10 @@ elif active_module == "📅 每日错题":
     # 统一题号：按学科分块(高数在前/线代在后),块内按题型分组(选择→填空→解答),
     # 保证做题本/解析版/网页三处题号一致
     def _eb_order(_qid):
+        # 真题复盘模式：当日安排全部为真题(YYYY-题号)时按年份+题号递推排序
+        # (2026-10-14 真题错题专项日)。混入其他题库题后 all() 为假,自动回退原排序,不影响常规每日错题。
+        if _eb_assigned and all(q.split("-")[0].isdigit() and len(q.split("-")[0]) == 4 for q in _eb_assigned):
+            return (0, _qid)
         _qq = _q_by_id2[_qid]
         # 学科分块:高数0 → 线代1 → 概率论2 → 未知9(显式分支,避免概率论被else误归线代块)
         if _qq.category == ChapterCategory.ADVANCED_MATH:

@@ -2757,7 +2757,7 @@ elif active_module == "📅 每日错题":
     def _eb_order(_qid):
         # 真题复盘模式：当日安排全部为真题(YYYY-题号)时按年份+题号递推排序
         # (2026-10-14 真题错题专项日)。混入其他题库题后 all() 为假,自动回退原排序,不影响常规每日错题。
-        if _eb_assigned and all(q.split("-")[0].isdigit() and len(q.split("-")[0]) == 4 for q in _eb_assigned):
+        if _eb_assigned and all(q.split("-")[0].isdigit() and 1987 <= int(q.split("-")[0]) <= 2030 for q in _eb_assigned):
             return (0, _qid)
         _qq = _q_by_id2[_qid]
         # 学科分块:高数0 → 线代1 → 概率论2 → 未知9(显式分支,避免概率论被else误归线代块)

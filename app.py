@@ -2714,7 +2714,7 @@ elif active_module == "📅 每日错题":
     st.markdown("### 📅 每日错题 · 艾宾浩斯抗遗忘")
     st.caption("到期优先、逾期越久越靠前；做对间隔翻倍、做错隔天回炉。")
     st.markdown("---")
-    _q_by_id2 = {q.id: q for q in all_questions}
+    _q_by_id2 = {q.id: q for q in raw_questions}  # 全量题库(含真题):每日错题需展示跨书籍的真题错题,不能用当前书籍过滤后的 all_questions
     _eb_list_key = f"eb_list_{current_subject.value}"
     # 今日已处理集合（做对/又错/没做都计入）：防止重新 select 或"再开 10 道"把当天已处理题拉回
     # (DS终审13高危-3)key 带日期后缀:session_state 里的 processed 不得跨天累积,

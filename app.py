@@ -2879,7 +2879,36 @@ elif active_module == "📅 每日错题":
                 st.info("今日安排已清空 🎉 点上方『再开 10 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
                 return
             st.caption(f"今日安排 {len(_ids)} 道：到期优先、逾期越久越靠前。")
-            for _i2, _qid2 in enumerate(_ids, 1):
+            # ---- 分页(前端渲染量优化,DS/Claude性能审查首选): 每页12道,页码按钮仅触发fragment rerun ----
+            # 专项日(如36道真题)不再一次性渲染全部卡片,避免 KaTeX+DOM 重建导致的卡顿;
+            # 同一页面同一批次,不违背"一次看到36道"需求;页码状态存 session_state,跨rerun稳定。
+            _eb_page_size = 12
+            _eb_n_pages = max(1, (len(_ids) + _eb_page_size - 1) // _eb_page_size)
+            _eb_page_key = f"{_eb_list_key}_pg"
+            _eb_page = min(max(1, st.session_state.get(_eb_page_key, 1)), _eb_n_pages)
+
+            def _eb_goto(_pg: int) -> None:
+                st.session_state[_eb_page_key] = int(_pg)
+
+            if _eb_n_pages > 1:
+                if _eb_n_pages <= 8:
+                    _pg_cols = st.columns(_eb_n_pages)
+                    for _pi in range(1, _eb_n_pages + 1):
+                        with _pg_cols[_pi - 1]:
+                            st.button(str(_pi), key=f"{_eb_page_key}_b{_pi}",
+                                      type="primary" if _pi == _eb_page else "secondary",
+                                      use_container_width=True, on_click=_eb_goto, args=(_pi,))
+                else:
+                    _pc1, _pc2, _pc3 = st.columns([1, 3, 1])
+                    with _pc1:
+                        st.button("‹ 上一页", use_container_width=True, disabled=(_eb_page <= 1),
+                                  on_click=_eb_goto, args=(_eb_page - 1,))
+                    with _pc3:
+                        st.button("下一页 ›", use_container_width=True, disabled=(_eb_page >= _eb_n_pages),
+                                  on_click=_eb_goto, args=(_eb_page + 1,))
+                st.caption(f"今日专项 {len(_ids)} 道 · 第 {_eb_page}/{_eb_n_pages} 页")
+            _eb_view = _ids[(_eb_page - 1) * _eb_page_size: _eb_page * _eb_page_size]
+            for _i2, _qid2 in enumerate(_eb_view, (_eb_page - 1) * _eb_page_size + 1):
                 _q2 = _q_by_id2[_qid2]
                 _r2 = state_mgr.wrong_questions.get(_qid2)
                 with st.container(border=True):

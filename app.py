@@ -1109,28 +1109,38 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("### 📕 错题本画像")
+    st.caption("统计全量题库（880 + 真题 + 1000题）的错题，与「每日错题」模块口径一致；下方套卷与清单仍按当前勾选书籍统计。")
+    # 画像统计统一采用全量题库口径(raw_questions, 含真题/1000题), 与"每日错题"模块一致;
+    # 避免仅统计当前勾选书籍时, 真题错题的复习进度无法反映到画像数字上。
+    _pic_all = raw_questions
+    _pic_active_pool = [q for q in _pic_all if q.id in active_wrong_ids]
+    _pic_active_count = len(_pic_active_pool)
+    _pic_past_count = len(
+        [q for q in _pic_all if q.id in all_wrong_ids and not state_mgr.is_in_active_pool(q.id)]
+    )
+    _pic_stubborn_count = sum(1 for q in _pic_active_pool if state_mgr.get_wrong_count(q.id) >= 2)
+    _pic_due_today = state_mgr.get_due_wrong_count(valid_ids={q.id for q in _pic_all})
     sb_c1, sb_c2 = st.columns(2)
     with sb_c1:
         st.metric(
             label="🎯 待练错题",
-            value=f"{subject_wrong_count} 题",
+            value=f"{_pic_active_count} 题",
         )
     with sb_c2:
         st.metric(
             label="🏆 历史错题",
-            value=f"{past_wrong_count} 题",
+            value=f"{_pic_past_count} 题",
         )
 
     st.metric(
         label="🔥 顽固错题",
-        value=f"{repeated_wrong_count} 题",
+        value=f"{_pic_stubborn_count} 题",
     )
 
-    _due_today = state_mgr.get_due_wrong_count(valid_ids={q.id for q in all_questions})
     st.metric(
         label="⏰ 今日到期（艾宾浩斯）",
-        value=f"{_due_today} 题",
-        help="按 1/2/4/7/15/30 天抗遗忘曲线，今天该复习的错题数。",
+        value=f"{_pic_due_today} 题",
+        help="按 1/2/4/7/15/30 天抗遗忘曲线，今天该复习的错题数（全量题库口径，含真题与1000题）。",
     )
 
     if subject_wrong_count > 0 or past_wrong_count > 0:

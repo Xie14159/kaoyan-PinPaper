@@ -364,11 +364,30 @@ class StateManager:
         self.save_state()
 
     def increment_wrong_count(self, question_id: str, delta: int = 1) -> int:
+        """错题本"又错一次"：再次做错 -> 纳入/维持艾宾浩斯复习。
+
+        语义与每日错题模块 record_review_result(correct=False) 对齐：
+        - wrong_count + delta；is_active_in_pool = True（归档题自动重新激活）
+        - 复习阶段回退：顽固题(错次>=阈值且 stage>0)强制归 0，否则回退 1 级（最低 0）
+        - next_review_at = 明天（标准艾宾浩斯最短间隔，明天优先推）
+        - 不写 last_reviewed_at：保留原值，避免干扰每日错题模块的当日幂等
+        - 对不存在记录：创建并纳入（stage=0、明天复习）
+        """
+        today = self._today()
         if question_id in self.wrong_questions:
             rec = self.wrong_questions[question_id]
+            _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at)
             rec.is_active_in_pool = True
             rec.wrong_count = max(1, rec.wrong_count + delta)
-            self.save_state()
+            if rec.wrong_count >= self.STUBBORN_THRESHOLD and rec.review_stage > 0:
+                rec.review_stage = 0  # 顽固题强制回 0（与每日模块一致）
+            else:
+                rec.review_stage = max(0, rec.review_stage - 1)
+            rec.next_review_at = (today + timedelta(days=1)).isoformat()
+            if not self.save_state():
+                (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at) = _snap
+                logger.error("increment_wrong_count 保存失败(已回滚): %s", question_id)
+                return rec.wrong_count if question_id in self.wrong_questions else 0
             return rec.wrong_count
         else:
             self.wrong_questions[question_id] = WrongQuestionRecord(
@@ -376,6 +395,7 @@ class StateManager:
                 wrong_count=max(1, delta),
                 is_active_in_pool=True,
                 subject=self.subject,
+                next_review_at=(today + timedelta(days=1)).isoformat(),  # 纳入艾宾浩斯：明天复习
             )
             self.historical_seen_ids.add(question_id)  # 标错=已做过
             self.save_state()
@@ -395,18 +415,34 @@ class StateManager:
             self.save_state()
 
     def reactivate_to_pool(self, question_id: str) -> None:
+        """历史错题"放回待练"：重新纳入艾宾浩斯复习。
+
+        "归为历史"=用户判定已掌握；放回=该判定被推翻，记忆状态不可信，
+        因此重置复习进度：review_stage=0、next_review_at=明天（重走短间隔）。
+        不写 last_reviewed_at，避免干扰每日错题模块当日幂等。
+        """
+        today = self._today()
         if question_id in self.wrong_questions:
-            self.wrong_questions[question_id].is_active_in_pool = True
-            if self.wrong_questions[question_id].wrong_count <= 0:
-                self.wrong_questions[question_id].wrong_count = 1
+            rec = self.wrong_questions[question_id]
+            _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at)
+            rec.is_active_in_pool = True
+            if rec.wrong_count <= 0:
+                rec.wrong_count = 1
+            rec.review_stage = 0
+            rec.next_review_at = (today + timedelta(days=1)).isoformat()
+            if not self.save_state():
+                (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at) = _snap
+                logger.error("reactivate_to_pool 保存失败(已回滚): %s", question_id)
+            return
         else:
             self.wrong_questions[question_id] = WrongQuestionRecord(
                 question_id=question_id,
                 wrong_count=1,
                 is_active_in_pool=True,
                 subject=self.subject,
+                next_review_at=(today + timedelta(days=1)).isoformat(),
             )
-        self.save_state()
+            self.save_state()
 
     def is_in_active_pool(self, question_id: str) -> bool:
         rec = self.wrong_questions.get(question_id)

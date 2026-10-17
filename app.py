@@ -2484,6 +2484,18 @@ elif active_module == "📕 我的错题本":
         shown = sorted([q for q in wb_all if _wb_pass(q)], key=lambda q: parse_qid_tuple(q.id))
         st.caption(f"共 {len(shown)} 道（按题号排序）")
 
+        # 做题模式：卡片自动展开、隐藏答案，直接看题做题（做对/又错 推进艾宾浩斯）。
+        # 自动展开规则：做题模式开启，或已筛选到具体章节（非"全部"）且数量可控——满足"筛选某章直接做题"。
+        wb_mode = st.toggle(
+            "🎯 做题模式",
+            value=False,
+            key=f"wb_mode_{current_subject.value}",
+            help="开启后卡片自动展开、答案默认隐藏，直接做题：✅做对推进艾宾浩斯间隔，❌又错则明天再练",
+        )
+        wb_auto_expand = wb_mode or (wb_ch_pick != "全部" and len(shown) <= 60)
+        if wb_mode and len(shown) > 60:
+            st.caption(f"⚠️ 当前筛选 {len(shown)} 道较多，建议先按章节/题型缩小范围，避免页面卡顿")
+
         # 错题本导出 PDF：导出【当前筛选结果】(书籍/状态/章节/题型 都跟着生效)。
         # 与组卷页同理：download_button 的 data= 是急切求值,若直接放会让每次重跑都触发
         # 无头浏览器排版(十几秒)并堵住整页,故先点「生成」再出下载按钮。
@@ -2567,6 +2579,27 @@ elif active_module == "📕 我的错题本":
             with wp3:
                 st.caption("💡 生成约十几秒")
 
+        def _do_wb_review(qid: str, correct: bool) -> None:
+            """做题模式复习回写：做对推进艾宾浩斯间隔；做错纳入复习（明天再练）。带 toast 反馈。
+
+            与每日错题模块共用 record_review_result / increment_wrong_count，
+            保证两入口的 stage/next_review_at 语义一致。
+            """
+            rec = state_mgr.wrong_questions.get(qid)
+            today_s = str(state_mgr._today())
+            if correct:
+                if rec and rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == today_s:
+                    st.toast("✓ 今日已记录过此题，未重复计入")
+                elif state_mgr.record_review_result(qid, correct=True):
+                    nxt = state_mgr.wrong_questions.get(qid)
+                    st.toast(f"✅ 已记录，下次复习：{nxt.next_review_at if nxt else '—'}")
+                else:
+                    st.toast("✓ 今日已记录过此题，未重复计入")
+            else:
+                state_mgr.increment_wrong_count(qid)
+                st.toast("❌ 已记录，明日再练")
+            st.rerun()
+
         @st.fragment()
         def render_wrongbook_cards():
             _wb_cur = tuple(q for q in shown if state_mgr.is_in_active_pool(q.id) or state_mgr.is_temporarily_mastered(q.id))
@@ -2578,32 +2611,57 @@ elif active_module == "📕 我的错题本":
                 label, _ = _STATUS_LABEL.get(stt, ('', ''))
                 # 摘要标题:一眼看清"哪几道" + 状态 + 做错次数
                 head = f"{label}　{q.id}　·　{q.chapter}　·　[{q.difficulty.value}]　·　做错 {w_cnt} 次"
-                with st.expander(head):
+                with st.expander(head, expanded=wb_auto_expand):
                     render_stem(q.stem)
                     if q.options:
                         oc1, oc2 = st.columns(2)
                         for oi, opt in enumerate(q.options):
                             (oc1 if oi % 2 == 0 else oc2).markdown(opt)
-                    if q.answer:
-                        st.markdown(f"**【参考答案】**：`{q.answer}`")
-                    if q.solution:
-                        st.markdown(f"**【详细解析】**：\n{q.solution}")
+                    # 做题模式：答案/解析默认隐藏（先做后看）；管理模式：直接展示
+                    if wb_mode:
+                        with st.expander("📖 查看答案与解析", expanded=False):
+                            if q.answer:
+                                st.markdown(f"**【参考答案】**：`{q.answer}`")
+                            if q.solution:
+                                st.markdown(f"**【详细解析】**：\n{q.solution}")
+                    else:
+                        if q.answer:
+                            st.markdown(f"**【参考答案】**：`{q.answer}`")
+                        if q.solution:
+                            st.markdown(f"**【详细解析】**：\n{q.solution}")
                     # 操作按钮(按状态给对应动作)
                     b1, b2, b3, b4 = st.columns(4)
                     if stt in ("active", "stubborn"):
-                        with b1:
-                            st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
-                                      help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
-                        with b2:
-                            st.button("➕ 又错一次", key=f"wb_inc_{q.id}", use_container_width=True,
-                                      help="再次做错，做错次数+1", on_click=cb_inc_wrong, args=(q.id,))
+                        if wb_mode:
+                            # 做题模式: 做对/又错 两个主操作 + 归档/删除
+                            with b1:
+                                if st.button("✅ 做对", type="primary", key=f"wb_ok_{q.id}", use_container_width=True,
+                                             help="本次做对，推进艾宾浩斯复习间隔"):
+                                    _do_wb_review(q.id, correct=True)
+                            with b2:
+                                if st.button("❌ 又错", key=f"wb_again_{q.id}", use_container_width=True,
+                                             help="本次做错，纳入复习：明天再练"):
+                                    _do_wb_review(q.id, correct=False)
+                            with b3:
+                                st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
+                                          help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
+                            with b4:
+                                st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
+                                          help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
+                        else:
+                            with b1:
+                                st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
+                                          help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
+                            with b2:
+                                st.button("➕ 又错一次", key=f"wb_inc_{q.id}", use_container_width=True,
+                                          help="再次做错，做错次数+1 并纳入艾宾浩斯（明天再练）", on_click=cb_inc_wrong, args=(q.id,))
+                            with b4:
+                                st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
+                                          help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
                     elif stt == "history":
                         with b1:
                             st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
                                       help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
-                    with b4:
-                        st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
-                                  help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
 
 
 

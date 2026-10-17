@@ -2496,6 +2496,18 @@ elif active_module == "📕 我的错题本":
         if wb_mode and len(shown) > 60:
             st.caption(f"⚠️ 当前筛选 {len(shown)} 道较多，建议先按章节/题型缩小范围，避免页面卡顿")
 
+        # 错题本列表上限:默认只渲染前 40 道,防止 264 道卡片一次渲染导致卡顿;"显示更多"按 40 追加。
+        # key 按科目隔离;切到具体章节时不截断(全量渲染),同时把 limit 重置回默认,避免切回"全部"仍是大值。
+        _wb_limit_key = f"wb_view_limit_{current_subject.value}"
+        if _wb_limit_key not in st.session_state:
+            st.session_state[_wb_limit_key] = 40
+        elif wb_ch_pick != "全部" and st.session_state[_wb_limit_key] != 40:
+            st.session_state[_wb_limit_key] = 40
+        if wb_ch_pick == "全部" and len(shown) > st.session_state[_wb_limit_key]:
+            shown_render = shown[: st.session_state[_wb_limit_key]]
+        else:
+            shown_render = shown
+
         # 错题本导出 PDF：导出【当前筛选结果】(书籍/状态/章节/题型 都跟着生效)。
         # 与组卷页同理：download_button 的 data= 是急切求值,若直接放会让每次重跑都触发
         # 无头浏览器排版(十几秒)并堵住整页,故先点「生成」再出下载按钮。
@@ -2580,29 +2592,50 @@ elif active_module == "📕 我的错题本":
                 st.caption("💡 生成约十几秒")
 
         def _do_wb_review(qid: str, correct: bool) -> None:
-            """做题模式复习回写：做对推进艾宾浩斯间隔；做错纳入复习（明天再练）。带 toast 反馈。
+            """做题模式复习回写：做对推进艾宾浩斯间隔；做错纳入复习（明天再练）。
 
             与每日错题模块共用 record_review_result / increment_wrong_count，
             保证两入口的 stage/next_review_at 语义一致。
+            反馈经 session_state 传递，fragment 重跑后消费显示（rerun 不丢 toast）。
             """
             rec = state_mgr.wrong_questions.get(qid)
+            if rec is None:
+                st.session_state["wb_flash"] = ("warn", "记录不存在，请刷新页面后重试")
+                st.rerun(scope="fragment")
+                return
             today_s = str(state_mgr._today())
             if correct:
-                if rec and rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == today_s:
-                    st.toast("✓ 今日已记录过此题，未重复计入")
+                if rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == today_s:
+                    st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
                 elif state_mgr.record_review_result(qid, correct=True):
                     nxt = state_mgr.wrong_questions.get(qid)
-                    st.toast(f"✅ 已记录，下次复习：{nxt.next_review_at if nxt else '—'}")
+                    st.session_state["wb_flash"] = ("ok", f"已记录，下次复习：{nxt.next_review_at if nxt else '—'}")
                 else:
-                    st.toast("✓ 今日已记录过此题，未重复计入")
+                    st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
             else:
-                state_mgr.increment_wrong_count(qid)
-                st.toast("❌ 已记录，明日再练")
-            st.rerun()
+                if rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == today_s:
+                    st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
+                else:
+                    state_mgr.increment_wrong_count(qid)
+                    st.session_state["wb_flash"] = ("wrong", "已记录，明日再练")
+            # 仅重跑错题本卡片 fragment，避免整页重跑导致卡顿
+            st.rerun(scope="fragment")
 
         @st.fragment()
         def render_wrongbook_cards():
-            _wb_cur = tuple(q for q in shown if state_mgr.is_in_active_pool(q.id) or state_mgr.is_temporarily_mastered(q.id))
+            # 消费上次操作反馈（rerun 后显示，避免丢 toast）
+            _flash = st.session_state.pop("wb_flash", None)
+            if _flash:
+                _fk, _fmsg = _flash
+                if _fk == "ok":
+                    st.toast(f"✅ {_fmsg}")
+                elif _fk == "wrong":
+                    st.toast(f"❌ {_fmsg}")
+                elif _fk == "info":
+                    st.toast(f"✓ {_fmsg}")
+                else:
+                    st.toast(f"⚠️ {_fmsg}")
+            _wb_cur = tuple(q for q in shown_render if state_mgr.is_in_active_pool(q.id) or state_mgr.is_temporarily_mastered(q.id))
             if not _wb_cur:
                 st.info("当前筛选下没有错题。")
             for q in _wb_cur:
@@ -2611,7 +2644,7 @@ elif active_module == "📕 我的错题本":
                 label, _ = _STATUS_LABEL.get(stt, ('', ''))
                 # 摘要标题:一眼看清"哪几道" + 状态 + 做错次数
                 head = f"{label}　{q.id}　·　{q.chapter}　·　[{q.difficulty.value}]　·　做错 {w_cnt} 次"
-                with st.expander(head, expanded=wb_auto_expand):
+                with st.expander(head, expanded=wb_auto_expand, key=f"wb_exp_{q.id}"):
                     render_stem(q.stem)
                     if q.options:
                         oc1, oc2 = st.columns(2)
@@ -2662,6 +2695,15 @@ elif active_module == "📕 我的错题本":
                         with b1:
                             st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
                                       help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
+
+            # 列表上限截断:全部筛选下超过 40 道时分批加载,避免一次性渲染 264 个卡片卡顿
+            if len(shown_render) < len(shown):
+                if st.button(
+                    f"⬇️ 显示更多（还剩 {len(shown) - len(shown_render)} 道）",
+                    key=f"wb_more_{current_subject.value}", use_container_width=True,
+                ):
+                    st.session_state[_wb_limit_key] += 40
+                    st.rerun(scope="fragment")
 
 
 

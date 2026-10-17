@@ -370,13 +370,18 @@ class StateManager:
         - wrong_count + delta；is_active_in_pool = True（归档题自动重新激活）
         - 复习阶段回退：顽固题(错次>=阈值且 stage>0)强制归 0，否则回退 1 级（最低 0）
         - next_review_at = 明天（标准艾宾浩斯最短间隔，明天优先推）
-        - 不写 last_reviewed_at：保留原值，避免干扰每日错题模块的当日幂等
+        - last_reviewed_at = 今天：与每日模块"做错"一致，保证当日幂等（又错当天再点"做对"不重复推进）
         - 对不存在记录：创建并纳入（stage=0、明天复习）
         """
         today = self._today()
         if question_id in self.wrong_questions:
             rec = self.wrong_questions[question_id]
-            _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at)
+            # 当日幂等:同一天(做对或做错后)再次标记,不重复推进 stage/wrong_count——与每日模块语义一致
+            if rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == str(today)[:10]:
+                rec.is_active_in_pool = True
+                self.save_state()
+                return rec.wrong_count
+            _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at, rec.last_reviewed_at)
             rec.is_active_in_pool = True
             rec.wrong_count = max(1, rec.wrong_count + delta)
             if rec.wrong_count >= self.STUBBORN_THRESHOLD and rec.review_stage > 0:
@@ -384,8 +389,9 @@ class StateManager:
             else:
                 rec.review_stage = max(0, rec.review_stage - 1)
             rec.next_review_at = (today + timedelta(days=1)).isoformat()
+            rec.last_reviewed_at = today.isoformat()  # 对齐每日模块"做错":当日幂等
             if not self.save_state():
-                (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at) = _snap
+                (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at, rec.last_reviewed_at) = _snap
                 logger.error("increment_wrong_count 保存失败(已回滚): %s", question_id)
                 return rec.wrong_count if question_id in self.wrong_questions else 0
             return rec.wrong_count
@@ -396,6 +402,7 @@ class StateManager:
                 is_active_in_pool=True,
                 subject=self.subject,
                 next_review_at=(today + timedelta(days=1)).isoformat(),  # 纳入艾宾浩斯：明天复习
+                last_reviewed_at=today.isoformat(),
             )
             self.historical_seen_ids.add(question_id)  # 标错=已做过
             self.save_state()
@@ -442,6 +449,7 @@ class StateManager:
                 subject=self.subject,
                 next_review_at=(today + timedelta(days=1)).isoformat(),
             )
+            self.historical_seen_ids.add(question_id)  # 与 increment_wrong_count 新建分支一致
             self.save_state()
 
     def is_in_active_pool(self, question_id: str) -> bool:

@@ -1098,8 +1098,30 @@ with st.sidebar:
     def cb_remove_wrong(qid: str):
         state_mgr.remove_wrong_question(qid)
 
+    def _is_due_today(rec, _td=None) -> bool:
+        """公共判定：记录是否属于"今日到期"池（is_active 且 wrong_count>0 且到期日<=今天）。
+        供做题回调与"移入历史错题"入口共用，避免口径重复定义。
+        注意：本判定只负责"到期与否"，不校验题库成员资格（valid_ids）——
+        与 get_due_wrong_count(valid_ids=...) 的"池成员"口径正交，二者分开是合理设计。"""
+        if rec is None:
+            return False
+        _td = _td or state_mgr._today()
+        return rec.is_active_in_pool and rec.wrong_count > 0 and state_mgr._due_date(rec, _td) <= _td
+
     def cb_archive_to_history(qid: str):
+        # 移入历史=判定已掌握：is_active_in_pool 置 False → 同样使"今日到期"减 1，
+        # 与做题做对入口的口径一致，补即时反馈避免用户困惑"数字怎么自己变了"。
+        rec = state_mgr.wrong_questions.get(qid)
+        if rec is None:
+            st.toast("⚠️ 记录不存在")
+            return
+        _was_due = _is_due_today(rec)
         state_mgr.mark_solved_correctly(qid)
+        if _was_due:
+            _left = state_mgr.get_due_wrong_count(valid_ids={q.id for q in _pic_all})
+            st.toast(f"✅ 已移入历史错题，今日到期剩余 {_left} 题")
+        else:
+            st.toast("✅ 已移入历史错题")
 
     def cb_reactivate_wrong(qid: str):
         state_mgr.reactivate_to_pool(qid)
@@ -2608,41 +2630,36 @@ elif active_module == "📕 我的错题本":
                 st.session_state["wb_flash"] = ("warn", "记录不存在，请刷新页面后重试")
                 st.rerun(scope="fragment")
                 return
-            today_s = str(state_mgr._today())
             _td = state_mgr._today()
-            # 操作前判定该题是否在"今日到期"池：只有真到期题完成时才承诺"剩余 N 题"。
-            # 做对→推 N 天后 / 做错→推明天 → 移出今日到期 → 减 1；跳过/没做不改 due → 不减。
-            was_due = (
-                rec.is_active_in_pool
-                and rec.wrong_count > 0
-                and state_mgr._due_date(rec, _td) <= _td
-            )
+            # 幂等判定用双保险：record_review_result/increment_wrong_count 真实执行返回 True/计数，
+            # 叠加 next_review_at 前后变化，任一命中即视为"状态真变更"。不依赖 last_reviewed_at
+            # 字符串守卫或单一返回值语义；右支（next 变化）为未来间隔表/返回值语义变化的兜底。
+            was_due = _is_due_today(rec, _td)
+            _prev_next = rec.next_review_at
             def _due_left() -> int:
                 return state_mgr.get_due_wrong_count(valid_ids={q.id for q in _pic_all})
             if correct:
-                if rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == today_s:
-                    st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
-                elif state_mgr.record_review_result(qid, correct=True):
-                    nxt = state_mgr.wrong_questions.get(qid)
-                    _now_due = (
-                        nxt.is_active_in_pool and nxt.wrong_count > 0
-                        and state_mgr._due_date(nxt, _td) <= _td
-                    )
-                    if was_due and not _now_due:
-                        st.session_state["wb_flash"] = ("ok", f"已完成，今日到期剩余 {_due_left()} 题")
-                    else:
-                        st.session_state["wb_flash"] = ("ok", f"已记录，下次复习：{nxt.next_review_at if nxt else '—'}")
+                _ok = state_mgr.record_review_result(qid, correct=True)
+                nxt = state_mgr.wrong_questions.get(qid)
+                _changed = _ok is True or (nxt is not None and nxt.next_review_at != _prev_next)
+                if was_due and _changed:
+                    _left = _due_left()
+                    st.session_state["wb_flash"] = ("ok", f"已完成，今日到期剩余 {_left} 题")
+                elif _changed:
+                    st.session_state["wb_flash"] = ("ok", f"已记录，下次复习：{nxt.next_review_at if nxt else '—'}")
                 else:
                     st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
             else:
-                if rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == today_s:
-                    st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
+                _cnt = state_mgr.increment_wrong_count(qid)
+                nxt = state_mgr.wrong_questions.get(qid)
+                _changed = (_cnt is not None and _cnt >= 1) or (nxt is not None and nxt.next_review_at != _prev_next)
+                if was_due and _changed:
+                    _left = _due_left()
+                    st.session_state["wb_flash"] = ("wrong", f"已记录（明日再练），今日到期剩余 {_left} 题")
+                elif _changed:
+                    st.session_state["wb_flash"] = ("wrong", "已记录，明日再练")
                 else:
-                    state_mgr.increment_wrong_count(qid)
-                    if was_due:
-                        st.session_state["wb_flash"] = ("wrong", f"已记录（明日再练），今日到期剩余 {_due_left()} 题")
-                    else:
-                        st.session_state["wb_flash"] = ("wrong", "已记录，明日再练")
+                    st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
             # 仅重跑错题本卡片 fragment，避免整页重跑导致卡顿
             st.rerun(scope="fragment")
 

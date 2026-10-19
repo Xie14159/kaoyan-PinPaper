@@ -1119,7 +1119,6 @@ with st.sidebar:
         [q for q in _pic_all if q.id in all_wrong_ids and not state_mgr.is_in_active_pool(q.id)]
     )
     _pic_stubborn_count = sum(1 for q in _pic_active_pool if state_mgr.get_wrong_count(q.id) >= 2)
-    _pic_due_today = state_mgr.get_due_wrong_count(valid_ids={q.id for q in _pic_all})
     sb_c1, sb_c2 = st.columns(2)
     with sb_c1:
         st.metric(
@@ -1137,11 +1136,17 @@ with st.sidebar:
         value=f"{_pic_stubborn_count} 题",
     )
 
-    st.metric(
-        label="⏰ 今日到期（艾宾浩斯）",
-        value=f"{_pic_due_today} 题",
-        help="按 1/2/4/7/15/30 天抗遗忘曲线，今天该复习的错题数（全量题库口径，含真题与1000题）。",
-    )
+    @st.fragment(run_every=5.0)
+    def _render_due_metric():
+        # 每 5 秒自动重算"今日到期"数：做完一题(无论做对/做错)该题被推到明天或更久，
+        # 不再属于今日到期 → 数字自动减 1；跳过/没做只把 next_review_at 拉回今天，数字不变。
+        _due_now = state_mgr.get_due_wrong_count(valid_ids={q.id for q in _pic_all})
+        st.metric(
+            label="⏰ 今日到期（艾宾浩斯）",
+            value=f"{_due_now} 题",
+            help="按 1/2/4/7/15/30 天抗遗忘曲线，今天该复习的错题数（全量题库口径，含真题与1000题）。",
+        )
+    _render_due_metric()
 
     if subject_wrong_count > 0 or past_wrong_count > 0:
         if st.button("🗑️ 清空所有错题记录", use_container_width=True):
@@ -2604,12 +2609,29 @@ elif active_module == "📕 我的错题本":
                 st.rerun(scope="fragment")
                 return
             today_s = str(state_mgr._today())
+            _td = state_mgr._today()
+            # 操作前判定该题是否在"今日到期"池：只有真到期题完成时才承诺"剩余 N 题"。
+            # 做对→推 N 天后 / 做错→推明天 → 移出今日到期 → 减 1；跳过/没做不改 due → 不减。
+            was_due = (
+                rec.is_active_in_pool
+                and rec.wrong_count > 0
+                and state_mgr._due_date(rec, _td) <= _td
+            )
+            def _due_left() -> int:
+                return state_mgr.get_due_wrong_count(valid_ids={q.id for q in _pic_all})
             if correct:
                 if rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == today_s:
                     st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
                 elif state_mgr.record_review_result(qid, correct=True):
                     nxt = state_mgr.wrong_questions.get(qid)
-                    st.session_state["wb_flash"] = ("ok", f"已记录，下次复习：{nxt.next_review_at if nxt else '—'}")
+                    _now_due = (
+                        nxt.is_active_in_pool and nxt.wrong_count > 0
+                        and state_mgr._due_date(nxt, _td) <= _td
+                    )
+                    if was_due and not _now_due:
+                        st.session_state["wb_flash"] = ("ok", f"已完成，今日到期剩余 {_due_left()} 题")
+                    else:
+                        st.session_state["wb_flash"] = ("ok", f"已记录，下次复习：{nxt.next_review_at if nxt else '—'}")
                 else:
                     st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
             else:
@@ -2617,7 +2639,10 @@ elif active_module == "📕 我的错题本":
                     st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
                 else:
                     state_mgr.increment_wrong_count(qid)
-                    st.session_state["wb_flash"] = ("wrong", "已记录，明日再练")
+                    if was_due:
+                        st.session_state["wb_flash"] = ("wrong", f"已记录（明日再练），今日到期剩余 {_due_left()} 题")
+                    else:
+                        st.session_state["wb_flash"] = ("wrong", "已记录，明日再练")
             # 仅重跑错题本卡片 fragment，避免整页重跑导致卡顿
             st.rerun(scope="fragment")
 

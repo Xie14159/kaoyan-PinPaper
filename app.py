@@ -2489,7 +2489,9 @@ elif active_module == "📕 我的错题本":
     st.markdown(f"### 📕 {current_subject.value} 错题本 · 全科错题一览")
 
     # 全科所有曾错题(含已归档历史);按 待练/顽固/历史 分类
-    wb_all = [q for q in all_questions if q.id in all_wrong_ids]
+    # 用全量题库 raw_questions：错题本是"全科错题一览"，不能因为侧栏没勾某本书就把那本书的错题藏起来
+    # （贾基85套卷/张宇1000题默认未勾选，用 all_questions 会导致它们的错题永远不显示、书籍筛选项也不出现）
+    wb_all = [q for q in raw_questions if q.id in all_wrong_ids]
 
     def _wb_status(qid: str) -> str:
         """行标签用:最具体的状态 'stubborn' | 'active' | 'history' | ''。
@@ -2525,7 +2527,7 @@ elif active_module == "📕 我的错题本":
         # 筛选行:书籍 / 状态 / 章节 / 题型
         f0, f1, f2, f3 = st.columns(4)
         with f0:
-            wb_books = ["全部"] + sorted({getattr(q, "book", "880") for q in wb_all})
+            wb_books = ["全部"] + sorted({getattr(q, "book", "880") for q in raw_questions})
             wb_book_pick = st.selectbox("书籍", wb_books, index=0, key=f"wb_book_{current_subject.value}")
         with f1:
             wb_status_pick = st.selectbox(
@@ -2733,7 +2735,25 @@ elif active_module == "📕 我的错题本":
                     st.toast(f"⚠️ {_fmsg}")
             _wb_cur = tuple(q for q in shown_render if state_mgr.is_in_active_pool(q.id) or state_mgr.is_temporarily_mastered(q.id))
             if not _wb_cur:
-                st.info("当前筛选下没有错题。")
+                # 书是固定列出的（全量题库四本），空态要分清两种情况：
+                # ①这本书一条错题都没有 → 给"怎么才会有错题"的指引
+                # ②这本书有错题、但被状态/章节/题型筛掉了 → 提示调整筛选，别让用户以为错题丢了
+                if wb_book_pick == "全部":
+                    st.info("当前筛选下没有错题。")
+                else:
+                    _wb_book_total = sum(1 for q in wb_all if getattr(q, "book", "880") == wb_book_pick)
+                    if _wb_book_total:
+                        st.info(
+                            f"「{wb_book_pick}」共有 {_wb_book_total} 条错题，但都不符合当前的"
+                            f"状态 / 章节 / 题型筛选，调整筛选即可看到。"
+                        )
+                    elif wb_book_pick == "贾基85套卷":
+                        st.info(
+                            "「贾基85套卷」目前还没有错题。去主页「📚 或:直接做整套贾基85套卷」"
+                            "做一套，做错的题会自动出现在这里，并进入「📅 每日错题」的复习曲线。"
+                        )
+                    else:
+                        st.info(f"「{wb_book_pick}」这本书目前还没有错题。")
             for q in _wb_cur:
                 stt = _wb_status(q.id)
                 w_cnt = state_mgr.get_wrong_count(q.id)

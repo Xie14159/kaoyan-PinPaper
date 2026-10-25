@@ -11,6 +11,7 @@ import functools
 import hashlib
 import html
 import io
+import json
 import os
 import random
 import re
@@ -1596,6 +1597,59 @@ if active_module == "🎯 智能拼好卷":
                 state_mgr.record_paper_generation(year_qs)
                 state_mgr.set_last_papers([[q.id for q in year_qs]])
                 st.rerun()
+
+    # 整套贾基八十五套卷:按 PDF 目录顺序(入门/进阶/难)直出整卷
+    _jiaji_qs = [q for q in raw_questions if getattr(q, "book", "") == "贾基85套卷"]
+    if _jiaji_qs:
+        _jiaji_idx_path = Path(__file__).resolve().parent / "题库资料" / "真题数学二" / "metadata" / "_jiaji_index.json"
+        _jiaji_index: list = []
+        if _jiaji_idx_path.exists():
+            try:
+                _jiaji_index = json.loads(_jiaji_idx_path.read_text(encoding="utf-8"))
+            except Exception:
+                _jiaji_index = []
+        if _jiaji_index:
+            with st.expander("📚 或:直接做整套贾基85套卷", expanded=False):
+                st.caption("按 PDF 目录顺序分为 入门 / 进阶 / 难 三档,选一套直接出整卷(暂无答案解析,可用 AI 名师答疑)。")
+                for _stage in ("入门", "进阶", "难"):
+                    _rows = [r for r in _jiaji_index if r.get("stage") == _stage]
+                    if not _rows:
+                        continue
+                    st.markdown(f"**{_stage}** · {len(_rows)} 套")
+                    _labels = {f"第{r['n']}套 · {r['title']}": r for r in _rows}
+                    _jc1, _jc2 = st.columns([3, 1])
+                    with _jc1:
+                        _choice = st.selectbox(
+                            f"{_stage}选择套卷", list(_labels), index=0,
+                            key=f"p1_jiaji_sel_{_stage}_{current_subject.value}",
+                            label_visibility="collapsed",
+                        )
+                    with _jc2:
+                        _go = st.button(
+                            "📄 出这套卷", use_container_width=True,
+                            key=f"p1_jiaji_btn_{_stage}_{current_subject.value}",
+                        )
+                    if _go:
+                        _pick = _labels[_choice]
+                        _prefix = str(3000 + int(_pick["n"]))
+                        _paper_qs = sorted(
+                            [q for q in _jiaji_qs if q.id.split("-")[0] == _prefix],
+                            key=lambda q: parse_qid_tuple(q.id),
+                        )
+                        if _paper_qs:
+                            paper = PaperItem(
+                                title=f"贾基第{_pick['n']}套 · {_pick['title']}",
+                                paper_id=f"贾基-{current_subject.value}-{_pick['n']}",
+                                subject=current_subject,
+                                mode=PaperMode.FULL_10_6_6,
+                                questions=_paper_qs,
+                                target_chapters={q.chapter for q in _paper_qs},
+                            )
+                            st.session_state.current_paper_p1 = paper
+                            st.session_state.current_bundle_p1 = None
+                            state_mgr.record_paper_generation(_paper_qs)
+                            state_mgr.set_last_papers([[q.id for q in _paper_qs]])
+                            st.rerun()
 
     # 仅在点击生成按钮时触发组卷
     if start_assemble:

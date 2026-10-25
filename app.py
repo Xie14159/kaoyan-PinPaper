@@ -1089,7 +1089,7 @@ with st.sidebar:
     subject_wrong_pool = subject_active_wrong_pool
     subject_wrong_count = len(subject_active_wrong_pool)
     past_wrong_count = len([q for q in all_questions if q.id in all_wrong_ids and not state_mgr.is_in_active_pool(q.id)])
-    repeated_wrong_count = sum(1 for q in subject_active_wrong_pool if state_mgr.get_wrong_count(q.id) >= 2)
+    repeated_wrong_count = sum(1 for q in subject_active_wrong_pool if state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD)
 
     # 极速响应回调函数 (基于 on_click 单程更新，彻底消除双重刷新卡顿)
     def cb_toggle_wrong(qid: str):
@@ -1140,7 +1140,7 @@ with st.sidebar:
     _pic_past_count = len(
         [q for q in _pic_all if q.id in all_wrong_ids and not state_mgr.is_in_active_pool(q.id)]
     )
-    _pic_stubborn_count = sum(1 for q in _pic_active_pool if state_mgr.get_wrong_count(q.id) >= 2)
+    _pic_stubborn_count = sum(1 for q in _pic_active_pool if state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD)
     sb_c1, sb_c2 = st.columns(2)
     with sb_c1:
         st.metric(
@@ -1791,7 +1791,7 @@ if active_module == "🎯 智能拼好卷":
                     if show_all_ans or st.checkbox(f"查看答案与解析", key=f"p1_ans_cb_{q.id}_{_qi}_{current_subject.value}"):
                         tags_html = "".join(f'<span class="badge badge-tag">#{t}</span>' for t in q.tags) if q.tags else ""
                         if is_active:
-                            if w_cnt >= 2:
+                            if w_cnt >= state_mgr.STUBBORN_THRESHOLD:
                                 status_badge = f'<span class="badge" style="background:#fff1f2; color:#be123c; border:1px solid #fda4af; font-weight:700;">🔥 顽固错题 · 累计做错 {w_cnt} 次</span>'
                             else:
                                 status_badge = f'<span class="badge badge-adv" style="font-weight:700;">🎯 待练错题 · 累计做错 {w_cnt} 次</span>'
@@ -2067,7 +2067,7 @@ elif active_module == "🏷️ 题库逐题标错":
     # 本章多维统计指示条
     all_ch_qs = [q for q in book_questions if dim_of(q) == target_ch]
     ch_active_n = sum(1 for q in all_ch_qs if state_mgr.is_in_active_pool(q.id))
-    ch_stubborn_n = sum(1 for q in all_ch_qs if state_mgr.is_in_active_pool(q.id) and state_mgr.get_wrong_count(q.id) >= 2)
+    ch_stubborn_n = sum(1 for q in all_ch_qs if state_mgr.is_in_active_pool(q.id) and state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD)
     ch_past_n = sum(1 for q in all_ch_qs if state_mgr.is_temporarily_mastered(q.id))
 
     ch_stats_html = (
@@ -2088,7 +2088,7 @@ elif active_module == "🏷️ 题库逐题标错":
     elif target_status == "🏆 仅看历史错题":
         status_check = lambda q: state_mgr.is_temporarily_mastered(q.id)
     elif target_status == "🔥 仅看顽固错题":
-        status_check = lambda q: state_mgr.is_in_active_pool(q.id) and state_mgr.get_wrong_count(q.id) >= 2
+        status_check = lambda q: state_mgr.is_in_active_pool(q.id) and state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD
     elif target_status == "⭐ 仅看所有曾错题":
         status_check = lambda q: state_mgr.is_wrong_marked(q.id)
     elif target_status == "✅ 仅看未错题":
@@ -2362,7 +2362,7 @@ elif active_module == "🏷️ 题库逐题标错":
                     with st.expander("查看答案与解析"):
                         tags_html = "".join(f'<span class="badge badge-tag">#{t}</span>' for t in q.tags) if q.tags else ""
                         if is_active:
-                            if w_cnt >= 2:
+                            if w_cnt >= state_mgr.STUBBORN_THRESHOLD:
                                 status_badge = f'<span class="badge" style="background:#fff1f2; color:#be123c; border:1px solid #fda4af; font-weight:700;">🔥 顽固错题 · 累计做错 {w_cnt} 次</span>'
                             else:
                                 status_badge = f'<span class="badge badge-adv" style="font-weight:700;">🎯 待练错题 · 累计做错 {w_cnt} 次</span>'
@@ -2441,14 +2441,14 @@ elif active_module == "📕 我的错题本":
         """行标签用:最具体的状态 'stubborn' | 'active' | 'history' | ''。
         顽固是待练的子集(做错≥2),历史为已归档。"""
         if state_mgr.is_in_active_pool(qid):
-            return "stubborn" if state_mgr.get_wrong_count(qid) >= 2 else "active"
+            return "stubborn" if state_mgr.get_wrong_count(qid) >= state_mgr.STUBBORN_THRESHOLD else "active"
         if state_mgr.is_temporarily_mastered(qid):
             return "history"
         return ""
 
     # 概览语义与侧边栏画像一致:待练=全部活跃错题(含顽固);顽固=其中做错≥2的子集;历史=已归档
     wb_active_all = [q for q in wb_all if state_mgr.is_in_active_pool(q.id)]
-    wb_stubborn = [q for q in wb_active_all if state_mgr.get_wrong_count(q.id) >= 2]
+    wb_stubborn = [q for q in wb_active_all if state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD]
     wb_history = [q for q in wb_all if state_mgr.is_temporarily_mastered(q.id)]
 
     wb_c1, wb_c2, wb_c3 = st.columns(3)
@@ -2498,7 +2498,7 @@ elif active_module == "📕 我的错题本":
             active = state_mgr.is_in_active_pool(q.id)
             if wb_status_pick == "🎯 待练" and not active:
                 return False
-            if wb_status_pick == "🔥 顽固" and not (active and state_mgr.get_wrong_count(q.id) >= 2):
+            if wb_status_pick == "🔥 顽固" and not (active and state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD):
                 return False
             if wb_status_pick == "🏆 历史" and not state_mgr.is_temporarily_mastered(q.id):
                 return False
@@ -2784,7 +2784,7 @@ elif active_module == "📈 全科考点雷达":
     for ch in loaded_chapters:
         is_c = ch in cov_chapters
         ch_wrong_n = sum(1 for q in subject_wrong_pool if q.chapter == ch)
-        ch_stubb_n = sum(1 for q in subject_wrong_pool if q.chapter == ch and state_mgr.get_wrong_count(q.id) >= 2)
+        ch_stubb_n = sum(1 for q in subject_wrong_pool if q.chapter == ch and state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD)
         cls_name = "radar-pill-done" if is_c else "radar-pill-todo"
         sym = "✓ " if is_c else "○ "
         wrong_str = ""
@@ -2796,7 +2796,7 @@ elif active_module == "📈 全科考点雷达":
     st.markdown("".join(p_html) + "</div>", unsafe_allow_html=True)
 
     # 顽固错题重点攻坚清单
-    stubborn_qs = [q for q in subject_active_wrong_pool if state_mgr.get_wrong_count(q.id) >= 2]
+    stubborn_qs = [q for q in subject_active_wrong_pool if state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD]
     stubborn_qs.sort(key=lambda q: state_mgr.get_wrong_count(q.id), reverse=True)
     if stubborn_qs:
         with st.expander(f"🔥 本科目共 {len(stubborn_qs)} 道高频顽固错题重点攻坚清单", expanded=True):
@@ -2824,7 +2824,7 @@ elif active_module == "📈 全科考点雷达":
         st.markdown(f"**覆盖进度**：`{len(adv_cov)} / {len(adv_chs)}` 章节")
         for ch in adv_chs:
             ch_w = sum(1 for q in subject_wrong_pool if q.chapter == ch)
-            ch_st = sum(1 for q in subject_wrong_pool if q.chapter == ch and state_mgr.get_wrong_count(q.id) >= 2)
+            ch_st = sum(1 for q in subject_wrong_pool if q.chapter == ch and state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD)
             st_text = f" · 🔥顽固{ch_st}" if ch_st > 0 else ""
             w_tag = f" <span style='color:#e11d48; font-size:12px;'>[错{ch_w}题{st_text}]</span>" if ch_w > 0 else ""
             st.markdown(f"{'✅' if ch in cov_chapters else '⏳'} {ch}{w_tag}", unsafe_allow_html=True)
@@ -2836,7 +2836,7 @@ elif active_module == "📈 全科考点雷达":
         st.markdown(f"**覆盖进度**：`{len(lin_cov)} / {len(lin_chs)}` 章节")
         for ch in lin_chs:
             ch_w = sum(1 for q in subject_wrong_pool if q.chapter == ch)
-            ch_st = sum(1 for q in subject_wrong_pool if q.chapter == ch and state_mgr.get_wrong_count(q.id) >= 2)
+            ch_st = sum(1 for q in subject_wrong_pool if q.chapter == ch and state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD)
             st_text = f" · 🔥顽固{ch_st}" if ch_st > 0 else ""
             w_tag = f" <span style='color:#e11d48; font-size:12px;'>[错{ch_w}题{st_text}]</span>" if ch_w > 0 else ""
             st.markdown(f"{'✅' if ch in cov_chapters else '⏳'} {ch}{w_tag}", unsafe_allow_html=True)
@@ -2851,7 +2851,7 @@ elif active_module == "📈 全科考点雷达":
             st.markdown(f"**覆盖进度**：`{len(prob_cov)} / {len(prob_chs)}` 章节")
             for ch in prob_chs:
                 ch_w = sum(1 for q in subject_wrong_pool if q.chapter == ch)
-                ch_st = sum(1 for q in subject_wrong_pool if q.chapter == ch and state_mgr.get_wrong_count(q.id) >= 2)
+                ch_st = sum(1 for q in subject_wrong_pool if q.chapter == ch and state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD)
                 st_text = f" · 🔥顽固{ch_st}" if ch_st > 0 else ""
                 w_tag = f" <span style='color:#e11d48; font-size:12px;'>[错{ch_w}题{st_text}]</span>" if ch_w > 0 else ""
                 st.markdown(f"{'✅' if ch in cov_chapters else '⏳'} {ch}{w_tag}", unsafe_allow_html=True)

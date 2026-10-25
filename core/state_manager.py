@@ -685,7 +685,7 @@ class StateManager:
         if not rec or rec.wrong_count <= 0:
             return 0
         if rec.is_active_in_pool:
-            return 2 if rec.wrong_count >= 2 else 1
+            return 2 if rec.wrong_count >= self.STUBBORN_THRESHOLD else 1
         return 3  # 已归档历史错题
 
     def to_url_code(self, ordered_ids: list[str]) -> str:
@@ -918,7 +918,7 @@ class StateManager:
     # 时间统一用本地日期 YYYY-MM-DD（_parse_date 容错解析老数据）。
     # =====================================================================
     EBBINGHAUS_INTERVALS = (1, 2, 4, 7, 15, 30)  # stage 0~5 -> 下次复习间隔(天)
-    STUBBORN_THRESHOLD = 3  # wrong_count 达到此值视为顽固题
+    STUBBORN_THRESHOLD = 2  # wrong_count 达到此值视为顽固题（2026-10-25 由 3 下调，与 UI 口径对齐）
     ARCHIVE_STAGE = 6  # 做对推进到该阶段 -> 归档（is_active_in_pool=False）
     TAG_PRIORITY = {"方法不会": 20, "概念模糊": 15, "审题错误": 10, "计算失误": 8, "其他": 0}
 

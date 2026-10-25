@@ -514,6 +514,28 @@ def render_eb_pdf_panel(sig: str, qs, paper_id: str, subject_str: str,
     else:
         st.caption("⏳ A4 做题本生成中…（可先做题，生成完自动出现下载按钮）")
 
+    # ①b 紧凑版 A4 打印（含题库题号）：一页多题省纸（2026-10-26 新增，DS+Claude 评审通过）
+    cmp_ed = PDFEdition.COMPACT_A4.value
+    if _ensure_eb_pdf(sig, q_items, paper_id, title, subject_str, cmp_ed):
+        st.download_button(
+            "🖨️ 紧凑版 A4 打印（含题号）", data=_eb_pdf_file(sig, cmp_ed).read_bytes(),
+            file_name=f"{paper_id}_紧凑版打印.pdf", mime="application/pdf",
+            use_container_width=True, key=f"eb_down_cmp_{sig}",
+            help="一页多题省纸 · 题头含题库题号 ID，打印后可直接做题、回系统对答案定位。",
+        )
+    elif _eb_pdf_err_file(sig, cmp_ed).exists():
+        _msg2 = _eb_pdf_err_file(sig, cmp_ed).read_text(encoding="utf-8")[:200]
+        st.error(f"紧凑版生成失败：{_msg2}")
+        if st.button("🔄 重试生成紧凑版", use_container_width=True, key=f"eb_retry_cmp_{sig}"):
+            try:
+                _eb_pdf_err_file(sig, cmp_ed).unlink()
+            except Exception:
+                pass
+            _eb_pdf_threads.pop((sig, cmp_ed), None)
+            st.rerun(scope="fragment")
+    else:
+        st.caption("⏳ 紧凑版生成中…（可先做题，生成完自动出现下载按钮）")
+
     # ② 详细解析版：缺解析且未补全 → 面板内触发 AI 补全；否则异步生成 PDF
     ai_ready = st.session_state.get(ai_ready_key)
     if missing_qs and not ai_ready:

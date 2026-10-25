@@ -22,7 +22,7 @@ from pathlib import Path, PurePath
 import markdown
 
 from core.ai_solutions import AI_MARK, get_ai_solution, stem_fingerprint, split_answer_from_text, _is_placeholder, _is_choice_type, _clean_final_answer
-from core.models import PaperItem, QuestionItem, QuestionType, SubjectType
+from core.models import PaperItem, QuestionItem, QuestionType, SubjectType, ChapterCategory
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +30,7 @@ logger = logging.getLogger(__name__)
 class PDFEdition(str, Enum):
     REAL_EXAM = "real_exam"      # 真题/模考版：1:1 复刻前端做题卡片
     WORKBOOK_A4 = "workbook_a4"  # A4 做题本版：预留手写草稿与大题演算框
+    COMPACT_A4 = "compact_a4"    # 紧凑打印版：一页多题省纸，题头含题库题号 ID（2026-10-26 新增）
     SOLUTION = "solution"        # 详细解析版：参考答案与分步解析
 
 
@@ -626,6 +627,209 @@ table th {
 </html>"""
 
     # =========================================================================
+    # 2b. 紧凑打印版 HTML（2026-10-26 新增，DS+Claude 评审裁决实现）
+    # =========================================================================
+    def _build_compact_html(self, paper: PaperItem) -> str:
+        """紧凑打印版：一页多题省纸；题头含题库题号 ID（打印后回系统定位/对答案）。
+        评审裁决：选择/填空零留白、解答 2cm 虚线演算框；解答题允许跨页防页底空白；
+        页脚页码+科目、打印显式输出背景（-webkit-print-color-adjust）；
+        KaTeX 字号继承正文；q.id 小字+溢出截断；学科块间强制分页便于剪裁。"""
+        sub_cn, _ = self._get_subject_info(paper.subject)
+        created = ""
+        try:
+            created = str(getattr(paper, "created_at", "") or "")[:10]
+        except Exception:
+            created = ""
+
+        cat_names = {
+            ChapterCategory.ADVANCED_MATH: "高等数学",
+            ChapterCategory.LINEAR_ALGEBRA: "线性代数",
+            ChapterCategory.PROBABILITY: "概率论",
+        }
+        type_titles = {
+            QuestionType.CHOICE: "选择题",
+            QuestionType.FILL_BLANK: "填空题",
+            QuestionType.SOLUTION: "解答题",
+        }
+
+        blocks: list[str] = []
+        q_idx = 1
+        prev_cat = None
+        prev_type = None
+        for q in paper.questions:
+            cat = getattr(q, "category", None)
+            cat_cn = cat_names.get(cat, "其他")
+            t_title = type_titles.get(q.question_type, "题目")
+            if prev_cat is not None and cat != prev_cat:
+                # 学科块间强制分页（CL 评审：便于按科目剪裁打印）
+                blocks.append('<div style="page-break-before: always; height: 0;"></div>')
+            if cat != prev_cat:
+                blocks.append(f'<div class="section-title">{html.escape(cat_cn)} · {t_title}（{len([x for x in paper.questions if getattr(x,"category",None)==cat and x.question_type==q.question_type])} 题）</div>')
+                prev_type = q.question_type
+            elif q.question_type != prev_type:
+                blocks.append(f'<div class="section-title">{t_title}（{len([x for x in paper.questions if x.question_type==q.question_type])} 题）</div>')
+                prev_type = q.question_type
+            prev_cat = cat
+
+            book = html.escape(str(getattr(q, "book", "") or ""))
+            chapter = html.escape(str(getattr(q, "chapter", "") or ""))
+            qid = html.escape(str(getattr(q, "id", "") or ""))
+            head = (
+                '<div class="q-head">'
+                f'<span class="q-head-num">第 {q_idx} 题</span>'
+                f'<span class="q-head-meta">《{book}》· {chapter} · ID: {qid}</span>'
+                '</div>'
+            )
+            stem = f'<div class="q-stem">{PDFService.format_math_text(q.stem)}</div>'
+            if q.question_type == QuestionType.SOLUTION:
+                blocks.append(
+                    f'<div class="q-card q-card-solution">'
+                    f'<div class="q-block">{head}{stem}</div>'
+                    '<div class="answer-space"></div>'
+                    '</div>'
+                )
+            else:
+                opts = ""
+                if getattr(q, "options", None):
+                    _opt_items = "".join(
+                        f'<div class="opt-item">{PDFService.format_math_text(opt)}</div>' for opt in q.options
+                    )
+                    opts = f'<div class="options-grid">{_opt_items}</div>'
+                blocks.append(
+                    f'<div class="q-card"><div class="q-block">{head}{stem}{opts}</div></div>'
+                )
+            q_idx += 1
+
+        body_content = "\n".join(blocks)
+        katex_head = self._get_katex_headers()
+        css = self._get_compact_css(sub_cn, created)
+        return f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>今日错题紧凑版 · 考研数学{sub_cn}</title>
+{katex_head}
+<style>
+{css}
+</style>
+</head>
+<body>
+
+<div class="paper-header">
+    <div class="paper-title">今日错题复习 · 数学{sub_cn} · 共 {len(paper.questions)} 题</div>
+    <div class="paper-meta">紧凑打印版 · 一页多题省纸 · 题头含题库题号 · {created} · 卷号: {html.escape(paper.paper_id)}</div>
+</div>
+
+{body_content}
+
+</body>
+</html>"""
+
+    def _get_compact_css(self, sub_cn: str, created: str) -> str:
+        """紧凑版专属 CSS：小字号+高密度+防截断+打印友好（与公共 CSS 隔离，不影响其他版本）"""
+        return f"""
+@page {{
+    size: A4 portrait;
+    margin: 12mm 12mm 14mm 12mm;
+    @bottom-center {{
+        content: "今日错题 · 数学{sub_cn} · 第 " counter(page) " 页 / 共 " counter(pages) " 页";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+        font-size: 8pt;
+        color: #94a3b8;
+    }}
+}}
+@media print {{
+    body {{
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }}
+}}
+* {{ box-sizing: border-box; }}
+body {{
+    font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: #0f172a;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+}}
+.paper-header {{
+    text-align: center;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 3px;
+    margin-bottom: 7px;
+}}
+.paper-title {{ font-size: 14px; font-weight: 800; margin: 0 0 2px 0; color: #000; }}
+.paper-meta {{ font-size: 10px; color: #475569; }}
+.section-title {{
+    font-size: 12px;
+    font-weight: 800;
+    color: #000;
+    margin: 5px 0 3px 0;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #cbd5e1;
+    page-break-after: avoid;
+}}
+.q-card {{
+    break-inside: avoid;
+    margin-bottom: 6px;
+    padding: 3px 0;
+    border-bottom: 0.5px solid #e2e8f0;
+}}
+.q-card-solution {{ break-inside: auto; }}
+.q-block {{ break-inside: avoid; }}
+.q-head {{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 1px;
+}}
+.q-head-num {{ font-weight: 800; font-size: 13px; color: #000; white-space: nowrap; }}
+.q-head-meta {{
+    font-size: 9.5px;
+    color: #64748b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 72%;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}}
+.q-stem {{ font-size: 12.5px; line-height: 1.45; color: #000; }}
+.q-stem p {{ margin: 0 0 2px 0; }}
+.q-stem p:last-child {{ margin-bottom: 0; }}
+.options-grid {{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 14px;
+    margin: 3px 0 1px 0;
+    font-size: 12px;
+}}
+.opt-item {{ flex: 0 0 calc(50% - 7px); }}
+.opt-item p {{ margin: 0; line-height: 1.45; }}
+.answer-space {{
+    height: 2cm;
+    border-top: 1px dashed #94a3b8;
+    margin-top: 3px;
+}}
+table {{
+    border-collapse: collapse;
+    margin: 5px 0;
+    font-size: 11.5px;
+    text-align: center;
+}}
+table th, table td {{
+    border: 1px solid #cbd5e1;
+    padding: 3px 10px;
+    font-weight: normal;
+}}
+.katex {{ font-size: inherit !important; text-rendering: optimizeLegibility; }}
+.katex-display {{ margin: 0.2em 0 !important; }}
+"""
+
+    # =========================================================================
     # 3. 详细解析版 HTML
     # =========================================================================
     @staticmethod
@@ -857,6 +1061,8 @@ table th {
             return self._build_real_exam_html(paper)
         elif edition == PDFEdition.WORKBOOK_A4:
             return self._build_workbook_html(paper)
+        elif edition == PDFEdition.COMPACT_A4:
+            return self._build_compact_html(paper)
         else:
             return self._build_solution_html(paper)
 

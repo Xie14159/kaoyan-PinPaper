@@ -36,7 +36,7 @@ from core.models import SubjectType  # noqa: E402
 from core.state_manager import StateManager  # noqa: E402
 
 SUBJECT = SubjectType.MATH_2  # 数二考生
-TARGET = 10
+TARGET = 11
 
 
 def _precache_solutions(questions) -> None:

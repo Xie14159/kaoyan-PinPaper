@@ -164,6 +164,45 @@ def render_stem(text: str) -> None:
         st.markdown(rest, unsafe_allow_html=True)
 
 
+# ---- 880 解析分册页码指引 ----
+# 《27版李林880 数二 解析分册》是扫描图片 PDF（354 页、0 文字层），既不能抽文本也不能
+# 逐题对齐；但目录给出了「章 → 基础/综合/拓展题」的起始页，故退一步只做页码指引：
+# 告诉用户"这题的答案在第 X 页、本节第 N 题、标号 (N)"，让他翻纸质/PDF 就能对上。
+_ANS880_INDEX_FILE = Path(__file__).resolve().parent / "题库资料" / "880数学二" / "page_index.json"
+
+
+@functools.lru_cache(maxsize=1)
+def _ans880_index() -> dict:
+    try:
+        return json.loads(_ANS880_INDEX_FILE.read_text(encoding="utf-8-sig"))
+    except Exception:
+        return {}
+
+
+def ans880_page_hint(q) -> str:
+    """880 题：返回解析册页码指引；非 880 书或索引缺失时返回空串。"""
+    if getattr(q, "book", "") != "880":
+        return ""
+    idx = _ans880_index()
+    secs = idx.get("sections") or {}
+    offset = int(idx.get("offset", 2) or 2)
+    parts = str(getattr(q, "id", "")).split("-")
+    if len(parts) != 4:
+        return ""
+    ch, sec, _typ, num = parts
+    page = (secs.get(ch) or {}).get(sec)
+    if not page:
+        return ""
+    try:
+        n = int(num)
+    except ValueError:
+        return ""
+    return (
+        f"📕 书中答案在《27版李林880 数二 解析分册》的 **{sec}题** 第 **{page}** 页起"
+        f"（PDF 第 **{page + offset}** 页）· 本节第 {n} 题，正文标号 **({n})**"
+    )
+
+
 def diff_badge(q) -> str:
     """难度标签 HTML(基础/综合/拓展)。真题已由大模型逐题判定真实难度,同 880 正常显示。"""
     cls = "badge-basic" if q.difficulty == DifficultyLevel.BASIC else ("badge-adv" if q.difficulty == DifficultyLevel.ADVANCED else "badge-comp")
@@ -2460,6 +2499,10 @@ elif active_module == "🏷️ 题库逐题标错":
                         st.markdown(meta_tags_row, unsafe_allow_html=True)
                         if q.answer: st.markdown(f"**【参考答案】**：`{q.answer}`")
                         if q.solution: st.markdown(f"**【详细解析】**：\n{q.solution}")
+                        if not q.answer:
+                            _h880 = ans880_page_hint(q)
+                            if _h880:
+                                st.caption(_h880)
 
     render_marker_cards()
 
@@ -2795,6 +2838,10 @@ elif active_module == "📕 我的错题本":
                                 st.markdown(f"**【参考答案】**：`{q.answer}`")
                             if q.solution:
                                 st.markdown(f"**【详细解析】**：\n{q.solution}")
+                            if not q.answer:
+                                _h880 = ans880_page_hint(q)
+                                if _h880:
+                                    st.caption(_h880)
                     else:
                         if q.answer:
                             st.markdown(f"**【参考答案】**：`{q.answer}`")
@@ -3179,6 +3226,10 @@ elif active_module == "📅 每日错题":
                             st.markdown(f"**【详细解析】**：\\n{_q2.solution}")
                         else:
                             st.caption("（暂无解析，下载详细解析版 PDF 时由 AI 名师补全）")
+                        if not _q2.answer:
+                            _h880 = ans880_page_hint(_q2)
+                            if _h880:
+                                st.caption(_h880)
                     _ec1, _ec2, _ec3 = st.columns(3)
                     with _ec1:
                         st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True,

@@ -8,6 +8,8 @@
 """
 from __future__ import annotations
 
+import base64
+
 import html
 import logging
 import os
@@ -273,6 +275,23 @@ class PDFService:
         return f'<div class="options-grid" style="{grid_style}">{opt_items}</div>'
 
     @staticmethod
+    def format_stem_html(q_idx: int, q) -> str:
+        """题干 HTML：有原卷裁图(stem_img)时直接嵌图，否则走文字格式化。
+
+        贾基85套卷是扫描版 PDF，文字层乱码且分数/上下标走形，导出 PDF 必须用原图。
+        """
+        img = getattr(q, "stem_img", "")
+        if img:
+            try:
+                b64 = base64.b64encode(Path(img).read_bytes()).decode("ascii")
+                num_prefix = f'<span class="q-num">{q_idx}.&nbsp;</span>'
+                return (f'<div class="q-stem">{num_prefix}'
+                        f'<img src="data:image/png;base64,{b64}" style="max-width:100%;height:auto;">'
+                        f'</div>')
+            except Exception as exc:  # noqa: BLE001
+                logger.warning(f"题干图片读取失败 {img}: {exc}")
+        return PDFService.format_question_stem(q_idx, q.stem)
+
     def format_question_stem(q_idx: int, stem_text: str) -> str:
         """格式化题干：剥离原有冗余序号，将纯黑序号（如 1. ）置于首行题干最前列，实现标准试卷流式排版"""
         formatted = PDFService.format_math_text(stem_text)
@@ -488,8 +507,8 @@ table th {
         if choices:
             blocks.append(f'<div class="section-title">一、选择题（共 {len(choices)} 题，每题 5 分，共 {len(choices)*5} 分）</div>')
             for q in choices:
-                stem_html = self.format_question_stem(q_idx, q.stem)
-                options_html = self._render_options_grid(q.options)
+                stem_html = self.format_stem_html(q_idx, q)
+                options_html = ("" if getattr(q, "stem_img", "") else self._render_options_grid(q.options))
                 blocks.append(f"""
                 <div class="q-card">
                     <div class="q-stem">{stem_html}</div>
@@ -501,7 +520,7 @@ table th {
         if fills:
             blocks.append(f'<div class="section-title">二、填空题（共 {len(fills)} 题，每题 5 分，共 {len(fills)*5} 分）</div>')
             for q in fills:
-                stem_html = self.format_question_stem(q_idx, q.stem)
+                stem_html = self.format_stem_html(q_idx, q)
                 blocks.append(f"""
                 <div class="q-card">
                     <div class="q-stem">{stem_html}</div>
@@ -512,7 +531,7 @@ table th {
         if solutions:
             blocks.append(f'<div class="section-title">三、解答题（共 {len(solutions)} 题，共 70 分）</div>')
             for q in solutions:
-                stem_html = self.format_question_stem(q_idx, q.stem)
+                stem_html = self.format_stem_html(q_idx, q)
                 blocks.append(f"""
                 <div class="q-card">
                     <div class="q-stem">{stem_html}</div>
@@ -562,8 +581,8 @@ table th {
         if choices:
             blocks.append(f'<div class="section-title">一、选择题（共 {len(choices)} 题）</div>')
             for q in choices:
-                stem_html = self.format_question_stem(q_idx, q.stem)
-                options_html = self._render_options_grid(q.options)
+                stem_html = self.format_stem_html(q_idx, q)
+                options_html = ("" if getattr(q, "stem_img", "") else self._render_options_grid(q.options))
                 workspace = '<div class="workspace-box wb-choice-box"></div>'
                 blocks.append(f"""
                 <div class="q-card">
@@ -577,7 +596,7 @@ table th {
         if fills:
             blocks.append(f'<div class="section-title">二、填空题（共 {len(fills)} 题）</div>')
             for q in fills:
-                stem_html = self.format_question_stem(q_idx, q.stem)
+                stem_html = self.format_stem_html(q_idx, q)
                 workspace = '<div class="workspace-box wb-fill-box"></div>'
                 blocks.append(f"""
                 <div class="q-card">
@@ -590,7 +609,7 @@ table th {
         if solutions:
             blocks.append(f'<div class="section-title">三、解答题（共 {len(solutions)} 题）</div>')
             for q in solutions:
-                stem_html = self.format_question_stem(q_idx, q.stem)
+                stem_html = self.format_stem_html(q_idx, q)
                 workspace = '<div class="workspace-box wb-solution-box"></div>'
                 blocks.append(f"""
                 <div class="q-card">
@@ -680,7 +699,7 @@ table th {
                 f'<span class="q-head-meta">《{book}》· {chapter} · ID: {qid}</span>'
                 '</div>'
             )
-            stem = f'<div class="q-stem">{PDFService.format_math_text(q.stem)}</div>'
+            stem = PDFService.format_stem_html(q_idx, q)
             if q.question_type == QuestionType.SOLUTION:
                 blocks.append(
                     f'<div class="q-card q-card-solution">'
@@ -690,7 +709,7 @@ table th {
                 )
             else:
                 opts = ""
-                if getattr(q, "options", None):
+                if getattr(q, "options", None) and not getattr(q, "stem_img", ""):
                     _opt_items = "".join(
                         f'<div class="opt-item">{PDFService.format_math_text(opt)}</div>' for opt in q.options
                     )
@@ -944,9 +963,9 @@ table th, table td {{
 
         blocks: list[str] = []
         for idx, q in enumerate(paper.questions, start=1):
-            stem_html = self.format_question_stem(idx, q.stem)
+            stem_html = self.format_stem_html(idx, q)
             meta_row = self._build_meta_row(q)
-            options_html = self._render_options_grid(q.options) if q.options else ""
+            options_html = ("" if getattr(q, "stem_img", "") else self._render_options_grid(q.options)) if q.options else ""
 
             # 优先使用 AI 名师补全的答案/解析（本地缓存），其次用题库自带
             ai_sol = get_ai_solution(q.id, stem_fp=stem_fingerprint(q))

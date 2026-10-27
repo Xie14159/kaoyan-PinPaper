@@ -56,6 +56,8 @@ if not logging.getLogger().handlers:
     except Exception:
         pass
 
+logger = logging.getLogger("pinpaper.app")
+
 # 题干图片 base64 解码缓存：同一 data 串只解一次（fragment 局部 rerun 时全部剩余题目
 # 都会重新渲染，带图题每次都要 b64decode，缓存后从毫秒级降到微秒级）
 @functools.lru_cache(maxsize=256)
@@ -151,8 +153,9 @@ def render_question_stem(q) -> None:
         try:
             st.image(img, use_container_width=True)
             return
-        except Exception:  # noqa: BLE001 - 图片缺失时退回文字
-            pass
+        except Exception as exc:  # noqa: BLE001 - 图片缺失时退回文字
+            logger.warning("题干图片渲染失败 %s: %s", img, exc)
+            st.caption("（原卷图片加载失败，以下为文字版题干，公式可能走形）")
     render_stem(q.stem)
 
 

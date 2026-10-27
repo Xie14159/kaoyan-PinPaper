@@ -11,6 +11,7 @@ import logging
 import os
 import tempfile
 import threading
+import time
 import zlib
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -288,7 +289,19 @@ class StateManager:
                         json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
                         f.flush()
                         os.fsync(f.fileno())
-                    os.replace(tmp, self.data_file)
+                    # Windows 上 os.replace 会因杀毒/索引/并发读句柄瞬时返回
+                    # WinError 5(拒绝访问)。重试几次即可,不必让用户重做一遍错题。
+                    _last_exc = None
+                    for _attempt in range(5):
+                        try:
+                            os.replace(tmp, self.data_file)
+                            _last_exc = None
+                            break
+                        except PermissionError as _e:  # noqa: PERF203 - 有意的重试
+                            _last_exc = _e
+                            time.sleep(0.03 * (2 ** _attempt))
+                    if _last_exc is not None:
+                        raise _last_exc
                 except BaseException:
                     try:
                         os.unlink(tmp)

@@ -280,7 +280,7 @@ class PDFService:
 
         贾基85套卷是扫描版 PDF，文字层乱码且分数/上下标走形，导出 PDF 必须用原图。
         """
-        img = getattr(q, "stem_img", "")
+        img = getattr(q, "stem_img_path", "") or getattr(q, "stem_img", "")
         if img:
             try:
                 b64 = base64.b64encode(Path(img).read_bytes()).decode("ascii")

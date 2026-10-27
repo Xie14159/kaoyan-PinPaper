@@ -14,7 +14,7 @@
     ],
     "chapter": "第一章 函数、极限、连续",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-选01.png"
+    "stem_img": "figs/jiaji_3051-x01.png"
   },
   {
     "id": "3051-选-02",
@@ -31,7 +31,7 @@
     ],
     "chapter": "第一章 函数、极限、连续",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-选02.png"
+    "stem_img": "figs/jiaji_3051-x02.png"
   },
   {
     "id": "3051-选-03",
@@ -48,7 +48,7 @@
     ],
     "chapter": "第二章 一元函数微分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-选03.png"
+    "stem_img": "figs/jiaji_3051-x03.png"
   },
   {
     "id": "3051-选-04",
@@ -65,7 +65,7 @@
     ],
     "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-选04.png"
+    "stem_img": "figs/jiaji_3051-x04.png"
   },
   {
     "id": "3051-选-05",
@@ -82,7 +82,7 @@
     ],
     "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-选05.png"
+    "stem_img": "figs/jiaji_3051-x05.png"
   },
   {
     "id": "3051-选-06",
@@ -99,7 +99,7 @@
     ],
     "chapter": "第四章 多元函数微分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-选06.png"
+    "stem_img": "figs/jiaji_3051-x06.png"
   },
   {
     "id": "3051-选-07",
@@ -116,7 +116,7 @@
     ],
     "chapter": "第六章 微分方程及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-选07.png"
+    "stem_img": "figs/jiaji_3051-x07.png"
   },
   {
     "id": "3051-选-08",
@@ -133,7 +133,7 @@
     ],
     "chapter": "第十章 线性方程组",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-选08.png"
+    "stem_img": "figs/jiaji_3051-x08.png"
   },
   {
     "id": "3051-选-09",
@@ -150,7 +150,7 @@
     ],
     "chapter": "第八章 矩阵",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-选09.png"
+    "stem_img": "figs/jiaji_3051-x09.png"
   },
   {
     "id": "3051-选-10",
@@ -167,7 +167,7 @@
     ],
     "chapter": "第十一章 相似矩阵",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-选10.png"
+    "stem_img": "figs/jiaji_3051-x10.png"
   },
   {
     "id": "3051-填-11",
@@ -179,7 +179,7 @@
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-填11.png"
+    "stem_img": "figs/jiaji_3051-t11.png"
   },
   {
     "id": "3051-填-12",
@@ -191,7 +191,7 @@
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-填12.png"
+    "stem_img": "figs/jiaji_3051-t12.png"
   },
   {
     "id": "3051-填-13",
@@ -203,7 +203,7 @@
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-填13.png"
+    "stem_img": "figs/jiaji_3051-t13.png"
   },
   {
     "id": "3051-填-14",
@@ -215,7 +215,7 @@
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-填14.png"
+    "stem_img": "figs/jiaji_3051-t14.png"
   },
   {
     "id": "3051-填-15",
@@ -227,7 +227,7 @@
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-填15.png"
+    "stem_img": "figs/jiaji_3051-t15.png"
   },
   {
     "id": "3051-填-16",
@@ -239,7 +239,7 @@
     "options": [],
     "chapter": "第八章 矩阵",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-填16.png"
+    "stem_img": "figs/jiaji_3051-t16.png"
   },
   {
     "id": "3051-解-17",
@@ -251,7 +251,7 @@
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-解17.png"
+    "stem_img": "figs/jiaji_3051-j17.png"
   },
   {
     "id": "3051-解-18",
@@ -263,7 +263,7 @@
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-解18.png"
+    "stem_img": "figs/jiaji_3051-j18.png"
   },
   {
     "id": "3051-解-19",
@@ -275,7 +275,7 @@
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-解19.png"
+    "stem_img": "figs/jiaji_3051-j19.png"
   },
   {
     "id": "3051-解-20",
@@ -287,7 +287,7 @@
     "options": [],
     "chapter": "第五章 二重积分",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-解20.png"
+    "stem_img": "figs/jiaji_3051-j20.png"
   },
   {
     "id": "3051-解-21",
@@ -299,7 +299,7 @@
     "options": [],
     "chapter": "第一章 函数、极限、连续",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-解21.png"
+    "stem_img": "figs/jiaji_3051-j21.png"
   },
   {
     "id": "3051-解-22",
@@ -311,6 +311,6 @@
     "options": [],
     "chapter": "第十二章 二次型",
     "difficulty": "基础题",
-    "stem_img": "figs/jiaji_3051-解22.png"
+    "stem_img": "figs/jiaji_3051-j22.png"
   }
 ]

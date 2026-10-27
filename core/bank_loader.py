@@ -309,13 +309,19 @@ class BankLoader:
                 if not qid or qid in self.questions_by_id:
                     continue
                 chapter = zt.get("chapter") or "未分类章节"
-                _si = (zt.get("stem_img") or "").strip()
-                if _si:
-                    if not Path(_si).is_absolute():
-                        _si = str(zt_dir / _si)
-                    if not Path(_si).exists():
-                        logger.warning("题干图片缺失，退回文字题干: %s (题目 %s)", _si, zt.get("id"))
-                        _si = ""
+                # 题干裁图:json 里存相对 static/ 的路径,页面走静态 URL(浏览器缓存),
+                # PDF 导出另给绝对路径;两边都不让 Streamlit 每帧重编码图片。
+                _si_rel = (zt.get("stem_img") or "").strip().replace("\\", "/")
+                _si_url = ""
+                _si_path = ""
+                if _si_rel:
+                    _root = Path(__file__).resolve().parent.parent
+                    _cand = (_root / "static" / _si_rel) if not Path(_si_rel).is_absolute() else Path(_si_rel)
+                    if _cand.exists():
+                        _si_path = str(_cand)
+                        _si_url = "app/static/" + _si_rel.lstrip("/")
+                    else:
+                        logger.warning("题干图片缺失，退回文字题干: %s (题目 %s)", _cand, zt.get("id"))
                 # 难度读 metadata(大模型逐题判的 基础/综合;缺则综合兜底)
                 _dstr = zt.get("difficulty") or ""
                 _diff = DifficultyLevel.BASIC if "基础" in _dstr else (
@@ -330,7 +336,8 @@ class BankLoader:
                     tags=zt.get("tags") or [],
                     recommend_weight=3,
                     stem=zt.get("stem") or "",
-                    stem_img=_si,
+                    stem_img=_si_url,
+                    stem_img_path=_si_path,
                     options=zt.get("options") or [],
                     answer=zt.get("answer") or "",
                     solution=zt.get("solution") or "",

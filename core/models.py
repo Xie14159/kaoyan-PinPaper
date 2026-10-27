@@ -127,7 +127,8 @@ class QuestionItem:
     tags: list[str] = field(default_factory=list)
     recommend_weight: int = 3
     stem: str = ""
-    stem_img: str = ""  # 原卷题干裁图(相对/绝对路径);非空时页面优先渲染图片
+    stem_img: str = ""  # 原卷题干裁图的静态 URL(app/static/...);非空时页面优先渲染图片
+    stem_img_path: str = ""  # 同一张图的绝对文件路径;PDF 导出读字节用
     options: list[str] = field(default_factory=list)
     answer: str = ""
     solution: str = ""

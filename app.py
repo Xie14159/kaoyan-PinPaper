@@ -150,12 +150,13 @@ def render_question_stem(q) -> None:
     """
     img = getattr(q, "stem_img", "")
     if img:
-        try:
-            st.image(img, use_container_width=True)
-            return
-        except Exception as exc:  # noqa: BLE001 - 图片缺失时退回文字
-            logger.warning("题干图片渲染失败 %s: %s", img, exc)
-            st.caption("（原卷图片加载失败，以下为文字版题干，公式可能走形）")
+        # 走静态文件 URL:浏览器自己缓存,不再让 Streamlit 每帧把图片解码+编码后
+        # 通过 websocket 重发(22 题一次 rerun 曾要 268ms+ 且随题量线性增长)。
+        st.markdown(
+            f'<img src="{img}" style="width:100%;height:auto;display:block;margin:2px 0 6px;">',
+            unsafe_allow_html=True,
+        )
+        return
     render_stem(q.stem)
 
 

@@ -3050,7 +3050,7 @@ elif active_module == "📅 每日错题":
         # 修复:原逻辑 select 一次就过滤,若其中有道不在加载题库就会少推(如9道)。
         _picked = []
         _excl = set(_eb_processed)
-        while len(_picked) < 11:
+        while len(_picked) < 10:
             _batch = state_mgr.select_daily_wrong(target=11, exclude_ids=_excl, chapter_of=_eb_chapter_map)
             _batch = [q for q in _batch if q in _q_by_id2 and q not in _eb_processed and q not in _picked]
             if not _batch:

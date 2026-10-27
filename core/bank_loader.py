@@ -309,6 +309,9 @@ class BankLoader:
                 if not qid or qid in self.questions_by_id:
                     continue
                 chapter = zt.get("chapter") or "未分类章节"
+                _si = (zt.get("stem_img") or "").strip()
+                if _si and not Path(_si).is_absolute():
+                    _si = str((zt_dir / _si).resolve())
                 # 难度读 metadata(大模型逐题判的 基础/综合;缺则综合兜底)
                 _dstr = zt.get("difficulty") or ""
                 _diff = DifficultyLevel.BASIC if "基础" in _dstr else (
@@ -323,6 +326,7 @@ class BankLoader:
                     tags=zt.get("tags") or [],
                     recommend_weight=3,
                     stem=zt.get("stem") or "",
+                    stem_img=_si,
                     options=zt.get("options") or [],
                     answer=zt.get("answer") or "",
                     solution=zt.get("solution") or "",

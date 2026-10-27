@@ -13,7 +13,8 @@
       "D. 4 条"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-选01.png"
   },
   {
     "id": "3033-选-02",
@@ -29,7 +30,8 @@
       "D. 1 2 3"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-选02.png"
   },
   {
     "id": "3033-选-03",
@@ -45,7 +47,8 @@
       "D. 4"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-选03.png"
   },
   {
     "id": "3033-选-04",
@@ -61,7 +64,8 @@
       "D. F(x) 即无极值点又无拐点"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-选04.png"
   },
   {
     "id": "3033-选-05",
@@ -77,7 +81,8 @@
       "D. 可导"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-选05.png"
   },
   {
     "id": "3033-选-06",
@@ -93,7 +98,8 @@
       "D. a, b均为任意常数"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-选06.png"
   },
   {
     "id": "3033-选-07",
@@ -109,7 +115,8 @@
       "D. 2 ∫ 1 0 dx∫ √4-x2 √3x (x2 + y2) dy"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-选07.png"
   },
   {
     "id": "3033-选-08",
@@ -125,7 +132,8 @@
       "D. 2, 2, 0"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-选08.png"
   },
   {
     "id": "3033-选-09",
@@ -141,7 +149,8 @@
       "D. 不合同也不相似"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-选09.png"
   },
   {
     "id": "3033-选-10",
@@ -157,7 +166,8 @@
       "D. α1, α2, α3 可由β1, β2, β3 线性表示 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-选10.png"
   },
   {
     "id": "3033-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 当x→0 时，若1 - n+ 1 1 + ex+ e2x+ ⋯+ enx与sin x为等价无穷小，则自然数n= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-填11.png"
   },
   {
     "id": "3033-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设f(x) = 1 x+ √1 + x2，其反函数记作f-1(x)，则∫ +∞ 0 f-1(x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-填12.png"
   },
   {
     "id": "3033-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设F(x) = ∫ 1 x2 t √1 + t3 dt，则∫ 1 0 xF(x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-填13.png"
   },
   {
     "id": "3033-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 当y> 0 时，有∂2z ∂x∂y= x2exy，且∂z ∂x| y=0 = x+sin x，z(0, y) = -1 y2，则z(x, y) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-填14.png"
   },
   {
     "id": "3033-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数f(x) 连续，且满足∫ x 0 f(t) dt= 1 -f(x) -e-x，则f(n)(x) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-填15.png"
   },
   {
     "id": "3033-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A是3 阶实对称矩阵，α= (-a, 4, a+ 1)T 与β= (a+ 1, a-3, 3)T 分别是齐次线性方程 组(A-2E)x= 0 与(A+ 3E)x= 0 的解，其中E为3 阶单位阵，则a= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-填16.png"
   },
   {
     "id": "3033-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）讨论曲线y= aex（a为常数）和曲线y= (x+ 1)2 交点的个数。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-解17.png"
   },
   {
     "id": "3033-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设函数f(x) 在[a, b] 上连续，且∫ b af(x) dx= 0，∫ b axf(x) dx= m> 0， 证明存在ξ∈(a, b)，使得|f(ξ)| ≥ 2m (b-a)2。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-解18.png"
   },
   {
     "id": "3033-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设数列{xn} 定义如下：x1 = 1，xn= xn+1 + exn+1 -1，(n= 1, 2, ⋯)，证 明数列{xn} 的极限存在，并求出此极限值。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-解19.png"
   },
   {
     "id": "3033-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设z= z(x, y) 是由方程x2 -2x+y2 = ez+z-2 确定的隐函数，求z(x, y) 在区域x2 + 2y2 ≤4 内的最大值点和最小值点。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-解20.png"
   },
   {
     "id": "3033-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分） (1) 当x> 0 时，求极限lim x→0 y→0 x2 + y2 √x2 + y2 + x 。 (2) 计算二重积分I= ∬D x2 + y2 √x2 + y2 + x dσ，其中D是由x= √y-y2，y= √1 -x2 以及x轴 所围位于第一象限区域。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-解21.png"
   },
   {
     "id": "3033-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A为3 阶实对称矩阵，α= (1, 1, 0)T，β= (1, 0, 1)T，Aα= 2β，Aβ= 2α， 且存在3 阶矩阵B，有r(AB) < r(B)。 (1) 求正交变换x= Qy，化二次型xTAx为标准形，并写出标准形。 (2) 若γ= (1, 0, 4)T，求A2024γ。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3033-解22.png"
   }
 ]

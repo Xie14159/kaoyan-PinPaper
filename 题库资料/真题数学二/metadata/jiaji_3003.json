@@ -13,7 +13,8 @@
       "D. 4"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-选01.png"
   },
   {
     "id": "3003-选-02",
@@ -29,7 +30,8 @@
       "D. f(x) 与g(x) 是等价无穷小"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-选02.png"
   },
   {
     "id": "3003-选-03",
@@ -45,7 +47,8 @@
       "D. 2 和2"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-选03.png"
   },
   {
     "id": "3003-选-04",
@@ -61,7 +64,8 @@
       "D. 最大值为2，最小值为-1"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-选04.png"
   },
   {
     "id": "3003-选-05",
@@ -77,7 +81,8 @@
       "D. 发散；发散"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-选05.png"
   },
   {
     "id": "3003-选-06",
@@ -93,7 +98,8 @@
       "D. ∂2u ∂y2 = ∂2u ∂x∂y"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-选06.png"
   },
   {
     "id": "3003-选-07",
@@ -109,7 +115,8 @@
       "D. I1 > I3 > I2"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-选07.png"
   },
   {
     "id": "3003-选-08",
@@ -125,7 +132,8 @@
       "D. α1, α2, α3, β线性无关"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-选08.png"
   },
   {
     "id": "3003-选-09",
@@ -141,7 +149,8 @@
       "D. r(A, B) = r(B) 的必要条件是存在n阶矩阵D，使得A= DB"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-选09.png"
   },
   {
     "id": "3003-选-10",
@@ -157,7 +166,8 @@
       "D. A+ B的列向量组线性相关 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-选10.png"
   },
   {
     "id": "3003-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim x→0 ∫ x ln(1+x) (1 -2t)1/t t2 dt= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-填11.png"
   },
   {
     "id": "3003-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设f(x) = ∫ x 1 et2 dt，x= g(y) 是函数y= f(x) 的反函数，则g″(0) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-填12.png"
   },
   {
     "id": "3003-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ e-sin xsin 2x (1 -sin x)2 dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-填13.png"
   },
   {
     "id": "3003-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设y= xex+ e-x为二阶常系数线性微分方程y″ + ay′ + by= ce-x的一个特解，则该方程 满足初始条件y(0) = 2, y′(0) = -1 的特解是 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-填14.png"
   },
   {
     "id": "3003-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 一直线状物体L位于x轴的[0, 1] 上，其线密度函数为m(x) = x2。G为万有引力系数，则 位于x轴上点x= -1 处的单位质量质点P对L的引力F= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-填15.png"
   },
   {
     "id": "3003-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A为n阶可逆的反对称矩阵，α为n维非零列向量，则( A α αT 0 )的秩为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-填16.png"
   },
   {
     "id": "3003-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设c为实数，定义f(x) = min{(x-c)2, (x-c-2)2}，又定义g(c) = ∫ 1 0 f(x) dx， 求g(c) 在-1 ≤c≤1 上的最大值和最小值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-解17.png"
   },
   {
     "id": "3003-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设二元函数z= z(x, y) 的全微分为dz= (2xy3 + aeysin x) dx+ (bx2y2 + eycos x) dy，且z(0, 0) = 1，求z= z(x, y) 的表达式。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-解18.png"
   },
   {
     "id": "3003-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设D是由直线x+ y= 1, x+ y= 2 及x轴和y轴围成的四边形区域，计 算二重积分I= ∬De(x+y)2(cos2 x+ sin 2 y) dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-解19.png"
   },
   {
     "id": "3003-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设0 < x< 1。 (1) 证明：arcsin x< π 2x。 (2) 数列{xn} 定义如下：0 < x1 < 1，xn+1 = 2 πarcsin xn(n= 1, 2, …)，证明lim n→∞xn存在并求其 值。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-解20.png"
   },
   {
     "id": "3003-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设C为上半平面内的一条凹的曲线，已知C过点P0(0, 1)，其上任一点 P(x, y) 处的法线与x轴的交点为Q，又该曲线在P(x, y) 处的曲率等于此曲线在该点处的法 线上线段PQ长度的倒数，且曲线在点P0 处的切线与x轴平行，求此曲线方程。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-解21.png"
   },
   {
     "id": "3003-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知二次型f(x1, x2, x3) = (x1, x2, x3) ( ) 1 -a 2a -1 2 1 -a 1 1 -1 2 ( ) ( ) x1 x2 x3 ( ) 的秩为 2。 (1) 求常数a的值。 (2) 求一个正交变换x= Qy化二次型为标准形。 (3) 求方程f(x1, x2, x3) = 0 的解。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3003-解22.png"
   }
 ]

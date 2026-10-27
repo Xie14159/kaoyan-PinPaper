@@ -13,7 +13,8 @@
       "D. a+ b< 1 且b< -2。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-选01.png"
   },
   {
     "id": "3063-选-02",
@@ -29,7 +30,8 @@
       "D. 1 与2 均错误。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-选02.png"
   },
   {
     "id": "3063-选-03",
@@ -45,7 +47,8 @@
       "D. F(x) = { ln(√1 + x2 + x) + 1, x≤0, xex+ 1, x> 0"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-选03.png"
   },
   {
     "id": "3063-选-04",
@@ -61,7 +64,8 @@
       "D. 符号与a，b都有关。"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-选04.png"
   },
   {
     "id": "3063-选-05",
@@ -77,7 +81,8 @@
       "D. y= x-1 e。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-选05.png"
   },
   {
     "id": "3063-选-06",
@@ -93,7 +98,8 @@
       "D. ln 2。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-选06.png"
   },
   {
     "id": "3063-选-07",
@@ -109,7 +115,8 @@
       "D. [2, +∞)。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-选07.png"
   },
   {
     "id": "3063-选-08",
@@ -125,7 +132,8 @@
       "D. Dn= n。"
     ],
     "chapter": "第七章 行列式",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-选08.png"
   },
   {
     "id": "3063-选-09",
@@ -141,7 +149,8 @@
       "D. α1, α2 不是矩阵2E-A的特征向量，α3 必为矩阵2E-A的特征向量。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-选09.png"
   },
   {
     "id": "3063-选-10",
@@ -157,7 +166,8 @@
       "D. 3。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-选10.png"
   },
   {
     "id": "3063-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设f(x) = x+ |x| 2 ，则lim x→0[f(1 -x)f(1 + x)] 1 x2 = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-填11.png"
   },
   {
     "id": "3063-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 曲线x2 = y+ 1 在点(0, -1) 的曲率圆方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-填12.png"
   },
   {
     "id": "3063-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. lim n→∞∑ n i=1 1 √in = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-填13.png"
   },
   {
     "id": "3063-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. xdy+ ydx= sin xdx满足y(π) = 0 的特解为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-填14.png"
   },
   {
     "id": "3063-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 已知函数f(x) = x2(ex+ 5)，则f(5)(1) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-填15.png"
   },
   {
     "id": "3063-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A为n(n≥2) 阶方阵，A∗为A的伴随矩阵，若对任一n维列向量α，均有A∗α= 0，则 齐次线性方程组Ax= 0 的基础解系所含解向量的个数k必定满足 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-填16.png"
   },
   {
     "id": "3063-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设u(x, y) = f(x)+g(y) 具有二阶连续偏导数，且满足(1 + (∂u ∂y) 2 )∂2u ∂x2 - 2∂u ∂x ∂u ∂y ∂2u ∂x∂y+ (1 + (∂u ∂x) 2 )∂2u ∂y2 = 0。又已知f″(x) ≠0，求u= u(x, y) 的表达式。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-解17.png"
   },
   {
     "id": "3063-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设a= ∫ 1 0 e-t2 dt，b= ∫ 1 2 0 e-t2 dt，求整数m, n使得2 ∫ 1 -1 2 (∫ x 0 e-y2 dy)dx= ma-nb+ 1 e-1 4√e。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-解18.png"
   },
   {
     "id": "3063-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x) 在x= x0 的某邻域U内存在连续的二阶导数。 (1) 设当h> 0, x0 -h∈U, x0 + h∈U，恒有f(x0) < 1 2[f(x0 + h) + f(x0 -h)] (∗)，证明 f″(x0) ≥0； (2) 如果f″(x0) > 0，证明必存在h> 0, x0 -h∈U, x0 + h∈U，使上述(∗) 式成立。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-解19.png"
   },
   {
     "id": "3063-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设f(x) = { g(x) -y(x) x , x≠0, a, x= 0, ，其中g(x) 有连续的二阶导数，g′(0) = g″(0) = 1，y(x) 是由方程(∗) x+ y= xy+ 1 确定的隐函数。若f(x) 在x= 0 处连续，求 f′(0)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-解20.png"
   },
   {
     "id": "3063-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设函数f(x) 在(0, +∞) 内可导，对任意的s> 0, t> 0，均有∫ st 1 f(x) dx+ ln ts+ ln st= ∫ t 1 (sf(x) + 1 x)dx+ ∫ s 1 (tf(x) + 1 x)dx成立，且f(1) = 2，求f(x) 的表达式。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-解21.png"
   },
   {
     "id": "3063-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A为3 阶矩阵，λ1, λ2, λ3 是A的3 个不同的特征值，其对应的特征向 量为ξ1, ξ2, ξ3，α= ξ1 + ξ2 + ξ3，P= (α, Aα, A2α)。 (1) 证明P可逆； (2) 若(A3 -A)α= 0，求|A-3E|。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3063-解22.png"
   }
 ]

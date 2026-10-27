@@ -13,7 +13,8 @@
       "D. I= J-n"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-选01.png"
   },
   {
     "id": "3047-选-02",
@@ -29,7 +30,8 @@
       "D. 1 2 cos 1 -1 2 sin 1"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-选02.png"
   },
   {
     "id": "3047-选-03",
@@ -45,7 +47,8 @@
       "D. k≥2 ln 2 + 1"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-选03.png"
   },
   {
     "id": "3047-选-04",
@@ -61,7 +64,8 @@
       "D. 6"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-选04.png"
   },
   {
     "id": "3047-选-05",
@@ -77,7 +81,8 @@
       "D. I3 < I2 < I1"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-选05.png"
   },
   {
     "id": "3047-选-06",
@@ -93,7 +98,8 @@
       "D. 2 4"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-选06.png"
   },
   {
     "id": "3047-选-07",
@@ -109,7 +115,8 @@
       "D. 2π√π"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-选07.png"
   },
   {
     "id": "3047-选-08",
@@ -125,7 +132,8 @@
       "D. 1 不正确，2 也不正确"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-选08.png"
   },
   {
     "id": "3047-选-09",
@@ -141,7 +149,8 @@
       "D. ( λ+ k1 0 0 λ+ k2 )"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-选09.png"
   },
   {
     "id": "3047-选-10",
@@ -157,7 +166,8 @@
       "D. ( ) 1 1 1 ( ) 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-选10.png"
   },
   {
     "id": "3047-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim n→∞((1 + 1 n2)(1 + 4 n2)⋯(1 + n2 n2)) 1 n= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-填11.png"
   },
   {
     "id": "3047-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 已知(f(1 x)) ′ = ln(x2 -1) x2 ，则当n> 2 时，f(n)(x) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-填12.png"
   },
   {
     "id": "3047-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设函数y= y(x) 满足方程y″-2y′+5y= 0，且lim x→0 y(x) -2 x = 2，则∫y(x) dx= 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-填13.png"
   },
   {
     "id": "3047-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 曲线y= e -x 2√sin x在[0, 2π] 上与x轴围成的图形绕x轴旋转一周所成的旋转体的体积为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-填14.png"
   },
   {
     "id": "3047-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设z= ∫ x2y 0 f(t, ey) dt，其中f一阶偏导连续，则∂2z ∂x∂y= 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-填15.png"
   },
   {
     "id": "3047-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A为3 阶实对称矩阵，|A+ E| = 0，α1 = (1, 0, 1)T 与α2 = (0, 1, -1)T 均为齐次线性方程 组Ax= 0 的解，则矩阵A的所有元素之和为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-填16.png"
   },
   {
     "id": "3047-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设函数y= y(x) 是由方程e-y-y+ ∫ x 0 (e-t2 + 1) dt= 1 确定的。 (1) 证明y(x) 是单调增加函数； (2) 当x→+∞时，曲线y′(x) 是否有水平渐近线？若有，求出其水平渐近线；若没有，说明理 由。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-解17.png"
   },
   {
     "id": "3047-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）确定常数k的取值范围，使方程x-arctan x= kx3 在(0, 1] 内有实根。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-解18.png"
   },
   {
     "id": "3047-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x, y) 具有二阶连续偏导数，且满足f(x, 0) = x2，f′ y(x, 0) = √2x， f″ yy(x, y) = 4，求f(x, y) 在限制条件x2 + 2y2 = 4 下的最大值与最小值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-解19.png"
   },
   {
     "id": "3047-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分） (1) 设f(x) 在[a, b] 上可导，若f′ +(a) ≠f′ -(b)，证明对于任意的介于f′ +(a) 与f′ -(b) 之间的μ， 存在ξ∈(a, b)，使得f′(ξ) = μ； (2) 设f(x) 在区间[-1, 1] 上三阶可导，证明：存在ξ∈(-1, 1)，使得f‴(ξ) 6 = f(1) -f(-1) 2 - f′(0)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-解20.png"
   },
   {
     "id": "3047-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x) 连续，证明：∬|y|≤x≤1 f(√x2 + y2) dxdy= π∫ 1 0 xf(x) dx+∫ √2 1 (π-4 arccos 1 x)xf",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-解21.png"
   },
   {
     "id": "3047-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设二次型f(x1, x2, x3) 的矩阵为A，已知|A+ E| = 0，AB-2B= O，其 中B= ( ) -1 -1 -1 1 0 2 0 1 -1 ( ) 。求一个正交变换x= Qy，将二次型f(x1, x2, x3) 化为标准形，并求 矩阵A。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3047-解22.png"
   }
 ]

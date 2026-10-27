@@ -13,7 +13,8 @@
       "D. (-1 2, 1)"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-选01.png"
   },
   {
     "id": "3085-选-02",
@@ -29,7 +30,8 @@
       "D. g(x) 是偶函数且g′(0) 不存在"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-选02.png"
   },
   {
     "id": "3085-选-03",
@@ -45,7 +47,8 @@
       "D. t(s) h(m) -1 1 2 1 2 3 4π"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-选03.png"
   },
   {
     "id": "3085-选-04",
@@ -61,7 +64,8 @@
       "D. bea(eb-1) < aeb(ea-1)"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-选04.png"
   },
   {
     "id": "3085-选-05",
@@ -77,7 +81,8 @@
       "D. z xy(z-1)3"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-选05.png"
   },
   {
     "id": "3085-选-06",
@@ -93,7 +98,8 @@
       "D. I2 > I3 > I1"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-选06.png"
   },
   {
     "id": "3085-选-07",
@@ -109,7 +115,8 @@
       "D. -2e"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-选07.png"
   },
   {
     "id": "3085-选-08",
@@ -125,7 +132,8 @@
       "D. (tr(A) 2 ) 2 ≤|A|"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-选08.png"
   },
   {
     "id": "3085-选-09",
@@ -141,7 +149,8 @@
       "D. Ax = b 有解"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-选09.png"
   },
   {
     "id": "3085-选-10",
@@ -157,7 +166,8 @@
       "D. 既非充分又非必要条件 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-选10.png"
   },
   {
     "id": "3085-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设圆与曲线x= y2 在(0, 0) 处有公切线且它们关于y的二阶导数值相同，则该圆的方程 为 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-填11.png"
   },
   {
     "id": "3085-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. ∫√3 + 2x-x2 (x-1)2 dx= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-填12.png"
   },
   {
     "id": "3085-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设x= t3 + 2t+ 1, ∫ y+1 0 e-u2 du= t，则d2y dx2| t=0 = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-填13.png"
   },
   {
     "id": "3085-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设y= y(x) 满足y″ + 2y′ + y= e-x, y(0) = y′(0) = 1，则∫ +∞ 0 xdy= 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-填14.png"
   },
   {
     "id": "3085-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 曲线x 2 3 + (ay) 2 3 = 1 (a∈R) 的全长为14 3 ，则a= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-填15.png"
   },
   {
     "id": "3085-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A = ( ) a b a ( ) , P = ( ) 2 1 0 0 2 1 0 0 2 ( ) ，则P2AP-1 = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-填16.png"
   },
   {
     "id": "3085-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）求曲线y= x2 [ ] (1 + 1 x) x e -1 [ ] (x> 0) 的斜渐近线。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-解17.png"
   },
   {
     "id": "3085-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设某光滑曲线的方程为f(x, y) = 0 (x> 0, 0 < y≤a)。若该曲线的切线、 坐标轴与过切点平行于x轴的直线所围成梯形的面积恒为a2，且f(a, a) = 0。求： (1) 曲线的表达式； (2) 曲线上横坐标的最小值。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-解18.png"
   },
   {
     "id": "3085-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设f(x, y) 是可微函数，f(0, y) 在y= 0 处的切线方程为y= z，当x→0 时，∫ x 0 du∫ u2 0 f(t, u) dt与axb为等价无穷小量，求a, b的值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-解19.png"
   },
   {
     "id": "3085-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设f(x) 具有一阶连续导数，∬ D f(xy) dσ= ∫ x 0 [f′(t)-xtf(x2-t2)] dt, f(0) = a> 0，其中D是y= |x|3 与y= 1 围成的有界闭区域，求∬ D f(xy) dσ。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-解20.png"
   },
   {
     "id": "3085-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x) 在[0, 1] 上具有二阶导数，f(0) = f(1) = 0, f″(x) < 0, 0 ≤f(x) ≤ 1。记曲线y= f(x) 在[0, 1] 上的长度为a，证明： (1) 存在ξ∈(0, 1)，使得对任意x∈(0, ξ)，有f′(x) > 0； (2) a< 3。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-解21.png"
   },
   {
     "id": "3085-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设二次型f(x1, x2) = x2 1 -4x1x2 + 4x2 2，g(x1, x2) 的二次型矩阵为B = ( 1 -1 -1 2 )。 (1) 是否存在可逆矩阵D，使B = DTD？若存在，求出矩阵D，若不存在，请说明理由； (2) 求max x≠0 f(x) g(x)，其中x = ( x1 x2 )。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3085-解22.png"
   }
 ]

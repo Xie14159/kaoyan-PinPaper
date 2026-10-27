@@ -13,7 +13,8 @@
       "D. ∫ x-tan x 0 arctan tdt"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-选01.png"
   },
   {
     "id": "3013-选-02",
@@ -29,7 +30,8 @@
       "D. (-1)n xn+1 e 1 x"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-选02.png"
   },
   {
     "id": "3013-选-03",
@@ -45,7 +47,8 @@
       "D. 5 4 < ∫ 1 0 f(x) dx< 7 4"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-选03.png"
   },
   {
     "id": "3013-选-04",
@@ -61,7 +64,8 @@
       "D. -2"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-选04.png"
   },
   {
     "id": "3013-选-05",
@@ -77,7 +81,8 @@
       "D. 1, 5"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-选05.png"
   },
   {
     "id": "3013-选-06",
@@ -93,7 +98,8 @@
       "D. y‴ -2y″ -y′ + 2y= 0"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-选06.png"
   },
   {
     "id": "3013-选-07",
@@ -109,7 +115,8 @@
       "D. (e2 2 , +∞)"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-选07.png"
   },
   {
     "id": "3013-选-08",
@@ -125,7 +132,8 @@
       "D. 1, a, -a"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-选08.png"
   },
   {
     "id": "3013-选-09",
@@ -141,7 +149,8 @@
       "D. ( 1 0 1 0 0 1 )"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-选09.png"
   },
   {
     "id": "3013-选-10",
@@ -157,7 +166,8 @@
       "D. ( 2 1 1 4 ) 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-选10.png"
   },
   {
     "id": "3013-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设存在0 < θ< 1，使得∫ x 0 etdt= xeθx, x> 0，则lim x→0+ θ= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-填11.png"
   },
   {
     "id": "3013-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设f(x) = ln |x| 2x2 -ln |x|，则f′(-1) = 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-填12.png"
   },
   {
     "id": "3013-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 已知f(x) 连续，f(x2 + 1) -f(x2) = x(x> 0)，∫ 1 0 f(x) dx= 1，则∫ 2 1 f(x) dx= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-填13.png"
   },
   {
     "id": "3013-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 曲线r= 2 cos 3θ从θ= 0 到θ= π 6 所围面积为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-填14.png"
   },
   {
     "id": "3013-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 已知函数f(x) 在[0, 1] 上连续，在(0, 1) 内是函数sin πx x 的一个原函数，且f(1) = 0，则 f(x) 在区间[0, 1] 上的平均值为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-填15.png"
   },
   {
     "id": "3013-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设2 阶正交矩阵A的主对角线元素满足a11 + 2 = a22，则A= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-填16.png"
   },
   {
     "id": "3013-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）已知an= ∫ 1 0 tn| ln t| dt, n= 1, 2, ⋯，计算lim n→∞(n2an)n。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-解17.png"
   },
   {
     "id": "3013-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设函数u= xz+ ay3 (z≥0)，且x2 + y2 + z2 = 1。 (1) 当a= 1 3 时，求u的最大值； (2) 当a= t（t为变量）时，u是否有最大值，若有，求出最大值，若没有，说明理由。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-解18.png"
   },
   {
     "id": "3013-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）计算二重积分∬ D |x2 + y2 -√2(x+ y)|dxdy，其中D= {(x, y) ∣x2+y2 ≤ 4}。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-解19.png"
   },
   {
     "id": "3013-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设an= ∫ +∞ 0 xn -x ndx, n= 2, 3, ⋯，求{an} 的最小值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-解20.png"
   },
   {
     "id": "3013-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）已知函数y= y(x) 满足x(ln x-1)y′(x) + (3 -ln x2)y(x) = 0, x> e，且 y(e2) = e4 2 ，求y= y(x) 的最小值。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-解21.png"
   },
   {
     "id": "3013-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知3 维列向量ξ不是A2x= 0 的解，Aξ是A2x= 0 的解。记P= (ξ, Aξ, A2ξ)。 (1) 证明P可逆； (2) A能否相似对角化？若能，求出一个与之相似的对角矩阵，若不能，请说明理由。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3013-解22.png"
   }
 ]

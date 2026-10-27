@@ -13,7 +13,8 @@
       "D. 同阶非等价无穷小"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-选01.png"
   },
   {
     "id": "3054-选-02",
@@ -29,7 +30,8 @@
       "D. 4"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-选02.png"
   },
   {
     "id": "3054-选-03",
@@ -45,7 +47,8 @@
       "D. {an} 的敛散性与a1 有关"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-选03.png"
   },
   {
     "id": "3054-选-04",
@@ -61,7 +64,8 @@
       "D. M> P> N"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-选04.png"
   },
   {
     "id": "3054-选-05",
@@ -77,7 +81,8 @@
       "D. -1, -1"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-选05.png"
   },
   {
     "id": "3054-选-06",
@@ -93,7 +98,8 @@
       "D. y′ = y2"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-选06.png"
   },
   {
     "id": "3054-选-07",
@@ -109,7 +115,8 @@
       "D. 1 2 ln 2"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-选07.png"
   },
   {
     "id": "3054-选-08",
@@ -125,7 +132,8 @@
       "D. k1α1 + k2α3"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-选08.png"
   },
   {
     "id": "3054-选-09",
@@ -141,7 +149,8 @@
       "D. 4"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-选09.png"
   },
   {
     "id": "3054-选-10",
@@ -157,7 +166,8 @@
       "D. -z2 1 -z2 3 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-选10.png"
   },
   {
     "id": "3054-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设函数f(x) = (x-1)(x-2)2(x-3)3 x ，则f″(2) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-填11.png"
   },
   {
     "id": "3054-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. f(x) = ∫ x2 0 (t-1)√te√tdt的极小值为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-填12.png"
   },
   {
     "id": "3054-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 曲线L:y= x2 -1 8 ln x(1 2 < x< 2)的弧长为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-填13.png"
   },
   {
     "id": "3054-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 若可微函数z= f(x, y) 在平面区域D= {(x, y) ∣x2 + y2 ≤5} 上的最大值点为(1, 2)，且 f(1, 2) = M，则曲线f(x, y) = M在点(1, 2) 处的切线方程为 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-填14.png"
   },
   {
     "id": "3054-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. ∫ 1 0 dy∫ 1 y(sin x2 x -sin y2)dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-填15.png"
   },
   {
     "id": "3054-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 若正定矩阵A满足A2 = ( 2 1 1 2 )，则A= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-填16.png"
   },
   {
     "id": "3054-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）已知一容器的外表面由y= |x|3 (0 ≤y≤1) 绕y轴旋转而成，现在该容 器盛满了水，水的密度为ρ，重力加速度为g，将容器内的水全部抽出至少需做多少功？",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-解17.png"
   },
   {
     "id": "3054-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）已知函数f(x) 在x= 0 处具有一阶导数，且lim x→0 xf(x) + ex2 sin x x2 = 1。 求f(x) 在x= 0 处的切线方程。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-解18.png"
   },
   {
     "id": "3054-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x) = ∫ 1 0 |t(t-x)|e-t2 dt, 0 ≤x≤1，求f(x) 在极值点处的曲 率。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-解19.png"
   },
   {
     "id": "3054-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设函数f(x) 在区间[0, 3] 上连续，证明： (1) 若∫ 1 0 f(x) dx= e2 ∫ 3 0 f(x) dx，则存在c∈(1, 3)，使得∫ c 0 f(x) dx+ f(c) = 0； (2) 若∫ 1 0 f(x) dx= ∫ 2 0 f(x) dx= 1，则存在两个不同的点ξ, η∈(1, 3)，使得eξ(∫ ξ 0 f(x) dx+ f(ξ))= eη-1。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-解20.png"
   },
   {
     "id": "3054-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x) 满足f′(x)+f2(x) = 0, f(0) = 1，计算二重积分∬Df(x y)e f(y x ) dσ， 其中平面区域D= {(x, y) ∣0 ≤x≤1 -y, 0 < y< 1}。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-解21.png"
   },
   {
     "id": "3054-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知3 维列向量ξ1 是3 阶实对称矩阵A的属于特征值1 的特征向量， |A+ E| = 0, |A| = 1, η是3 维非零列向量，[ξ1, η] = 0。 (1) 证明η是A的特征向量； (2) 记α= ξ1 ||ξ1|| = ( ) a1 a2 a3 ( ) , β= η ||η|| = ( ) b1 b2 b3 ( ) ，证明二次型f(x1, x2, x3) = (a1x1 + a2x2 + a3x3)2 -(b1x1 + b2x2 + b3x3)2 在正交变换下的标准形为y2 1 -y2 2。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3054-解22.png"
   }
 ]

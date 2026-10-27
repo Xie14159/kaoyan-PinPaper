@@ -13,7 +13,8 @@
       "D. 3"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-选01.png"
   },
   {
     "id": "3055-选-02",
@@ -29,7 +30,8 @@
       "D. +∞"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-选02.png"
   },
   {
     "id": "3055-选-03",
@@ -45,7 +47,8 @@
       "D. 2 3, 13 2"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-选03.png"
   },
   {
     "id": "3055-选-04",
@@ -61,7 +64,8 @@
       "D. ∫ 9 4 1 f(√x) √x dx"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-选04.png"
   },
   {
     "id": "3055-选-05",
@@ -77,7 +81,8 @@
       "D. f(0) 是f(x) 在(-∞, +∞) 上的最大值。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-选05.png"
   },
   {
     "id": "3055-选-06",
@@ -93,7 +98,8 @@
       "D. [(Δx)2 + (Δy)2] sin 1 (Δx)2 + (Δy)2"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-选06.png"
   },
   {
     "id": "3055-选-07",
@@ -109,7 +115,8 @@
       "D. 重合。"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-选07.png"
   },
   {
     "id": "3055-选-08",
@@ -125,7 +132,8 @@
       "D. (k-1)η1 -kη2"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-选08.png"
   },
   {
     "id": "3055-选-09",
@@ -141,7 +149,8 @@
       "D. 2"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-选09.png"
   },
   {
     "id": "3055-选-10",
@@ -157,7 +166,8 @@
       "D. a≠1 且a≠-1 2。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-选10.png"
   },
   {
     "id": "3055-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 曲线{ x= t-ln(1 + t2), y= arctan t 在t= 2 处的曲率为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-填11.png"
   },
   {
     "id": "3055-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 已知∫ +∞ 5 ( a x-3 - 1 x-1) dx= b，a, b为常数，则ab= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-填12.png"
   },
   {
     "id": "3055-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设f(x) = 1 2x+ 1, x∈R，则f(4)(0) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-填13.png"
   },
   {
     "id": "3055-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设平面区域D= {(x, y) ∣y-3 ≤2x≤-y+ 3, 0 ≤y≤3}，平面薄板D的面密度为 ρ(x, y) = y，则D的质心为 。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-填14.png"
   },
   {
     "id": "3055-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设y= y(x) 及z= z(x) 由方程ez-xyz= 0 及xz2 = ln y所确定，则|dz| dx| x=1 2 = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-填15.png"
   },
   {
     "id": "3055-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设3 阶实对称矩阵A= ( ) a11 a12 a13 a12 a22 a23 a13 a23 a33 ( ) ，f(x1, x2, x3) = | | a11 -x1 a12 a13 a12 a22 -x2 a23 a13 a23 a33 -x3 | |。 若属于A的二重特征值-1 的特征向量为α1 = (-1, -1, 1)T, α2 = (1, -2, -1)T，f(1, 1, 1) = 0， 则A= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-填16.png"
   },
   {
     "id": "3055-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设f(x) 在x= 0 的某邻域内连续，在x= 0 处可导，且f(0) = 0， g(x) = { 1 x2 ∫ x 0 f(t) dt, x≠0, 0, x= 0, 证明g(x) 在x= 0 处可导且g′(x) 在x= 0 处连续。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-解17.png"
   },
   {
     "id": "3055-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）已知曲线段L:x= ln y（1 ≤y≤√3），有界区域D由L与y轴及直线 y= √3 围成。 (1) 求D绕y轴旋转一周所成的旋转体的体积。 (2) 求曲线段L的长。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-解18.png"
   },
   {
     "id": "3055-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设f(x) 在[0, 1] 上连续，在(0, 1) 内可导，且f(0) = f(1) = 0, M= max 0≤x≤1 |f(x)| > 0。证明： (1) 在(0, 1) 内存在不同的ξ和η，使得 1 |f′(ξ)| + 1 |f′(η)| = 1 M； (2) 对(1) 中的ξ, η，有(|f′(ξ)| -2M)(|f′(η)| -2M) ≤0。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-解19.png"
   },
   {
     "id": "3055-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设函数f(x, y) 一阶偏导数连续，f(x, y) dx+ xydy是某二元函数u(x, y) 的全微分，u(0, 0) = 1，且对于任意的t，有1 + ∫ t 0 f(x, 1) dx= ∫ 0 1 f(x, t) dx。 (1) 求du； (2) 求u(x, y) 的极值点。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-解20.png"
   },
   {
     "id": "3055-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x) = ∬D(x) yln √u2 + v2 u+ v dudv，D(x) = {(u, v) ∣1 4 ≤u2 + v2 ≤ x2, u> 0, v> 0}（x> 1 2），求曲线y(x) = ∫ x 1 2 f(t) dt（x> 1 2）的拐点。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-解21.png"
   },
   {
     "id": "3055-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设某产品当前的市场占有率为80%，经调研，正使用该产品的用户中有 80% 仍会继续购买，而未使用该产品的用户中有20% 将会购买。设第n年时，购买的用户 比例为xn，不购买的用户比例为yn。 (1) 求( xn yn )的表达式； (2) 按此趋势，求该产品最终的市场占有率。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3055-解22.png"
   }
 ]

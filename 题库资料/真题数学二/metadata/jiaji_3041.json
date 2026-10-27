@@ -13,7 +13,8 @@
       "D. f(x) 在x= 1 处取极小值"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-选01.png"
   },
   {
     "id": "3041-选-02",
@@ -29,7 +30,8 @@
       "D. {xn} 有界"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-选02.png"
   },
   {
     "id": "3041-选-03",
@@ -45,7 +47,8 @@
       "D. 0"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-选03.png"
   },
   {
     "id": "3041-选-04",
@@ -61,7 +64,8 @@
       "D. I1 < 0, I2 < 0"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-选04.png"
   },
   {
     "id": "3041-选-05",
@@ -77,7 +81,8 @@
       "D. - 4xyz (y2 + z2)2"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-选05.png"
   },
   {
     "id": "3041-选-06",
@@ -93,7 +98,8 @@
       "D. ln 3"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-选06.png"
   },
   {
     "id": "3041-选-07",
@@ -109,7 +115,8 @@
       "D. 1 2"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-选07.png"
   },
   {
     "id": "3041-选-08",
@@ -125,7 +132,8 @@
       "D. ( ) 2 0 0 0 2 -4 0 0 2 ( )"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-选08.png"
   },
   {
     "id": "3041-选-09",
@@ -141,7 +149,8 @@
       "D. a= -2, b= 3"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-选09.png"
   },
   {
     "id": "3041-选-10",
@@ -157,7 +166,8 @@
       "D. ( ) 1 0 0 ( ) , ( ) 0 1 √2 + 1 ( ) 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-选10.png"
   },
   {
     "id": "3041-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设函数y= y(x) 由方程x2 + xy+ y2 -x= 0 确定的满足y(1) = -1 的可导函数，则 lim x→1 (x-1)2 y(x) + 1 = 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-填11.png"
   },
   {
     "id": "3041-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设g(x) = { } 2ex2, x≤0, 4 -2ex2, x> 0, 则∫ 5 -5 g(x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-填12.png"
   },
   {
     "id": "3041-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设单位圆的内接正n边形与该圆之间部分的面积为An，则lim n→∞n2An= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-填13.png"
   },
   {
     "id": "3041-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设y1 = ex-e-xsin 2x, y2 = ex是某二阶齐次非齐次线性方程的两个解，则该微分方程是 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-填14.png"
   },
   {
     "id": "3041-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数u= f(x, y, xyz)，函数z= z(x, y) 由方程exy= ∫ z yg(xy+ z-t) dt所确定，其中f 具有连续偏导数，g连续，求x∂u ∂x-y∂u ∂y= 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-填15.png"
   },
   {
     "id": "3041-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A为4 阶方阵，α1, α2, α3, α4 为线性无关的n维列向量，且Aα1 = 2α1 + α2 + α3 + α4， Aα2 = α1 +2α2 +α3 +α4，Aα3 = α1 +α2 +2α3 +α4，Aα4 = α1 +α2 +α3 +2α4，则r[A-5E] = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-填16.png"
   },
   {
     "id": "3041-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分） （本题满分10 分）设函数y= y(x) 满足y(x) = x3-x∫ x 1 y(t) t2 dt+y′(x)(x> 0)，并且lim x→+∞ y(x) x3 存在，求y(x)。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-解17.png"
   },
   {
     "id": "3041-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）（本题满分12 分）设f(x), g(x) 在[-a, a] 上连续，若f(x) = f(-x), g(x)+ g(-x) = m（m为常数），（Ⅰ）证明∫ a -af(x)g(x) dx= m 2 ∫ a -af(x) dx；（Ⅱ）计算I= ∫ π -π xsin x (ex+ 1)(1 + cos2 x) dx。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-解18.png"
   },
   {
     "id": "3041-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）（本题满分12 分）设函数z= z(x, y) 是由方程2(x2 -1)y+ y2z2 + z= 0 确定的隐函数，求z(x, y) 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-解19.png"
   },
   {
     "id": "3041-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）（本题满分12 分）设区域D= {(x, y) ∣x2 + y2 ≤4}，计算二重积分 I= ∬Dmax{√4 -x2 -y2, √3(x2 + y2)} dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-解20.png"
   },
   {
     "id": "3041-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）（本题满分12 分）设x1 > 0, xn+1 = √1 + xnln(1 + xn), n= 1, 2, ⋯。（Ⅰ） 证明当x> 0 时，ln(1 + x) < x √1 + x ；（Ⅱ）证明lim n→∞xn存在，并求之。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-解21.png"
   },
   {
     "id": "3041-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）（本题满分12 分）设f(x1, x2, x3) = (2x1 + x2 -x3)2 + (x1 + 2x2 + x3)2 + (-x1 + x2 + 2x3)2，记A= ( ) 2 1 -1 1 2 1 -1 1 2 ( ) 。（Ⅰ）求f= 0 的通解；（Ⅱ）证明二次型f的矩阵 为AAT；（Ⅲ）求正交变换x= Py化二次型f为标准形。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3041-解22.png"
   }
 ]

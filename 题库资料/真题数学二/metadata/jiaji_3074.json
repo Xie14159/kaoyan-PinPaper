@@ -13,7 +13,8 @@
       "D. -3 2"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-选01.png"
   },
   {
     "id": "3074-选-02",
@@ -29,7 +30,8 @@
       "D. 曲线y= f(x) 恰有两个拐点，函数f(x) 有一个凹区间，两个凸区间"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-选02.png"
   },
   {
     "id": "3074-选-03",
@@ -45,7 +47,8 @@
       "D. J> K> I"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-选03.png"
   },
   {
     "id": "3074-选-04",
@@ -61,7 +64,8 @@
       "D. 0 < p< 1 2"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-选04.png"
   },
   {
     "id": "3074-选-05",
@@ -77,7 +81,8 @@
       "D. -6dx+ 2dy"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-选05.png"
   },
   {
     "id": "3074-选-06",
@@ -93,7 +98,8 @@
       "D. 恰有三个零点"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-选06.png"
   },
   {
     "id": "3074-选-07",
@@ -109,7 +115,8 @@
       "D. I1 < I3"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-选07.png"
   },
   {
     "id": "3074-选-08",
@@ -125,7 +132,8 @@
       "D. 若α1, α2, ⋯, αm线性无关，则β1, β2, ⋯, βm可能线性相关，也可能线性无关"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-选08.png"
   },
   {
     "id": "3074-选-09",
@@ -141,7 +149,8 @@
       "D. k1β3 + k2β4 + β1 ||β1||2 + β2 ||β2||2，其中k1, k2 为任意常数"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-选09.png"
   },
   {
     "id": "3074-选-10",
@@ -157,7 +166,8 @@
       "D. M1, M2 均不与M 相似 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-选10.png"
   },
   {
     "id": "3074-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设曲线L由参数方程{ x= csc 2t, y= ln tan t (π 6 ≤t≤π 3)确定，则曲线L的弧长s= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-填11.png"
   },
   {
     "id": "3074-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设函数f(x) = x x2 -x+ 1，则f(1000)(0) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-填12.png"
   },
   {
     "id": "3074-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 已知sin 4 x-3 8 为y(4) + ay‴ + by″ + cy′ + dy= 0 的解，则a+ b+ c+ d= 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-填13.png"
   },
   {
     "id": "3074-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 已知函数f(u) 连续，z(x, y) = f(sin x+ cos y) -sin(x+ y)，z(0, 0) = 0。若∂z ∂x+ ∂z ∂y= sin 2x-sin 2y，则f(u) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-填14.png"
   },
   {
     "id": "3074-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数f(x) 在[0, 1] 上连续，且∫ 1 0 f(x) √1 -x2 dx= 1，则∫ π 2 0 dx∫ xπ 2 f(sin x)f(sin y) dy= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-填15.png"
   },
   {
     "id": "3074-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A, B 均为3 阶非零矩阵，若AB = O 且矩阵A+E 与B 相似，则| tr(A)|+| tr(B)| = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-填16.png"
   },
   {
     "id": "3074-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设函数f(x) 在[0, +∞) 上连续，且f(0) = 0，f′(0) = 1，曲线La的极 坐标方程为ρ= aθ（θ∈[0, π]），其中a> 0，记该曲线与θ= π所围成的区域为Da，求 lim a→0+ a∬Daf(√x2 + y2) dxdy arcsin a4 + √1 -a8 -1 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-解17.png"
   },
   {
     "id": "3074-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设D是由曲线x4 +y2 +x2y-1 = 0 围成的有界闭区域，求函数f(x, y) = x2(1 -x2 -y2 -x2y) 在区域D上的最小值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-解18.png"
   },
   {
     "id": "3074-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）已知函数f(x) 在[0, π 2]上连续，且满足f(x) = √1 -sin 2x-∫ π 2 0 f(x) sin xdx。 (1) 求函数f(x) 的表达式； (2) 记曲线y= f(x) 与y= -1 4 tan x以及y轴所围区域为D，求区域D绕直线y= -1 4 旋转一 周所得旋转体的体积V。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-解19.png"
   },
   {
     "id": "3074-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）已知当物体表面与周围存在温度差时，物体温度对时间的变化率与温度 差成正比。设某一物体的初始温度为10∘C，将其置于一个高温且恒温的环境中，5min 后该物 体的温度升为15∘C，10min 后升为18∘C，问：环境的温度为多少？",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-解20.png"
   },
   {
     "id": "3074-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设a> b> 0，函数f(x) 是定义在[0, +∞) 上的二阶可导函数，且 f(0) = a-b，f′(0) = -a，f″(x) ≤ 2a (x+ 1)3。证明：f(x) 在(0, a-b b )上存在唯一的零点。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-解21.png"
   },
   {
     "id": "3074-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设矩阵A = ( ) 1 a 0 a 2 b 0 b 1 ( ) ，且α= (-1, 1, 1)T 是矩阵A 的属于特征值λ的 一个特征向量。 (1) 求a, b； (2) 求正交变换x = Qy 将二次型f(x1, x2, x3) = xTAx 化为标准形； (3) 求f(x1, x2, x3) = 0 的解。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3074-解22.png"
   }
 ]

@@ -13,7 +13,8 @@
       "D. f(x) 与g(x) 是等价无穷小"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-选01.png"
   },
   {
     "id": "3016-选-02",
@@ -29,7 +30,8 @@
       "D. 5"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-选02.png"
   },
   {
     "id": "3016-选-03",
@@ -45,7 +47,8 @@
       "D. 在x= 1 处不可导，在x= 2 处不连续"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-选03.png"
   },
   {
     "id": "3016-选-04",
@@ -61,7 +64,8 @@
       "D. 最大值为2，最小值为-1"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-选04.png"
   },
   {
     "id": "3016-选-05",
@@ -77,7 +81,8 @@
       "D. ∫ π 2 0 √x sin 2xdx"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-选05.png"
   },
   {
     "id": "3016-选-06",
@@ -93,7 +98,8 @@
       "D. ∂2u ∂y2 = ∂2u ∂x∂y"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-选06.png"
   },
   {
     "id": "3016-选-07",
@@ -109,7 +115,8 @@
       "D. I3 < I2 < I1"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-选07.png"
   },
   {
     "id": "3016-选-08",
@@ -125,7 +132,8 @@
       "D. α1, α2, α4, β线性相关"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-选08.png"
   },
   {
     "id": "3016-选-09",
@@ -141,7 +149,8 @@
       "D. 2 不是B的特征值"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-选09.png"
   },
   {
     "id": "3016-选-10",
@@ -157,7 +166,8 @@
       "D. A+ B的列向量组线性相关 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-选10.png"
   },
   {
     "id": "3016-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设y= y(x) 由{ x= 1 2 ln(1 + t2), y= 2 arctan t-1 确定，则d2y dx2| t=1 = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-填11.png"
   },
   {
     "id": "3016-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设f(x) = ∫ x 1 et2 dt, x= g(y) 是函数y= f(x) 的反函数，则g″(0) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-填12.png"
   },
   {
     "id": "3016-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ 3 2 1 2 (1 -x) arcsin(1 -x) √2x-x2 dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-填13.png"
   },
   {
     "id": "3016-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 微分方程y‴ + y″ + y′ -3y= 0 满足lim x→-∞e-xy= 1 的特解为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-填14.png"
   },
   {
     "id": "3016-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 一直线状物体L位于x轴的[0, 1] 上，其线密度函数为m(x) = x2，G为万有引力系数，则 位于x轴上点x= -1 处的单位质量质点P对L的引力F= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-填15.png"
   },
   {
     "id": "3016-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A为n阶可逆的反对称矩阵，α为n维非零列向量，则( A α αT 0 )的秩为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-填16.png"
   },
   {
     "id": "3016-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设f(x) = x-[x]，其中[x] 表示不超过x的最大整数， (1) 证明：f(x) = x-[x] 是以1 为周期的函数； (2) 对任意正整数n，求∫ n 0 f(x) dx； (3) 求极限lim x→+∞ 1 x∫ x 0 f(t) dt。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-解17.png"
   },
   {
     "id": "3016-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设二元函数z= z(x, y) 的全微分为dz= (2xy3 + aeysin x) dx+ (bx2y2 + eycos x) dy，且z(0, 0) = 1。求z= z(x, y) 的表达式；",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-解18.png"
   },
   {
     "id": "3016-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设区域D为1 ≤x2 + y2 ≤4, xtan(x2 + y2) ≤y≤xtan[2(x2 + y2)], x> 0, y> 0，计算I= ∬Dex2+y2 dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-解19.png"
   },
   {
     "id": "3016-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分） (1) 证明方程x= 2 -2e-x在(0, +∞) 内有且仅有一个根x= ξ； (2) 若x1 > ξ，令xn+1 = 2 -2e-xn, n= 1, 2, ⋯，证明数列{xn} 收敛，且lim n→∞xn= ξ。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-解20.png"
   },
   {
     "id": "3016-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设C为上半平面内的一条凹的曲线，已知C过点P0(0, 1)，其上一点P(x, y) 处的法线与x轴的交点为Q。又该曲线在P(x, y) 处的曲率等于此曲线在该点处的法线上线 段PQ长度的倒数，且曲线在点P0 处的切线与x轴平行，求此曲线方程。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-解21.png"
   },
   {
     "id": "3016-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知二次型f(x1, x2, x3) = (x1, x2, x3) ( ) 1 -a 2a -1 2 1 -a 1 1 -1 2 ( ) ( ) x1 x2 x3 ( ) 的秩为 2。 (1) 求常数a的值； (2) 求一个正交变换x= Qy化二次型为标准形； (3) 求方程f(x1, x2, x3) = 0 的解。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3016-解22.png"
   }
 ]

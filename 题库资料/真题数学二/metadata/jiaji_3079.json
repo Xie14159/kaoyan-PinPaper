@@ -13,7 +13,8 @@
       "D. 3"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-选01.png"
   },
   {
     "id": "3079-选-02",
@@ -29,7 +30,8 @@
       "D. 13√2 2 v0"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-选02.png"
   },
   {
     "id": "3079-选-03",
@@ -45,7 +47,8 @@
       "D. 可微"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-选03.png"
   },
   {
     "id": "3079-选-04",
@@ -61,7 +64,8 @@
       "D. 1 2f(π) < f(π 2)< f"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-选04.png"
   },
   {
     "id": "3079-选-05",
@@ -77,7 +81,8 @@
       "D. -1"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-选05.png"
   },
   {
     "id": "3079-选-06",
@@ -93,7 +98,8 @@
       "D. ∫ -arctan 2 -π 2 dθ∫ 4 cot θcsc θ 2 cos θ f(rcos θ, rsin θ)rdr+ ∫ -π 4 -arctan 2 dθ∫ sec θ 2 cos θf(rcos θ, rsin θ)rdr"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-选06.png"
   },
   {
     "id": "3079-选-07",
@@ -109,7 +115,8 @@
       "D. 若∫ +∞ 0 f2(x) dx收敛，则∫ +∞ 0 f(x) dx收敛"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-选07.png"
   },
   {
     "id": "3079-选-08",
@@ -125,7 +132,8 @@
       "D. a= -2，b= 4"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-选08.png"
   },
   {
     "id": "3079-选-09",
@@ -141,7 +149,8 @@
       "D. 既不充分也不必要条件"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-选09.png"
   },
   {
     "id": "3079-选-10",
@@ -157,7 +166,8 @@
       "D. 4 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-选10.png"
   },
   {
     "id": "3079-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 曲线{ x= arctan t, y= ln(1 + t2) 在t= 0 对应点处的曲率圆方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-填11.png"
   },
   {
     "id": "3079-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. f(x, y) = (4x-x2)(2y-y2) 的极大值为 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-填12.png"
   },
   {
     "id": "3079-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 微分方程y″(y′ -x+ 1) = 1 满足y′(0) = 0，y(1) = 3 2 的解为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-填13.png"
   },
   {
     "id": "3079-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 曲线x2(ln y-ln x) = y的斜渐近线方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-填14.png"
   },
   {
     "id": "3079-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设连续函数f(x) 满足f(x+3)-f(x) = ∫ x+3 x 1 ueudu，∫ 3 0 f(x) dx= 1，则∫ 4 1 f(x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-填15.png"
   },
   {
     "id": "3079-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设3 阶矩阵A、B，若|AB| = 6，AB的每一行元素之和为1，|BA-2E| = 0，则|BA+ 2E| = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-填16.png"
   },
   {
     "id": "3079-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分） (1) 当x> 0 时，证明不等式 x 1 + x< ln(1 + x) < x； (2) 求极限lim n→∞ (n2 + 1)(n2 + 2) ⋯(n2 + n) (n2 -1)(n2 -2) ⋯(n2 -n)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-解17.png"
   },
   {
     "id": "3079-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设曲线方程为y= √xe -x 2，现将另一曲线y= k√x(1 e < k< 1)与该曲 线围成的图形绕x轴旋转一周所形成的旋转体体积记为V1，将曲线y= k√x，y= √xe -x 2 与 直线x= 2 围成的图形绕x轴旋转一周所形成的旋转体体积记为V2，令V= V1 + V2，试求k 的值，使V取得最小值。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-解18.png"
   },
   {
     "id": "3079-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）已知平面区域D= {(x, y) ∣x2 + y2 ≤2(x+ y)，x+ y≥2}，计算二重积 分I= ∬D|x2 -y2| dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-解19.png"
   },
   {
     "id": "3079-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设函数f(x) = ex2 ∫ +∞ x e-t2 dt。证明： (1) f(x) 在[0, +∞) 上有界； (2) 方程f(x) = x在(0, +∞) 上有且仅有一个实根。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-解20.png"
   },
   {
     "id": "3079-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x, y) 在D= {(x, y) ∣x2 + y2 ≤1} 上具有连续的偏导数，且在边界 上的取值为0。设对任意的t> 0，均有f(tx, ty) = tf(x, y) 且f(0, 0) = 1。 (1) 证明：xf′ x(x, y) + yf′ y(x, y) = f(x, y)。 (2) 计算lim ε→+0 ∬Dε f(x, y) x2 + y2 dxdy，其中Dε= {(x, y) ∣ε2 ≤x2 + y2 ≤1}。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-解21.png"
   },
   {
     "id": "3079-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设xi为三维列向量(i= 1, 2, ⋯)，A= [ ] 2 a 0 a2 2 0 0 0 a [ ] 是二次型f1(x1) = xT 1Ax1 的矩阵，且二次型fn(xn) 经可逆线性变换xn= Axn+1 化为二次型fn+1(xn+1) (n= 1, 2, ⋯)。 (1) 求a的值； (2) 求An； (3) 若x= ( ) 5 -5 10 ( ) ，求f2025(x)。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3079-解22.png"
   }
 ]

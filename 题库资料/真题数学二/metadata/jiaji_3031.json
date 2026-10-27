@@ -13,7 +13,8 @@
       "D. ab= 2。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-选01.png"
   },
   {
     "id": "3031-选-02",
@@ -29,7 +30,8 @@
       "D. 13 7 k。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-选02.png"
   },
   {
     "id": "3031-选-03",
@@ -45,7 +47,8 @@
       "D. x= π 2 是f(x) 的极大值点，是g(x) 的极小值点。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-选03.png"
   },
   {
     "id": "3031-选-04",
@@ -61,7 +64,8 @@
       "D. y″ -y′ -2y= xex+ e2x。"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-选04.png"
   },
   {
     "id": "3031-选-05",
@@ -77,7 +81,8 @@
       "D. (-1 12, -1 2, 1)。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-选05.png"
   },
   {
     "id": "3031-选-06",
@@ -93,7 +98,8 @@
       "D. f′ y(0, 0) = 1。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-选06.png"
   },
   {
     "id": "3031-选-07",
@@ -109,7 +115,8 @@
       "D. π 4 + 7 3。"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-选07.png"
   },
   {
     "id": "3031-选-08",
@@ -125,7 +132,8 @@
       "D. 单位矩阵。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-选08.png"
   },
   {
     "id": "3031-选-09",
@@ -141,7 +149,8 @@
       "D. 2。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-选09.png"
   },
   {
     "id": "3031-选-10",
@@ -157,7 +166,8 @@
       "D. Ax= β有唯一解。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-选10.png"
   },
   {
     "id": "3031-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设函数z= z(x, y) 由ex+ yz= 2y-x确定，则∂2z ∂y2| (1,1) = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-填11.png"
   },
   {
     "id": "3031-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 曲线y= 3√x3 -2x2 + 1 的斜渐近线方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-填12.png"
   },
   {
     "id": "3031-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 抛物线y2 = 2x(0 ≤x≤h) 绕x轴旋转一周所得旋转曲面的面积为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-填13.png"
   },
   {
     "id": "3031-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 已知函数y(x) 由方程∫ y 0 etdt+ ∫ x 0 cos tdt= 0 确定，则d2y dx2 = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-填14.png"
   },
   {
     "id": "3031-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设过点(0, 1) 的曲线y= y(x) 满足y″ = x，且在点(0, 1) 处与直线y= x 2 + 1 相切，则该 曲线的方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-填15.png"
   },
   {
     "id": "3031-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设α1，α2，α3，α4 是四元非齐次线性方程组Ax= b的4 个解向量，且α1 +α2 = (2, 4, 6, 8)T， α2 + α3 + α4 = (3, 5, 7, 9)T，α1 + 2α2 -α3 = (2, 0, 0, 2)T，若秩r(A) = 2，则方程组Ax= b 的通解是 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-填16.png"
   },
   {
     "id": "3031-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）计算∫ x3 + 1 x4 + 2x2 + 1 dx。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-解17.png"
   },
   {
     "id": "3031-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）求函数F(x) = ∫ x+1 x |t(t2 -1)| dt的最小值。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-解18.png"
   },
   {
     "id": "3031-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设f(x) 在[0, 1] 上具有三阶连续导数，f′(0) = f″(0) = 0，证明存在 ξ, η, ζ∈(0, 1)，使得eξf‴(η) = 6eζf′(ξ)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-解19.png"
   },
   {
     "id": "3031-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）求函数z= e2x+3y(8x2 -6xy+ 3y2) 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-解20.png"
   },
   {
     "id": "3031-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）已知平面有界区域D= {(r, θ) ∣r≤4 cos θ, r≤4 sin θ}，计算∬Dr3(sin θ- cos θ)2 drdθ。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-解21.png"
   },
   {
     "id": "3031-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知矩阵A= ( ) 4 1 -2 1 1 1 -2 1 a ( ) 与B= ( ) k 0 0 0 6 0 0 0 0 ( ) 合同但不相似。 (1) 求a的值及k的取值范围； (2) 若存在可逆矩阵Q，使得QTAQ= B，求Q。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3031-解22.png"
   }
 ]

@@ -13,7 +13,8 @@
       "D. 1 6, 2"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-选01.png"
   },
   {
     "id": "3044-选-02",
@@ -29,7 +30,8 @@
       "D. -πcos 3 -sin 3"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-选02.png"
   },
   {
     "id": "3044-选-03",
@@ -45,7 +47,8 @@
       "D. 1 5"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-选03.png"
   },
   {
     "id": "3044-选-04",
@@ -61,7 +64,8 @@
       "D. x0 是否是极值点无法判断。"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-选04.png"
   },
   {
     "id": "3044-选-05",
@@ -77,7 +81,8 @@
       "D. 既非充分也非必要条件"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-选05.png"
   },
   {
     "id": "3044-选-06",
@@ -93,7 +98,8 @@
       "D. k= 4 时，(0, 0) 是极大值点。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-选06.png"
   },
   {
     "id": "3044-选-07",
@@ -109,7 +115,8 @@
       "D. 1 3(√2 -1)"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-选07.png"
   },
   {
     "id": "3044-选-08",
@@ -125,7 +132,8 @@
       "D. -3"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-选08.png"
   },
   {
     "id": "3044-选-09",
@@ -141,7 +149,8 @@
       "D. 1, a, -a"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-选09.png"
   },
   {
     "id": "3044-选-10",
@@ -157,7 +166,8 @@
       "D. r( A B )= n, r(A∣B) = n 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-选10.png"
   },
   {
     "id": "3044-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设f(x) = 3√xsin 2 x（-π< x< π），则f′(x) = 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-填11.png"
   },
   {
     "id": "3044-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设f(x) = ∫ x -x sin xt t dt, x≠0，则∫x2f′(x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-填12.png"
   },
   {
     "id": "3044-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设y= y(x) 由{ x= 3t2 + 2t+ 3, y= etsin t+ 1 所确定，则曲线y= y(x) 在t= 0 对应的点处的曲率 k= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-填13.png"
   },
   {
     "id": "3044-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 已知方程ex= kx有且仅有一个实根，则k的取值范围为 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-填14.png"
   },
   {
     "id": "3044-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 在宽为2R的河面上，任意一点处的流速与该点到两岸距离之积成正比。已知河道中心线 处水流速为v0，则河面上距河道中心线r处水的流速v(r) 在区间[-R, R] 上的平均值v= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-填15.png"
   },
   {
     "id": "3044-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设Ax= 0 有基础解系α1 = (1, 1, 2, 1)T, α2 = (0, -3, 1, 0)T，Bx= 0 有基础解系β1 = (1, 3, 0, 2)T, β2 = (1, 2, -1, a)T，若Ax= 0 和Bx= 0 没有非零公共解，则参数a满足的条件 是 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-填16.png"
   },
   {
     "id": "3044-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设y= y(x) 是由方程y3 + xy+ x2 -2x+ 1 = 0 在点(1, 0) 的某邻域内 确定的可微函数，求lim x→1 ∫ x 1 y(t) dt (x-1)3 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-解17.png"
   },
   {
     "id": "3044-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设f(x) 二阶可导，且f(0) = 0, f′(0) = 0，若g(x, y) = ∫ y 0 f(xt) dt满足 方程∂2g ∂x∂y-xyg= xy2 sin xy，求g(x, y)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-解18.png"
   },
   {
     "id": "3044-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）有一内表面为旋转抛物面的水缸，其深为a（单位：米），缸口直径为2a， 缸内盛满了水，设水的密度为ρ（单位：千克/立方米）。若以每秒Q立方米的速率将缸中的 水全部抽出，问： (1) 共需多少时间？ (2) 需做多少功？",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-解19.png"
   },
   {
     "id": "3044-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设函数f(x) 在[0, 2] 上连续，在(0, 2) 内二阶可导，f″(x) < 0，且f(0) = 0, f′(1) = 0。又设曲线y= f(x) 上任一点(x, y) 处的曲率半径恒等于1。 (1) 求函数f(x)； (2) 计算∬Dxydxdy，其中D是由直线x= 0, x= 2, y= 2 及曲线y= f(x) 围成的平面区域。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-解20.png"
   },
   {
     "id": "3044-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分） (1) 证明：ln(n+ 1) < 1 + 1 2 + 1 3 + ⋯+ 1 n< 1 + ln n； (2) 设F0(x) = ln x, Fn+1(x) = ∫ x 0 Fn(t) dt, n= 0, 1, 2, ⋯，其中x> 0，求极限lim n→∞ n!Fn(1) ln n 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-解21.png"
   },
   {
     "id": "3044-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设二次型f(x1, x2, x3) = x2 1 + x2 2 + 2x2 3 -2x1x3，g(x1, x2, x3) = x2 1 + 2x2 3 - 2x1x2 -2x1x3。 (1) 求一个可逆矩阵C，使得f(x1, x2, x3) 可用合同变换x= Cy化为标准形； (2) 记g(x1, x2, x3) 的矩阵为B，求正交矩阵Q，使得QT(CTBC)Q为对角矩阵； (3) 求一个可逆矩阵T，使得在合同变换x= Ty下可将f(x1, x2, x3) 与g(x1, x2, x3) 同时化为标 准形。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3044-解22.png"
   }
 ]

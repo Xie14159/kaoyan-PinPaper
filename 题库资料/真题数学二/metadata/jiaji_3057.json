@@ -13,7 +13,8 @@
       "D. lim x→0 f(x) x = 0。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-选01.png"
   },
   {
     "id": "3057-选-02",
@@ -29,7 +30,8 @@
       "D. f(n) 发散，nf′(n) 发散。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-选02.png"
   },
   {
     "id": "3057-选-03",
@@ -45,7 +47,8 @@
       "D. 3 2。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-选03.png"
   },
   {
     "id": "3057-选-04",
@@ -61,7 +64,8 @@
       "D. ∫ 1 0 f(x) dx≤ln f(1) f(0)。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-选04.png"
   },
   {
     "id": "3057-选-05",
@@ -77,7 +81,8 @@
       "D. ∫ 1 0 (x+ 1 2 + 1 n)f(x-1 n)dx。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-选05.png"
   },
   {
     "id": "3057-选-06",
@@ -93,7 +98,8 @@
       "D. fxy(0, 0) 存在，fx(0, 0) 不存在。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-选06.png"
   },
   {
     "id": "3057-选-07",
@@ -109,7 +115,8 @@
       "D. 10 cm/s。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-选07.png"
   },
   {
     "id": "3057-选-08",
@@ -125,7 +132,8 @@
       "D. (-∞, 1) ∪(2, +∞)。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-选08.png"
   },
   {
     "id": "3057-选-09",
@@ -141,7 +149,8 @@
       "D. ( ) 2 -1 0 1 2 0 0 0 1 ( ) 。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-选09.png"
   },
   {
     "id": "3057-选-10",
@@ -157,7 +166,8 @@
       "D. ( AATA ATA O A )x= 0 与( ATA2 A O ATA )x= 0 同解。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-选10.png"
   },
   {
     "id": "3057-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设f(x, y) 具有二阶连续偏导数，z= xyf(2x, y2 x)，则∂2z ∂x∂y= 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-填11.png"
   },
   {
     "id": "3057-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 半径为a的球浸没在与其密度ρ相同的某液体中，球与水面相切，g为重力加速度。若将 球取出，至少做功为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-填12.png"
   },
   {
     "id": "3057-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ 1 0 dy∫ y2 0 xex 1 -√xdx= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-填13.png"
   },
   {
     "id": "3057-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 微分方程dy= cos(y-x) dx满足y(0) = π 2 的解为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-填14.png"
   },
   {
     "id": "3057-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设f(x) = ln(1 + x+ x2)，则f(5)(0) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-填15.png"
   },
   {
     "id": "3057-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 已知二次型f(x1, x2, x3) = 4x2 1 + x2 2 + ax2 3 + 2x1x2 -4x1x3 + 2x2x3 可经可逆线性变换但不 可经正交变换化为g(y1, y2, y3) = by2 1 + 6y2 2，则a+ b的取值范围为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-填16.png"
   },
   {
     "id": "3057-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）求f(x) = ∫ 1 0 | ln |x-t|| dt(0 ≤x≤1) 的最大值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-解17.png"
   },
   {
     "id": "3057-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设函数f(x) 满足f(x-y) = f(x)f(y) + sin xsin y，其中x, y为任意常 数，且f(0) = 1，f′(0) 存在。 (1) 求f(x) 的表达式； (2) 计算lim x→∞ ∫ x 0 |f(t)| dt x 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-解18.png"
   },
   {
     "id": "3057-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设f(x) 在(a, b) 内有定义，且任给(a, b) 内的x1 < x2 < x3，有f(x2) ≤ λf(x1) + (1 -λ)f(x3)，其中λ= x3 -x2 x3 -x1 ，证明： (1) f(x2) -f(x1) x2 -x1 ≤f(x3) -f(x1) x3 -x1 ≤f(x3) -f(x2) x3 -x2 ； (2) f(x) 在(a, b) 内连续。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-解19.png"
   },
   {
     "id": "3057-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设f(x, y) 满足f′ x(x, y) = y(1 + x)ex-y，f(1, y) = ye1-y，求 (1) 求f(x, y) 的表达式； (2) 求f(x, y) 的极值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-解20.png"
   },
   {
     "id": "3057-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设连续函数y= y(x) 满足y′ + t2 yx3 = y x，y(1) = √9 -t2，其中0 ≤t≤ 3, x> 0。 (1) 利用换元z= y2 求y= y(x) 的表达式； (2) 令f(x) = 1 9 ∫ 3 0 y(x) dt，求曲线y= f(x) 的全长。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-解21.png"
   },
   {
     "id": "3057-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A= ( ) 1 1 0 0 1 1 1 0 1 ( ) ，ATA= B2，其中B为正定矩阵。 (1) 求B； (2) 证明存在正交矩阵C，使得A= CB，并求出C。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3057-解22.png"
   }
 ]

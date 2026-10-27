@@ -140,6 +140,22 @@ def render_health_panel(_targets) -> None:
                 st.rerun(scope="fragment")
 
 
+def render_question_stem(q) -> None:
+    """渲染题干:有原卷裁图(stem_img)时优先出图,否则退回文字题干。
+
+    贾基85套卷是扫描版 PDF,正文里的分数/上下标/根号在文本层被拆成独立定位
+    字形,转文本必然走形;故导入时逐题裁出原卷图片,保证与纸卷一致。
+    """
+    img = getattr(q, "stem_img", "")
+    if img:
+        try:
+            st.image(img, use_container_width=True)
+            return
+        except Exception:  # noqa: BLE001 - 图片缺失时退回文字
+            pass
+    render_stem(q.stem)
+
+
 def render_stem(text: str) -> None:
     """渲染题干:文字段走 st.markdown,内联 base64 图片走 st.image。
 
@@ -1891,10 +1907,10 @@ if active_module == "🎯 智能拼好卷":
                             st.button("○ 标为错题", key=f"p1_mark_{q.id}_{_qi}_{current_subject.value}", use_container_width=True, help="做错了？点击放入待练错题池", on_click=cb_toggle_wrong, args=(q.id,))
 
                     # Question Stem（内联图片走 st.image,文字/公式/表格走 markdown)
-                    render_stem(q.stem)
+                    render_question_stem(q)
 
                     # Options
-                    if q.options:
+                    if q.options and not getattr(q, "stem_img", ""):
                         oc1, oc2 = st.columns(2)
                         for oi, opt in enumerate(q.options):
                             if oi % 2 == 0:
@@ -2465,8 +2481,8 @@ elif active_module == "🏷️ 题库逐题标错":
                             st.button("○ 标为错题", key=f"p2_toggle_{q.id}_{current_subject.value}", use_container_width=True, help="做错了？点击放入待练错题池", on_click=cb_toggle_wrong, args=(q.id,))
 
                     # 内联图片走 st.image,文字/公式/表格走 markdown
-                    render_stem(q.stem)
-                    if q.options:
+                    render_question_stem(q)
+                    if q.options and not getattr(q, "stem_img", ""):
                         mc1, mc2 = st.columns(2)
                         for oi, opt in enumerate(q.options):
                             if oi % 2 == 0:
@@ -2826,8 +2842,8 @@ elif active_module == "📕 我的错题本":
                 # 摘要标题:一眼看清"哪几道" + 状态 + 做错次数
                 head = f"{label}　{q.id}　·　{q.chapter}　·　[{q.difficulty.value}]　·　做错 {w_cnt} 次"
                 with st.expander(head, expanded=wb_auto_expand, key=f"wb_exp_{q.id}"):
-                    render_stem(q.stem)
-                    if q.options:
+                    render_question_stem(q)
+                    if q.options and not getattr(q, "stem_img", ""):
                         oc1, oc2 = st.columns(2)
                         for oi, opt in enumerate(q.options):
                             (oc1 if oi % 2 == 0 else oc2).markdown(opt)
@@ -3214,8 +3230,8 @@ elif active_module == "📅 每日错题":
                         f'</div>'
                     )
                     st.markdown(_head2, unsafe_allow_html=True)
-                    render_stem(_q2.stem)
-                    if _q2.options:
+                    render_question_stem(_q2)
+                    if _q2.options and not getattr(_q2, "stem_img", ""):
                         _oc1, _oc2 = st.columns(2)
                         for _oi, _opt in enumerate(_q2.options):
                             (_oc1 if _oi % 2 == 0 else _oc2).markdown(_opt)

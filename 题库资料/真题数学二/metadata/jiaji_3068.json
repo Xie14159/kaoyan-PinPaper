@@ -13,7 +13,8 @@
       "D. 0"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-选01.png"
   },
   {
     "id": "3068-选-02",
@@ -29,7 +30,8 @@
       "D. I3, I2, I1"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-选02.png"
   },
   {
     "id": "3068-选-03",
@@ -45,7 +47,8 @@
       "D. 2 4"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-选03.png"
   },
   {
     "id": "3068-选-04",
@@ -61,7 +64,8 @@
       "D. f(π 2) ≥2f(π 6)"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-选04.png"
   },
   {
     "id": "3068-选-05",
@@ -77,7 +81,8 @@
       "D. lim x→+∞f(x) 不一定存在"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-选05.png"
   },
   {
     "id": "3068-选-06",
@@ -93,7 +98,8 @@
       "D. 不能确定点(0, 0) 是否为f(x, y) 的极值点"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-选06.png"
   },
   {
     "id": "3068-选-07",
@@ -109,7 +115,8 @@
       "D. I3 最小，I4 最大"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-选07.png"
   },
   {
     "id": "3068-选-08",
@@ -125,7 +132,8 @@
       "D. 若A是正交矩阵，x, y是相互正交的两个n维列向量，则Ax, Ay也相互正交"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-选08.png"
   },
   {
     "id": "3068-选-09",
@@ -141,7 +149,8 @@
       "D. ( 2025 2023 )"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-选09.png"
   },
   {
     "id": "3068-选-10",
@@ -157,7 +166,8 @@
       "D. -2 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-选10.png"
   },
   {
     "id": "3068-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 曲线y= x2ex2 ln(1 + 1 x) (x> 0) 的斜渐近线方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-填11.png"
   },
   {
     "id": "3068-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设函数y= f(x) 在区间[0, c) 上具有一阶连续导数，其值域为[1, +∞)，f(0) = 1，并且 y′ > y2 恒成立，则区间[0, c) 内包含的最大整数数是 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-填12.png"
   },
   {
     "id": "3068-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. lim n→∞( n2 n3 + 1 + 2n2 n3 + 2 + ⋯+ n2 n3 + n)( 1 4n2 -12 + 1 4n2 -22 + ⋯+ 1 4n2 -n2)= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-填13.png"
   },
   {
     "id": "3068-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设a, b, c为任意常数。若对任意b> 0, c> 0，积分∫ +∞ 0 xaarctan xb √1 + xc dx都收敛，则a= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-填14.png"
   },
   {
     "id": "3068-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数f(x, y) 满足 lim (x,y)→(0,0) f(x, y) + (x+ 1)2(x-y) 2x2 + y2 = 1，则df(x, y)|(0,0) = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-填15.png"
   },
   {
     "id": "3068-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设3 阶实对称矩阵A仅有两个不同的特征值λ, μ，且A∗= ( ) 1 1 1 a 1 1 b c d ( ) ，则λ2+μ2 = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-填16.png"
   },
   {
     "id": "3068-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设函数f(x) 在[-1, 1] 上连续，且当x≠0 时，f(x) = eax+ ebx-2 cos x+ cos 2x-2， 其中a, b为非零常数，求f(0)，并讨论f(x) 在x= 0 处的可导性。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-解17.png"
   },
   {
     "id": "3068-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设曲线方程为{ x(t) = t-sin t, y(t) = 1 -cos t, t∈(0, 2π)。分别以曲线上的点 A(a, c), B(b, d) 为切点作斜率为√3, -√3 的切线，求出曲线上的弧AB，直线x= a, x= b 以及x轴所围区域绕x轴旋转一周所得旋转体的体积。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-解18.png"
   },
   {
     "id": "3068-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设区域D= {(r, θ) ∣0 ≤r≤sec θ, 0 ≤θ≤π 4}，计算I= ∬Dr2 cos θcos [√2rsin (θ+ π 4",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-解19.png"
   },
   {
     "id": "3068-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设函数z(u, v) 有二阶连续偏导数，z(0, v) = v2, z(u, u) = 2u2，当u= x2, v= x+ y时，有∂2z ∂x2 -2 ∂2z ∂x∂y+ ∂2z ∂y2 = 0，求z(u, v) 的表达式。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-解20.png"
   },
   {
     "id": "3068-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设函数g(x) 连续，满足对任意实数x1, x2，都有g(x1+x2) = g(x1)g(x2), g(1) = a，n为正整数。证明：(I) ∫ x+n n g(t) dt= an∫ x 0 g(t) dt；(II) 若|a| < 1，则对任意x∈(0, 1)， lim n→+∞∫ x+n x g(t)(t-[t]) dt都存在，其中[t] 表示不超过t的最大整数。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-解21.png"
   },
   {
     "id": "3068-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设α1 为3 阶矩阵A的属于特征值1 的特征向量。3 维列向量α2, α3 满足 Aα2 = -2α3, Aα3 = α2+2α3，且α3 ≠0。证明：(I) α1, α2, α3 线性无关；(II) A3-3A2+4A= 2E。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3068-解22.png"
   }
 ]

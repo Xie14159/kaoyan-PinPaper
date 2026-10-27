@@ -13,7 +13,8 @@
       "D. 2 个极小值点，无极大值点。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-选01.png"
   },
   {
     "id": "3061-选-02",
@@ -29,7 +30,8 @@
       "D. 4 ∫ arctan 1 2 0 dθ∫ 2 sec θ 2 f(rcos θ, rsin θ)rdr。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-选02.png"
   },
   {
     "id": "3061-选-03",
@@ -45,7 +47,8 @@
       "D. 1 与2 均错误。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-选03.png"
   },
   {
     "id": "3061-选-04",
@@ -61,7 +64,8 @@
       "D. ∂F ∂x= -∂F ∂y, ∂2F ∂x2 = -∂2F ∂y2 。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-选04.png"
   },
   {
     "id": "3061-选-05",
@@ -77,7 +81,8 @@
       "D. 4。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-选05.png"
   },
   {
     "id": "3061-选-06",
@@ -93,7 +98,8 @@
       "D. √2 2 。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-选06.png"
   },
   {
     "id": "3061-选-07",
@@ -109,7 +115,8 @@
       "D. I3 < I1 < I2。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-选07.png"
   },
   {
     "id": "3061-选-08",
@@ -125,7 +132,8 @@
       "D. ( O (-1)n|B|B∗ (-1)n|A|A∗ O )。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-选08.png"
   },
   {
     "id": "3061-选-09",
@@ -141,7 +149,8 @@
       "D. 6。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-选09.png"
   },
   {
     "id": "3061-选-10",
@@ -157,7 +166,8 @@
       "D. 向量组Ⅰ与Ⅱ至少有一个线性相关。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-选10.png"
   },
   {
     "id": "3061-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设x→0 时，ln 2 + x 2 + sin x与xn为同阶无穷小，则n= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-填11.png"
   },
   {
     "id": "3061-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 使得ln x≤a√x成立的最小正数a为 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-填12.png"
   },
   {
     "id": "3061-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 已知D= {(x, y) ∣(x-a)2 + y2 ≤a2, y≥0}，则∬ D √4a2 -x2 -y2 dxdy= 。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-填13.png"
   },
   {
     "id": "3061-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设z= f(u) 可导，u= u(x, y) 由方程u= φ(u) + ∫ x y P(t) dt所确定，其中函数P连续，φ 有连续导数，且φ′(u) ≠1，则P(x)∂z ∂y+ P(y)∂z ∂x= 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-填14.png"
   },
   {
     "id": "3061-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. xln xdy= (1 + y+ ln 2 x) dx满足y(e) = 1 的特解为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-填15.png"
   },
   {
     "id": "3061-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A是4 阶矩阵，A的伴随矩阵A∗= ( ) 1 0 1 0 0 2 0 2 0 0 1 1 0 0 0 4 ( ) ，b= (1, 1, 1, 1)T，则方程组Ax= b的 解为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-填16.png"
   },
   {
     "id": "3061-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设lim x→+∞f(x) = +∞，lim x→+∞g(x) = +∞，且lim x→+∞ f(x) g(x) = a> 0，计算 lim x→+∞ ln f(x) ln g(x)。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-解17.png"
   },
   {
     "id": "3061-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设y= y(x) 满足微分方程(xy′ -2) ln x+ y= 0，y(e) = 2。 (1) 求y= y(x) 的表达式及其定义域； (2) 求函数y= y(x) 的极值。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-解18.png"
   },
   {
     "id": "3061-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x) 在(a, b) 上二次可微，证明：对任意x∈(a, b) 及适当小的 正数h（使x+ h, x-h∈(a, b)），不等式f(x) ≤1 2[f(x+ h) + f(x-h)] 成立的充要条件是 f″(x) ≥0, x∈(a, b)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-解19.png"
   },
   {
     "id": "3061-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）计算∬ D ln(xy) dxdy，其中D= {(x, y) ∣1 ≤xy≤2, x≤y≤4x, x> 0}。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-解20.png"
   },
   {
     "id": "3061-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）过曲线x2 4 + y2 = 1（x≥0, y≥0）任意点作该曲线的切线，切线夹在两 坐标轴之间的部分为L，求L的最小长度，以及L的长度达到最小时的切点坐标。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-解21.png"
   },
   {
     "id": "3061-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知实矩阵A= ( 1 1 1 a )，B= ( 4 b 3 1 )，其中a为非负整数，且A与B 合同。 (1) 求a, b的值； (2) 求可逆矩阵D，使得A= DTBD。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3061-解22.png"
   }
 ]

@@ -13,7 +13,8 @@
       "D. 3 4"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-选01.png"
   },
   {
     "id": "3011-选-02",
@@ -29,7 +30,8 @@
       "D. 不可导点，非极值点"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-选02.png"
   },
   {
     "id": "3011-选-03",
@@ -45,7 +47,8 @@
       "D. y= -x+ 1"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-选03.png"
   },
   {
     "id": "3011-选-04",
@@ -61,7 +64,8 @@
       "D. ∫ 0 -1 f[f(x)] dx> ∫ 1 0 g[g(x)] dx"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-选04.png"
   },
   {
     "id": "3011-选-05",
@@ -77,7 +81,8 @@
       "D. (-1 e, 3π) 是f(x, y) 的一个极大值点"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-选05.png"
   },
   {
     "id": "3011-选-06",
@@ -93,7 +98,8 @@
       "D. 2x2 -y2 = C"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-选06.png"
   },
   {
     "id": "3011-选-07",
@@ -109,7 +115,8 @@
       "D. I2 < I1 < I3"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-选07.png"
   },
   {
     "id": "3011-选-08",
@@ -125,7 +132,8 @@
       "D. B= ( ) 1 √2 1 √3 -1 √6 1 √2 -1 √3 1 √6 0 1 √3 2 √6 ( ) , C= ( ) √2 0 1 √2 0 √3 2 √3 0 0 1 √6 ( )"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-选08.png"
   },
   {
     "id": "3011-选-09",
@@ -141,7 +149,8 @@
       "D. 既非充分也非必要条件"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-选09.png"
   },
   {
     "id": "3011-选-10",
@@ -157,7 +166,8 @@
       "D. y2 1 -y2 2 -y2 3 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-选10.png"
   },
   {
     "id": "3011-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim x→0 (1 + ex 2 ) cot x = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-填11.png"
   },
   {
     "id": "3011-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 曲线y= ln 2 x-4x e2 的拐点为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-填12.png"
   },
   {
     "id": "3011-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ 1 0 4x-3 x2 -x+ 1 dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-填13.png"
   },
   {
     "id": "3011-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. ∫ 1 0 dx∫ x 1 tan y y dy= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-填14.png"
   },
   {
     "id": "3011-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 已知函数y= y(x) 由方程y4 -6xy+ 3 = 0 (1 ≤y≤2) 所确定，则曲线y= y(x) 从点 (2 3, 1) 到点(19 12, 2) 的长度为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-填15.png"
   },
   {
     "id": "3011-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设矩阵A= ( ) 1 2 4 0 1 5 0 0 3 ( ) , B= ( ) 1 0 0 3 1 0 4 5 1 ( ) ，则|A-1B∗-A∗B-1| = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-填16.png"
   },
   {
     "id": "3011-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）对于任意二阶连续可导的函数f(u)，z= ∫ y 0 et2 dt+ f(x+ ay) 均是方程 ∂2z ∂x∂y+ ∂2z ∂y2 = 2yey2 的解，求a的值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-解17.png"
   },
   {
     "id": "3011-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）求曲线y= e -x 2√sin x (x≥0) 绕x轴旋转一周所成旋转体的体积。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-解18.png"
   },
   {
     "id": "3011-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设平面区域D= {(x, y) ∣2x2+y2 ≤2√x2 + y2, y≥x≥0}，∬D f(x, y) √1 -x2 dσ= a> 0，f(x, y) 是D上的连续函数。 (1) 计算∬D 1 √1 -x2 dσ； (2) 证明：存在(ξ, η) ∈D，使得|f(ξ, η)| ≥√2 πa。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-解19.png"
   },
   {
     "id": "3011-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设正项数列{xn} 满足x1 = √2, x2 n+1 = 2xn, n= 1, 2, ⋯，证明{xn} 收敛，并 求lim n→∞xn。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-解20.png"
   },
   {
     "id": "3011-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）若函数f(x) 满足关系式f′(x)+af(x) = ∫ 0 xf(t) dt，a> 0，求∫ +∞ 0 f(x) dx。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-解21.png"
   },
   {
     "id": "3011-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设实矩阵A= ( 4 2 a -3 ), B= ( 2 2 2 b )，其中b为正整数。 (1) 若存在可逆矩阵P，使得PTAP= B，求出此时a, b的值与矩阵P； (2) 对于（1）中的a, b，是否存在正交矩阵Q，使得QTAQ= B。若存在，求出Q，若不存在， 说明理由。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3011-解22.png"
   }
 ]

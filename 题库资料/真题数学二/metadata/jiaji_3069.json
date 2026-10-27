@@ -13,7 +13,8 @@
       "D. 当x→0 时，若∫ x 0 f(t) dt= o(x)，则f(x) = o(1)"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-选01.png"
   },
   {
     "id": "3069-选-02",
@@ -29,7 +30,8 @@
       "D. 数列{an} 单调减少且收敛于esin 1"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-选02.png"
   },
   {
     "id": "3069-选-03",
@@ -45,7 +47,8 @@
       "D. 由已知条件不能确定x0 的范围"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-选03.png"
   },
   {
     "id": "3069-选-04",
@@ -61,7 +64,8 @@
       "D. 3"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-选04.png"
   },
   {
     "id": "3069-选-05",
@@ -77,7 +81,8 @@
       "D. ∫ 1 0 x4e-xdx"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-选05.png"
   },
   {
     "id": "3069-选-06",
@@ -93,7 +98,8 @@
       "D. ∫ a √2 0 dy∫ y -yf(x, y) dx+ ∫ aa √2 dy∫ √a2-y2 -√a2-y2 f(x, y) dx"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-选06.png"
   },
   {
     "id": "3069-选-07",
@@ -109,7 +115,8 @@
       "D. x2 + y2"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-选07.png"
   },
   {
     "id": "3069-选-08",
@@ -125,7 +132,8 @@
       "D. 3"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-选08.png"
   },
   {
     "id": "3069-选-09",
@@ -141,7 +149,8 @@
       "D. 若A不相似于对角矩阵，则tr(A) 必为偶数"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-选09.png"
   },
   {
     "id": "3069-选-10",
@@ -157,7 +166,8 @@
       "D. 存在正交矩阵Q，使得QTAQ, QTBQ均为对角矩阵 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-选10.png"
   },
   {
     "id": "3069-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设函数y= y(x) 由方程x+ 1 = ∫ y+x 1 sin 2 tdt确定，则y″(-1) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-填11.png"
   },
   {
     "id": "3069-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 已知质点以恒定速率沿曲线运动时，向心加速度大小为v2 ρ，其中v为质点的运动速率，ρ 为曲率半径。设单位质点以恒定的速率v0 沿着一个形状满足y= x2 的光滑轨道移动，则其 在点(0, 0) 处受到的向心力大小为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-填12.png"
   },
   {
     "id": "3069-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设{fn(x)} 为一列连续函数，且fn(x) > enx。对每个正整数n，令Fn(x) = ∫ x 0 fn(t) dt，Gn(x) 为Fn(x) 的反函数。定义正数数列an= Gn(e-1 n )，则lim n→∞an= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-填13.png"
   },
   {
     "id": "3069-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设函数f(x, y) 可微，满足(∂f ∂x) 2 + (∂f ∂y) 2 = 1，z(r, θ) 为f(x, y) 在极坐标系下的表示，则 对单位圆周上的任一点(1, θ)，(∂z ∂r) 2 + (∂z ∂θ) 2 = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-填14.png"
   },
   {
     "id": "3069-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数f(x), f′(x) 和xex都是某二阶常系数线性微分方程的特解，若此方程对应的齐次方 程的特征方程有二重根，则此方程为 。（请写成y″ 的系数为1 的形式）",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-填15.png"
   },
   {
     "id": "3069-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设矩阵A= ( ) 1 -1 4 2 3 -1 -1 1 0 ( ) ，B为3 阶正交矩阵。若存在上三角矩阵P，使得B= AP，则 P的对角线上各元素乘积的绝对值为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-填16.png"
   },
   {
     "id": "3069-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设函数f(x) 满足f(0) = f′(0) = 0，且lim x→0 asin x- x 1 + bx2 f(x) = 1， lim x→0 ax- sin x 1 + bx2 f(x) = 2。求a, b的值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-解17.png"
   },
   {
     "id": "3069-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设曲线C是以点(1, 0) 为圆心、1 为半径的上半圆周。直线y= ax(a> 0)， x= 2 与曲线C所围成的平面图形记为D1，直线y= ax(a> 0) 与曲线C所围成的平面图形 记为D2，记D= D1 ∪D2，问：a为何值时，区域D的面积取得最小值？",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-解18.png"
   },
   {
     "id": "3069-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设直线x+ y 2 = 1 与坐标轴围成的区域为D1，x 2 + y= 1 与坐标轴围成的 区域为D2，D= D1 ∪D2。计算I= ∬De (-1 2 |x-y|+3 2 (x+y)) 2 (sec2 x-tan2 y) dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-解19.png"
   },
   {
     "id": "3069-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设函数f(x) 在[0, e] 上连续，在(0, e) 上可导，且f(0) = 0。证明：存在 ξ, η∈(0, e)，使得ξf(ξ) + (ξ2 -ξ)f′(ξ) = (e2 -e)f′(η)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-解20.png"
   },
   {
     "id": "3069-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设函数f(x) 在[0, +∞) 上连续，且反常积分∫ +∞ 0 f(x) dx收敛。证明： (1) 反常积分∫ +∞ 0 e-xf(x) dx收敛； (2) 存在ξ∈(0, +∞)，使得∫ ξ 0 f(x) dx= ∫ +∞ 0 e-xf(x) dx。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-解21.png"
   },
   {
     "id": "3069-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设矩阵A= ( ) 1 1 1 0 0 -1 ( ) 。 (1) 求所有满足BA= E的矩阵B，并求AB的特征值； (2) 在满足BA= E的基础上，找到一个矩阵B，使得AB有一个特征向量为β= (1, 2, 3)T。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3069-解22.png"
   }
 ]

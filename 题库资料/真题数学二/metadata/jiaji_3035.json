@@ -13,7 +13,8 @@
       "D. 4"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-选01.png"
   },
   {
     "id": "3035-选-02",
@@ -29,7 +30,8 @@
       "D. g″(2) = -4 27"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-选02.png"
   },
   {
     "id": "3035-选-03",
@@ -45,7 +47,8 @@
       "D. 若lim x→0 f″(x) sin x= 1，则(0, f(0)) 为f(x) 的拐点"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-选03.png"
   },
   {
     "id": "3035-选-04",
@@ -61,7 +64,8 @@
       "D. 有两个跳跃间断点"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-选04.png"
   },
   {
     "id": "3035-选-05",
@@ -77,7 +81,8 @@
       "D. 与a有关"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-选05.png"
   },
   {
     "id": "3035-选-06",
@@ -93,7 +98,8 @@
       "D. f″ xx(2, 1) = -2，f″ xy(2, 1) = 1"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-选06.png"
   },
   {
     "id": "3035-选-07",
@@ -109,7 +115,8 @@
       "D. ∬D(sin x+ cos y) dxdy= 0"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-选07.png"
   },
   {
     "id": "3035-选-08",
@@ -125,7 +132,8 @@
       "D. AB= BA"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-选08.png"
   },
   {
     "id": "3035-选-09",
@@ -141,7 +149,8 @@
       "D. r(A) = r(A，B) = r(B)"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-选09.png"
   },
   {
     "id": "3035-选-10",
@@ -157,7 +166,8 @@
       "D. 垂直于直线y= 1 2x 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-选10.png"
   },
   {
     "id": "3035-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设y= y(x) 由方程exy= 2x·3y确定的隐函数，则(y-ln 2)y″ -2(y′)2 = .",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-填11.png"
   },
   {
     "id": "3035-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. ∫ +∞ 1 1 x2e -1 xdx= .",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-填12.png"
   },
   {
     "id": "3035-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 已知点A(1, 3)，B(4, 2)，C是椭圆x2 9 + y2 4 = 1(x≥0，y≥0) 上一点，则△ABC的面积 最大值为 .",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-填13.png"
   },
   {
     "id": "3035-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 二次积分∫ π 2 0 dθ∫ 1 0 ersin θr2 cos θdr= .",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-填14.png"
   },
   {
     "id": "3035-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. lim n→∞ 2 n( n √4n2 + 1 + n √4n2 + 32 + ⋯+ n √4n2 + (2n-1)2)= .",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-填15.png"
   },
   {
     "id": "3035-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A= ( ) 1 2 1 1 1 0 3 4 2 ( ) ，B为3 阶矩阵，且满足A2B= A+B+E，则B的伴随矩阵B∗= . 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-填16.png"
   },
   {
     "id": "3035-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）求极限lim x→0 (1 + x) 1 x-(1 + sin x) 1 sin x x-sin x 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-解17.png"
   },
   {
     "id": "3035-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设曲线y= y(x)(x≥0) 是第一象限的一条凸曲线，曲线上点(0, 1) 处的 切线方程为y= x+ 1，其上任一点P(x, y) 处的切线和y轴以及曲线y(x) 围成图形的面积恒 等于∫ x 0 t2[y(t) + 1] dt，求该曲线的方程。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-解18.png"
   },
   {
     "id": "3035-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）由曲线x 3 2 + y 2 3 = 1 (x> 0，y> 0) 上任意一点处的切线在两坐标轴上的截距之和为l，试求l的最大值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-解19.png"
   },
   {
     "id": "3035-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设dF(x, y) = 2(x-y) dx-2(x+1) dy，且F(0, 0) = 4。设x1 = 4，n≥1 时，xn，xn+1 满足F(xn，xn+1) = 0，证明数列{xn} 收敛，并求极限lim n→∞xn。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-解20.png"
   },
   {
     "id": "3035-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设D= {(x, y) ∣4x2y2 ≤(x2 + y2)3 ≤16x2y2，x≥0，y≥0}，计算积 分I= ∬D(x2 + y2 + xy) dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-解21.png"
   },
   {
     "id": "3035-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A= ( ) a 0 0 0 0 1 0 1 0 ( ) ，B= ( ) 1 0 0 0 b 0 0 -6 2 ( ) 。 (1) a，b取何值时，A，B相似，并求可逆矩阵U，使得U-1AU= B。 (2) a，b取何值时，AX= B有解，并求其解X。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3035-解22.png"
   }
 ]

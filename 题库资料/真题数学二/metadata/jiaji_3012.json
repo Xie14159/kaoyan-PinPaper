@@ -13,7 +13,8 @@
       "D. e"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-选01.png"
   },
   {
     "id": "3012-选-02",
@@ -29,7 +30,8 @@
       "D. 4"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-选02.png"
   },
   {
     "id": "3012-选-03",
@@ -45,7 +47,8 @@
       "D. f′ y(0, 0) = 1"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-选03.png"
   },
   {
     "id": "3012-选-04",
@@ -61,7 +64,8 @@
       "D. 4"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-选04.png"
   },
   {
     "id": "3012-选-05",
@@ -77,7 +81,8 @@
       "D. f1(x) = y3(x), f2(x) = y1(x), f3(x) = y2(x)"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-选05.png"
   },
   {
     "id": "3012-选-06",
@@ -93,7 +98,8 @@
       "D. √2 2"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-选06.png"
   },
   {
     "id": "3012-选-07",
@@ -109,7 +115,8 @@
       "D. 1 4"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-选07.png"
   },
   {
     "id": "3012-选-08",
@@ -125,7 +132,8 @@
       "D. 3"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-选08.png"
   },
   {
     "id": "3012-选-09",
@@ -141,7 +149,8 @@
       "D. ( ) 0 1 0 0 0 0 0 0 1 0 1 1 1 -1 0 1 ( )"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-选09.png"
   },
   {
     "id": "3012-选-10",
@@ -157,7 +166,8 @@
       "D. f(x1, x2, x3) ≤0 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-选10.png"
   },
   {
     "id": "3012-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设g(x) = x2，g[f(x)] = -x2 + 2x+ 3，且f(x) > 0，则∫ 1 0 1 f(x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-填11.png"
   },
   {
     "id": "3012-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. lim x→+∞(√(1 + x)3 x -x)= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-填12.png"
   },
   {
     "id": "3012-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 已知连续函数f(x) 满足(∫ x 0 f(t) dt)+(∫ x 0 tf(x-t) dt)= 1 2(x-e-xsin x)，则f(x) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-填13.png"
   },
   {
     "id": "3012-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 已知x2 ·2x为f(x) 的一个原函数，则∫ 1 0 xf′(x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-填14.png"
   },
   {
     "id": "3012-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. y= ex+ e-x 2 的极小值为 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-填15.png"
   },
   {
     "id": "3012-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 方程组 { } ax+ y+ z= 1, x+ ay+ z= 1, x+ y+ az= -2 有无穷多解，则a= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-填16.png"
   },
   {
     "id": "3012-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）计算lim n→∞∑ n i=1 1 √|2i(n-2i)| 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-解17.png"
   },
   {
     "id": "3012-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）求函数f(x, y) = x3 + y3 + 6xy的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-解18.png"
   },
   {
     "id": "3012-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数∫ x 0 f(t) dt在[0, 1] 上二阶导数连续，∫ 1 0 f(x) dx= 1，∫ 1 2 0 f(x) dx> 1 4， 证明： (1) 存在ξ∈(0, 1)，使得f′(ξ) < 2； (2) 若当0 < x< 1 时，f′(x) ≠2，则∫ x 0 f(t) dt> x2。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-解19.png"
   },
   {
     "id": "3012-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设an= ∫ 1 0 (1 -x2) n 2 dx，n= 1, 2, ⋯。 (1) 证明an+1 < an< an-1； (2) 计算lim n→∞na2 n。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-解20.png"
   },
   {
     "id": "3012-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）边长为2 的等边三角形薄平板铅直沉没在水中，且一条边与水面相齐。记 重力加速度为g，水的密度为ρ。 (1) 求该平板一侧所受压力； (2) 当水面开始以0.1 的速度上涨时，求平板一侧所受水压力的变化率。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-解21.png"
   },
   {
     "id": "3012-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知A为3 阶矩阵，E为3 阶单位矩阵，且(aE+ A)2 = ( ) 1 0 1 0 2 0 1 0 1 ( ) ， tr(A) = 2√2 -3a，a为常数。 (1) 求矩阵A； (2) 若A正定，求a的取值范围。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3012-解22.png"
   }
 ]

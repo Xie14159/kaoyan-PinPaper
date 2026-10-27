@@ -13,7 +13,8 @@
       "D. 导函数连续"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-选01.png"
   },
   {
     "id": "3005-选-02",
@@ -29,7 +30,8 @@
       "D. 0.1"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-选02.png"
   },
   {
     "id": "3005-选-03",
@@ -45,7 +47,8 @@
       "D. 以上都不正确"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-选03.png"
   },
   {
     "id": "3005-选-04",
@@ -61,7 +64,8 @@
       "D. { x-sin x, 0 ≤x≤π 2, x-1, π 2 < x≤π"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-选04.png"
   },
   {
     "id": "3005-选-05",
@@ -77,7 +81,8 @@
       "D. 其符号无法确定"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-选05.png"
   },
   {
     "id": "3005-选-06",
@@ -93,7 +98,8 @@
       "D. xφ′ x(x, y) = -yφ′ y(x, y)"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-选06.png"
   },
   {
     "id": "3005-选-07",
@@ -109,7 +115,8 @@
       "D. 既没有极大值，也没有极小值"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-选07.png"
   },
   {
     "id": "3005-选-08",
@@ -125,7 +132,8 @@
       "D. 含有n个解向量"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-选08.png"
   },
   {
     "id": "3005-选-09",
@@ -141,7 +149,8 @@
       "D. 7"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-选09.png"
   },
   {
     "id": "3005-选-10",
@@ -157,7 +166,8 @@
       "D. 4 个 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-选10.png"
   },
   {
     "id": "3005-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 由曲线y= e1/x+ ex e1/x-ex·∫ 2 xe-t2 dt x-2 的跳跃间断点为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-填11.png"
   },
   {
     "id": "3005-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 若曲线y= 1 -x2 与x轴围成的图形被抛物线y= ax2（a> 0）分割成面积相等的三个部 分，则a= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-填12.png"
   },
   {
     "id": "3005-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 已知函数F(u, v) 可微，F′ u(0, 0) = 2, F′ v(0, 0) = 3，函数z= f(x, y) 由方程F(2x-cos y- ez, x2y+ sin z) = 0 确定，且f(1, 0) = 0，则f′ x(1, 0) = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-填13.png"
   },
   {
     "id": "3005-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. lim t→0+ 1 t3 ∫ π 4 0 dθ∫ t/ cos θ 0 sin(r2 sin θcos θ) sin θ dr= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-填14.png"
   },
   {
     "id": "3005-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 已知y= 2xe2x为二阶常系数线性齐次微分方程y″ + py′ + qy= 0 的一个特解，则该微分 方程为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-填15.png"
   },
   {
     "id": "3005-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设α为3 维非零列向量，E为三阶单位矩阵，A= E-ααT。若αTα= 2，则A的迹tr(A) = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-填16.png"
   },
   {
     "id": "3005-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设函数f(x) 连续，φ(x) = ∫ 1 0 f(xt) dt，且lim x→0 f(x) x = 1。 (1) 求φ′(x)。 (2) 问φ′(x) 在点x= 0 处是否连续？",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-解17.png"
   },
   {
     "id": "3005-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设有抛物线L1 :y= x2 + 1，直线L2 :y= x。 (1) 求L1 上的点到L2 的最短距离d1。 (2) 求L1 上的点和点P(5, 0) 的最短距离d2。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-解18.png"
   },
   {
     "id": "3005-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x) 连续，f(x) = x2 + x∫ x2 0 f(x2 -t) dt+ ∬Df(xy) dxdy，其 中D为以A(1, -1), B(-1, 1), C(1, 1) 为顶点的三角区域，若f(1) = 0。 (1) 求∫ 1 0 f(x) dx+ ∬Df(xy) dxdy的值。 (2) 求∫ 1 0 f(x) dx的值。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-解19.png"
   },
   {
     "id": "3005-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）利用变换u= tan y将方程y″ sec2 y+ 2(y′)2 sec2 ytan y+ 2y′ sec2 y- 3 tan y= -3x+ 2 简化，并求出原方程的通解。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-解20.png"
   },
   {
     "id": "3005-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设x> 0。 (1) 证明：(x+ 1)3 -x3 = 3[x+ θ(x)]2（1 ），其中0 < θ(x) < 1。 (2) 证明1 中的θ(x) 是x（0 < x< 1）的减函数。 (3) 当0 < x< 1 时，证明1 中的θ(x) 满足1 2 < θ(x) < 1 √3 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-解21.png"
   },
   {
     "id": "3005-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设3 阶实矩阵A满足A2 -A-2E= O，|A| = 2。 (1) 证明A可以对角化。 (2) 如果A为实对称矩阵，且ξ= (1, 1, -1)T 是齐次线性方程组(A-2E)x= 0 的一个解，求一 个对称矩阵B使得B2 = A+ E。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3005-解22.png"
   }
 ]

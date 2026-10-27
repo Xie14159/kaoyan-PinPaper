@@ -13,7 +13,8 @@
       "D. 同阶但不等价无穷小。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-选01.png"
   },
   {
     "id": "3025-选-02",
@@ -29,7 +30,8 @@
       "D. F(x) = { -cos x, x≤0, (1 + x) ln(1 + x) -x+ 1, x> 0 。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-选02.png"
   },
   {
     "id": "3025-选-03",
@@ -45,7 +47,8 @@
       "D. dx-2dy。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-选03.png"
   },
   {
     "id": "3025-选-04",
@@ -61,7 +64,8 @@
       "D. ∫ 1 0 f(x) dx< -1。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-选04.png"
   },
   {
     "id": "3025-选-05",
@@ -77,7 +81,8 @@
       "D. 当a= 1 时，f(0) 为极小值。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-选05.png"
   },
   {
     "id": "3025-选-06",
@@ -93,7 +98,8 @@
       "D. ax+ b+ cxcos x+ dsin x。"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-选06.png"
   },
   {
     "id": "3025-选-07",
@@ -109,7 +115,8 @@
       "D. ∫ 1 0 dr∫ arcsin r π 2 f(rcos θ, rsin θ)rdθ。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-选07.png"
   },
   {
     "id": "3025-选-08",
@@ -125,7 +132,8 @@
       "D. a< 1, b= 3。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-选08.png"
   },
   {
     "id": "3025-选-09",
@@ -141,7 +149,8 @@
       "D. -1。"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-选09.png"
   },
   {
     "id": "3025-选-10",
@@ -157,7 +166,8 @@
       "D. 若r(A) = n，则r(B) = r(C)。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-选10.png"
   },
   {
     "id": "3025-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设函数y= y(x) 由{ x= ∫ t 0 2 cos(t-s)2 ds, y= xsin y+ e2t 确定，则dy dx| t=0 = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-填11.png"
   },
   {
     "id": "3025-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设f(x) 非负连续，且f(x) ∫ x 0 f(x-t) dt= sin 4 x，则f(x) 在区间[0, π 2]上的平均值 为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-填12.png"
   },
   {
     "id": "3025-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 圆(x-2)2 + y2 = 1 绕y轴旋转一周所得旋转体的表面积为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-填13.png"
   },
   {
     "id": "3025-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设f(x) 在(-1, +∞) 内连续，且f(x) = ∫ x 0 e-f(t) dt，则f(n)(0) (n≥2) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-填14.png"
   },
   {
     "id": "3025-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 一个容器的内侧是由x2 + y2 = 1 (y≤1 2)绕y轴旋转一周而成的曲面，容器内盛满水，长 度单位为m，重力加速度为g(m/s2)，水的密度为ρ(kg/m3)。若将容器内的水从顶端全部抽 出，至少需做功 J。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-填15.png"
   },
   {
     "id": "3025-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设3 阶实对称矩阵A的特征值为2, 3, 4，A∗是A的伴随矩阵。若对任意3 维实列向量X，都 有|XTA∗X-XTAX|≤aXTX，则a的最小取值为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-填16.png"
   },
   {
     "id": "3025-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）求f(x, y) = (x2 -y2)e-(x2+y2) 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-解17.png"
   },
   {
     "id": "3025-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设y(x) 满足d2y dx2 + |dy dx|+ e-2xy= e-3x。 (1) 利用变换t= e-x将上述微分方程化为常系数线性微分方程，并求原方程的通解y(x)； (2) 若lim x→+∞exy(x) = 2，求y(x) 的表达式。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-解18.png"
   },
   {
     "id": "3025-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分） (1) 当x∈[0, π] 时，求y= sin x与y= sin 2x所围图形的面积； (2) 当x∈[0, π] 时，求y= | sin 2x| 与x轴所围图形绕y轴旋转一周所得旋转体的体积。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-解19.png"
   },
   {
     "id": "3025-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设D= {(x, y) ∣0 ≤x≤2, 0 ≤y≤2}，计算I= ∬Dmax{(x-1)2, 1 - y2} dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-解20.png"
   },
   {
     "id": "3025-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x) 在[-1, 1] 上有连续的二阶导数，证明： (1) 存在一点ξ∈[-1, 1]，使得∫ 1 -1 xf(x) dx= 1 3[2f′(ξ) + ξf″(ξ)]； (2) 若f(x) 在(-1, 1) 内取得极值，则存在一点η∈(-1, 1)，使得|2f′(η) + ηf″(η)| ≥1 2|f(1) - f(-1)|。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-解21.png"
   },
   {
     "id": "3025-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设矩阵A= [ ] a 1 1 0 a-1 0 1 1 a [ ] 不可逆，β= ( ) b 1 1 ( ) 。已知方程组ATX= 0 的解 均是β TX= 0 的解。 (1) 求a, b的值； (2) 求可逆矩阵P，使得P-1AP= Λ。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3025-解22.png"
   }
 ]

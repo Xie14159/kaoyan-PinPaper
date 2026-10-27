@@ -13,7 +13,8 @@
       "D. (2, 1)"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-选01.png"
   },
   {
     "id": "3046-选-02",
@@ -29,7 +30,8 @@
       "D. ∫ 1 -2 dx (x+ 2)2√1 -x"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-选02.png"
   },
   {
     "id": "3046-选-03",
@@ -45,7 +47,8 @@
       "D. 1"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-选03.png"
   },
   {
     "id": "3046-选-04",
@@ -61,7 +64,8 @@
       "D. -2, -√6 6"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-选04.png"
   },
   {
     "id": "3046-选-05",
@@ -77,7 +81,8 @@
       "D. ∫ √2 0 dr∫ arcsin 1 r arccos 1 r f(rcos θ, rsin θ) dθ"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-选05.png"
   },
   {
     "id": "3046-选-06",
@@ -93,7 +98,8 @@
       "D. 2"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-选06.png"
   },
   {
     "id": "3046-选-07",
@@ -109,7 +115,8 @@
       "D. 1"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-选07.png"
   },
   {
     "id": "3046-选-08",
@@ -125,7 +132,8 @@
       "D. 当a= 5 时，α4 可由向量组α1, α2, α3 线性表示"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-选08.png"
   },
   {
     "id": "3046-选-09",
@@ -141,7 +149,8 @@
       "D. A的特征值必有2"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-选09.png"
   },
   {
     "id": "3046-选-10",
@@ -157,7 +166,8 @@
       "D. 与a, b均无关 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-选10.png"
   },
   {
     "id": "3046-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 函数f(x) = lim n→∞ sin nπx 1 + (2x)2n的间断点的个数为 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-填11.png"
   },
   {
     "id": "3046-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 已知函数y= f(x) 具有二阶导数，且lim x→0 f′(x) -2 x = 2，则d2x dy2| x=0 = 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-填12.png"
   },
   {
     "id": "3046-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设连续函数f(x) 满足等式f(x) = x2 (1 + x2)2 + 1 1 + x2 ∫ 1 0 f(x) dx+∫ 1 -1 f(x) dx，则∫ 3 1 f(x- 2) dx= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-填13.png"
   },
   {
     "id": "3046-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设f(x) 在[0, 1] 上连续，曲线y= f(x), x= 0, x= 1 与x轴围成图形的面积为1，则 ∫ 1 0 dx∫ x 0 xyf(x2)f(y2) dy= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-填14.png"
   },
   {
     "id": "3046-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设定义在(0, +∞) 内的可导函数f(x) 满足方程∫ xy 1 f(t) dt-y2 ∫ x 1 f(t) dt-x2 ∫ y 1 f(t) dt= 1 4(x2 -1)(y2 -1)，且f(1) = 0，则f(x) = 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-填15.png"
   },
   {
     "id": "3046-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A为3 阶实对称矩阵，α= (1, a+ 1, -a)T 与β= (a, 4, 1 -a)T 分别是齐次线性方程组 (A+ E)x= 0 与(A-E)x= 0 的解，其中E为3 阶单位矩阵，则a= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-填16.png"
   },
   {
     "id": "3046-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设曲线y= f(x) 的参数方程为{ x= x(t) = t-sin t, y= y(t) = 1 -cos t, 0 ≤t≤2π。 P(x, y) 是曲线y= f(x) 上的任一点，0 < x< π。在点P处作曲线的切线，记该切线在x轴 上的截距为u(x)，求lim x→0+ u(x) x 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-解17.png"
   },
   {
     "id": "3046-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设定义在[0, +∞) 上的函数y= f(x) 满足微分方程f″(x) = f(x) -2，且 f(0) = 1, f′(0) = 0。记曲线y= f(x) 在点x= ln 2 处的切线为L。 x y A L ln 2 1 y= f(x) O (1) 求函数y= f(x) 的表达式； (2) 求由曲线y= f(x)、直线L及坐标轴所围的位于第一象限的区域D（见图）绕x轴旋转一 周所得的旋转体的体积V。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-解18.png"
   },
   {
     "id": "3046-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）当x> 0 时，比较x2 -1 x2 + 1, x2 -1 2x , ln x的大小。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-解19.png"
   },
   {
     "id": "3046-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设f(x) 在区间[0, a] 上连续，且当x∈(0, a) 时，0 < f(x) < x。设 x1 ∈(0, a), xn+1 = f(xn) (n= 1, 2, ⋯)。 (1) 证明lim n→∞xn存在，并求之； (2) 如果增设条件：在[0, a] 上，f(x) 存在连续的二阶导数（在x= 0 处下面的f′(0) 与f″(0) 分别指的是右导数f′ +(0) 与f″ + (0)），f′(0) = 1，f″(0) 存在且不为零，求lim x→0+ xf(x) x-f(x)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-解20.png"
   },
   {
     "id": "3046-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）求二重积分I= ∬ D xydxdy，其中D是由曲线y= √a2 -x2, x2 + y2 = 2ax (a> 0) 与两坐标轴围成的区域，如图阴影部分所示。 x y -a O a 2a",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-解21.png"
   },
   {
     "id": "3046-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设3 阶实对称矩阵A的每行元素之和均为3，且r(A) = 1，β= (-1, 2, 2)T。 (1) 求Anβ； (2) 求(A-3 2E) 100 。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3046-解22.png"
   }
 ]

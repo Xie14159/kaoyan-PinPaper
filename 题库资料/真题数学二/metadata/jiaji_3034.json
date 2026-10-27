@@ -13,7 +13,8 @@
       "D. (2, -4)"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-选01.png"
   },
   {
     "id": "3034-选-02",
@@ -29,7 +30,8 @@
       "D. α> 2"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-选02.png"
   },
   {
     "id": "3034-选-03",
@@ -45,7 +47,8 @@
       "D. (arcsin x x ) 2 < arcsin x x < arcsin x2 x2"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-选03.png"
   },
   {
     "id": "3034-选-04",
@@ -61,7 +64,8 @@
       "D. x= 0"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-选04.png"
   },
   {
     "id": "3034-选-05",
@@ -77,7 +81,8 @@
       "D. [a2, +∞)"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-选05.png"
   },
   {
     "id": "3034-选-06",
@@ -93,7 +98,8 @@
       "D. p> 1, q> 1"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-选06.png"
   },
   {
     "id": "3034-选-07",
@@ -109,7 +115,8 @@
       "D. I4"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-选07.png"
   },
   {
     "id": "3034-选-08",
@@ -125,7 +132,8 @@
       "D. B不可逆，B-E不可逆"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-选08.png"
   },
   {
     "id": "3034-选-09",
@@ -141,7 +149,8 @@
       "D. 2"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-选09.png"
   },
   {
     "id": "3034-选-10",
@@ -157,7 +166,8 @@
       "D. k1(1, 1, 0)T + k2(1, 0, 1)T 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-选10.png"
   },
   {
     "id": "3034-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim x→0 √cos x- 3√cos x ln(1 + x2) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-填11.png"
   },
   {
     "id": "3034-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 心形线r= 1 + cos θ在点θ= 2π 3 处的法线方程为 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-填12.png"
   },
   {
     "id": "3034-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设函数z= z(x, y) 由xy= ∫ z 0 dt √1 + t2 确定，则∂2z ∂x2 + ∂2z ∂y2 = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-填13.png"
   },
   {
     "id": "3034-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 椭圆x2 + y2 -xy= 1 上点到原点距离的最大值为 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-填14.png"
   },
   {
     "id": "3034-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数f(x) 在[0, 1] 上具有一阶连续导数且f(1) = 0，若f(x) 满足∫ 1 0 [f′(x)]2 dx- 6 ∫ 1 0 f(x) dx+ 3 = 0，则f(x) = 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-填15.png"
   },
   {
     "id": "3034-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 已知A为3 阶可逆矩阵，且A2+2A= O，3 阶矩阵B满足2A-1B= A∗+B，则|B| = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-填16.png"
   },
   {
     "id": "3034-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）已知函数f(x) 在点x= 0 处二阶可导，且lim x→0 f(x) -1 -2x2 x2 = 0，求 lim x→0 f(x) -f(sin x) x4 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-解17.png"
   },
   {
     "id": "3034-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设f(x) 在区间[0, T](T> 0) 上具有一阶连续导数，f(0) = 0，g(x) 在区 间[0, T] 上连续。 (1) 证明∫ T 0 f′(t) (∫ T tg(x) dx)dt= ∫ T 0 f(x)g(x) dx； (2) 利用（Ⅰ）关系式计算积分I= ∫ 1 0 (∫ 1 te-x2 dx)dt。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-解18.png"
   },
   {
     "id": "3034-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数y= f(t) 有二阶连续导数且f(t) ≠0，若f(0) = 2, f′(0) = 1， x= ∫ t 0 f(u) du，且y2d2y dx2 = dy dx，求f(t) 的表达式。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-解19.png"
   },
   {
     "id": "3034-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设P(x) = x2 + ax+ b，问∫ 1 -1 P2(x) dx是否有最大、最小值，若有，则 求出最值，若没有，请说出理由。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-解20.png"
   },
   {
     "id": "3034-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x) 具有连续导数，且满足f(1) = 1。区域D是由x轴，y轴和x+y= 1 所围区域，若f(x+ y) = x 1 + x+ y+ ∬Dyf′(x+ y) dσ，求∬Df(x+ y) dσ。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-解21.png"
   },
   {
     "id": "3034-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A, B均为3 阶方阵，其中A为实对称矩阵，A= (aij)3×3, a11 = 2， B= ( ) 1 0 -1 -1 0 1 0 2 0 ( ) ，且满足(A-E)B= O。 (1) 求矩阵A； (2) 求可逆矩阵P，使P-1AP= Λ。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3034-解22.png"
   }
 ]

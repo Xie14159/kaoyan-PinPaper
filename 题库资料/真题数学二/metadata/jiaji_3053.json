@@ -13,7 +13,8 @@
       "D. 间断点个数可为无穷多个。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-选01.png"
   },
   {
     "id": "3053-选-02",
@@ -29,7 +30,8 @@
       "D. f′(0) 与o(x) 有关。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-选02.png"
   },
   {
     "id": "3053-选-03",
@@ -45,7 +47,8 @@
       "D. 至多有一个零点。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-选03.png"
   },
   {
     "id": "3053-选-04",
@@ -61,7 +64,8 @@
       "D. 3。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-选04.png"
   },
   {
     "id": "3053-选-05",
@@ -77,7 +81,8 @@
       "D. 4。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-选05.png"
   },
   {
     "id": "3053-选-06",
@@ -93,7 +98,8 @@
       "D. 2 3 。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-选06.png"
   },
   {
     "id": "3053-选-07",
@@ -109,7 +115,8 @@
       "D. ∫ +∞ 0 1 x2 + x3 dx。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-选07.png"
   },
   {
     "id": "3053-选-08",
@@ -125,7 +132,8 @@
       "D. ( A∗CB∗ |A|B∗ -|B|A∗ O )。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-选08.png"
   },
   {
     "id": "3053-选-09",
@@ -141,7 +149,8 @@
       "D. (A∣ξ) 的列向量组与(B∣η) 的列向量组等价。"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-选09.png"
   },
   {
     "id": "3053-选-10",
@@ -157,7 +166,8 @@
       "D. a> 0 且a≠2。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-选10.png"
   },
   {
     "id": "3053-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 曲线y= x(x-1) 1 3 的拐点为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-填11.png"
   },
   {
     "id": "3053-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设函数f(x) = (1 -x)ncos πx, n= 1, 2, ⋯，则f(n)(1) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-填12.png"
   },
   {
     "id": "3053-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 曲线y= √xln x 1 + x2 (x≥1) 与x轴之间的图形绕x轴旋转一周所得到的旋转体的体积为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-填13.png"
   },
   {
     "id": "3053-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 已知有密度均匀、长度为1 且质量为2 的细棒AB，记G为万有引力常数，假设有一质量为 1 的质点在BA的延长线上距A为a处，则细棒AB对该质点的引力为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-填14.png"
   },
   {
     "id": "3053-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 已知函数f(x, y) 满足d[f(x, y)] = (x+ 2y) dx+ ydy (x+ y)2 ，f(1, 1) = ln 2 -1 2，则f(2, 2) = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-填15.png"
   },
   {
     "id": "3053-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 已知A= ( ) 1 0 0 0 1 -1 2 0 0 ( ) ，若(PA)2 = PA，且P可逆，则P可以为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-填16.png"
   },
   {
     "id": "3053-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）求不定积分∫ x3 (x+ 1)2(x2 + x+ 1) dx。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-解17.png"
   },
   {
     "id": "3053-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设常数a> 1, b> 0。证明： (1) 当x→+∞时，1 ax= o(1 xb)； (2) 微分方程y′ + axy= xb(x> 0) 的任一解y(x) 满足lim x→+∞y(x) = 0。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-解18.png"
   },
   {
     "id": "3053-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）求函数u= xy+ 2xz在约束条件x2 + y2 + z2 = 10 下的最值。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-解19.png"
   },
   {
     "id": "3053-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设曲线L:y= ex+ e-x 2 (x≥0)，P为L上任意一点，记L上从点A(0, 1) 到点P的一段弧绕x轴旋转一周所得到旋转体的侧面积为S，当点P沿x轴的正向速度为2 时，S对时间t的变化率为π(e+ 1)2 e ，求此时点P的坐标。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-解20.png"
   },
   {
     "id": "3053-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设D= {(x, y) ∣x2 + y2 ≤2x}，计算∬D|x-y| dσ。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-解21.png"
   },
   {
     "id": "3053-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设矩阵A= ( 1 1 1 2 ), B= ( 1 -1 -1 1 )。 (1) 证明A为正定矩阵； (2) 求一个可逆矩阵P，使得PTAP与PTBP均为对角矩阵。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3053-解22.png"
   }
 ]

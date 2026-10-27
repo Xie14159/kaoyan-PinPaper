@@ -13,7 +13,8 @@
       "D. p> 1, p-q< 1"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-选01.png"
   },
   {
     "id": "3037-选-02",
@@ -29,7 +30,8 @@
       "D. 若lim x→+∞f(x) = 0 存在，则lim x→+∞f″(x) = 0"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-选02.png"
   },
   {
     "id": "3037-选-03",
@@ -45,7 +47,8 @@
       "D. 可导"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-选03.png"
   },
   {
     "id": "3037-选-04",
@@ -61,7 +64,8 @@
       "D. x= 0 不是f(x) 的极值点，(0, f(0)) 也不是y= f(x) 的拐点"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-选04.png"
   },
   {
     "id": "3037-选-05",
@@ -77,7 +81,8 @@
       "D. 6"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-选05.png"
   },
   {
     "id": "3037-选-06",
@@ -93,7 +98,8 @@
       "D. f′ y(x, 0) 在x= 0 处连续"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-选06.png"
   },
   {
     "id": "3037-选-07",
@@ -109,7 +115,8 @@
       "D. 1 2 sin 2 1"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-选07.png"
   },
   {
     "id": "3037-选-08",
@@ -125,7 +132,8 @@
       "D. 3"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-选08.png"
   },
   {
     "id": "3037-选-09",
@@ -141,7 +149,8 @@
       "D. a≠1, C= ( ) -2 2 1 -1 1 1 ( )"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-选09.png"
   },
   {
     "id": "3037-选-10",
@@ -157,7 +166,8 @@
       "D. a> -2 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-选10.png"
   },
   {
     "id": "3037-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设f(x) = ∫ x 0 cos(x-t)2 dt，φ(x) = { } √ x-sin x x-ln(1 + x), x≠0, 0, x= 0, 则df(φ(x)) dx | x=0 = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-填11.png"
   },
   {
     "id": "3037-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设y= sin 2x+ cos 2x-sin x是二阶常系数线性微分方程y″ + αy′ + βy= γsin x的一个特 解，则(α+ β+ γ)2 = 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-填12.png"
   },
   {
     "id": "3037-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 极限lim n→∞ 1 n(∫ √1 2n 1 e-x2 dx+ ∫ √3 2n 1 e-x2 dx+ ⋯+ ∫ √2n-1 2n 1 e-x2 dx)= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-填13.png"
   },
   {
     "id": "3037-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设f(x, y) 为可微函数，且f(x, cos x) = sin xcos x，f′ y(x, cos x) = cos x，则df(0, 1) = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-填14.png"
   },
   {
     "id": "3037-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 已知x→0 时，√1 -ax2 -1 + bx2 是cos 2x-e-2x2 的等阶无穷小量，则ab= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-填15.png"
   },
   {
     "id": "3037-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设An(n> 2) 为实对称矩阵，λ1, λ2 为两个不同的特征值，α1, α2 为分别对应λ1, λ2 的单位 特征向量，记P= (α1, α2)，则|PTAP| = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-填16.png"
   },
   {
     "id": "3037-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设函数f(x) 可导，f(0) = 0，且f′(ln x) = { 1, 0 < x< 1, 1 1 + ln x, x≥1. (1) 求f(x) 的表达式； (2) 求曲线y= f(x)，y= -f(-x)，直线x= 1 所围成的位于第一象限内图形D的面积A。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-解17.png"
   },
   {
     "id": "3037-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设f(x) = ∫ 1 0 |t(t-x)|et2 dt (0 < x< 1)，若f(x0) 是f(x) 的极值，求 曲线y= f(x) 在点(x0, f(x0)) 处的曲率。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-解18.png"
   },
   {
     "id": "3037-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设f(x) 在[0, 1] 上可导，且f′(x) > 0。 (1) 证明对任意的x∈(0, 1)，存在θ∈(0, 1)，使得∫ x 0 f(t) dt= θxf(x) + (1 -θ)xf(0)； (2) 对（I）中的θ∈(0, 1)，求lim x→0+ θ。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-解19.png"
   },
   {
     "id": "3037-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设x2 -xy+ y2 -3x+ (x-1)ez+ 3 = 0 确定了z= z(x, y)，求z(x, y) 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-解20.png"
   },
   {
     "id": "3037-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设D是由直线y= √3x，x= √3y及曲线xy= 1，xy= 2 围成的四边形 区域。 (1) 证明：arctan x+ arctan 1 x= π 2，其中x> 0； (2) 计算二重积分I= ∬Dexyarctan y xdσ。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-解21.png"
   },
   {
     "id": "3037-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A为n阶实矩阵，AT 为A的转置矩阵。 (1) 证明A与AT 有相同的特征多项式，且不同特征值对应的A的特征向量与AT 的特征向量正 交； (2) 当A= ( 1 3 1 -1 )时，求可逆阵P，使得P-1AP= AT。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3037-解22.png"
   }
 ]

@@ -13,7 +13,8 @@
       "D. x= 0 是f(x) 的无穷间断点。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-选01.png"
   },
   {
     "id": "3075-选-02",
@@ -29,7 +30,8 @@
       "D. f(x) 在x= π 2 处的右导数为1。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-选02.png"
   },
   {
     "id": "3075-选-03",
@@ -45,7 +47,8 @@
       "D. 当a= -2 时，l1 与l2 在点(0, 1) 处有相同的曲率与曲率圆。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-选03.png"
   },
   {
     "id": "3075-选-04",
@@ -61,7 +64,8 @@
       "D. |f(0)| + |f(1)| ≠M。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-选04.png"
   },
   {
     "id": "3075-选-05",
@@ -77,7 +81,8 @@
       "D. 若a< b< c，则y3(x) -y1(x) y2(x) -y1(x) 必为小于0 的常数。"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-选05.png"
   },
   {
     "id": "3075-选-06",
@@ -93,7 +98,8 @@
       "D. 2 ∫ arctan 2 π 4 dθ∫ 3 2(sin θ+ cos θ) 1 √2 sin 2θ f(rcos θ, rsin θ)rdr"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-选06.png"
   },
   {
     "id": "3075-选-07",
@@ -109,7 +115,8 @@
       "D. f(x, y) 在点(0, 0) 处不可微。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-选07.png"
   },
   {
     "id": "3075-选-08",
@@ -125,7 +132,8 @@
       "D. 既不是充分条件，也不是必要条件。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-选08.png"
   },
   {
     "id": "3075-选-09",
@@ -141,7 +149,8 @@
       "D. B, C不相似但合同。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-选09.png"
   },
   {
     "id": "3075-选-10",
@@ -157,7 +166,8 @@
       "D. y2 1 -y2 2。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-选10.png"
   },
   {
     "id": "3075-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设函数f(x) 满足f(x) + 2f(2 x)= x2 -1 x2，则曲线y= f(x) 在点(1, f(1)) 处的切线方程 为y= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-填11.png"
   },
   {
     "id": "3075-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设函数f(x) = ∫ x 0 3√t-π 4 sin 2tdt，则f(x) 在[0, π] 上的最小值点为x= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-填12.png"
   },
   {
     "id": "3075-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 曲线y= cos x(x∈[-π 2, π 2])与x轴所围区域绕x轴旋转一周所得旋转体的侧面积S= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-填13.png"
   },
   {
     "id": "3075-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设函数z(x, y) 由方程ln z+ yz+ cos x= 2 确定，则dz|(0,0) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-填14.png"
   },
   {
     "id": "3075-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数fn(x) = cnx2ne-πx2，且满足∫ +∞ 0 fn(x) dx= 1 2，其中cn为仅与n有关的数。若c0 = 1， 则c4 = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-填15.png"
   },
   {
     "id": "3075-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设矩阵A= ( ) 0 t 1 -1 0 1 1 1 0 ( ) 相似于实对角矩阵，则t的取值范围是 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-填16.png"
   },
   {
     "id": "3075-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设二元函数z(x, y) 有连续的偏导数，且∂2z ∂x∂y= x(ey-1)，z(x, 0) = 0， z(0, y) = y2 2 -y，求z(x, y) 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-解17.png"
   },
   {
     "id": "3075-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设区域D由曲线x3 + y3 -6xy= 0（x≥0, y≥0）围成。 (1) 求D的面积； (2) 若D的形心的横坐标x= a，求∫ +∞ 0 t4 (1 + t3)3 dt，结果用a表示。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-解18.png"
   },
   {
     "id": "3075-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x) 满足f′(1-x) = 1-f(x)，且∫ π 0 [f(x)+(1+x)f′(x)] dx= -2， 求f(x)。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-解19.png"
   },
   {
     "id": "3075-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）证明：当0 < x≤1 时，0 < 1 arcsin x-√1 -x2 x ≤2 π。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-解20.png"
   },
   {
     "id": "3075-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设数列{xn} 满足x1 = 1 2，且对所有正整数n，1 xn+1 = 2 3 (1 xn + 1 3 -xn )。 (1) 证明lim n→∞xn存在，并求其值； (2) 求lim n→∞2-n∏ n i=1(3 -xi)。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-解21.png"
   },
   {
     "id": "3075-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设3 阶矩阵A与非零向量α满足Aα= α，不同于α的向量β满足Aβ= α， 向量γ满足Aγ= α+ β。求与An（n≥2）相似的对角矩阵。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3075-解22.png"
   }
 ]

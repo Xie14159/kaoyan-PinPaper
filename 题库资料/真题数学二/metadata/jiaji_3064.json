@@ -13,7 +13,8 @@
       "D. a= -2021 2022, b= - 1 2022。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-选01.png"
   },
   {
     "id": "3064-选-02",
@@ -29,7 +30,8 @@
       "D. 若f(0) = f′(0) = 0，f″(0) = a，则lim x→0 f(x) x2 = a 2。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-选02.png"
   },
   {
     "id": "3064-选-03",
@@ -45,7 +47,8 @@
       "D. 2 ∫ 1 0 x2 cos xdx。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-选03.png"
   },
   {
     "id": "3064-选-04",
@@ -61,7 +64,8 @@
       "D. V1, V2 的大小关系与a有关。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-选04.png"
   },
   {
     "id": "3064-选-05",
@@ -77,7 +81,8 @@
       "D. ex(Ax-Bxcos 2x-Cxsin 2x)。"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-选05.png"
   },
   {
     "id": "3064-选-06",
@@ -93,7 +98,8 @@
       "D. f1(x, y) 在点(0, 0) 处不连续，f2(x, y) 在点(0, 0) 处连续。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-选06.png"
   },
   {
     "id": "3064-选-07",
@@ -109,7 +115,8 @@
       "D. 根据已知条件无法判断点(0, 0) 是否为f(x, y) 的极值点。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-选07.png"
   },
   {
     "id": "3064-选-08",
@@ -125,7 +132,8 @@
       "D. ( ) 17 4 -8 0 1 0 32 8 -15 ( ) 。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-选08.png"
   },
   {
     "id": "3064-选-09",
@@ -141,7 +149,8 @@
       "D. 4。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-选09.png"
   },
   {
     "id": "3064-选-10",
@@ -157,7 +166,8 @@
       "D. r(A) + r(E+ A) = 5。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-选10.png"
   },
   {
     "id": "3064-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 曲线x3 + y3 = y2 的斜渐近线方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-填11.png"
   },
   {
     "id": "3064-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设曲线L的参数方程为{ x(t) = ln tan t 2 + cos t, y(t) = sin t, 其中π 2 < t< π，则曲线上一点M处的 切线与x轴的交点P与点M之间的距离为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-填12.png"
   },
   {
     "id": "3064-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ ln(1 -x2) 2x2√1 -x2 dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-填13.png"
   },
   {
     "id": "3064-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设函数z= uevw2，且w= w(u, v) 由方程e u w+ e v w= 4 所确定，则当u= ln 2, v= ln 2 时， dz= 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-填14.png"
   },
   {
     "id": "3064-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 有一容器，其内侧壁由过原点的曲线y= y(x)（x> 0）绕y轴旋转而成，容器底部（原点 处）开有一个小孔。已知液体从容器底部流出的速率v= k√2gh（单位：m/s），其中g为重 力加速度（单位：m/s2），h为小孔上方的液面高度（单位：m），k为大于0 的常数。若液面 高度以1 m/s 的速率匀速下降，则y(x) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-填15.png"
   },
   {
     "id": "3064-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 已知( ) 3 2 1 ( ) 为3 阶矩阵A的属于特征值1 的一个特征向量，A的第一列为α1，第二列为α2， 则A的第三列为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-填16.png"
   },
   {
     "id": "3064-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）某行星上的磁场强度为M(x, y, z) = 6x-y2 + xz+ 50，行星表面的点 (x, y, z) 满足方程x2 + y2 + z2 = 20。科学家欲在该行星表面磁场强度最小处架设一台天文望 远镜进行探测，求该望远镜的选址坐标(x0, y0, z0)。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-解17.png"
   },
   {
     "id": "3064-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设D= {(x, y) ∣x2 + y2 ≤2y, y≥1}。连续函数f(x, y) 满足f(x, y) = x+ y x2 + y2 + |x| ∬Df(x, y) dxdy。求函数f(x, y) 的表达式。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-解18.png"
   },
   {
     "id": "3064-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设数列{xn} 满足xn+1 = √π 2xnsin xn，且0 < x1 < π 2。求lim n→∞ sec xn-tan xn π 2 -xn 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-解19.png"
   },
   {
     "id": "3064-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）考虑二阶微分方程sin θd2y dθ2 + cos θdy dθ+ n(n+ 1)ysin θ= 0。 (1) 令x= cos θ，将上述方程转化为关于y、dy dx以及d2y dx2 的二阶微分方程； (2) 设un(x) = (x2 -1)n，其n阶导数记为pn(x)，证明pn(x) 为第（I）问中所得到方程的一个 特解。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-解20.png"
   },
   {
     "id": "3064-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设二元函数f(x, y) 具有一阶连续偏导数，且满足f(0, 0) = 0，f′ 1(0, 0) = k≠0 以及对于任意x，都有f′ 2(x, y) > 0。 (1) 设n> 1，证明：当x> 0 时，对所有的0 ≤ξ≤xn，都有lim x→0+ f(x, ξ) x 存在，并计算该极限。 (2) 若当x→0+ 时，∫ xn 0 du∫ u1/n x f(t, u) dt与1 -cos x2 是等价无穷小，求n, k。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-解21.png"
   },
   {
     "id": "3064-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A为3 阶正定矩阵，β, x为3 维列向量。考虑二次函数f(x) = xTAx- 2xTβ。 (1) 证明：若y0 = A-1β，则对任意3 维列向量x，f(x) ≥-yT 0β。 (2) 求二次函数f(x1, x2, x3) = x2 1 + 2x2 2 + 3x2 3 -2x1x2 -2x1x3 + 4x2x3 -2x1 -4x2 -6x3 的最小 值。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3064-解22.png"
   }
 ]

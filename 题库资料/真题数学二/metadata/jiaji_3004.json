@@ -13,7 +13,8 @@
       "D. (2, 1)"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-选01.png"
   },
   {
     "id": "3004-选-02",
@@ -29,7 +30,8 @@
       "D. 点(0, 0) 为曲线y= f″(x) 的拐点，点x= 0 为f′(x) 的极大值点"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-选02.png"
   },
   {
     "id": "3004-选-03",
@@ -45,7 +47,8 @@
       "D. 交点个数与b有关"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-选03.png"
   },
   {
     "id": "3004-选-04",
@@ -61,7 +64,8 @@
       "D. I2 ≥I1 ≥I3"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-选04.png"
   },
   {
     "id": "3004-选-05",
@@ -77,7 +81,8 @@
       "D. I1 > 0, I2 > 0, I3 = 0"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-选05.png"
   },
   {
     "id": "3004-选-06",
@@ -93,7 +98,8 @@
       "D. f″ xx(x0, y0) ≤0, f″ yy(x0, y0) ≥0"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-选06.png"
   },
   {
     "id": "3004-选-07",
@@ -109,7 +115,8 @@
       "D. 1 2e2"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-选07.png"
   },
   {
     "id": "3004-选-08",
@@ -125,7 +132,8 @@
       "D. 如果矩阵B的行向量组线性无关，则矩阵C的行向量组一定线性无关"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-选08.png"
   },
   {
     "id": "3004-选-09",
@@ -141,7 +149,8 @@
       "D. 无法确定"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-选09.png"
   },
   {
     "id": "3004-选-10",
@@ -157,7 +166,8 @@
       "D. ATA合同于n阶单位矩阵En 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-选10.png"
   },
   {
     "id": "3004-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim x→0 ( 1 ln(1 + x) - 1 ln (x+ √1 + x2) )= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-填11.png"
   },
   {
     "id": "3004-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设函数f(x) 在点x= 0 处连续，且当x≠0 时，f(x) = (1 + 2x)1/x，则曲线y= f(x) 在 x= 0 对应点处的切线方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-填12.png"
   },
   {
     "id": "3004-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设y= x-5 x2 -1，则y(2024)(0) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-填13.png"
   },
   {
     "id": "3004-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 若(x2 + y′2)y″ = 2xy′, y(1) = y′(1) = 1，则y= 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-填14.png"
   },
   {
     "id": "3004-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设 { } z= xf(y-x), x+ y+ zez= 1 确定了y= y(x), z= z(x)，其中f为可导函数，且f(1) = 1，则 dy dx| x=0 = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-填15.png"
   },
   {
     "id": "3004-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 若齐次线性方程组 { } x1 + x2 + x4 = 0, ax1 + a2x3 = 0, ax2 + a2x4 = 0 的解都是方程x1 + x2 + x3 = 0 的解，则a= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-填16.png"
   },
   {
     "id": "3004-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设函数y= y(x) (x≥0) 由方程y3 + xy-8 = 0 确定，求曲线y= y(x) 与直线x= 7 以及两个坐标轴所围成的曲边梯形绕x轴旋转一周所得旋转体的体积V。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-解17.png"
   },
   {
     "id": "3004-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设函数f(x) 在(-∞, +∞) 上连续，且满足f(x) = sin x+ ∫ x 0 tf(x-t) dt。 (1) 求f(x)。 (2) 若xy′ + y= f(x)，求y= y(x) 的表达式。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-解18.png"
   },
   {
     "id": "3004-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）已知函数z= z(x, y) 由方程x2 -xy+ 2y2 -x-3y+ zez= 2(e2 -1) 确 定，求z= z(x, y) 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-解19.png"
   },
   {
     "id": "3004-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设y= f(x) 在[0, 1] 上非负可导，x0 ∈(0, 1)，且在[0, x0] 上以f(x0) 为 高的矩形面积等于函数f(x) 在[x0, 1] 上的平均值。 (1) 证明存在点ξ∈(x0, 1)，使得f(ξ) = x0f(x0)。 (2) 对于（1）中的ξ，存在η∈(0, 1) 使得(ξ-x0)f′(η) = (x0 -1)f(x0)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-解20.png"
   },
   {
     "id": "3004-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）某容器的外表面是y= x2 (0 ≤y≤H) 绕y轴旋转所围成的曲面，其容 积为450πm3，其中盛满水。如果将水全部抽出，问至少需要做多少功？",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-解21.png"
   },
   {
     "id": "3004-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设有向量组（Ⅰ）α1 = (1, 0, 1)T, α2 = (1, 1, 2)T, α3 = (1, 2, a)T，（Ⅱ） β1 = (-1, 2, 1)T, β2 = (1, 0, b)T。 (1) 问a, b为何值时，向量组（Ⅱ）不能由向量组（Ⅰ）线性表示？ (2) 设A= ( ) 1 1 1 0 1 2 1 2 a ( ) , B= ( ) -1 1 2 0 1 b ( ) ，问a, b为何值时，矩阵方程AX= B有解；有解时求出 其全部解。",
     "options": [],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3004-解22.png"
   }
 ]

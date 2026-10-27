@@ -13,7 +13,8 @@
       "D. 有一个极小值点和一个极大值点"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-选01.png"
   },
   {
     "id": "3086-选-02",
@@ -29,7 +30,8 @@
       "D. I1, I2 均收敛且I1 < 1, I2 > 1"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-选02.png"
   },
   {
     "id": "3086-选-03",
@@ -45,7 +47,8 @@
       "D. 6"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-选03.png"
   },
   {
     "id": "3086-选-04",
@@ -61,7 +64,8 @@
       "D. e2 4"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-选04.png"
   },
   {
     "id": "3086-选-05",
@@ -77,7 +81,8 @@
       "D. af(a) -bf(b)"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-选05.png"
   },
   {
     "id": "3086-选-06",
@@ -93,7 +98,8 @@
       "D. f′′ xy(0, 0) 不存在，f′′ yx(0, 0) 存在"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-选06.png"
   },
   {
     "id": "3086-选-07",
@@ -109,7 +115,8 @@
       "D. I3 ≤I2 ≤I1"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-选07.png"
   },
   {
     "id": "3086-选-08",
@@ -125,7 +132,8 @@
       "D. ( ) 0 0 1 1 -2 0 0 1 0 ( )"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-选08.png"
   },
   {
     "id": "3086-选-09",
@@ -141,7 +149,8 @@
       "D. 4"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-选09.png"
   },
   {
     "id": "3086-选-10",
@@ -157,7 +166,8 @@
       "D. m= n 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-选10.png"
   },
   {
     "id": "3086-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim n→∞ ∑ n k=1 1 k ln n = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-填11.png"
   },
   {
     "id": "3086-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设xy= c1ex+ c2e2x是某二阶齐次线性微分方程的通解，则该方程为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-填12.png"
   },
   {
     "id": "3086-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设z= z(u, v) 由方程z= euvx确定，u= u(x), v= v(x) 由方程组{ u2 + 2v+ ex= 2, u-v+ x= 1 确 定，其中u> 0，则dz dx| x=0 = 。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-填13.png"
   },
   {
     "id": "3086-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设t> 0, F(t) = ∫ 0 -tdx∫ x+t 0 xey2 dy+ ∫ t 0 dx∫ √t2-x2 0 xey2 dy，则F′(1) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-填14.png"
   },
   {
     "id": "3086-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数f(x) 可导，f(0) = 0，且f(x) = sin x2+2x∫ 1 0 xf(x) dx-xlim x→0 f(x) x ，则∫ 1 0 xf(x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-填15.png"
   },
   {
     "id": "3086-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设3 阶矩阵A= ( ) a 2 2 0 1 2 0 0 -1 ( ) 不能相似对角化，则a= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-填16.png"
   },
   {
     "id": "3086-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设连续奇函数f(x) 满足方程f(x) = f(x 2)+ ln cos x 2，-π< x< π。 (1) 求f(x) 的表达式。 (2) 讨论f′(x) 在(-π, π) 内的连续性。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-解17.png"
   },
   {
     "id": "3086-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）函数y(x) 是方程y″ -2y′ + y= f(x) 满足y(0) = 1, y′(0) = 2 的特解， 其中f(x) = { x+ 1, x≤0, ex, x> 0。 (1) 求y(x) 的表达式。 (2) 求曲线y(x) 的渐近线。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-解18.png"
   },
   {
     "id": "3086-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x) 在[0, 1] 上二阶可导，且f(0) = 0, f(1) = 1。 (1) 证明：存在ξ∈(0, 1)，使f′(ξ) = 1。 (2) 存在η∈(0, 1)，使ηf″(η) + f′(η) = 1。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-解19.png"
   },
   {
     "id": "3086-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）求f(x, y) = x3 -x2y+ 5 6y2 + 1 3y3 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-解20.png"
   },
   {
     "id": "3086-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x, y) = { } √1 -x2 -y2 1 + x2 + y2, y≤x, x2y, y> x, ，D:x2 + y2 ≤1, x≥0，计算积分 ∬Df(x, y) dσ。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-解21.png"
   },
   {
     "id": "3086-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A为3 阶矩阵，α1, α2, α3 为3 维列向量。已知Aα1 = α2, A2α1 = α3, A3α1 = 0, α3 ≠0。 (1) 证明：对任意常数k，向量组kα1 + α2, -α2 + α3, α1 -kα3 线性无关。 (2) 求A所有特征值与特征向量，问A能否相似于一个对角阵？说明理由。 (3) 求线性方程组ATAx= ATα3 的通解。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3086-解22.png"
   }
 ]

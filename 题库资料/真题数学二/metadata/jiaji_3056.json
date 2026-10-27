@@ -13,7 +13,8 @@
       "D. ∫ sin4 x 0 (tet-t) dt"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-选01.png"
   },
   {
     "id": "3056-选-02",
@@ -29,7 +30,8 @@
       "D. I3 < I2 < I1"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-选02.png"
   },
   {
     "id": "3056-选-03",
@@ -45,7 +47,8 @@
       "D. 11! ·sin 1"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-选03.png"
   },
   {
     "id": "3056-选-04",
@@ -61,7 +64,8 @@
       "D. x-y-1 = 0"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-选04.png"
   },
   {
     "id": "3056-选-05",
@@ -77,7 +81,8 @@
       "D. ∫ ∫ 1 0 e-t2 dt 0 f(x) dx≤∫ 1 0 f(x) dx"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-选05.png"
   },
   {
     "id": "3056-选-06",
@@ -93,7 +98,8 @@
       "D. Galn 3"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-选06.png"
   },
   {
     "id": "3056-选-07",
@@ -109,7 +115,8 @@
       "D. 4"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-选07.png"
   },
   {
     "id": "3056-选-08",
@@ -125,7 +132,8 @@
       "D. {a∣a∈R, a≠-1}"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-选08.png"
   },
   {
     "id": "3056-选-09",
@@ -141,7 +149,8 @@
       "D. -2y2 1 -y2 2 + y2 3"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-选09.png"
   },
   {
     "id": "3056-选-10",
@@ -157,7 +166,8 @@
       "D. 既非充分又非必要条件 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-选10.png"
   },
   {
     "id": "3056-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim x→0 |x|x+2 √1 + x2 -1 = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-填11.png"
   },
   {
     "id": "3056-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. ∫ 1 0 xarcsin(1 -x) dx= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-填12.png"
   },
   {
     "id": "3056-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设ex≥1 + ax对任意实数x均成立，则a的取值范围为 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-填13.png"
   },
   {
     "id": "3056-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 平面无界区域D= {(x, y) ∣(1 + x2)|y| ≤1} 的面积为 。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-填14.png"
   },
   {
     "id": "3056-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. z= arcsin y2 在点(-1, 2) 处的全微分为dz= 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-填15.png"
   },
   {
     "id": "3056-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设四元齐次线性方程组（I）{ 2x1 + 3x2 -x3 = 0, x1 + 2x2 + x3 -x4 = 0, 且四元齐次线性方程组（II）的一个 基础解系为ξ1 = (2, -1, k+ 2, 1)T, ξ2 = (-1, 2, 4, k+ 8)T，若方程组（I）与（II）没有非零公 共解，则k的取值范围为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-填16.png"
   },
   {
     "id": "3056-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设f(0) = a> 0, f′(0) = b，求lim x→0 f(x)f(x) -f(0)f(x) x 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-解17.png"
   },
   {
     "id": "3056-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设y= y(x) 满足x2y′ + (x2 -3)y2 = 0 且y(1) = 1。 (1) 求y= y(x) 的表达式； (2) 计算∫ 3 0 y2(x) dx。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-解18.png"
   },
   {
     "id": "3056-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设f(x) 为连续函数，T> 0，证明：f(x) 以T为周期的充分必要条件是 任给常数a，∫ a+T a f(x) dx为常数。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-解19.png"
   },
   {
     "id": "3056-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）计算∫ 1 0 dx∫ x 1 (e-y2 + eysin y) dy。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-解20.png"
   },
   {
     "id": "3056-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x, y) = 4x2(x-2y) + 16y(xy-3) -33x，求其在平面区域D= {(x, y) ∣0 ≤y≤x≤3} 上的取值范围。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-解21.png"
   },
   {
     "id": "3056-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设矩阵A= ( ) -1 0 1 1 2 0 a 0 3 ( ) ，B= ( ) 1 b 0 0 1 0 0 0 2 ( ) 相似，且Ax= x+(b, -b, 2b)T 的一个解为(0, -1, 1)T，求： (1) a, b的值； (2) A100。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3056-解22.png"
   }
 ]

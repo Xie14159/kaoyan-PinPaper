@@ -13,7 +13,8 @@
       "D. 当x→0 时，若f′(0) 存在且不为0，则f(x) 是x的同阶无穷小。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-选01.png"
   },
   {
     "id": "3067-选-02",
@@ -29,7 +30,8 @@
       "D. 5"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-选02.png"
   },
   {
     "id": "3067-选-03",
@@ -45,7 +47,8 @@
       "D. f(x) 有一个极大值点，两个极小值点。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-选03.png"
   },
   {
     "id": "3067-选-04",
@@ -61,7 +64,8 @@
       "D. e"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-选04.png"
   },
   {
     "id": "3067-选-05",
@@ -77,7 +81,8 @@
       "D. a> 0, b> 0"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-选05.png"
   },
   {
     "id": "3067-选-06",
@@ -93,7 +98,8 @@
       "D. f″ 12(x, y) = -f″ 11(y, x)。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-选06.png"
   },
   {
     "id": "3067-选-07",
@@ -109,7 +115,8 @@
       "D. {(x, y) ∣2 3 < x< 1, 0 < y< 1}"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-选07.png"
   },
   {
     "id": "3067-选-08",
@@ -125,7 +132,8 @@
       "D. 若n为偶数，则An的各项元素仅与ab有关。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-选08.png"
   },
   {
     "id": "3067-选-09",
@@ -141,7 +149,8 @@
       "D. A不是正交矩阵。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-选09.png"
   },
   {
     "id": "3067-选-10",
@@ -157,7 +166,8 @@
       "D. k(1, -1, 1)T + l(1, 0, -1)T，其中k, l为任意常数。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-选10.png"
   },
   {
     "id": "3067-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设α> 0，lim x→∞ x√αe2|x| + e|x| -α(x+ ln |x|)e|x| √x2 + ln |x| e|x| 存在，则α= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-填11.png"
   },
   {
     "id": "3067-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设函数f(x) = excos x+ e-xsin x，则f(2023)(0) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-填12.png"
   },
   {
     "id": "3067-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设有一底面半径为r，高为h的圆锥型容器，该容器将圆锥顶点朝下放置。从装满水的容器 中将水全部抽出需克服重力做功W1，从初始液面高度为h 3 的容器中将水全部抽出需克服重 力做功W2，则W1 W2 = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-填13.png"
   },
   {
     "id": "3067-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 圆x2 + y2 = 3 上到点(0, 0), (2, 0), (0, 1) 的距离的平方和最小的点为 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-填14.png"
   },
   {
     "id": "3067-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. ∫ 1 0 dy∫ arccos y -arccos y(2 sin 2 x+ cos2 x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-填15.png"
   },
   {
     "id": "3067-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. | | 1 1 1 1 2 22 23 24 3 32 33 34 4 42 43 44 | | = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-填16.png"
   },
   {
     "id": "3067-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设函数f(x) 二阶可导，且f(0) = f′(0) = 0，f″(0) = 2。对每个正数r， 令平面区域Dr= {(x, y) ∣x2 + y2 ≤r2}，并选取一点(ξ, η) ∈Dr，使得∬Drf(x2 + y2) dxdy= πr2f(ξ2 + η2)。求lim r→0+ ξ2 + η2 r2 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-解17.png"
   },
   {
     "id": "3067-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）计算∫ π 0 x 2 + sin xdx。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-解18.png"
   },
   {
     "id": "3067-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x) 为[0, π] 上的连续正值函数，F(x) 为[0, π] 上的连续函数，且 对x∈(0, π)，F(x) = ∫ x 0 (1 -cos t)f(t) dt ∫ x 0 t2f(t) dt 。求F(x) 在[0, π] 上的最大值。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-解19.png"
   },
   {
     "id": "3067-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设函数f(x) 一阶可导，满足f(x)+f(π-x) = f′(x)+f′(π-x)，2f′(x)+ 3f(x) = 5f(π-x)。若f(0) = 1，求f(x)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-解20.png"
   },
   {
     "id": "3067-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设周期函数f(x) = (-1)[x] |x-(x+ 1 2)|，其中[x]，(x+ 1 2)分别表示不 超过x，x+ 1 2 的最大整数，记an= ∫ 1 0 f(nx) x dx。证明： (1) 数列{a2n-1} 单调减少，{a2n} 单调增加； (2) lim n→∞an存在。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-解21.png"
   },
   {
     "id": "3067-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知二次型f(x1, x2, x3) = cx2 1 -(b2 +1)x2 2 +cx2 3 +2x1x3 可通过可逆线性 变换化为g(y1, y2, y3) = (2c2 -1)y2 1 +(c2 +1)y2 2 +(c2 -2)y2 3 +2(c2 +1)y1y2 -2(c2 -2)y1y3。 求可逆线性变换y= Px，将二次型g(y1, y2, y3) 化为规范形。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3067-解22.png"
   }
 ]

@@ -13,7 +13,8 @@
       "D. 当x→0 时，f(x) 是x的高阶无穷小。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-选01.png"
   },
   {
     "id": "3052-选-02",
@@ -29,7 +30,8 @@
       "D. f′(x) 在x= 1 处连续，但f″(1) 不存在。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-选02.png"
   },
   {
     "id": "3052-选-03",
@@ -45,7 +47,8 @@
       "D. 既不充分也不必要条件。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-选03.png"
   },
   {
     "id": "3052-选-04",
@@ -61,7 +64,8 @@
       "D. sin 1 -1。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-选04.png"
   },
   {
     "id": "3052-选-05",
@@ -77,7 +81,8 @@
       "D. y= x-eπ。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-选05.png"
   },
   {
     "id": "3052-选-06",
@@ -93,7 +98,8 @@
       "D. 若{an} 收敛，则{sin 1 an } 收敛。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-选06.png"
   },
   {
     "id": "3052-选-07",
@@ -109,7 +115,8 @@
       "D. y= x2 -x3 3 。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-选07.png"
   },
   {
     "id": "3052-选-08",
@@ -125,7 +132,8 @@
       "D. 4。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-选08.png"
   },
   {
     "id": "3052-选-09",
@@ -141,7 +149,8 @@
       "D. 将A∗的第2 列的1 倍加到第1 列得-B∗。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-选09.png"
   },
   {
     "id": "3052-选-10",
@@ -157,7 +166,8 @@
       "D. |D-CA-1B||A| ≠|DA-CB|。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-选10.png"
   },
   {
     "id": "3052-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设函数f(x) = tan x- x2 1 + ax，且f‴(0) = 1，则a= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-填11.png"
   },
   {
     "id": "3052-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. f(x) = ∫ x 0 t t2 + 2t+ 2 dt在[0, 1] 上的最大值为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-填12.png"
   },
   {
     "id": "3052-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 曲线y= 1 9 ∫ 3 0 x√9 -x2t2 dt(x≥0) 的长度为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-填13.png"
   },
   {
     "id": "3052-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 平面区域D= ((x, y)| 1 1 + x2 ≤y≤ 1 √1 + x2)绕x轴旋转一周形成的旋转体体积为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-填14.png"
   },
   {
     "id": "3052-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设f(x, y) = { 1 -e-xy x , x≠0, y, x= 0, ，则lim x→0 (∂f(x, y) ∂x -∂f(0, 1) ∂x )= 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-填15.png"
   },
   {
     "id": "3052-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 已知矩阵A= ( ) 2 1 -1 1 -1 2 1 1 1 1 2 -1 2 -1 1 1 ( ) ，则(A2 -A-2E)(A+ E)-1 = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-填16.png"
   },
   {
     "id": "3052-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设曲线s(x) = ∫ x 0 | sin t| dt(x> 0)。 (1) 计算lim x→+∞ s(x) x； (2) 曲线s(x) 是否有斜渐近线？若有，求之；若没有，说明理由。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-解17.png"
   },
   {
     "id": "3052-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设f(x) 在[0, +∞) 上二阶可导，f″(x) < 0，任取0 < x1 < x2，证明： (1) f(x2) -f(x1) = f′(ξ2)x2 -f′(ξ1)x1，其中0 < ξ1 < x1, 0 < ξ2 < x2，且ξ1, ξ2 均唯一； (2) 在（1）的条件下，ξ1 < ξ2。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-解18.png"
   },
   {
     "id": "3052-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）已知回曲线L:y= y(x) 位于x轴上方区域内，y= y(x) 二阶可导，且L 上任一点P处的法线与x轴相交，其交点记为Q，如果点P处的曲率半径始终等于线段PQ 之长，并且L在点(0, 1) 处的切线与y轴垂直，求： (1) y= y(x) 的表达式； (2) f(x) = ∫ x 0 y(t) dt的拐点。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-解19.png"
   },
   {
     "id": "3052-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设函数f(x) = ln ex-1 x (x> 0)，数列{xn} 满足xn+1 = f(xn), n= 1, 2, ⋯， 且x1 = 1。证明： (1) 0 < f(x) < x； (2) {xn} 收敛，并求lim n→∞xn。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-解20.png"
   },
   {
     "id": "3052-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设函数z= f(x, y) 一阶偏导数连续，且在平面任意有界区域D上均有 ∬D(f′ x)2 dσ= ∬D[2xzf′ x-(xz)2] dσ成立，且f(0, y) = ey2/2，求： (1) z= f(x, y) 的表达式； (2) ln z z 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-解21.png"
   },
   {
     "id": "3052-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设多项式f(x1, x2, x3) = x2 1 + x2 2 + x2 3 -2x1x3 + x2 + 1 4。 (1) 写出该多项式的二次型部分的矩阵A； (2) 求正交矩阵Q，使得QTAQ= Λ； (3) 求f(x1, x2, x3) = 0 的解。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3052-解22.png"
   }
 ]

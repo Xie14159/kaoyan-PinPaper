@@ -13,7 +13,8 @@
       "D. (1 6, 3)"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-选01.png"
   },
   {
     "id": "3007-选-02",
@@ -29,7 +30,8 @@
       "D. f″(0) 存在，f″(x) 在x= 0 处不连续"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-选02.png"
   },
   {
     "id": "3007-选-03",
@@ -45,7 +47,8 @@
       "D. +∞"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-选03.png"
   },
   {
     "id": "3007-选-04",
@@ -61,7 +64,8 @@
       "D. a= 0, b> 0"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-选04.png"
   },
   {
     "id": "3007-选-05",
@@ -77,7 +81,8 @@
       "D. 1 x2 -1 y"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-选05.png"
   },
   {
     "id": "3007-选-06",
@@ -93,7 +98,8 @@
       "D. 10 cm, 10 cm"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-选06.png"
   },
   {
     "id": "3007-选-07",
@@ -109,7 +115,8 @@
       "D. ∫ 1 -1 f(x) dx< -2"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-选07.png"
   },
   {
     "id": "3007-选-08",
@@ -125,7 +132,8 @@
       "D. 1 2 3 4"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-选08.png"
   },
   {
     "id": "3007-选-09",
@@ -141,7 +149,8 @@
       "D. r3 ≤r2 ≤r1"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-选09.png"
   },
   {
     "id": "3007-选-10",
@@ -157,7 +166,8 @@
       "D. z2 1 -z2 2 -z2 3 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-选10.png"
   },
   {
     "id": "3007-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 曲线y= √x与y= x2 所围平面有界区域绕直线y= x旋转一周所得旋转体的体积 为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-填11.png"
   },
   {
     "id": "3007-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 已知函数f(x) = x2 ln(2 -x)，则当n≥3 时，f(n)(0) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-填12.png"
   },
   {
     "id": "3007-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. lim n→∞ 1 n n ∑ i=1 [ln(3n-2i) -ln(n+ 2i)] = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-填13.png"
   },
   {
     "id": "3007-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设函数f(u) 可导，z= f(cos y-cos x) + xy，则 1 sin x·∂z ∂x+ 1 sin y·∂z ∂y= 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-填14.png"
   },
   {
     "id": "3007-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 已知f(x) = { ex, 0 ≤x≤1, 0, 其他, 则∫ +∞ -∞ dx∫ +∞ -∞ f(y)f(x-y) dy= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-填15.png"
   },
   {
     "id": "3007-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 已知3 阶方阵A的特征值为1, 2, 3，且A相似于B，则矩阵B的伴随矩阵B∗的迹tr(B∗) = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-填16.png"
   },
   {
     "id": "3007-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）求极限lim x→0 [ ] 1 + ∫ x 0 (1 + t) 1 tdt x - 1 sin x [ ] 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-解17.png"
   },
   {
     "id": "3007-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）已知f(x, y) 满足e-2x∂f ∂x= 4y+ 2y3 + 2x+ 1，且f(0, y) = 2y+ y2。求： (1) f(x, y) 的表达式； (2) f(x, y) 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-解18.png"
   },
   {
     "id": "3007-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）已知函数y= y(x) 可导，将区间[0, x] 上以y= y(x) 为曲边的曲边梯形 面积记为S，在[0, x] 上的弧长为aS(a> 0)，且y(0) = 1 a，求曲线y= y(x) 的表达式。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-解19.png"
   },
   {
     "id": "3007-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设数列{xn} 满足：0 < xn< π 2, xncos xn+1 = sin xn, n= 1, 2, ⋯。证明{xn} 收敛，并求lim n→∞xn。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-解20.png"
   },
   {
     "id": "3007-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设平面区域D= {(x, y) ∣x+ y≤1, x≥0, y≥0}，计算∬ D e-(x+y) √xy dσ。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-解21.png"
   },
   {
     "id": "3007-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知矩阵A= ( ) 1 1 1 1 1 1 1 1 2 1 0 -1 -1 0 1 2 ( ) , B= ( ) 1 1 1 1 0 1 1 0 ( ) ，矩阵C满足A= BC。 (1) 求矩阵C； (2) 计算A10。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3007-解22.png"
   }
 ]

@@ -13,7 +13,8 @@
       "D. 3"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-选01.png"
   },
   {
     "id": "3022-选-02",
@@ -29,7 +30,8 @@
       "D. x∫ x 0 f(t) dt> a∫ a 0 f(t) dt"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-选02.png"
   },
   {
     "id": "3022-选-03",
@@ -45,7 +47,8 @@
       "D. F(x) 可导，f(x) 不可导。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-选03.png"
   },
   {
     "id": "3022-选-04",
@@ -61,7 +64,8 @@
       "D. 可导点但不是驻点。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-选04.png"
   },
   {
     "id": "3022-选-05",
@@ -77,7 +81,8 @@
       "D. f′(0) 与f″(0) 均存在。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-选05.png"
   },
   {
     "id": "3022-选-06",
@@ -93,7 +98,8 @@
       "D. -2dx-dy"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-选06.png"
   },
   {
     "id": "3022-选-07",
@@ -109,7 +115,8 @@
       "D. c1e-x+ c2xex+ c3"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-选07.png"
   },
   {
     "id": "3022-选-08",
@@ -125,7 +132,8 @@
       "D. B的行向量组与E-2ααT 的行向量组等价。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-选08.png"
   },
   {
     "id": "3022-选-09",
@@ -141,7 +149,8 @@
       "D. Aα，A2α线性无关。"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-选09.png"
   },
   {
     "id": "3022-选-10",
@@ -157,7 +166,8 @@
       "D. 0 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-选10.png"
   },
   {
     "id": "3022-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设lim x→∞(ax2 1 + x-bx-1)= lim x→∞[f(x+ 1) -f(x)]，lim x→∞f′(x) = 0，则曲线y= ax2 1 + x的斜渐 近线方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-填11.png"
   },
   {
     "id": "3022-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 双纽线r2 = a2 cos 2θ（a> 0）绕极轴旋转一周所得旋转曲面的面积为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-填12.png"
   },
   {
     "id": "3022-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设f(x, y) 对任意的(x, y) ∈R2 满足f(x, y) = ex+y-2+o(ρ)，其中ρ= √(x-1)2 + (y-1)2， 则lim h→0 f(1 + 2h, 1) -f(1, 1 -2h) h = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-填13.png"
   },
   {
     "id": "3022-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设由曲线y= x √1 + nx2（n为正整数）与x= 1 及x轴所围区域绕x轴旋转一周所得旋转 体的体积为Vn，则lim n→∞nVn= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-填14.png"
   },
   {
     "id": "3022-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 积分∫ 1 0 dx∫ 1-x 0 e(x+y)2 dy= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-填15.png"
   },
   {
     "id": "3022-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设二次型f(x1, x2, x3) = XTAX（AT = A）在正交变换下的标准形为-2y2 1+8y2 2，且E+B= AB， 其中B为3 阶矩阵，则tr(B-1 + 2E) = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-填16.png"
   },
   {
     "id": "3022-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）已知当x→0 时，asin x+ bx2 + ln(1 -2x+ x2) 与1 -e5x2 是等价无穷 小，求a, b的值。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-解17.png"
   },
   {
     "id": "3022-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设f(x) 满足f′(x) + f(x) = e-x，f(0) = 0。 (1) 求y= f(x) 的极值与拐点； (2) 当0 < x1 < 1 < x2 时，有f(x1) = f(x2)，证明：x1 + x2 > 2。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-解18.png"
   },
   {
     "id": "3022-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设(x-1)2 + y2 = 1 内切于椭圆x2 a2 + y2 b2 = 1（a> b> 0），求a, b的 值，使得椭圆的面积最小。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-解19.png"
   },
   {
     "id": "3022-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设D是由曲线x|y| + |x| + y= 1 与x轴所围成的有界区域，计算I= ∬D[2 ln(1 + y) -y+ x] dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-解20.png"
   },
   {
     "id": "3022-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设y(x) 在[0, +∞) 上有二阶连续的导数，点P(x, y)（x> 0）为曲线 y= y(x) 上任意一点，沿曲线从点(0, 1) 到点P(x, y) 的弧长在数值上等于该曲线在点P(x, y) 处的切线的斜率，且曲线在点(0, 1) 处有水平切线。 (1) 求y= y(x) 的表达式； (2) 求曲线y= y(x) 从点(ln 2, 5 4)到点(ln 3, 5 3)的一段弧长。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-解21.png"
   },
   {
     "id": "3022-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设3 阶矩阵A= (α1, α2, α3)，且满足 [ ] α1 + α3 -α1 + 2α2 α2 + α3 [ ] = [ ] 1 1 0 0 -2 -1 1 0 -1 [ ] 。 (1) 若X= (x1, x2, x3)T，证明：XTA2X为正定二次型； (2) 求可逆矩阵P，使得P-1AP= AT。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3022-解22.png"
   }
 ]

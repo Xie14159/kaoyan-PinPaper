@@ -13,7 +13,8 @@
       "D. 3"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-选01.png"
   },
   {
     "id": "3029-选-02",
@@ -29,7 +30,8 @@
       "D. 3"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-选02.png"
   },
   {
     "id": "3029-选-03",
@@ -45,7 +47,8 @@
       "D. f″(0) 存在，f″(x) 在x= 0 处不连续。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-选03.png"
   },
   {
     "id": "3029-选-04",
@@ -61,7 +64,8 @@
       "D. I2 < I1 < I3。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-选04.png"
   },
   {
     "id": "3029-选-05",
@@ -77,7 +81,8 @@
       "D. 3。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-选05.png"
   },
   {
     "id": "3029-选-06",
@@ -93,7 +98,8 @@
       "D. 2∂z ∂x-3∂z ∂y= 0。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-选06.png"
   },
   {
     "id": "3029-选-07",
@@ -109,7 +115,8 @@
       "D. a< -2，b< a+ 1。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-选07.png"
   },
   {
     "id": "3029-选-08",
@@ -125,7 +132,8 @@
       "D. {1 2}。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-选08.png"
   },
   {
     "id": "3029-选-09",
@@ -141,7 +149,8 @@
       "D. ( ) 1 1 0 1 1 2 0 1 2 3 0 2 ( ) 。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-选09.png"
   },
   {
     "id": "3029-选-10",
@@ -157,7 +166,8 @@
       "D. ( 0 1 1 -1 )。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-选10.png"
   },
   {
     "id": "3029-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim x→+∞x2 ((1 + 1 x+ 1) x+1 -(1 + 1 x) x )=",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-填11.png"
   },
   {
     "id": "3029-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 微分方程3(x+ y-1) dx+ (x+ y) dy= 0 的通解为",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-填12.png"
   },
   {
     "id": "3029-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ x3 arccos x √1 -x2 dx=",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-填13.png"
   },
   {
     "id": "3029-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设连续函数f(x) 满足f(x+ 1) -f(x) = x2，∫ 1 0 f(x) dx= 0，则∫ 2 1 f(x) dx=",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-填14.png"
   },
   {
     "id": "3029-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 由{ x= 1 -cos t, y= t-sin t (0 ≤t≤2π)，x= 0 所围成的平面图形D的形心横坐标等于",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-填15.png"
   },
   {
     "id": "3029-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设方程组 { } 2x1 + x2 + x3 = a, (a-1)x2 = 1, x1 + x2 + 2x3 = 1 有两个不同的解，则该方程组的通解为 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-填16.png"
   },
   {
     "id": "3029-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）计算lim n→∞∑ n k=1 k n2 ln (1 + k2 n2)。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-解17.png"
   },
   {
     "id": "3029-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设函数f(x) 在x= 0 处连续，且lim x→0 xf(x) -e2 ln(1+x) + 1 x((1 + x) 1 x-e) = 2 e ，证明f(x) 在x= 0 处可导，并求f′(0)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-解18.png"
   },
   {
     "id": "3029-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设f(x) 是[0, 1] 上的正值连续函数，证明： (1) 存在唯一的ξ∈(0, 1)，使得∫ ξ 0 f(t) dt= ∫ 1 ξ 1 f(t) dt； (2) 对任意自然数n(n≥2)，存在唯一的xn∈(0, 1)，使得∫ xn 1/nf(t) dt= ∫ 1 xn 1 f(t) dt，且lim n→∞xn= ξ。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-解19.png"
   },
   {
     "id": "3029-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设平面区域D= {(x, y) ∣|x-2| ≤y≤√4 -x2, 0 ≤x≤2}，计算 I= ∬D |x-y| x2 + y2 dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-解20.png"
   },
   {
     "id": "3029-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设过点(0, 1) 的曲线，其上任意点P处的切线在y轴上的截距等于原点 到点P的距离，求该曲线方程。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-解21.png"
   },
   {
     "id": "3029-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设4 阶实矩阵A与4 维列向量α, β满足A(α+ β) = 4α+ 3β，A(α-β) = 2α-3β，α, β线性无关。方程组Ax= 0 有两个线性无关的解向量η1, η2。 (1) 证明α, β, η1, η2 线性无关； (2) 判断矩阵A与 ( ) 3 1 0 0 0 3 0 0 0 0 0 0 0 0 0 0 ( ) 是否相似，并说明理由。",
     "options": [],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3029-解22.png"
   }
 ]

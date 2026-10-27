@@ -127,6 +127,7 @@ class QuestionItem:
     tags: list[str] = field(default_factory=list)
     recommend_weight: int = 3
     stem: str = ""
+    stem_img: str = ""  # 原卷题干裁图(相对/绝对路径);非空时页面优先渲染图片
     options: list[str] = field(default_factory=list)
     answer: str = ""
     solution: str = ""

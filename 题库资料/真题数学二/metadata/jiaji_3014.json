@@ -13,7 +13,8 @@
       "D. 点(1, 2) 不为曲线y= f(x) 的拐点"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-选01.png"
   },
   {
     "id": "3014-选-02",
@@ -29,7 +30,8 @@
       "D. ∫ x 0 [f(t) + f(-t)] dt"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-选02.png"
   },
   {
     "id": "3014-选-03",
@@ -45,7 +47,8 @@
       "D. 4"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-选03.png"
   },
   {
     "id": "3014-选-04",
@@ -61,7 +64,8 @@
       "D. 1 160x5"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-选04.png"
   },
   {
     "id": "3014-选-05",
@@ -77,7 +81,8 @@
       "D. ecos4 α"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-选05.png"
   },
   {
     "id": "3014-选-06",
@@ -93,7 +98,8 @@
       "D. y″ + y= cos 2x"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-选06.png"
   },
   {
     "id": "3014-选-07",
@@ -109,7 +115,8 @@
       "D. I1 > I3 > I2"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-选07.png"
   },
   {
     "id": "3014-选-08",
@@ -125,7 +132,8 @@
       "D. E-2ααT"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-选08.png"
   },
   {
     "id": "3014-选-09",
@@ -141,7 +149,8 @@
       "D. 齐次线性方程组(A-E)x= 0 有非零解"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-选09.png"
   },
   {
     "id": "3014-选-10",
@@ -157,7 +166,8 @@
       "D. ( ) -1 0 0 0 1 0 0 0 1 ( ) 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-选10.png"
   },
   {
     "id": "3014-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设曲线y= f(x) 与曲线y= 2 sin x-ln(1 + x) 在原点处相切，且有相同的曲率圆，则极限 lim n→∞nf(1 n) n = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-填11.png"
   },
   {
     "id": "3014-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. lim n→∞∫ n 0 x n2 + xdx= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-填12.png"
   },
   {
     "id": "3014-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ +∞ 0 x-1 x3 + 1 dx= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-填13.png"
   },
   {
     "id": "3014-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 星形线x 2 3 + y 2 3 = a 2 3(a> 0) 的全长是 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-填14.png"
   },
   {
     "id": "3014-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 已知f″ xx(x, y) = y，f′ x(x, x) = x2 + 1，f(x, x) = x3 2 + x，则f(x, y) = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-填15.png"
   },
   {
     "id": "3014-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 若三元实二次型f(x1, x2, x3) = ax2 1 + ax2 2 + (a-1)x2 3 + 2x1x3 -2x2x3 的规范形为y2 1 + y2 2， 则a= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-填16.png"
   },
   {
     "id": "3014-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）求极限lim x→0 ∫ x 0 (∫ u2 0 arctan(1 + t) dt)du sin x∫ 1 0 tan(xt)2 dt 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-解17.png"
   },
   {
     "id": "3014-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设函数f(u) 在(0, +∞) 内可导，z= xf(y x)+y满足关系式x∂z ∂x-y∂z ∂y= 2z， 且f(1) = 1，求曲线y= f(x) 的渐近线。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-解18.png"
   },
   {
     "id": "3014-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）计算二重积分I= ∬Df(x, y) dxdy，其中D= {(x, y) ∣0 ≤x≤2, |y| ≤x}， f(x, y) = min t≥1 (t4 -4x3t+ y3)。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-解19.png"
   },
   {
     "id": "3014-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设函数f(x) 在[0, 1] 上具有三阶连续导数。(1) 证明：存在ξ∈[0, 1]，使 得∫ 1 0 f(x) dx= f(1 2)+ 1 24f″(ξ)；(2) 若|f‴(x)| ≤1，证明|f(1) -f(0) -f′ (1 2)|≤1 24。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-解20.png"
   },
   {
     "id": "3014-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x) 是单调可导函数，f(-π 2)= -f(π 2)，g(x) 是f(x) 的反函数，且 f(x) 满足∫ f(x) -π/2 g(t) dt= ∫ x -π/2 ( 1 1 + e-|t| + sin t 1 + e-t/2)sin tdt，求积分∫ π/2 -π/2 f(x) dx的值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-解21.png"
   },
   {
     "id": "3014-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知实矩阵A= ( ) 3 2 -2 -a -1 a 4 2 -3 ( ) 与对角矩阵相似，求：(1) 常数a的值； (2) 一个可逆矩阵P，使得P-1AP为对角矩阵；(3) 判断矩阵AAT 是否为正定矩阵，并说明理 由。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3014-解22.png"
   }
 ]

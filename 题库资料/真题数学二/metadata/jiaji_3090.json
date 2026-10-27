@@ -13,7 +13,8 @@
       "D. 3"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-选01.png"
   },
   {
     "id": "3090-选-02",
@@ -29,7 +30,8 @@
       "D. a= 2 5, b= 1 15"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-选02.png"
   },
   {
     "id": "3090-选-03",
@@ -45,7 +47,8 @@
       "D. I1 < I2 < 0"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-选03.png"
   },
   {
     "id": "3090-选-04",
@@ -61,7 +64,8 @@
       "D. f(x, y) = { } xy √x2 + y2, x2 + y2 ≠0, 0, x2 + y2 = 0."
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-选04.png"
   },
   {
     "id": "3090-选-05",
@@ -77,7 +81,8 @@
       "D. 可导且f′(x) 在x= 0 处连续"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-选05.png"
   },
   {
     "id": "3090-选-06",
@@ -93,7 +98,8 @@
       "D. 10x-4y+ 2"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-选06.png"
   },
   {
     "id": "3090-选-07",
@@ -109,7 +115,8 @@
       "D. F(x) 在(0, +∞) 内单调递增"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-选07.png"
   },
   {
     "id": "3090-选-08",
@@ -125,7 +132,8 @@
       "D. k(β1 -β2)"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-选08.png"
   },
   {
     "id": "3090-选-09",
@@ -141,7 +149,8 @@
       "D. y2 1 -y2 2 -y2 3"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-选09.png"
   },
   {
     "id": "3090-选-10",
@@ -157,7 +166,8 @@
       "D. r2 ≥r3 = r1 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-选10.png"
   },
   {
     "id": "3090-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设f(x) 在x= 0 处连续，且lim x→0 x2[1 + f(x)] x-sin x = 6，则曲线y= f(x) 在点(0, f(0)) 处的切 线方程为 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-填11.png"
   },
   {
     "id": "3090-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设f(x) = (x2 -4x+ 3)n，则f(n)(1) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-填12.png"
   },
   {
     "id": "3090-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. lim n→∞∑ n k=1 ∫ k+1 k e-√xdx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-填13.png"
   },
   {
     "id": "3090-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设二阶常系数线性非齐次微分方程y″ + ay′ + by= cex的一个特解为y= e2x+ (1 + x)ex， 则该方程的通解为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-填14.png"
   },
   {
     "id": "3090-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数F(u, v) 可微，z= z(x, y) 由方程F(x+ z y, y+ z x)= 0 确定，则x∂z ∂x+ y∂z ∂y= 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-填15.png"
   },
   {
     "id": "3090-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 已知线性方程组 { } ax1 + 3x2 + x3 = 1, bx1 + 2x2 + x3 = 2, x2 + 2x3 = 3, x1 + 2x2 + 3x3 = 1 有解，其中a, b为常数，若 | | a b 0 -1 3 2 1 -2 1 1 2 -3 -1 -2 -3 2 | | = 1， 则| | a b 0 3 2 1 1 1 2 | |= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-填16.png"
   },
   {
     "id": "3090-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设a(a≥-1) 为非零常数，lim x→+∞ ∫ x 1 ((t+ a) 1+1 t-t 1+ 1 t+ a)dt x = 1，求 a的值。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-解17.png"
   },
   {
     "id": "3090-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设x2 + y2 = 1（x≥0, y≥0）与x+ y+ xy= 1 所围区域为D。 f(x, y) = { } x-y+ 1, x+ y≤1, (x+ y)2 x2 + y2 , x+ y> 1. 计算I= ∬Df(x, y) dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-解18.png"
   },
   {
     "id": "3090-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设f(x) 满足(y-ex-1) dx+ dy= 0，y(1) = 1。 (1) 求y= f(x) 的表达式； (2) 设曲线y= f(x) 与直线y= 1 2(e+ e-1) 所围图形为D，求D绕直线x= 1 旋转所得旋转体 的侧面积。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-解19.png"
   },
   {
     "id": "3090-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设方程∂2u ∂x2 + ∂2u ∂y2 = 0 有形如u= φ(y x)的解，φ(r) 有二阶导数，且 φ(1) = 0, φ′(1) = 1。求φ(y x)的表达式。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-解20.png"
   },
   {
     "id": "3090-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x) 在[a, b] 上二阶可导，M= max x∈[a,b]|f″(x)|。证明：对任意x∈(a, b)， 均有|f(x) -f(a) x-a -f(b) -f(a) b-a |≤M 2 (b-x)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-解21.png"
   },
   {
     "id": "3090-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设3 阶实对称矩阵A有二重特征值1，且(A-4E)α= 0，其中E是单位 矩阵，α= (1, 1, 1)T。 (1) 求实对称矩阵A； (2) 记X= (x1, x2, x3)T，利用正交变换将二次型f(x1, x2, x3) = | A -X XT 0 |化为标准形。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3090-解22.png"
   }
 ]

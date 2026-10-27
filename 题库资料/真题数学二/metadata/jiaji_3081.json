@@ -13,7 +13,8 @@
       "D. f″(0) = 2"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-选01.png"
   },
   {
     "id": "3081-选-02",
@@ -29,7 +30,8 @@
       "D. ∫ x 0 f(t) dt-x 2 ∫ 2 0 sin f(t) dt是周期函数"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-选02.png"
   },
   {
     "id": "3081-选-03",
@@ -45,7 +47,8 @@
       "D. f(-x, y) = f(x, -y) = f(x, y)"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-选03.png"
   },
   {
     "id": "3081-选-04",
@@ -61,7 +64,8 @@
       "D. 1 x√x2 -1"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-选04.png"
   },
   {
     "id": "3081-选-05",
@@ -77,7 +81,8 @@
       "D. 若lim n→∞h[f(xn)] 存在，则lim n→∞f[h(xn)] 存在，但lim n→∞g(xn) 不一定存在"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-选05.png"
   },
   {
     "id": "3081-选-06",
@@ -93,7 +98,8 @@
       "D. 若f(x, y) 在(0, 0) 处可微，且f(0, 0) = f′ x(0, 0) = f′ y(0, 0) = 0，则 lim (x,y)→(0,0) f(x, y) x2 + y2 = 0"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-选06.png"
   },
   {
     "id": "3081-选-07",
@@ -109,7 +115,8 @@
       "D. 当f″(x) < 0 时，f′(1) > 0"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-选07.png"
   },
   {
     "id": "3081-选-08",
@@ -125,7 +132,8 @@
       "D. 1 2 4"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-选08.png"
   },
   {
     "id": "3081-选-09",
@@ -141,7 +149,8 @@
       "D. 向量组（II）必线性无关"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-选09.png"
   },
   {
     "id": "3081-选-10",
@@ -157,7 +166,8 @@
       "D. 4 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-选10.png"
   },
   {
     "id": "3081-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设lim x→0 cos x-1 + f(x) x3 = 6，则lim x→0 f(x) x-ln(1 + x) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-填11.png"
   },
   {
     "id": "3081-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. ∫ cos x-x 1 + sin xdx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-填12.png"
   },
   {
     "id": "3081-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设函数u(x, y) 的全微分du= [f(x) + 2ex] sin ydx+ f′(x) cos ydy，其中f(x) 具有二阶连 续导数，f(0) = -2，f′(0) = -1，u(0, 0) = 0，则u(x, y) = 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-填13.png"
   },
   {
     "id": "3081-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 平面区域D= {(x, y) ∣0 ≤y≤ln x x，x≥1} 绕x轴旋转一周形成的旋转体的体积 为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-填14.png"
   },
   {
     "id": "3081-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 已知函数f(t) = ∫ t 1 dy∫ t y y √1 + x3 dx，则f′(2) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-填15.png"
   },
   {
     "id": "3081-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设ξ1 = (1, 2, 3)T，ξ2 = (3, 2, 1)T 是齐次方程组Ax= 0 的基础解系，α= (a, b, 1)T 是方程 组{ Ax= 0， x1 + x2 + x3 = 1 的解，则ab= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-填16.png"
   },
   {
     "id": "3081-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设区域D由y= x2，y= -x2 和x= 1 所围成，计算二重积分I= ∬D(√1 -x2 + y)√x4 -y2 dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-解17.png"
   },
   {
     "id": "3081-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）已知曲线L:{ x= cos 2t， y= f(t)， 0 ≤t≤π， 其中f(t) 具有连续导数，且 满足f′(0) = 0，f(t) -f′(t) = -t2 cos t。 (1) 求f(t) 的表达式； (2) 求曲线L围成的封闭图形的面积。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-解18.png"
   },
   {
     "id": "3081-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设f(x) 在[a, b] 上具有连续导数。 (1) 证明：存在ξ∈[a, b]，使∫ b af(x) dx= f(b)(b-a) -f′(ξ) 2 (b-a)2； (2) 若f(x) 在x= a处二阶导存在且f′(a) = 0，f″(a) ≠0，求lim b→a+ ξ-a b-a。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-解19.png"
   },
   {
     "id": "3081-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）已知函数z= z(x, y) 由方程e-x+y2+z+ x2 + y2z= 3 确定，求z= z(x, y) 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-解20.png"
   },
   {
     "id": "3081-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设函数fn(x) = 2n e (ex-(1 + x n) n )。 (1) 证明：对任意的正整数n，在区间[0, 1] 内都有0 ≤fn(x) ≤x2ex-1 成立； (2) 设数列{an} 满足a1 = 1，an+1 = ∫ an 0 fn(x) dx，证明lim n→∞an存在，并求此极限。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-解21.png"
   },
   {
     "id": "3081-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知二次型f(x1, x2, x3) = xTAx在正交变换x= Qy下的标准形为4y2 1 + y2 2 + y2 3 且Q的第一列为1 √3 (1, -1, -1)T。 (1) 求二次型矩阵A； (2) 求可逆矩阵P，使得A= PTP； (3) 记g(x1, x2, x3) = xTAx+ 2xTb，其中b= (0, 0, 1)T，求g的最小值，并写出一个最小值点。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3081-解22.png"
   }
 ]

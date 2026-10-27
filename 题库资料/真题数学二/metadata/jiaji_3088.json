@@ -13,7 +13,8 @@
       "D. 二阶可导。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-选01.png"
   },
   {
     "id": "3088-选-02",
@@ -29,7 +30,8 @@
       "D. (0, F(0)) 不是y= F(x) 的拐点。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-选02.png"
   },
   {
     "id": "3088-选-03",
@@ -45,7 +47,8 @@
       "D. √π。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-选03.png"
   },
   {
     "id": "3088-选-04",
@@ -61,7 +64,8 @@
       "D. I2 < I3 < I1。"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-选04.png"
   },
   {
     "id": "3088-选-05",
@@ -77,7 +81,8 @@
       "D. f(x, y) 在(0, 0) 处连续。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-选05.png"
   },
   {
     "id": "3088-选-06",
@@ -93,7 +98,8 @@
       "D. √2 + ln(√2 -1)。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-选06.png"
   },
   {
     "id": "3088-选-07",
@@ -109,7 +115,8 @@
       "D. π(2 ln 2 + 1)。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-选07.png"
   },
   {
     "id": "3088-选-08",
@@ -125,7 +132,8 @@
       "D. |A| = |B|。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-选08.png"
   },
   {
     "id": "3088-选-09",
@@ -141,7 +149,8 @@
       "D. r[(A, α), BT] = r((AT, BT) ( A B ))。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-选09.png"
   },
   {
     "id": "3088-选-10",
@@ -157,7 +166,8 @@
       "D. a= -2, b= 8。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-选10.png"
   },
   {
     "id": "3088-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设曲线y= ax2 与y= ln x相切，则lim x→1 2e [1 + (x-a)] 1 sin(x-a) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-填11.png"
   },
   {
     "id": "3088-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. ∫ 1 0 dy∫ 1-√2y-y2 0 dx √2 -x = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-填12.png"
   },
   {
     "id": "3088-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设连续函数f(x) 满足∫ 1 0 f(tx) dt= f(x) + xsin x，且f(0) = 1，则f(x) 在区间[0, π] 上的 平均值为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-填13.png"
   },
   {
     "id": "3088-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设f(x) 可导，对任意x, y，有f(x+ y) = ∫ x+y x t(t2 + 1) f(t) dt+ f(x)，且f(1) = √2，则 f(x) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-填14.png"
   },
   {
     "id": "3088-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设微分方程y″ + ay′ + y= 0 的每一个解y(x) 在[0, +∞) 上有界，则实数a的取值范围 为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-填15.png"
   },
   {
     "id": "3088-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A是3 阶矩阵，α为3 维列向量，P= (α, Aα, A2α) 为可逆矩阵，B= P-1AP，且A3α+2A2α= 3Aα，则tr(A+ B) = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-填16.png"
   },
   {
     "id": "3088-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）解答应写出文字说明、证明过程或演算步骤。设f(x) = (x-a)2 ln x (x> 0)， 其中0 < a< 1。若f(x) 的3 个极值点为x1, x2, x3，且x1 < x2 < x3。 (1) 求f(x) 的极大值； (2) 证明：x1 + x3 > 2 √e。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-解17.png"
   },
   {
     "id": "3088-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设f(x, y) 有三阶连续偏导数，且满足df(x, y) = axy2 dx+(10x2y+ 2 5ay3)dy， f(1, 1) = 6。 (1) 求f(x, y)； (2) 曲线f(x, y) = 1 上任一点(x, y) 到原点的距离为d，求d的最小值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-解18.png"
   },
   {
     "id": "3088-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设曲线(x2 + y2) 3 2 = 2√2xy, x≥0, y≥0 所围区域为D。计算I= ∬D(x+ 2√xy-y) 2 dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-解19.png"
   },
   {
     "id": "3088-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设f(x) 在[0, 1] 上二阶可导，且f″(x) > 0。 (1) 证明：对于区间(0, 1) 内的任意不同的两点x1, x2，有f[λx1 + (1 -λ)x2] < λf(x1) + (1 - λ)f(x2)(0 < λ< 1)； (2) 若∫ 1 0 f(x) dx= 0，证明：对任意x∈[0, 1]，有|f(x)| ≤max{f(0), f(1)}。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-解20.png"
   },
   {
     "id": "3088-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x)(x≥0) 满足(a+ x)f′(x) + f(x) = a，f(0) = 1，其中a≥1 2 且 a≠1。 (1) 求f(x)； (2) 设x1 > 0，xn+1 = f(xn)(n= 1, 2, ⋯)，证明lim n→∞xn存在，并求其值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-解21.png"
   },
   {
     "id": "3088-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A= ( ) 1 -1 0 -1 1 + a2 a 0 a 1 ( ) (a≠0)，X= (x1, x2, x3)T。 (1) 若对∀X≠0，有XT(A-kE)X≤0，求k的最小值； (2) 求可逆线性变换X= CY，将二次型f(x1, x2, x3) = XTAX化为g(y1, y2, y3) = y2 1 + y2 2 + y2 3 - 2y1y2。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3088-解22.png"
   }
 ]

@@ -13,7 +13,8 @@
       "D. √3."
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-选01.png"
   },
   {
     "id": "3070-选-02",
@@ -29,7 +30,8 @@
       "D. 2y(4) -3y‴ -3y′ -2y= 0."
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-选02.png"
   },
   {
     "id": "3070-选-03",
@@ -45,7 +47,8 @@
       "D. 4."
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-选03.png"
   },
   {
     "id": "3070-选-04",
@@ -61,7 +64,8 @@
       "D. 当k= -1 2 时，f(x) 不可导，F(x) 不可导."
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-选04.png"
   },
   {
     "id": "3070-选-05",
@@ -77,7 +81,8 @@
       "D. I2 < I1 < I3."
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-选05.png"
   },
   {
     "id": "3070-选-06",
@@ -93,7 +98,8 @@
       "D. 若f(x) 为凸函数，则ξ< η."
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-选06.png"
   },
   {
     "id": "3070-选-07",
@@ -109,7 +115,8 @@
       "D. 当α= 1 时，f(x, y) 可微."
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-选07.png"
   },
   {
     "id": "3070-选-08",
@@ -125,7 +132,8 @@
       "D. 方程组ATx= 0 与BTx= 0 同解."
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-选08.png"
   },
   {
     "id": "3070-选-09",
@@ -141,7 +149,8 @@
       "D. E+ αβT 不能相似对角化."
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-选09.png"
   },
   {
     "id": "3070-选-10",
@@ -157,7 +166,8 @@
       "D. 矩阵A2 -E与E-A2 合同. 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-选10.png"
   },
   {
     "id": "3070-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim n→∞(1 2!! + 3 4!! + ⋯+ 2n-1 (2n)!! ) n! = .",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-填11.png"
   },
   {
     "id": "3070-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 已知动点P在曲线arctan y x= ln √x2 + y2 上运动，若点P的横坐标关于时间的变化率为2， 则当点P运动到点(√3 2 e π 3 , 1 2e π 3 )时，点P的纵坐标关于时间的变化率为 .",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-填12.png"
   },
   {
     "id": "3070-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 已知函数f(t) 二阶可导，且f(x2 + cos x) = sin x+ cos x 1 + x ，则f′(1) = .",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-填13.png"
   },
   {
     "id": "3070-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设函数f(x) 满足∫ x 1 f(t) t dt= 2√x-k，则曲线y= kf(x) 与直线x= k以及坐标轴所围区 域绕x轴旋转一周所得旋转体的侧面积S= .",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-填14.png"
   },
   {
     "id": "3070-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. lim n→∞∑ n i=1 ∑ i j=-i i(i+ j) (n2 + i2)(n2 + j2) = .",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-填15.png"
   },
   {
     "id": "3070-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A为3 阶实对称矩阵，已知矩阵A与矩阵B= ( ) 1 1 0 1 0 1 0 1 1 ( ) 合同，则二次型f(x1, x2, x3) = xTAx的规范形为 . 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-填16.png"
   },
   {
     "id": "3070-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）求极限lim x→+∞ ∫ x 1 [t] dt x2 ，其中[t] 表示不超过t的最大整数。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-解17.png"
   },
   {
     "id": "3070-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设定义在(0, +∞) 上的函数f(x) 满足微分方程y′ = x3 + y3 xy2 ，且f(1) = 1。 (1) 补充定义f(0)，使得f(x) 在[0, +∞) 上连续； (2) 求曲线y= [f(x)]3 位于x轴下方部分的面积。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-解18.png"
   },
   {
     "id": "3070-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设平面区域D由x 2 3 + y 2 3 = 1（x≥0, y≥0）与两坐标轴围成，计算 ∬D( 3√x+ 3√y) dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-解19.png"
   },
   {
     "id": "3070-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）已知函数f(u, v) 可微，g(x, y) = f(x, x+ y)，∂g(x, y) ∂x = x5 + (x+ y)5 - 8x-4y，∂g(x, y) ∂y = (x+ y)5 -4x-2y，且f(0, 0) = 1。 (1) 求f(u, v)； (2) 求f(u, v) 的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-解20.png"
   },
   {
     "id": "3070-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设函数f(x) 在[0, 1] 上连续，在(0, 1) 内可导，f(x) 单调增加，且f(0) = 0, f(1) = 1。证明：在(0, 1) 内存在三个不同的点ξ1, ξ2, ξ3，使得 1 f′(ξ1) + 2 f′(ξ2) + 3 f′(ξ3) = 6。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-解21.png"
   },
   {
     "id": "3070-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设α1, α2, α3 是线性无关的3 维列向量组，A为3 阶矩阵。已知Aα1 = aα1 + α2 + α3，Aα2 = bα2 -2α3，Aα3 = -2α2 + (a-b)α3。已知存在可逆矩阵P使得 P-1AP= ( ) -1 0 0 0 2 0 0 0 3 ( ) 。 (1) 求a, b； (2) 用α1, α2, α3 表示所有满足要求的可逆矩阵P。",
     "options": [],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3070-解22.png"
   }
 ]

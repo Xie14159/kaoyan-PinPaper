@@ -13,7 +13,8 @@
       "D. 有无穷间断点。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-选01.png"
   },
   {
     "id": "3078-选-02",
@@ -29,7 +30,8 @@
       "D. I3, I2, I1。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-选02.png"
   },
   {
     "id": "3078-选-03",
@@ -45,7 +47,8 @@
       "D. 1 2 均发散。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-选03.png"
   },
   {
     "id": "3078-选-04",
@@ -61,7 +64,8 @@
       "D. lim n→∞xn, lim n→∞yn均不存在。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-选04.png"
   },
   {
     "id": "3078-选-05",
@@ -77,7 +81,8 @@
       "D. 以上说法均不正确。"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-选05.png"
   },
   {
     "id": "3078-选-06",
@@ -93,7 +98,8 @@
       "D. ∂2f ∂x∂y| (0,0) 不存在，∂2f ∂y∂x| (0,0) 存在。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-选06.png"
   },
   {
     "id": "3078-选-07",
@@ -109,7 +115,8 @@
       "D. 2π 3 ∫ 1 0 rf(r) dr-2 ∫ 2 1 (2π 3 -arccos 1 r)rf(r) dr。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-选07.png"
   },
   {
     "id": "3078-选-08",
@@ -125,7 +132,8 @@
       "D. 若r(A, B) = r( A B )，则矩阵A与B等价。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-选08.png"
   },
   {
     "id": "3078-选-09",
@@ -141,7 +149,8 @@
       "D. A只有一个不同的特征值，不可以相似对角化。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-选09.png"
   },
   {
     "id": "3078-选-10",
@@ -157,7 +166,8 @@
       "D. 既不充分也不必要条件。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-选10.png"
   },
   {
     "id": "3078-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设函数f(x) 在x= 0 处二阶可导，f(x) -f(2x) = 2(x+ x2)，则f″(0) = 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-填11.png"
   },
   {
     "id": "3078-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设函数y= y(x) 由方程cos xearctan y+ln(1+x2y2)+arcsin x= 1 确定，则lim x→0 ∫ x 0 y(t) dt e√cos x-1 -1 = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-填12.png"
   },
   {
     "id": "3078-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ 2π 3 π 3 cos x-sin 2x x(π-x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-填13.png"
   },
   {
     "id": "3078-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设曲线L位于第一象限，满足极坐标方程r= sin 2θ，M为L上一点，其极坐标为(1 2, 5π 12)， 则点M处的切线与极径OM的夹角为 （可用反正切函数表示）。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-填14.png"
   },
   {
     "id": "3078-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设连续函数f(x, y) 满足 lim (x,y)→(0,0) f(x, y) + (x+ 1)2 + (y-2)2 |x| + |y| = 0，且∂f ∂x= x+ a, ∂f ∂y= 2y+ b，则f(x, y) 的极值点为 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-填15.png"
   },
   {
     "id": "3078-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A为3 阶实对称矩阵，已知α1 = (1, 1, 1)T, α2 = (1, 2, -1)T是非齐次线性方程组Ax= β 的两个解，若tr(A∗) = 5，则(A∗)n= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-填16.png"
   },
   {
     "id": "3078-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设a, b为非零常数，函数f(x) 满足lim x→0 (1 + 1 2x2 + 2f(x) x ) 1 x2 = e2, lim x→0 eax-esin bx f(x) = 16 9 ，求a, b。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-解17.png"
   },
   {
     "id": "3078-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设a> 0，曲线L的方程为{ x= a(t-sin t), y= a(1 -cos t), 其中0 ≤t≤2π，记曲 线L与x轴所围区域绕直线y= 3a旋转一周所得旋转体的体积为V，侧面积为S，若V= S， 求a。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-解18.png"
   },
   {
     "id": "3078-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x, y) = cos(x+y)+sin(x-y)-x+y，D是由直线y= π-x, y= π+x 以及x轴围成的有界闭区域，求f(x, y) 在区域D上的最值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-解19.png"
   },
   {
     "id": "3078-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）计算二重积分∬D x(√x+ √y)4 (x2 + y2)2 dxdy，其中D是由曲线√x+ √y= 1, √x+ √y= 2 以及坐标轴围成的平面有界区域。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-解20.png"
   },
   {
     "id": "3078-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设函数f(x) 在[0, 2] 上连续，(0, 2) 内二阶可导，f(0) = 0。证明： (1) 存在ξ1, ξ2 ∈(0, 2), ξ1 ≠ξ2，使得f(2) = 2f′(ξ1) + 3[ξ2f′(ξ2) -f(ξ2)]。 (2) 若f″(x) > 0，则存在ξ∈(0, 2)，使得f(2) -4f(1 2)< 3f″(ξ)ξ2。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-解21.png"
   },
   {
     "id": "3078-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A为3 阶矩阵，β为A的属于特征值1 的一个特征向量，γ为A的属 于特征值2 的一个特征向量，且A的第一列是零列。 (1) α是与β, γ线性无关的属于A的特征向量，求ξ与α, β, γ满足什么线性关系时，方程组 Ax= ξ有解？ (2) 求所有可逆矩阵P，使得P-1AP= ( ) 3 2 -1 2 0 -1 2 3 2 0 0 0 0 ( ) ，将P用α, β, γ表示。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3078-解22.png"
   }
 ]

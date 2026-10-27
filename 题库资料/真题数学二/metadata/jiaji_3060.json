@@ -13,7 +13,8 @@
       "D. 第二类间断点"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-选01.png"
   },
   {
     "id": "3060-选-02",
@@ -29,7 +30,8 @@
       "D. 点(0, 0) 是f(x, y) 的唯一极大值点，但不是其最大值点"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-选02.png"
   },
   {
     "id": "3060-选-03",
@@ -45,7 +47,8 @@
       "D. 4"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-选03.png"
   },
   {
     "id": "3060-选-04",
@@ -61,7 +64,8 @@
       "D. p> 1, q> 1"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-选04.png"
   },
   {
     "id": "3060-选-05",
@@ -77,7 +81,8 @@
       "D. e 3"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-选05.png"
   },
   {
     "id": "3060-选-06",
@@ -93,7 +98,8 @@
       "D. f(x) 是奇函数，g(x) 是偶函数"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-选06.png"
   },
   {
     "id": "3060-选-07",
@@ -109,7 +115,8 @@
       "D. 当an< 0 时，{bn} 发散"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-选07.png"
   },
   {
     "id": "3060-选-08",
@@ -125,7 +132,8 @@
       "D. a= 4, b< 0"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-选08.png"
   },
   {
     "id": "3060-选-09",
@@ -141,7 +149,8 @@
       "D. ( A + B BA + B2)x = 0"
     ],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-选09.png"
   },
   {
     "id": "3060-选-10",
@@ -157,7 +166,8 @@
       "D. 11 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-选10.png"
   },
   {
     "id": "3060-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim x→0 √1 + 2x- 3√1 + 3x ln(1 + x2) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-填11.png"
   },
   {
     "id": "3060-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 已知函数y= y(x) 满足y′ -2√2x√y= 0，且该曲线的一个拐点的横坐标为-2，则 y(x) = 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-填12.png"
   },
   {
     "id": "3060-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ +∞ 1 1 x(x+ 2) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-填13.png"
   },
   {
     "id": "3060-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 若(2ax3y3-3y2+5) dx+(3x4y2-2bxy-4) dy是某函数u(x, y) 的全微分，则u(x, y) = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-填14.png"
   },
   {
     "id": "3060-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. lim n→∞ 1 n3 (ln 1 n+ 4 ln 2 n+ ⋯+ (n-1)2 ln n-1 n )= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-填15.png"
   },
   {
     "id": "3060-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A = ( 1 1 0 1 )，B = ( -1 1 0 -1 )，则A9 -B9 = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-填16.png"
   },
   {
     "id": "3060-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设平面区域D= ൝(x, y) ∣0 ≤y≤√x2 -1 x2 , √2 ≤x≤2ൡ，求 (1) D的面积； (2) D绕x轴旋转一周所成旋转体的体积。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-解17.png"
   },
   {
     "id": "3060-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设y= y(x) 满足(xy-1) dx+ x2 dy= 0，x> 0，y(1) = 0，求 (1) y= y(x) 的表达式； (2) 曲线y= y(x) 的拐点及渐近线。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-解18.png"
   },
   {
     "id": "3060-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x) 在[a, b] 上可导，c∈(a, b)，证明： (1) 存在一点ξ∈(a, c)，使得f(c) -f(a) = f′(ξ)(c-a)； (2) 存在一点η∈(a, b)，使得f(b) -f(a) = f′(η)(b-a) 且η> ξ。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-解19.png"
   },
   {
     "id": "3060-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）计算I= ∬Dx2y2 dxdy，其中D是由直线y= 2，y= 0，x= -2 及曲线 x= -√2y-y2 所围成的区域。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-解20.png"
   },
   {
     "id": "3060-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）已知可微函数f(u, v) 满足∂[f(u, v)] ∂u + ∂[f(u, v)] ∂v = 6(u+ v) -3u2，且 f(u, 0) = 3u2 -u3。记g(x, y) = f(x, x-y)。 (1) 计算∂[g(x, y)] ∂x ； (2) 求f(x, y) 在有界闭区域D= {(x, y) ∣x2 + y2 ≤16} 上的最值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-解21.png"
   },
   {
     "id": "3060-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设向量α1 = ( ) 1 0 1 ( ) ，α2 = ( ) 0 1 1 ( ) ，α3 = ( ) 1 1 0 ( ) 。 (1) 将α1, α2, α3 化成正交单位向量组γ1, γ2, γ3； (2) 若(α1, α2, α3) = (γ1, γ2, γ3)C，求C。",
     "options": [],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3060-解22.png"
   }
 ]

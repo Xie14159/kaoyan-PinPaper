@@ -13,7 +13,8 @@
       "D. ∫ 1-cos x 0 √arcsin 3 tdt"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-选01.png"
   },
   {
     "id": "3028-选-02",
@@ -29,7 +30,8 @@
       "D. π 2"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-选02.png"
   },
   {
     "id": "3028-选-03",
@@ -45,7 +47,8 @@
       "D. 4"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-选03.png"
   },
   {
     "id": "3028-选-04",
@@ -61,7 +64,8 @@
       "D. 偏导数存在，但不可微。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-选04.png"
   },
   {
     "id": "3028-选-05",
@@ -77,7 +81,8 @@
       "D. √2Gmcos θ 2。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-选05.png"
   },
   {
     "id": "3028-选-06",
@@ -93,7 +98,8 @@
       "D. a≠0, b> 0"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-选06.png"
   },
   {
     "id": "3028-选-07",
@@ -109,7 +115,8 @@
       "D. 3e 8 + √e 2"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-选07.png"
   },
   {
     "id": "3028-选-08",
@@ -125,7 +132,8 @@
       "D. α4 可由向量组（I）线性表示，但不可由向量组（II）线性表示。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-选08.png"
   },
   {
     "id": "3028-选-09",
@@ -141,7 +149,8 @@
       "D. Ax= 0 与A∗x= 0 仅有两个非零公共解。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-选09.png"
   },
   {
     "id": "3028-选-10",
@@ -157,7 +166,8 @@
       "D. ( ) 2 2 2 4 0 -4 0 2 4 ( ) 。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-选10.png"
   },
   {
     "id": "3028-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim x→0 ln sin x x ∫ x2 0 (1 + t) 1 tdt = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-填11.png"
   },
   {
     "id": "3028-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 曲线3y3 = x5 + 2x3 在y= 1 对应点处的切线斜率为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-填12.png"
   },
   {
     "id": "3028-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 曲线y= xe - 1 x+ 1 的斜渐近线方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-填13.png"
   },
   {
     "id": "3028-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设f(x) 为连续函数，且x2 + y2 + z2 = ∫ y x f(x+ y-t) dt，则z(∂z ∂x+ ∂z ∂y)= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-填14.png"
   },
   {
     "id": "3028-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 微分方程(x-y-1) dx+ (x+ 4y-1) dy= 0 的通解为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-填15.png"
   },
   {
     "id": "3028-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 已知方程组（I）{ x2 + ax3 = 0, x1 + x2 + (a+ 1)x3 = 0 的解均是方程组（II）{ x1 + x2 + 2x3 = 0, x1 + x2 + bx3 = 0 的 解，但方程组（I）与方程组（II）不同解。设矩阵A为方程组（I）的系数矩阵，矩阵B为方 程组（II）的系数矩阵，则BTA= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十章 线性方程组",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-填16.png"
   },
   {
     "id": "3028-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设曲面z= f(x, y) 过点(0, 0, 2)，且Δxz关于x的偏增量Δxz= -2xe-y· Δx+ o(Δx)，Δyz关于y的偏增量Δyz= e-y(x2 -y-1)Δy+ o(Δy)，求z= f(x, y) 的表达 式及z的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-解17.png"
   },
   {
     "id": "3028-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）已知函数y(x) 由方程x2+y3+ax+3y+b= 0 确定，y(1) = 1，y′(1) = 0， 求 (1) a, b的值； (2) y(x) 的极值。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-解18.png"
   },
   {
     "id": "3028-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）证明： (1) 设f(x) 在[a, b] 上具有二阶连续导数，证明存在ξ∈(a, b)，使得∫ b a f(x) dx= f(a+ b 2 )(b- a) + f″(ξ) 24 (b-a)3； (2) 设g(x) 在[-1, 1] 上具有三阶连续导数，且g(-1) = g(1)，g′(0) = 0，证明存在η∈(-1, 1)， 使得g‴(η) = 0。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-解19.png"
   },
   {
     "id": "3028-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设D= {(x, y) ∣x2 + y2 ≤2x+ 2y}，求二重积分∬ D (x2 + x+ y) dσ。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-解20.png"
   },
   {
     "id": "3028-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设f(x) = { x, x< 1, ln x, x> 1, g(x) = ex-1。 (1) 求φ(x) = f[g(x)]； (2) 求在(-∞, +∞) 内的连续函数y，使之在(-∞, 1) 与(1, +∞) 内满足微分方程y′ -y= φ(x)， 且y(0) = 0。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-解21.png"
   },
   {
     "id": "3028-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）已知二次型f(x1, x2, x3) = xT ( ) 1 1 1 3 4 5 5 7 9 ( ) x，其中x= (x1, x2, x3)T。 (1) 求正交变换x= Qy，将f(x1, x2, x3) 化为标准形； (2) 求f(x1, x2, x3) = 0 的解。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3028-解22.png"
   }
 ]

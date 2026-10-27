@@ -13,7 +13,8 @@
       "D. 3"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-选01.png"
   },
   {
     "id": "3009-选-02",
@@ -29,7 +30,8 @@
       "D. a= 0, b= -1, c= 1"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-选02.png"
   },
   {
     "id": "3009-选-03",
@@ -45,7 +47,8 @@
       "D. (e, +∞)"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-选03.png"
   },
   {
     "id": "3009-选-04",
@@ -61,7 +64,8 @@
       "D. 2, -3"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-选04.png"
   },
   {
     "id": "3009-选-05",
@@ -77,7 +81,8 @@
       "D. a> 2"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-选05.png"
   },
   {
     "id": "3009-选-06",
@@ -93,7 +98,8 @@
       "D. I3 < I1 < I2"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-选06.png"
   },
   {
     "id": "3009-选-07",
@@ -109,7 +115,8 @@
       "D. 在D的边界∂D上可以取到最小值"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-选07.png"
   },
   {
     "id": "3009-选-08",
@@ -125,7 +132,8 @@
       "D. ( 0 2 1 -1 )"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-选08.png"
   },
   {
     "id": "3009-选-09",
@@ -141,7 +149,8 @@
       "D. a= 4, b= 2"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-选09.png"
   },
   {
     "id": "3009-选-10",
@@ -157,7 +166,8 @@
       "D. k< 0 且k≠-3 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-选10.png"
   },
   {
     "id": "3009-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设存在0 < θ< 1，使得arcsin x= x √1 -(θx)2，-1 ≤x≤1，则lim x→0 θ= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-填11.png"
   },
   {
     "id": "3009-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. ∫ 1 -1 dx∫ √2-x2 x2 (x+ 1)ydy= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-填12.png"
   },
   {
     "id": "3009-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ e 1 cos(ln x) dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-填13.png"
   },
   {
     "id": "3009-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设y= y(x) 满足y′ + 2(ln x+ 1)y= 0，y(1) = 1，则y(x) 在(0, 1] 上的最大值为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-填14.png"
   },
   {
     "id": "3009-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 曲线r= eθ从θ= 0 到θ= 1 的弧长为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-填15.png"
   },
   {
     "id": "3009-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 二次型f(x1, x2, x3) = ∑1≤i≤j≤3 |i-j|xixj的规范形为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-填16.png"
   },
   {
     "id": "3009-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设f(x) 是非负连续函数，且lim x→a f2(x) -a x2 -a2 = 1 (a> 0)，求f′(a)。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-解17.png"
   },
   {
     "id": "3009-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设f(x) = x·ax(1 -a)，x> 0。 (1) 当0 < a< 1 时，求f(x) 的最大值； (2) 当x> 0，0 < y< 1 时，证明xyx(1 -y) < 1 e。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-解18.png"
   },
   {
     "id": "3009-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）已知曲线L:y= e-x(x≥0)，设P是L上的动点，V是L上从点A(0, 1) 到点P的一段弧绕x轴旋转一周所得的旋转体体积，当P运动到点(1, 1 e)时，沿x轴正向 的速度为1，求此时V关于时间t的变化率。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-解19.png"
   },
   {
     "id": "3009-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设平面区域D= {(x, y) ∣(x-1)2 + y2 ≥1, (x-2)2 + y2 ≤4, y≥x}，计 算∬D(x2 + y2) dσ。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-解20.png"
   },
   {
     "id": "3009-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）已知f(x) 可导，且|f′(x)| ≤1 e，方程f(x) = x有唯一解x= 0，又 xn+1 = f(xn)，n= 1, 2, ⋯。证明：当n→∞时，xn是e-n/2 的高阶无穷小。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-解21.png"
   },
   {
     "id": "3009-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）若矩阵A的伴随矩阵A∗= ( ) 3 2 -2 0 -1 0 a 2 -3 ( ) 相似于矩阵B= ( ) -1 0 0 -2 1 0 0 0 -1 ( ) ， 其中|A| > 0。 (1) 求a的值； (2) 求A99。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3009-解22.png"
   }
 ]

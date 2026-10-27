@@ -13,7 +13,8 @@
       "D. 3 2"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-选01.png"
   },
   {
     "id": "3050-选-02",
@@ -29,7 +30,8 @@
       "D. {an} 与{bn} 至多有一个收敛"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-选02.png"
   },
   {
     "id": "3050-选-03",
@@ -45,7 +47,8 @@
       "D. 4 条"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-选03.png"
   },
   {
     "id": "3050-选-04",
@@ -61,7 +64,8 @@
       "D. x2f(x) > b2f(b)"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-选04.png"
   },
   {
     "id": "3050-选-05",
@@ -77,7 +81,8 @@
       "D. f(0) > 0, f″(0) > 0"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-选05.png"
   },
   {
     "id": "3050-选-06",
@@ -93,7 +98,8 @@
       "D. 1 8π"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-选06.png"
   },
   {
     "id": "3050-选-07",
@@ -109,7 +115,8 @@
       "D. 有正有负也有零"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-选07.png"
   },
   {
     "id": "3050-选-08",
@@ -125,7 +132,8 @@
       "D. ( ) 0 0 -2 0 -2 0 -2 4 0 ( )"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-选08.png"
   },
   {
     "id": "3050-选-09",
@@ -141,7 +149,8 @@
       "D. 2"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-选09.png"
   },
   {
     "id": "3050-选-10",
@@ -157,7 +166,8 @@
       "D. f4(x1, x2, x3, x4) = (x1 -x2)2 + (x2 + x3)2 + (x3 + x4)2 + (x4 + x1)2 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-选10.png"
   },
   {
     "id": "3050-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设y= y(x) 是由方程arctan xy+e2y(cos x+sin x) = 1 确定的，则lim x→0 (1 -y(x) 1 + y(x)) 1 x= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-填11.png"
   },
   {
     "id": "3050-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设f(x) = ∫ 2x 0 ln(t2 -1) dt，则当n> 1 时，f(n)(x) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-填12.png"
   },
   {
     "id": "3050-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 曲线y= ex上的曲率最大值是 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-填13.png"
   },
   {
     "id": "3050-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设函数z= f[φ(x), φ(xy)]，其中函数f(u, v) 具有二阶连续偏导数，且d[f(u, v)]|u=0,v=0 = 2 du+ 3 dv，函数φ具有二阶连续导数，且lim x→1 φ(x) (x-1)2 = 2，则 ∂2z ∂x∂y| x=1,y=1 = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-填14.png"
   },
   {
     "id": "3050-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 交换积分次序：∫ 2 1 dx∫ x x2 f(x, y) dy= 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-填15.png"
   },
   {
     "id": "3050-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A是n阶实对称矩阵，B, C为n阶矩阵，满足条件(A+ 2E)B= O，(A-3E)C= O， 且r(B) = r(0 < r< n)，r(B) + r(C) = n。则二次型f(x1, x2, ⋯, xn) = xTAx的规范形 为 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-填16.png"
   },
   {
     "id": "3050-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）求极限：lim x→0 (ex-2)2 + 2 sin x-1 x3 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-解17.png"
   },
   {
     "id": "3050-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设函数f(x, y) 可微，f′ y(x, y) = xf(x, y)，f(1, 0) = 1，且当x≠0 时， lim h→0 (f(x+ h, 0) f(x, 0) ) 1 h= e 1 x，求f(x, y) 的表达式。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-解18.png"
   },
   {
     "id": "3050-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x) 可导，f(0) = 0 且f′(ln x) = { 1, 0 < x≤1, √x, x> 1. (1) 求f(x) 的表达式； (2) 记曲线y1 = f(x)，y2 = -f(-x) 及直线x= 1 围成的位于第一象限内的图形为D，求D的 面积S。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-解19.png"
   },
   {
     "id": "3050-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设u= f(x, y) 的所有二阶偏导数连续，试将下列表达式转换为极坐标系 中的形式。 (1) (∂u ∂x) 2 + (∂u ∂y) 2 ； (2) ∂2u ∂x2 + ∂2u ∂y2。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-解20.png"
   },
   {
     "id": "3050-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设D:0 ≤x≤2, 0 ≤y≤2。 (1) 求I= ∬D|xy-1| dxdy； (2) 设f(x, y) 在D上连续，且∬Df(x, y) dxdy= 0，∬Dxyf(x, y) dxdy= 1。证明：∃(ξ, η) ∈D， 使|f(ξ, η)| ≥1 I。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-解21.png"
   },
   {
     "id": "3050-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A, B是3 阶矩阵，AB= 2A-B，如果λ1, λ2, λ3 是A的3 个不同特征 值。证明： (1) AB= BA； (2) 存在可逆矩阵P，使得P-1AP与P-1BP均为对角矩阵。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3050-解22.png"
   }
 ]

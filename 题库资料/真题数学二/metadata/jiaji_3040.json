@@ -13,7 +13,8 @@
       "D. 1 6"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-选01.png"
   },
   {
     "id": "3040-选-02",
@@ -29,7 +30,8 @@
       "D. (x0, f(x0)) 是f(x) 的拐点"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-选02.png"
   },
   {
     "id": "3040-选-03",
@@ -45,7 +47,8 @@
       "D. 3"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-选03.png"
   },
   {
     "id": "3040-选-04",
@@ -61,7 +64,8 @@
       "D. a+ b 2 ∫ b af(x) dx≥b2 -a2 2 f(a+ b 2 )≥∫ b axf(x) dx"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-选04.png"
   },
   {
     "id": "3040-选-05",
@@ -77,7 +81,8 @@
       "D. 4"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-选05.png"
   },
   {
     "id": "3040-选-06",
@@ -93,7 +98,8 @@
       "D. π 2 -2 3"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-选06.png"
   },
   {
     "id": "3040-选-07",
@@ -109,7 +115,8 @@
       "D. e-1 e"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-选07.png"
   },
   {
     "id": "3040-选-08",
@@ -125,7 +132,8 @@
       "D. -1"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-选08.png"
   },
   {
     "id": "3040-选-09",
@@ -141,7 +149,8 @@
       "D. A可相似对角化"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-选09.png"
   },
   {
     "id": "3040-选-10",
@@ -157,7 +166,8 @@
       "D. -y2 1 -y2 2 -y2 3 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-选10.png"
   },
   {
     "id": "3040-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. ∫ π -π[(1 + cos 2x) 3 2 + sin 4 x·(ln(2π+ x) -ln(2π-x))] dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-填11.png"
   },
   {
     "id": "3040-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 设曲线y= f(x) 与曲线y= ex-cos x在原点相切且有相同的曲率，则lim n→∞n(f(1 n)) n = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-填12.png"
   },
   {
     "id": "3040-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设y= y(x) 是由方程ey+ 6xy+ x2 -1 = 0 所确定的隐函数，则d2y dx2| x=0 = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-填13.png"
   },
   {
     "id": "3040-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设f(u, v) 具有连续偏导数，且f′ u(u, v) + f′ v(u, v) = (u+ v)eu+v，设y(x) = e-2xf(x, x)，且 y(0) = 1，则y(x) = 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-填14.png"
   },
   {
     "id": "3040-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数f(x, y) 可微，f(1, 1) = 1, f′ x(1, 1) = 1, f′ y(1, 1) = 2，令φ(x) = f(x, f(x, f(x, f(x, x))))， 则lim x→1 ln φ(x) x-1 = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-填15.png"
   },
   {
     "id": "3040-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A为4 阶实矩阵，A的第四行元素分别为7, 2, -5, 0，A24 = 10，M2j, A2j分别是|A| 的第 二行第j列元素的余子式和代数余子式（j= 1, 2, 3, 4），则-7M21 + 2M22 + 5M23 + M24 = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-填16.png"
   },
   {
     "id": "3040-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设函数y= y(x)(x≥1) 二阶可导，且y′(x) > 0, y″(x) > 0, y(1) = 1。如 果曲线y= y(x) 从P0(1, 1) 到任一点P(x, y) 的弧长等于曲线y= y(x) 在点P(x, y) 处的切 线与y轴截距的绝对值，求此曲线方程。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-解17.png"
   },
   {
     "id": "3040-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设函数y= y(x) 由参数方程x= { 1 + t, 0 ≤t≤1, 1 t, t> 1, ，y= ln(t+√1 + t2) 确定，计算∫ 2 0 y(x) dx。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-解18.png"
   },
   {
     "id": "3040-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）已知函数f(x, y) 满足f″ yy(x, y) = 2(y+1)ex, f′ x(x, 0) = (x+1)ex, f(0, y) = y2 + 2y，求f(x, y) 的极值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-解19.png"
   },
   {
     "id": "3040-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）已知D= {(x, y) ∣x2 + y2 ≤4}，计算二重积分∬D|x2 + y2 -2y| dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-解20.png"
   },
   {
     "id": "3040-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设x1 = 2, xn+1 = 1 + 1 xn+ 1, n= 1, 2, ⋯，证明： (1) lim n→∞xn= √2。 (2) 当n→∞时，|xn-√2| 是1 2n的高阶无穷小。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-解21.png"
   },
   {
     "id": "3040-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）若A为三阶实对称阵，A的迹tr(A) = -3，非齐次线性方程组Ax= b的 通解为k1(1, -1, 0)T+ k2(1, 0, 1)T+ (1, -2, 0)T，其中k1, k2 为任意常数。 (1) 求A及b。 (2) 求(A+ 3 2E) 100 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3040-解22.png"
   }
 ]

@@ -13,7 +13,8 @@
       "D. ∫ tan x 0 3√t-arctan tdt"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-选01.png"
   },
   {
     "id": "3072-选-02",
@@ -29,7 +30,8 @@
       "D. f(x) 在x= n处可导，且f′(n) = an。"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-选02.png"
   },
   {
     "id": "3072-选-03",
@@ -45,7 +47,8 @@
       "D. 5。"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-选03.png"
   },
   {
     "id": "3072-选-04",
@@ -61,7 +64,8 @@
       "D. 曲线y= F(x) 共有两个拐点。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-选04.png"
   },
   {
     "id": "3072-选-05",
@@ -77,7 +81,8 @@
       "D. I1 发散，I2 收敛，且√eπ 4 < I2。"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-选05.png"
   },
   {
     "id": "3072-选-06",
@@ -93,7 +98,8 @@
       "D. 以上说法均不正确。"
     ],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-选06.png"
   },
   {
     "id": "3072-选-07",
@@ -109,7 +115,8 @@
       "D. lim (x,y)→(0,0) f(x, y) 与lim y→0 lim x→0 f(x, y) 均不存在。"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-选07.png"
   },
   {
     "id": "3072-选-08",
@@ -125,7 +132,8 @@
       "D. r3 < r1 < r2。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-选08.png"
   },
   {
     "id": "3072-选-09",
@@ -141,7 +149,8 @@
       "D. α1, α2, α3 线性相关。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-选09.png"
   },
   {
     "id": "3072-选-10",
@@ -157,7 +166,8 @@
       "D. a为任意常数，b> 8。 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-选10.png"
   },
   {
     "id": "3072-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 设函数y(x) = √1 -e-4x2 -4[x]x+1，其中[x] 表示不超过x的最大整数，则曲线y= y(x) 在点(0, y(0)) 处的法线方程为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-填11.png"
   },
   {
     "id": "3072-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. lim n→∞∑ n k=1 √k n 3 2 arctan √k n= 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-填12.png"
   },
   {
     "id": "3072-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 设函数f(x) = k-xe-kx2 在(0, +∞) 上设有零点，则k的取值范围是 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-填13.png"
   },
   {
     "id": "3072-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 将长度为k的细棒置于区间[0, k] 上，此时，细棒的线密度为ρ(x) = 2 + x 3，则细棒的质心 坐标x= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-填14.png"
   },
   {
     "id": "3072-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设函数f(x, y) 连续，并且 lim (x,y)→(0,0) f(x, y) -2x-3y+ 1 √x2 + y2 存在。已知平面区域Dt= {(x, y) ∣ 0 ≤x≤t, 0 ≤y≤t}，则lim t→0 ∬Dt2f(x,y) dxdy √1 + sin 2 t-cos t = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-填15.png"
   },
   {
     "id": "3072-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 已知向量α1 = ( ) 1 a 0 ( ) ，α2 = ( ) a 1 -4 ( ) ，α3 = ( ) 1 -1 -2a ( ) ，并且β= ( ) -1 1 -2 ( ) 不能由α1, α2, α3 线性 表示，则a= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-填16.png"
   },
   {
     "id": "3072-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）当x> 0 时，求曲线y= √x2 + 2x(e2x+ x2) 1 x+ 1 的斜渐近线方程。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-解17.png"
   },
   {
     "id": "3072-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设平面有界区域D位于第一象限，由曲线(x2 + y2)4 = x6 + y6 与4(x2 + y2)4 = x6 + y6 以及坐标轴围成，计算∬D √x6 + y6 (x2 + y2)2 dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-解18.png"
   },
   {
     "id": "3072-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）已知函数f(x) 为定义在[0, +∞) 上的非负可导函数，f′(1) = 8(e-1+1)。设 点(X, Y) 为曲线y= f(x) 上任意一点，记曲线在该点处的切线在y轴上的截距为A，该曲线与 直线x= X以及坐标轴所围区域绕y轴旋转一周所得到旋转体的体积为B。若A+ B 2π= X4， 求f(x)。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-解19.png"
   },
   {
     "id": "3072-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）求函数u= x+ y+ z在条件xy+ z= 1 以及x2 + y2 + z2 2 = 8 下的极值。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-解20.png"
   },
   {
     "id": "3072-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设an= ∫ 1 0 (sin x 2x) n dx，bn= ∫ 1 0 (1 -x 2) n dx（n= 1, 2, ⋯）。 (1) 求lim n→∞an； (2) 求lim n→∞n(bn-an)。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-解21.png"
   },
   {
     "id": "3072-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设二次型f(x1, x2, x3) = (a1x1 + a2x2 + a3x3)[(a1 + b1)x1 + (a2 + b2)x2 + (a3 + b3)x3]，记α= (a1, a2, a3)T，β= (b1, b2, b3)T，α, β为相互正交的单位向量。 (1) 求二次型f(x1, x2, x3) 对应的对称矩阵A； (2) 若kα+ β为A的一个特征向量，求k； (3) 在第（Ⅱ）问的基础上，求二次型f(x1, x2, x3) 的规范形。",
     "options": [],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3072-解22.png"
   }
 ]

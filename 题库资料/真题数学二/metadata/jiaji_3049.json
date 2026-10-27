@@ -13,7 +13,8 @@
       "D. 所给条件不足，无法判断"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-选01.png"
   },
   {
     "id": "3049-选-02",
@@ -29,7 +30,8 @@
       "D. n! ·(n-1)! ·(n-2)! ⋯3! ·2! ·1!"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-选02.png"
   },
   {
     "id": "3049-选-03",
@@ -45,7 +47,8 @@
       "D. S1 = 2√2S2"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-选03.png"
   },
   {
     "id": "3049-选-04",
@@ -61,7 +64,8 @@
       "D. 1 2 3"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-选04.png"
   },
   {
     "id": "3049-选-05",
@@ -77,7 +81,8 @@
       "D. 4"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-选05.png"
   },
   {
     "id": "3049-选-06",
@@ -93,7 +98,8 @@
       "D. f(1, 1) > 0"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-选06.png"
   },
   {
     "id": "3049-选-07",
@@ -109,7 +115,8 @@
       "D. K< I< J"
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-选07.png"
   },
   {
     "id": "3049-选-08",
@@ -125,7 +132,8 @@
       "D. a≠4, b≠8"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-选08.png"
   },
   {
     "id": "3049-选-09",
@@ -141,7 +149,8 @@
       "D. 2"
     ],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-选09.png"
   },
   {
     "id": "3049-选-10",
@@ -157,7 +166,8 @@
       "D. y2 1 + y2 2 + y2 3 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第十二章 二次型",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-选10.png"
   },
   {
     "id": "3049-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 二、填空题：11~16 小题，每小题5 分，共30 分。若直线y= 2x-1 2 是曲线y= √ax2 + bx+ 1 的一条斜渐近线，则定积分∫ a b√(a-x)(x-b) dx的值为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-填11.png"
   },
   {
     "id": "3049-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. ∫ x2 + 2xsin x 1 + cos x dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-填12.png"
   },
   {
     "id": "3049-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. ∫ 1 0 (∫ 1 x2 xt √1 + t3 dt)dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-填13.png"
   },
   {
     "id": "3049-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设f(x) 连续且f(x) ≠0，满足f(x) = ∫ x 0 f(x-t) dt+ ∫ 1 0 f2(t) dt，则f(x) = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-填14.png"
   },
   {
     "id": "3049-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. 设f(x) = lim n→∞( n (n+ x)2 + n (n+ 2x)2 + ⋯+ n (n+ nx)2)，则f(99)(0) = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-填15.png"
   },
   {
     "id": "3049-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设向量ξ可由α1 = (1, 2, 1)T，α2 = (2, 3, 3)T 线性表出，也可由β1 = (-3, -2, -1)T，β2 = (-1, 0, 1)T 线性表出，则ξ= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-填16.png"
   },
   {
     "id": "3049-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或 演算步骤。设z= z(x, y) 是由方程(x+ y)2 + (y+ z)2 + (z+ x)2 = 12 所确定的函数，求 z= z(x, y) 的极值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-解17.png"
   },
   {
     "id": "3049-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）证明：对任意正整数n，均有 2 2n+ 1 < ln n+ 1 n < 1 √n2 + n 。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-解18.png"
   },
   {
     "id": "3049-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设函数f(x) 在(0, +∞) 上连续，在x= 1 处可导且f′(1) = 1；又对任意 x, y∈(0, +∞)，恒有f(xy) = f(x) + f(y)。 (1) 求函数f(x)； (2) 计算∬Df(1 + √x2 + y2) dxdy，其中D= {(x, y) ∣0 ≤x≤y≤√1 -x2}。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-解19.png"
   },
   {
     "id": "3049-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）计算二重积分∬D|x-|y|| dσ，其中D= {(x, y) ∣x2 + y2 ≤2x, x≤1}。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-解20.png"
   },
   {
     "id": "3049-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）设g(x) 可导，|g′(x)| < 1，且当a≤x≤b时，a< g(x) < b，又 x+ g(x) -2f(x) = 0，若{xn} 满足xn+1 = f(xn)，n= 0, 1, 2, ⋯，x0 ∈[a, b]。证明： (1) 存在唯一的ξ∈(a, b)，使f(ξ) = ξ； (2) lim n→∞xn存在，并求其值。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-解21.png"
   },
   {
     "id": "3049-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设A是3 阶矩阵，α1, α2, α3 是线性无关的3 维列向量，且Aα1 = -α1 - 3α2 -3α3，Aα2 = 4α1 + 4α2 + α3，Aα3 = -2α1 + 3α3。 (1) 求可逆矩阵P，使得P-1AP为对角矩阵； (2) 求A∗-6E的秩。",
     "options": [],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3049-解22.png"
   }
 ]

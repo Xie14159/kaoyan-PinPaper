@@ -13,7 +13,8 @@
       "D. α3, α2, α1"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-选01.png"
   },
   {
     "id": "3066-选-02",
@@ -29,7 +30,8 @@
       "D. 与a, b的值有关"
     ],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-选02.png"
   },
   {
     "id": "3066-选-03",
@@ -45,7 +47,8 @@
       "D. 若在区间I上，f′(x) > 0, f″(x) > 0，则f(f(x1 + x2 2 ))< f(f(x1)) + f(f(x2)) 2"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-选03.png"
   },
   {
     "id": "3066-选-04",
@@ -61,7 +64,8 @@
       "D. 从已知条件无法确定"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-选04.png"
   },
   {
     "id": "3066-选-05",
@@ -77,7 +81,8 @@
       "D. 不论p为何值均发散"
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-选05.png"
   },
   {
     "id": "3066-选-06",
@@ -93,7 +98,8 @@
       "D. ∫ π 6 0 dθ∫ 1 0 f(rcos θ, rsin θ)rdr+ ∫ π 2π 6 dθ∫ 2 sin θ 0 f(rcos θ, rsin θ)rdr"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-选06.png"
   },
   {
     "id": "3066-选-07",
@@ -109,7 +115,8 @@
       "D. (-1, 0) ∪(0, 1)"
     ],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-选07.png"
   },
   {
     "id": "3066-选-08",
@@ -125,7 +132,8 @@
       "D. 矩阵A= (α1, α2, ⋯, αn) 必可经过初等列变换化为矩阵(E, 0) 或( E 0 0 0 )的形式"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-选08.png"
   },
   {
     "id": "3066-选-09",
@@ -141,7 +149,8 @@
       "D. r(A), |A|, f(A) 至少有一个与a的取值有关"
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-选09.png"
   },
   {
     "id": "3066-选-10",
@@ -157,7 +166,8 @@
       "D. 存在某n维列向量α使得A= ααT 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-选10.png"
   },
   {
     "id": "3066-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. 曲线y+ xy-ex+ ey= 0 在点(0, y(0)) 处的曲率为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-填11.png"
   },
   {
     "id": "3066-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 若xsin x, e2x均为某常系数齐次线性微分方程的解，则满足该要求的最低阶微分方程为 。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-填12.png"
   },
   {
     "id": "3066-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 如图所示，在距离海岸边点A180 m 的点P处有一灯塔，灯塔上的探照灯光以每秒r弧度 （rad）的速率匀速转动，探照光线与PA的所成夹角为θ。若灯光经过岸边距离点A60 m 处 的点B时，速率为30 m/s，则r= 。 180 m θ P A B",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-填13.png"
   },
   {
     "id": "3066-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设y= f(x) 是定义在[0, +∞) 上的正值函数，且对于任意的a> 0, x= 0, x= a, y= f(x) 与 x轴所围成的图形绕x轴旋转一周与绕y轴旋转一周所形成的旋转体体积相同，则y= f(x) 与y= x3 所围成的图形面积为 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-填14.png"
   },
   {
     "id": "3066-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. ∫ 1 0 dx∫ 0 xcos(1 -y)2 dy= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-填15.png"
   },
   {
     "id": "3066-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设a1, a2, a3 为互不相等的实数，则| | 3 3 3 3a1 + 5 3a2 + 5 3a3 + 5 3a2 1 + 5a1 + 7 3a2 2 + 5a2 + 7 3a2 3 + 5a3 + 7 | |= 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-填16.png"
   },
   {
     "id": "3066-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设平面区域D由直线y= x, y= -x, y= 1 与y= 2 围成。求二重积分 ∬D 1 + xy x2 + y2 dxdy。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-解17.png"
   },
   {
     "id": "3066-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）设有二阶连续偏导数的函数u= u(s, t) 满足∂2u ∂s2 = -∂2u ∂t2 以及u(x, 2x) = x2, u′ 1(x, 2x) = 4x。求u″ 11(x, 2x) 和u″ 12(x, 2x)。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-解18.png"
   },
   {
     "id": "3066-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）请完成下列各题。 (1) 证明：对x> 0, x-1 3x3 < arctan x< x。 (2) 求lim n→∞∑ n k=1 arctan n n2 + k2。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-解19.png"
   },
   {
     "id": "3066-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设y= y(x) (x> 0) 为xOy平面上过点(1, 0) 的一条曲线，其上任意一 点P(x, y) 处的切线与y轴的夹角α(0 < α< π 2)等于原点与P的连线OP与该切线的夹角。 (1) 求曲线y= y(x) 的方程； (2) 若某种镜面的表面为由曲线y= y(x) (0 < x≤√3) 绕y轴旋转一周所得旋转曲面，求该镜 面的表面积。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-解20.png"
   },
   {
     "id": "3066-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分）证明：在区间[0, π 2]上存在三个不同的点x1, x2, x3，使得[e-x1(cos x1 - sin x1)]x3 = [e-x2(cos x2 -sin x2)] (π 2 -x3)。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-解21.png"
   },
   {
     "id": "3066-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设2 阶矩阵A有两个不同的特征值1, 2，分别对应特征向量α1, α2。记 Q= (α1, α2), B= ( 0 -2 1 3 ), β= α1 + α2。 (1) 证明：P1 = (β, Aβ) 为矩阵方程AX= XB的一个可逆解。 (2) 求常数k1, k2，满足k1 ≠k2，使得可逆矩阵P2 满足P-1 2 Q= ( k1 k2 1 1 )，且也是矩阵方程 AX= XB的一个解。 (3) 设P2 为第（II）问中所定义矩阵，求r(P1 -P2)。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3066-解22.png"
   }
 ]

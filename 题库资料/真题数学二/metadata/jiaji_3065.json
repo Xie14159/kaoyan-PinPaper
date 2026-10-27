@@ -13,7 +13,8 @@
       "D. 3."
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-选01.png"
   },
   {
     "id": "3065-选-02",
@@ -29,7 +30,8 @@
       "D. 数列{an} 既不能取到最大值，又不能取到最小值."
     ],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-选02.png"
   },
   {
     "id": "3065-选-03",
@@ -45,7 +47,8 @@
       "D. I1 > I2 > I3."
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-选03.png"
   },
   {
     "id": "3065-选-04",
@@ -61,7 +64,8 @@
       "D. 1 2 4 ."
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-选04.png"
   },
   {
     "id": "3065-选-05",
@@ -77,7 +81,8 @@
       "D. 1 2."
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-选05.png"
   },
   {
     "id": "3065-选-06",
@@ -93,7 +98,8 @@
       "D. 当鱼缸的底边长均为 3√1 6 m，高为6 2 3 m 时，鱼缸的耗材成本最高."
     ],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-选06.png"
   },
   {
     "id": "3065-选-07",
@@ -109,7 +115,8 @@
       "D. I2 > I1 > I3."
     ],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-选07.png"
   },
   {
     "id": "3065-选-08",
@@ -125,7 +132,8 @@
       "D. r(BA) = r(B)."
     ],
     "chapter": "第八章 矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-选08.png"
   },
   {
     "id": "3065-选-09",
@@ -141,7 +149,8 @@
       "D. A不是对称矩阵."
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-选09.png"
   },
   {
     "id": "3065-选-10",
@@ -157,7 +166,8 @@
       "D. 4. 二、填空题：11~16 小题，每小题5 分，共30 分。"
     ],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-选10.png"
   },
   {
     "id": "3065-填-11",
@@ -168,7 +178,8 @@
     "stem": "11. lim n→∞∫ 1 0 arctan n√xdx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-填11.png"
   },
   {
     "id": "3065-填-12",
@@ -179,7 +190,8 @@
     "stem": "12. 当n> 1 时，(12x2 -13x+ 3 6x2 -7x+ 2 ) (n) อ x=1 = 。",
     "options": [],
     "chapter": "第一章 函数、极限、连续",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-填12.png"
   },
   {
     "id": "3065-填-13",
@@ -190,7 +202,8 @@
     "stem": "13. 若可微函数z= f(x, y) 在极坐标变换下满足∂z ∂r= r，则f′ x(1, 0) + f′ y(0, 1) = 。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-填13.png"
   },
   {
     "id": "3065-填-14",
@@ -201,7 +214,8 @@
     "stem": "14. 设函数y= y(x) 由参数方程ቐ x= ∫ u 0 et2 dt, y= ∫ 1 0 |eu-et| e|u2-1|dt 所确定。若∫ 1 2 0 e x2-1 4 dx= a，则 dy dx| x=0 = 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-填14.png"
   },
   {
     "id": "3065-填-15",
@@ -212,7 +226,8 @@
     "stem": "15. ∫ √3 2 0 dy∫ √1-y2 y √3 (x+ y)3 -x3 √x2 + y2 dx+ ∫ 0 -√3 2 dy∫ √1-y2 -y √3 (x+ y)3 -x3 √x2 + y2 dx= 。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-填15.png"
   },
   {
     "id": "3065-填-16",
@@ -223,7 +238,8 @@
     "stem": "16. 设A为n阶矩阵，α为n维列向量。已知|A| ≠0，b≠0 且AT = -A，| A α αT b |= c，则 |A| = 。 三、解答题：17~22 小题，共70 分。解答应写出文字说明、证明过程或演算步骤。",
     "options": [],
     "chapter": "第九章 向量",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-填16.png"
   },
   {
     "id": "3065-解-17",
@@ -234,7 +250,8 @@
     "stem": "17. （本题满分10 分）设D= {(x, y) ∣x 2 3 + y 2 3 ≤a 2 3}（a> 0），二元函数f(x, y) 在D上连续， 且当(x, y) ≠(0, 0) 时，f(x, y) = e-√x2+y2 -1 -ln (1 -√x2 + y2) x2 + y2 。求lim a→0+ ∬Df(x, y) dxdy a2 。",
     "options": [],
     "chapter": "第五章 二重积分",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-解17.png"
   },
   {
     "id": "3065-解-18",
@@ -245,7 +262,8 @@
     "stem": "18. （本题满分12 分）若u1(x) cos x+u2(x) sin x为二阶常系数非齐次线性微分方程y″+y= g(x) （g(x) > 0）的一个解，且满足u′ 1(x) cos x+ u′ 2(x) sin x= 0，[u′ 1(x)]2 + [u′ 2(x)]2 = 1。 (1) 若u1(0) = 1, u2(0) = 0，求u1(x), u2(x)。 (2) 若该方程的另一特解y(x) 满足y(0) = 0, y′(0) = 1，求y(x)。",
     "options": [],
     "chapter": "第六章 微分方程及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-解18.png"
   },
   {
     "id": "3065-解-19",
@@ -256,7 +274,8 @@
     "stem": "19. （本题满分12 分）设an= 1 + 1 √2 + ⋯+ 1 √n-2√n，证明数列{an} 收敛。",
     "options": [],
     "chapter": "第二章 一元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-解19.png"
   },
   {
     "id": "3065-解-20",
@@ -267,7 +286,8 @@
     "stem": "20. （本题满分12 分）设f(x, y) 为定义在全平面上的正值可微函数，满足f(0, 0) = 1，∂f ∂y= 1 ey+ e-y。若对任意x，都有lim t→0 (f(x+ t, 0) f(x, 0) ) 1 t= e x-1 x2 -2x+ 4，求f(x, y)。",
     "options": [],
     "chapter": "第四章 多元函数微分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-解20.png"
   },
   {
     "id": "3065-解-21",
@@ -278,7 +298,8 @@
     "stem": "21. （本题满分12 分） (1) 证明：对于任意实数x，均有e-x2 ≤ 1 1 + x2。 (2) 证明：∫ +∞ 0 e-x2 dx收敛，且对任意正整数n（n≥2），均有∫ +∞ 0 e-x2 dx≤π√n 2 ·(2n-3)!! (2n-2)!!。",
     "options": [],
     "chapter": "第三章 一元函数积分学及其应用",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-解21.png"
   },
   {
     "id": "3065-解-22",
@@ -289,6 +310,7 @@
     "stem": "22. （本题满分12 分）设3 阶矩阵A= (aij) 满足A的各列元素之和均为1。 (1) 若ξ为各分量之和为1 的3 维列向量，求Aξ的各分量之和。 (2) 若k为任意正整数，证明：Ak的各列元素之和均为1，且1 为Ak的一个特征值。 (3) 记α= (1, 1, 1)T，若β为Ak的属于特征值λ（λ≠1）的特征向量，求αTβ。",
     "options": [],
     "chapter": "第十一章 相似矩阵",
-    "difficulty": "基础题"
+    "difficulty": "基础题",
+    "stem_img": "figs/jiaji_3065-解22.png"
   }
 ]

@@ -75,3 +75,6 @@ user_data/*.bak_*
 user_data/.initialized
 user_data/*.lock
 user_data/*.corrupt.*
+
+# 题库批量改写前的本地备份
+题库资料/**/_bak_*/

@@ -223,10 +223,10 @@ def ans880_page_hint(q) -> str:
     exact = pages.get(qid)
     if exact:
         letter = (idx.get("answers") or {}).get(qid)
-        tail = f" · 该题答 **{letter}**" if letter else ""
+        tail = f" · 解析册标注 **{letter}**（OCR，仅供查书参考，以纸书为准）" if letter else ""
         return (
             f"📗《27版李林880 数二 解析分册》**第 {exact} 页**"
-            f"（PDF 第 **{int(exact) + offset}** 页）· 页内找标号 **({n})**{tail}（OCR 识别）"
+            f"（PDF 第 **{int(exact) + offset}** 页）· 页内找标号 **({n})**{tail}"
         )
     page = (secs.get(ch) or {}).get(sec)
     if not page:

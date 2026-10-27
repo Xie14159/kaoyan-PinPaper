@@ -3028,10 +3028,11 @@ elif active_module == "📈 全科考点雷达":
 elif active_module == "📅 每日错题":
     st.markdown("### 📅 每日错题 · 艾宾浩斯抗遗忘")
     st.caption("到期优先、逾期越久越靠前；做对间隔翻倍、做错隔天回炉。")
+    _EB_DAILY = 11  # 每日安排道数（2026-10-27 用户定为 11 道）
     st.markdown("---")
     _q_by_id2 = {q.id: q for q in raw_questions}  # 全量题库(含真题):每日错题需展示跨书籍的真题错题,不能用当前书籍过滤后的 all_questions
     _eb_list_key = f"eb_list_{current_subject.value}"
-    # 今日已处理集合（做对/又错/没做都计入）：防止重新 select 或"再开 10 道"把当天已处理题拉回
+    # 今日已处理集合（做对/又错/没做都计入）：防止重新 select 或"再开 11 道"把当天已处理题拉回
     # (DS终审13高危-3)key 带日期后缀:session_state 里的 processed 不得跨天累积,
     # 否则用户页面常驻过夜后,第二天该复习的题会被昨天的陈旧 processed 挡住
     from datetime import datetime as _dt_eb
@@ -3041,25 +3042,25 @@ elif active_module == "📅 每日错题":
     st.session_state.pop(f"eb_processed_{current_subject.value}", None)
     _eb_processed = set(state_mgr.get_processed_today()) | set(st.session_state.get(_eb_processed_key, ()))  # 持久化(刷新不失效) + 会话级
     # 今日安排持久化：每天首次进入自动选一批并记录；刷新后恢复同一份安排（减去已处理），不再自动生成新题
-    # 考点覆盖：qid -> 章节 映射，选题按章节轮转，10 道尽量覆盖不同考点
+    # 考点覆盖：qid -> 章节 映射，选题按章节轮转，11 道尽量覆盖不同考点
     # 考点覆盖：qid -> 章节 映射（无 chapter 的题回退到 qid 前缀作伪章节，防止全部落入空桶稀释覆盖）
     _eb_chapter_map = {qid: (_q_by_id2[qid].chapter or qid.split("-")[0] or "其他") for qid in _q_by_id2}
     _eb_assigned = state_mgr.get_assigned_today()
     if not _eb_assigned:
-        # 循环补选:过滤掉"不在当前加载题库/已处理"后不足10道就继续从池子补选,直到凑满10道或池子空。
+        # 循环补选:过滤掉"不在当前加载题库/已处理"后不足11道就继续从池子补选,直到凑满11道或池子空。
         # 修复:原逻辑 select 一次就过滤,若其中有道不在加载题库就会少推(如9道)。
         _picked = []
         _excl = set(_eb_processed)
-        while len(_picked) < 10:
-            _batch = state_mgr.select_daily_wrong(target=11, exclude_ids=_excl, chapter_of=_eb_chapter_map)
+        while len(_picked) < _EB_DAILY:
+            _batch = state_mgr.select_daily_wrong(target=_EB_DAILY + 1, exclude_ids=_excl, chapter_of=_eb_chapter_map)
             _batch = [q for q in _batch if q in _q_by_id2 and q not in _eb_processed and q not in _picked]
             if not _batch:
                 break
             for q in _batch:
-                if len(_picked) < 10:
+                if len(_picked) < _EB_DAILY:
                     _picked.append(q)
                     _excl.add(q)
-            # 只要还没凑满10道就继续补选;_batch为空(池子真空)才停。
+            # 只要还没凑满11道就继续补选;_batch为空(池子真空)才停。
             # 旧bug:过滤后不足10就break,导致连续每天少1道。
         _eb_assigned = _picked
         if _eb_assigned:
@@ -3088,9 +3089,9 @@ elif active_module == "📅 每日错题":
         return (_subj_rank, _type_rank)
     _eb_ids = tuple(sorted(_eb_ids, key=_eb_order))
     st.session_state[_eb_list_key] = list(_eb_ids)
-    # 再开 10 道：显式追加到今日安排（刷新后仍保留），不触发自动重新安排
+    # 再开 11 道：显式追加到今日安排（刷新后仍保留），不触发自动重新安排
     _eb_seen = set(_eb_ids)
-    if st.button("➕ 今天做完了，再开 10 道", use_container_width=True, key=f"eb_more_{current_subject.value}"):
+    if st.button(f"➕ 今天做完了，再开 {_EB_DAILY} 道", use_container_width=True, key=f"eb_more_{current_subject.value}"):
         _rest = [
             qid for qid, rec in state_mgr.wrong_questions.items()
             if rec.is_active_in_pool and rec.wrong_count > 0
@@ -3100,14 +3101,14 @@ elif active_module == "📅 每日错题":
             key=lambda q: (state_mgr.wrong_questions[q].added_at or "", state_mgr.wrong_questions[q].wrong_count),
             reverse=True,
         )
-        _extra = _rest[:10]
+        _extra = _rest[:_EB_DAILY]
         if _extra:
             state_mgr.mark_assigned_today(_extra)
             _eb_assigned = state_mgr.get_assigned_today()
             # (DS终审13高危-1)与首次进入一致:过滤已归档/已删除题
             _eb_ids = tuple(q for q in _eb_assigned if q in _q_by_id2 and q not in _eb_processed and state_mgr.is_in_active_pool(q))
             # 与首次进入共用 _eb_order:学科分块(高数→线代)+题型分组(选择→填空→解答),
-            # 保证"再开 10 道"后题号顺序与做题本/解析版一致(DS 审查问题8)
+            # 保证"再开 11 道"后题号顺序与做题本/解析版一致(DS 审查问题8)
             _eb_ids = tuple(sorted(_eb_ids, key=_eb_order))
             st.session_state[_eb_list_key] = list(_eb_ids)
             st.rerun()
@@ -3115,13 +3116,13 @@ elif active_module == "📅 每日错题":
             st.info("错题本里暂时没有更多可练的题目了。")
 
     if not _eb_ids:
-        st.info("今日安排已清空 🎉 点上方『再开 10 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
+        st.info(f"今日安排已清空 🎉 点上方『再开 {_EB_DAILY} 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
     else:
         _eb_qs = [_q_by_id2[qid] for qid in _eb_ids]
         _clr_a, _clr_b = st.columns([4, 1])
         with _clr_b:
             if st.button("🗑️ 清空今日", use_container_width=True, key=f"eb_clear_{current_subject.value}",
-                         help="今天剩下的题顺延到明天（明天到期自动再推，刷新不失效）；想接着做请点上方『再开 10 道』。"):
+                         help=f"今天剩下的题顺延到明天（明天到期自动再推，刷新不失效）；想接着做请点上方『再开 {_EB_DAILY} 道』。"):
                 state_mgr.postpone_review(list(_eb_ids), days=1)
                 state_mgr.mark_processed_today(list(_eb_ids))
                 _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
@@ -3152,7 +3153,7 @@ elif active_module == "📅 每日错题":
         @st.fragment()
         def render_eb_cards():
             # 防御：_q_by_id2 是 fragment 闭包捕获的静态题库快照（session 内题库不变），
-            # 过滤掉快照中不存在的 id，避免"再开 10 道/切科目"等全量 rerun 路径引入新 id 时 KeyError。
+            # 过滤掉快照中不存在的 id，避免"再开 11 道/切科目"等全量 rerun 路径引入新 id 时 KeyError。
             def _eb_finish(_qid: str, _ok: bool) -> None:
                 """on_click 回调：fragment rerun 前先落地状态+今日列表，本次渲染即移除（不用点两次）。
                 (流畅度优化)finish_daily_review 一次保存复习回写+今日已处理,点击一次只写一次盘;
@@ -3191,7 +3192,7 @@ elif active_module == "📅 每日错题":
             _ids = tuple(qid for qid in st.session_state.get(_eb_list_key, ())
                          if qid in _q_by_id2 and state_mgr.is_in_active_pool(qid))
             if not _ids:
-                st.info("今日安排已清空 🎉 点上方『再开 10 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
+                st.info(f"今日安排已清空 🎉 点上方『再开 {_EB_DAILY} 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
                 return
             st.caption(f"今日安排 {len(_ids)} 道：到期优先、逾期越久越靠前。")
             # ---- 分页(前端渲染量优化,DS/Claude性能审查首选): 每页12道,页码按钮仅触发fragment rerun ----

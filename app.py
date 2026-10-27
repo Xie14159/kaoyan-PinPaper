@@ -200,22 +200,36 @@ def _ans880_index() -> dict:
 
 
 def ans880_page_hint(q) -> str:
-    """880 题：返回解析册页码指引；非 880 书或索引缺失时返回空串。"""
+    """880 题：返回解析册页码指引；非 880 书或索引缺失时返回空串。
+
+    优先用 OCR 回溯出来的逐题精确页（page_index.json 的 pages 字段，键为题目 id）；
+    没有该题的记录时回退到"本节起始页"，仍能让人翻到附近。
+    """
     if getattr(q, "book", "") != "880":
         return ""
     idx = _ans880_index()
     secs = idx.get("sections") or {}
+    pages = idx.get("pages") or {}
     offset = int(idx.get("offset", 2) or 2)
-    parts = str(getattr(q, "id", "")).split("-")
+    qid = str(getattr(q, "id", ""))
+    parts = qid.split("-")
     if len(parts) != 4:
         return ""
     ch, sec, _typ, num = parts
-    page = (secs.get(ch) or {}).get(sec)
-    if not page:
-        return ""
     try:
         n = int(num)
     except ValueError:
+        return ""
+    exact = pages.get(qid)
+    if exact:
+        letter = (idx.get("answers") or {}).get(qid)
+        tail = f" · 该题答 **{letter}**" if letter else ""
+        return (
+            f"📗《27版李林880 数二 解析分册》**第 {exact} 页**"
+            f"（PDF 第 **{int(exact) + offset}** 页）· 页内找标号 **({n})**{tail}（OCR 识别）"
+        )
+    page = (secs.get(ch) or {}).get(sec)
+    if not page:
         return ""
     return (
         f"📕 书中答案在《27版李林880 数二 解析分册》的 **{sec}题** 第 **{page}** 页起"

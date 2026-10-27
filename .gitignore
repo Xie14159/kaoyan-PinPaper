@@ -78,3 +78,9 @@ user_data/*.corrupt.*
 
 # 题库批量改写前的本地备份
 题库资料/**/_bak_*/
+
+# 本地备份 / 临时日志，不进仓库
+*.bak_*
+logs/
+_*.txt
+_verify_*.py

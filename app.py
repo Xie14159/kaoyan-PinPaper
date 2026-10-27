@@ -3091,7 +3091,7 @@ elif active_module == "📅 每日错题":
     st.session_state[_eb_list_key] = list(_eb_ids)
     # 再开 11 道：显式追加到今日安排（刷新后仍保留），不触发自动重新安排
     _eb_seen = set(_eb_ids)
-    if st.button(f"➕ 今天做完了，再开 {_EB_DAILY} 道", use_container_width=True, key=f"eb_more_{current_subject.value}"):
+    if st.button(f"➕ 今天做完了，再开 {_EB_DAILY} 道错题", use_container_width=True, key=f"eb_more_{current_subject.value}"):
         _rest = [
             qid for qid, rec in state_mgr.wrong_questions.items()
             if rec.is_active_in_pool and rec.wrong_count > 0

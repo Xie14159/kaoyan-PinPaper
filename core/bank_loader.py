@@ -319,7 +319,9 @@ class BankLoader:
                     _cand = (_root / "static" / _si_rel) if not Path(_si_rel).is_absolute() else Path(_si_rel)
                     if _cand.exists():
                         _si_path = str(_cand)
-                        _si_url = "app/static/" + _si_rel.lstrip("/")
+                        # 带版本号:裁图规则升级后同名文件会被浏览器缓存，加 ?v= 强制重取
+                        _ver = int(_cand.stat().st_mtime)
+                        _si_url = f"app/static/{_si_rel.lstrip('/')}?v={_ver}"
                     else:
                         logger.warning("题干图片缺失，退回文字题干: %s (题目 %s)", _cand, zt.get("id"))
                 # 难度读 metadata(大模型逐题判的 基础/综合;缺则综合兜底)

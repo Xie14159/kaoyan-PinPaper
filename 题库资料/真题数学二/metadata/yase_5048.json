@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设D 是由曲线2xy = 1 与直线x + y = 32 所围成的封闭区域, 已知函数f x,y在区域D 上连续, 则D fx,ydxdy = () π3π3 A. 2π4 d2θ2 sinθ+cosθsin2θ1frcosθ,rsinθrdr.B. 2π4 d2θ2 sinθ+cosθ2sin2θ1frcosθ,rsinθrdr. C. 2arctan2π4dθ2 sinθ+cosθsin2θ13frcosθ,rsinθrdr.D. 2arctan2π4dθ2 sinθ+cosθsin2θ13frcosθ,rsinθrdr.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5048-x06.png"
  },

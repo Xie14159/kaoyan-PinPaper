@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "若某二阶常系数非齐次线性微分方程有两个特解y1 = ex,y2 = ex sinx+1, 则该微分方程为(). A. y- 2y+ 2y = exB. y- 2y+ y = ex C. y- 2y+ 2y = sinxD. y- 2y+ y = excosx",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-x07.png"
  },

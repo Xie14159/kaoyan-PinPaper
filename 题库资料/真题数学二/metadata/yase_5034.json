@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(12 分) 设f x= lim6x enx-sin enx,x ∈-∞,+∞. n→∞1+x2e3nx (1) 求f x; (2) 求曲线y = f x与两条直线x = 1 和y = 12 x 所围成的所有封闭区域绕y 轴旋转一周形成的旋转 体体积.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-j18.png"
  },

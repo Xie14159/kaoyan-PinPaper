@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "曲线x=2t+sint+2πy=t2-t与两个坐标轴所围成的平面有界区域D 的面积为_____.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-t14.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D 是由曲线+x= 1 和xy13 + y13 = 1 所围成的平面有界区域, 求D+yx1+xdxdy.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-j18.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 可导函数y = f x满足微分方程y- y = max{x,sinx}ex, 且有-∞f0xdx = 12 , 则 (I) 求f x; (II) 求y = e- x+xf x和x 轴之间的无界区域绕x 轴旋转一周所得的旋转体体积.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-j20.png"
  },

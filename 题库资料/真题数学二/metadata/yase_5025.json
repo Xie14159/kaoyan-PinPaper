@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设f x,y为连续函数, 且f x,y= 2xD1 fx,ydxdy + yD2 fx,ydxdy + 2, 其中D1 由y = x,x = 1 及x 轴所围成, D2 由y = x,y = 1 及y 轴所围成, 则f x,y= A. 5x + 4y + 2.B. 10x + 4y + 2.C. 5x - 4y + 2.D. 10x - 4y + 2.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5025-x06.png"
  },

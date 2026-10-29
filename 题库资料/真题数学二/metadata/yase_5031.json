@@ -1,6 +1,6 @@
 [
  {
-  "id": "5031-选01",
+  "id": "5031-选-01",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "选择题",
@@ -12,7 +12,7 @@
   "stem_img": "figs/yase_5031-x01.png"
  },
  {
-  "id": "5031-选02",
+  "id": "5031-选-02",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "选择题",
@@ -24,7 +24,7 @@
   "stem_img": "figs/yase_5031-x02.png"
  },
  {
-  "id": "5031-选03",
+  "id": "5031-选-03",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "选择题",
@@ -36,7 +36,7 @@
   "stem_img": "figs/yase_5031-x03.png"
  },
  {
-  "id": "5031-选04",
+  "id": "5031-选-04",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "选择题",
@@ -48,7 +48,7 @@
   "stem_img": "figs/yase_5031-x04.png"
  },
  {
-  "id": "5031-选05",
+  "id": "5031-选-05",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "选择题",
@@ -60,7 +60,7 @@
   "stem_img": "figs/yase_5031-x05.png"
  },
  {
-  "id": "5031-选06",
+  "id": "5031-选-06",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "选择题",
@@ -72,7 +72,7 @@
   "stem_img": "figs/yase_5031-x06.png"
  },
  {
-  "id": "5031-选07",
+  "id": "5031-选-07",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "选择题",
@@ -84,7 +84,7 @@
   "stem_img": "figs/yase_5031-x07.png"
  },
  {
-  "id": "5031-选08",
+  "id": "5031-选-08",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "选择题",
@@ -96,7 +96,7 @@
   "stem_img": "figs/yase_5031-x08.png"
  },
  {
-  "id": "5031-选09",
+  "id": "5031-选-09",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "选择题",
@@ -108,7 +108,7 @@
   "stem_img": "figs/yase_5031-x09.png"
  },
  {
-  "id": "5031-选10",
+  "id": "5031-选-10",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "选择题",
@@ -120,7 +120,7 @@
   "stem_img": "figs/yase_5031-x10.png"
  },
  {
-  "id": "5031-填11",
+  "id": "5031-填-11",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "填空题",
@@ -132,7 +132,7 @@
   "stem_img": "figs/yase_5031-t11.png"
  },
  {
-  "id": "5031-填12",
+  "id": "5031-填-12",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "填空题",
@@ -144,7 +144,7 @@
   "stem_img": "figs/yase_5031-t12.png"
  },
  {
-  "id": "5031-填13",
+  "id": "5031-填-13",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "填空题",
@@ -156,7 +156,7 @@
   "stem_img": "figs/yase_5031-t13.png"
  },
  {
-  "id": "5031-填14",
+  "id": "5031-填-14",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "填空题",
@@ -168,7 +168,7 @@
   "stem_img": "figs/yase_5031-t14.png"
  },
  {
-  "id": "5031-填15",
+  "id": "5031-填-15",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "填空题",
@@ -180,7 +180,7 @@
   "stem_img": "figs/yase_5031-t15.png"
  },
  {
-  "id": "5031-填16",
+  "id": "5031-填-16",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "填空题",
@@ -192,7 +192,7 @@
   "stem_img": "figs/yase_5031-t16.png"
  },
  {
-  "id": "5031-解17",
+  "id": "5031-解-17",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "解答题",
@@ -204,7 +204,7 @@
   "stem_img": "figs/yase_5031-j17.png"
  },
  {
-  "id": "5031-解18",
+  "id": "5031-解-18",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "解答题",
@@ -216,7 +216,7 @@
   "stem_img": "figs/yase_5031-j18.png"
  },
  {
-  "id": "5031-解19",
+  "id": "5031-解-19",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "解答题",
@@ -228,7 +228,7 @@
   "stem_img": "figs/yase_5031-j19.png"
  },
  {
-  "id": "5031-解20",
+  "id": "5031-解-20",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "解答题",
@@ -240,7 +240,7 @@
   "stem_img": "figs/yase_5031-j20.png"
  },
  {
-  "id": "5031-解21",
+  "id": "5031-解-21",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "解答题",
@@ -252,7 +252,7 @@
   "stem_img": "figs/yase_5031-j21.png"
  },
  {
-  "id": "5031-解22",
+  "id": "5031-解-22",
   "book": "亚瑟50套",
   "year": "",
   "question_type": "解答题",

@@ -40,6 +40,9 @@ core/build_math2_math3_data.py
 !assets/*.png
 !web/**/*.png
 
+# 贾基85套卷题干裁图（1980 张 / 共约 7.6MB，随仓库分发，换机不必重裁）
+!static/figs/*.png
+
 # 生成产物 (generated artifacts)
 试卷库/
 

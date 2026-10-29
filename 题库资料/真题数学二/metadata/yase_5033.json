@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "已知函数f x=0 sintxdt在0,+∞内有界, 则α 的取值范围为() xα A.0,2B.1,2C. (1,3]D. [1,3)",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第九章 向量",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5033-x01.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "设M =0ex1dx,N =0 esinxπ2dx,P =0 etanxπ4dx, 则() A. P < M < NB. P < N < MC. M < P < ND. N < P < M sin xy,x2+y2≠0",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5033-x04.png"
  },
@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设函数f x,y=x2+y2, 则f x,y在点0,0处() 0,x2+y2=0 A. f ′′xx 0,0和f ′′xy 0,0都存在B. f ′′xx 0,0和f ′′xy 0,0都不存在 C. f ′′xx 0,0存在, f ′′xy 0,0不存在D. f ′′xx 0,0不存在, f ′′xy 0,0存在",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5033-x05.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "将二次积分0d1y0 fyx,ydx +π4 dπ2θsinθ f2sinθ1rcosθ,rsinθ⋅rdr 转化为直角坐标系下二次积分() A.1d2xx2x-x2fx,ydyB.0d1xx1+ 1-x2fx,ydy C.1d2y02y-y2fx,ydxD.0d2yy2y-y2fx,ydx",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5033-x06.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "已知x=ln 1+e2ty=t-arctan et, 则d2ydx2 t=0= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5033-t12.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设φ x= 2π0e-t2xdt, 则0+∞1-φ xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5033-t13.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(12 分) 计算xln x+1-x21+x22dx.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5033-j18.png"
  },

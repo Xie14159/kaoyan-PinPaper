@@ -52,6 +52,13 @@ TYPE_OF = lambda n: "选择题" if n <= 10 else ("填空题" if n <= 16 else "�
 def junk(t):
     return bool(HDR.match(t)) or bool(FOOT.search(t)) or "亚瑟精选优质" in t
 
+_ROW_CACHE = {}
+
+def page_rows(pi):
+    if pi not in _ROW_CACHE:
+        _ROW_CACHE[pi] = rows_of(doc[pi])
+    return _ROW_CACHE[pi]
+
 def rows_of(page):
     raw = []
     for b in page.get_text("dict")["blocks"]:
@@ -146,6 +153,7 @@ for k in range(NSETS):
             else:
                 bot = rect.y1 + 6.0
             bot = max(bot, rect.y1)
+
             bot = min(bot, doc[pi].rect.height - 8.0)
             seq.append({"num": num, "code": qcode,
                         "bands": [(pi, top, bot, " ".join(b[1] for b in band))]})

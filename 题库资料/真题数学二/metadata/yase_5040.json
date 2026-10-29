@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设区域Da:a2 ≤x2 + y2 ≤4a2,a > 0,F a=Dax2sin π x2+y2x2+y23/2dσ, 且F 0= 0, 则F′+ 0= () A. 0B. aC. a2D. 4a2 πππ",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-x06.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设A 为4 × 5 阶矩阵, B 为4 阶矩阵, 若齐次线性方程组AATx = 0 仅有零解, B*x = 0 解向量组的秩为 3, 则齐次线性方程组ATBx = 0 解向量组的秩为() A. 4B. 3C. 2D. 1",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-x08.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设f x=xπ2sinttdt, 则0π2x+1ex ⋅f xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-t12.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(12 分) 光滑凹曲线y = f x, - π2 <x< π2在原点与x 轴相切, 且该曲线在任一点x,y处的曲 率为e-y, 求该曲线的方程y = f x.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(12 分) 设函数f x,y具有二阶连续偏导数, 当x,y≠0,0时, f ≠0, 且f ⋅∂2 f∂x∂y = ∂f∂x ⋅∂f∂y . (1) 证明∂f∂x = f ⋅ϕ x; (2) 若ϕ x= 1x ,f 1,y= y3, 求z = f x,y在条件x2 + y2 = 1 下的最大值与最小值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-j19.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(12 分) (1) 证明方程x+1x+1 = exx 有唯一正根. (2) 设0 < x < 1, 证明1 < 1+ 1xx1+x< 4.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-j21.png"
  },

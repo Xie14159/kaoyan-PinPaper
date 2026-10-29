@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "0+∞x+12 1+x2xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5009-t13.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "-3205-3-120-1-302-3502= _____. 三、解答题.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5009-t16.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数z = f x,y由方程x2 + y2 + z2 - 2xz - 2yz - 1 = 0 确定, 求函数f x,y在约束条件x2 + y2 = 4 下的最值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5009-j19.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x在区间[0, +∞) 上具有二阶连续导数, f 0= 0,f x> 0,f x> 0. (I) 证明g x= f x在0,+∞上单调递增； x (II) 设数列xn满足x0 > x1 > 0,xn+1 = xn -f xnxn-xn-1- f xn-1f xnn=1,2,⋯, 证明limn→∞xn 存在, 并 求之; (III) 求极限limxn+1. n→∞xnxn-1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5009-j21.png"
  },

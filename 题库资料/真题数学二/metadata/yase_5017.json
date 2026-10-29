@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设矩阵A =121,B =020,C =121, 则下列命题必然不可能成立的是() 01210a01b A. A 与B 等价.B. A 与B 相似.C. A 与C 相似.D. B 与C 等价.",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5017-x08.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设A 为n 阶矩阵, α1,α2,α3 为n 维列向量, 则下列结论正确的是() A. 若A 为可逆矩阵, 则α1,Aα2,A2α3 线性无关. B. 若α1,Aα2,A2α3 线性无关, 则A 为可逆矩阵. C. 若A2α1,A2α2,A2α3 线性无关, 则Aα1,Aα2,Aα3 线性无关. D. 若Aα1,Aα2,Aα3 线性无关, 则A2α1,A2α2,A2α3 线性无关.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5017-x09.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "x 1-x2x2+3dx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5017-t12.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设函数z = z x,y由方程x-zy = ln xy+ y2z 确定, 则dz1,1= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5017-t13.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "记曲线y = 1-xn 在0,1上与x 轴所围图形绕y 轴旋转一周所得体积为Vn, 则limn→∞π1k=1nVkn = _____.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第一章 函数、极限、连续",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5017-t14.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 计算D1+y2 +ycosxsinxdxdy, 其中D 是由y = tanx,y =-1 和x = π4 围成.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5017-j17.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 求f x,y= ln x+y在区域D =x,y∣x≥0,y≥0,x+y≥1上的最值. x2+y2",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5017-j20.png"
  },

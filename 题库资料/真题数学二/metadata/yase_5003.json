@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "-π x+cosxπ3dx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-t12.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "已知函数y = y x由2t-x=sint,1y+t2e-u2du=0确定, 则dydx t=0 = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-t15.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x,y连续, 且f x,y=x2+y2-21+2+ 1πD fx,ydσ, 其中D =x,y∣0≤y≤2x-x2, 试求D fx,ydσ.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-j20.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设矩阵A =-10-2-a-1,B =-10,A = BC. 21a+12321 (I) 求a 的值及C； (II) 求Ax = 0 的通解.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-j22.png"
  }

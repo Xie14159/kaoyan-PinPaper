@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设y = y x由x2-xcost-t=0, xy=0 cosetu2-1du+ln 1+t<1确定, 则dydx x=0 = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5022-t12.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "已知二次型f x1,x2,x3= x21 + x22 + ax23 + 2ax1x2 + 2x1x3 + 2x2x3, 若f x1,x2,x3= 0 的解集为一 非零的向量空间, 则二次型f x1,x2,x3的秩为_____. 三、解答题.",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第九章 向量",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5022-t16.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设函数φ x具有二阶连续导数, 且limx→0ln 1+x2φ x-2x= 16 . φ x-sinax,x<0, x (I) 确定常数a,b,c,k b>0的值, 使函数f x=12 ,x=0,在x=0处连续; ebx-c-kxx2,x>0 (II) 在(I) 的条件下求f 0.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5022-j17.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设y = y x在[0, +∞) 上二阶可导, yx> 0,y 0= 1, 过曲线y = y x上任一 点P x,y作该曲线的切线及x 轴的垂线, 上述两直线与x 轴所围成的三角形绕x 轴旋转一周所得旋 转体的体积为V1, 区间0,x上以y = y x为曲边的曲边梯形绕x 轴旋转一周所得旋转体的体积为 V2, 且3V1 - 2V2 = π, 求y = y x的表达式.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5022-j18.png"
  },

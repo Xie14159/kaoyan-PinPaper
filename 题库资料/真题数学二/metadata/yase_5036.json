@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设k,n 均为正整数, 积分I =0nπ1+sin2kxdx 的值() A. 与n,k 均无关B. 与n,k 均有关 C. 与n 无关, 与k 有关D. 与n 有关, 与k 无关",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-x03.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设区域D 是由x-12 + y2 ≤1 所围成的区域, D1 为D 位于第一象限的部分, f t是奇函数, 则 D f xy2-y2+ f yx2+ydσ = () A. 0B. π C. 2D1 fyx2+ydσD. 2D1 f xy2-y2+ f yx2+ydσ",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-x06.png"
  },
@@ -127,7 +127,7 @@
   "tags": [],
   "stem": "设f sin2x=sinx ,x ∈0, πx2, 则011-xxf xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-t11.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设1 > b > a >-1,且ab1-x21dx = π3 ,则b - a 的最大值_____.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-t13.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设函数z = yex + siny, 且函数y = y x由方程x2 + 2xy - y2 = 1 确定, 则d2zdx2 x=1,y=0 = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-t15.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(12 分) 设函数u = u x,y,z具有二阶连续偏导数, 且满足∂2u∂x2 = 2, ∂u∂y = 2y,u′x 0,y,z= 0, u 0,0,z= z2, 求u x,y,z在条件z = x2 + y2 和x + 2y + z = 10 下的最大值和最小值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-j19.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(12 分) 设函数f x在0,2上有连续导数, 且满足0 < f x< 2, f x< 1. (1) 证明存在唯一的x0 ∈0,2,使得f x0= x0； (2) 设0 < x1 < 2,2xn+1 = xn + f xn, 证明limn→∞xn = x0. 1-11",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-j21.png"
  },

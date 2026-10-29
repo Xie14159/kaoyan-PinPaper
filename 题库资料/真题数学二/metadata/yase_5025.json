@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "已知连续函数f x满足f x+2- f x= sinx,0 f2xdx = 0, 令I1 =1 f3xdx, I2 =2 f4xdx, 则 A. I1 > I2 > 0.B. I2 > I1 > 0.C. I1 > 0 > I2.D. I1 < I2 < 0.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5025-x03.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设f x,y为连续函数, 且f x,y= 2xD1 fx,ydxdy + yD2 fx,ydxdy + 2, 其中D1 由y = x,x = 1 及x 轴所围成, D2 由y = x,y = 1 及y 轴所围成, 则f x,y= A. 5x + 4y + 2.B. 10x + 4y + 2.C. 5x - 4y + 2.D. 10x - 4y + 2.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5025-x06.png"
  },
@@ -127,7 +127,7 @@
   "tags": [],
   "stem": "设f x在x = 0 处连续, 且limx→0x2 1+ f xx-sinx= 6, 则曲线y = f x在点0,f 0处的切线方程为 _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5025-t11.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设x2 + y2 = 1 x≥0,y≥0与x + y + xy = 1 所围区域为D. x-y+1,x+y≤1, f x,y=x2+y2 ,x+y2x+y>1.计算I =D fx,ydxdy.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5025-j18.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设方程∂2u∂x2 + ∂2u∂y2 = 0 有形如u = φxy的解, φ r有二阶导数, 且φ 1= 0, φ1= 1.求φxy的表达式.",
   "options": [],
-  "chapter": "第四章 多元函数微分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5025-j20.png"
  },

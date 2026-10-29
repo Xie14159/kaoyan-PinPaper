@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设y1 x与y2 x是非齐次微分方程y+ P xy = Q x的两个解.若λy1 x+ μy2 x仍是该方程的 解, 则eλ3+μ3的最小值为 A. e-1.B. e12 .C. e14 .D. e13 .",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5007-x03.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "下列积分发散的是 A.1+∞x3 1+xdx.B.0+∞x2e-xdx.C.2+∞xln2xdx.D.-∞e x+∞sinxdx.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5007-x04.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "积分0d2xx3x fx2+y2dy = A.π4 dπ3θ02secθfrrdr.B.π3 dπ4θ02secθfrdr. C. -02 2drπ4 fπ3rrdθ -2 2d4rarccos 2π3r frrdθ.D.02 2drπ4 fπ3rrdθ +2 2d4rarccos 2π3r frrdθ.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5007-x06.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设函数y = y x由x=t2+2t12 siny-y+t2=1t>0确定, 则d2ydx2 x=3= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5007-t13.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设g x连续, g 2= 1,f x,y=0x2+y2tgx2+y2-t2dt, 则df 1,1= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5007-t15.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设α 为3 维非零实列向量, E 为3 阶单位矩阵, A = E -3ααT,则tr A= _____. αTα 三、解答题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5007-t16.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x满足f x- f x= πexcosπx,f 0= 0,y = f x在0,n(n 为正整数) 上 与x 轴所围图形的面积为Sn. (I) 求f x; (II) 求limn→∞Snen .",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第一章 函数、极限、连续",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5007-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设z = f u,v有二阶连续偏导数, u = x - 2y,v = x + 2y,且满足 ∂x2 - y ∂2z∂2z∂y2 - 12∂y = 12a∂za≠0 (I) 求∂2z∂u∂v ; (II) 若∂f u,0∂u=-3u2,f 0,v=-v3, 求f u,v的极值.",
   "options": [],
-  "chapter": "第四章 多元函数微分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5007-j20.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D =x,y∣x2+y2≤1,x≥0,y≥0, 计算I =Dmaxy+1,1+x2dxdy. 210abc",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5007-j21.png"
  },

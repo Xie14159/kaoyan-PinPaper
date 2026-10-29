@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设f x,y是连续函数,则0d1x0 fx2x,ydy +1 d2x02-x2fx,ydy = () A.0d1yy2-y2fx,ydxB.0d1y02-y2fx,ydx C.0 d22yy2-y2fx,ydxD.0 d22y02-y2fx,ydx πcos x",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-x05.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设3 维列向量组α,β,γ 为一个正交单位向量组, A = αβT + βαT,A*表示A 的伴随矩阵, 则() A. 非齐次线性方程组Ax = γ 与A*x = γ 均有解 B. 非齐次线性方程组Ax = γ 与A*x = γ 均无解 C. 非齐次线性方程组Ax = γ 有解, 但非齐次线性方程组A*x = γ 无解 D. 非齐次线性方程组Ax = γ 无解, 但非齐次线性方程组A*x = γ 有解",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-x09.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D 是由曲线+x= 1 和xy13 + y13 = 1 所围成的平面有界区域, 求D+yx1+xdxdy.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-j18.png"
  },

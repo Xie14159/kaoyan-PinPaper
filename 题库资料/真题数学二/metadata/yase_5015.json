@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "设f x为连续函数, 且0 fπxsin3xsin3xdx = 1, 则0 fπxsin3xxcos3xdx = (). A. - 1B. 0C. 1D. 1 32",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5015-x04.png"
  },
@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设区域D1 为x2 + y2 ≤1 在第一象限的部分, D2 为x+ y≤1 在第一象限的部分, I1 =D1cosπxydσ, I2 =D2cosπxydσ, I3 =D2sinπxydσ, 则(). A. I1 < I2 < I3B. I3 < I2 < I1C. I3 < I1 < I2D. I2 < I3 < I1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5015-x05.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "设连续函数f x满足0txf x-t-et2dt = 0, 则0d1x0 fxxf ydy = (). A. eB. 12 eC. e2D. 12 e2",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5015-x07.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设α1,α2,α3,α4 是四维非零列向量组, 矩阵A = α1,α2,α3,α4,A* 为A 的伴随矩阵, 已知方程组Ax = 0 的通解为k 1,0,-1,0T, 则方程组A*x = 0 的基础解系为(). A. α1,α2,α3B. α1 + α2,α2 + α3,α3 + α1 C. α2,α3,α4D. α1 + α2,α2 + α3,α3 + α4,α4 + α1",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5015-x09.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "x 1+xecosx1-xsinxdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5015-t12.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设区域D =x,y∣0≤x≤1,0≤y≤2, x表示不超过x 的最大整数, 计算D x2+ydxdy.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5015-j19.png"
  },

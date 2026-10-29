@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设Ii =Die- x2+y2dσ,i = 1,2,3, 其中D1 =x,y∣x2+y2≤R2,D2 =x,y∣x2+y2≤2R2, D3 =x,y||x∣≤R, y≤R,R > 0, 则 A. I1 < I2 < I3.B. I2 < I3 < I1.C. I1 < I3 < I2.D. I3 < I2 < I1.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5031-x02.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "0 x1arcsin 1-xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5031-t12.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "平面无界区域D =x,y1+x2y∣≤1的面积为_____.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5031-t14.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设y = y x满足x2y+ x2-3y2 = 0 且y 1= 1. (1) 求y = y x的表达式； (2) 计算0 y23xdx.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5031-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x为连续函数, T > 0, 证明:f x以T 为周期的充分必要条件是任给常数 a,aa+Tfxdx 为常数.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5031-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 计算0d1x1 e-y2+eysinyxdy.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5031-j20.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x,y= 4x2 x-2y+ 16y xy-3- 33x, 求其在平面区域D =x,y∣0≤y≤x≤3上的取值范 围.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5031-j21.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) -1011b0 设矩阵A =120与B =010相似, 且Ax = x + b,-b,2bT 的一个解为0,-1,1T, 求 a03002 (1)a,b 的值;(2)A100.",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5031-j22.png"
  }

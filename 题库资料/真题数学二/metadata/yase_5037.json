@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "积分-1arctan1exdx = ______.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5037-t12.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(12 分)3 阶实对称矩阵A 有两个不同特征值, 且A0=0,A 与B =0b0a≤b相似. 1-1002 (1) 求a,b; (2) 求可逆矩阵P, 使得P-1AP = B.",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5037-j22.png"
  }

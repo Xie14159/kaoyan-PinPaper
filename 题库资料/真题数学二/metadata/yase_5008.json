@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设f x在x = 0 的某邻域内连续, 且limx2= 1, 则 x→0e f x-1 A. f 0存在, f 0≠0.B. f 0存在, f 0是f x的极大值. C. f 0存在, f 0是f x的极小值.D. f 0存在, f 0不是f x的极值.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-x03.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设y = y x满足y-lnxdx + xlnxdy = 0 x>1,y e= 1, 则y = y x在1,+∞内的极小值为 _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-t12.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设A = E - kααT k≠0是正交矩阵, 其中E 是3 阶单位矩阵, α 为3 维单位列向量, 则tr A= __ ___. 三、解答题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-t16.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D =x,y2≤2x2+y2≤4,x≥0,y≥0, 计算I =D2x2+y2yx2+y2dxdy.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-j19.png"
  },

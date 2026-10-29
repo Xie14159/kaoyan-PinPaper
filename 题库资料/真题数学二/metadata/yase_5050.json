@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设积分0+∞x1-parctanx2+xpdx p>0收敛,则p 的取值范围为 A. 1 < p < 3.B. 2 < p < 3.C. 1 ≤p < 2.D. 0 < p < 3.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-x03.png"
  },
@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设f x,y=x2+y2x2+y4 sin xy2,x2+y2≠0,则正确的是 0,x2+y2=0, A. f ′′xy 0,0存在, f ′′yx 0,0存在.B. f ′′xy 0,0不存在, f ′′yx 0,0存在. C. f ′′xy 0,0存在, f ′′yx 0,0不存在.D. f ′′xy 0,0不存在, f ′′yx 0,0不存在.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-x05.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设3 维列向量α1,α2,α3 线性无关, A = aij3×3 满足Aα1 = α1,Aα2 = α2 + α3,Aα3 = α1 + α3,Aij 是aij 的 代数余子式, 则A11 + A22 + A33 = A. 1.B. 2.C. 3.D. 4.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第七章 行列式",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-x08.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设f x=01-xet 2-tdt, 则曲线y = f x在区间0,1上与x,y 轴所围图形的面积为_____.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-t14.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D =x,y∣1≤x+y≤2,x≥0,y≥0, 计算D2x2+y2yx2+y2dxdy.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-j19.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x在-∞,+∞内有连续的导数, f x> 0, 且满足f x+1+x2 f x2nx= 0(n 为大于1 的正整 数), f 0= 1. (I) 求f x的表达式; (II) 记Sn 为曲线y = f x与x 轴之间的无界区域的面积, 求limn→∞Sn-1Snn.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-j21.png"
  },

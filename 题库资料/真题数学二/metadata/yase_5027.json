@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设函数f x在闭区间-1,1上连续, 数列an满足an ∈-1,1,n ∈N.则(). A. 若数列f an收敛, 则数列an收敛B. 若数列f an发散, 则数列an可能收敛 C. 若数列an单调, 则数列f an收敛D. 若数列f an单调, 则数列an收敛",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-x02.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "二次积分0d1y0yfx,ydx +1 d2y02-y2fx,ydx = (). A.0d1x0 fx2x,ydyB.0d1xx22-x2fx,ydy C.0d1x2-x2 fxx,ydyD.0d1xx22-x2fx,ydy",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-x06.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设α1 =0,α2 =2,α3 =-1,α4 =b.若α4 可由α1,α2,α3 表示, 但是α1 不可由α2,α3, α4 表示, 11a1 则(). A. a ≠1 且b ≠2B. a ≠1 且b = 2C. a = 1 且b ≠2D. a = 1 且b = 2",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第九章 向量",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-x08.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设A = aij为三阶非零矩阵, Aij 为A中aij 的代数余子式, 满足aij =-Aij,1 ≤i ≤3, 1 ≤j ≤3,α,β 为任意3 维列向量, E 为三阶单位矩阵, 给出下列结论: ①αTATAα = ||α||2；②Aα,Aβ= α,β； ③齐次线性方程组A+Ex = 0 有非零解;④tr A2= tr A2. 其中正确的选项是(). A. ①③B. ②④C. ①②③D. ①②④",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第七章 行列式",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-x09.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "0+∞x x+213dx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-t13.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设Dt:x2 + y2 ≤t2, t>0, 则limt→0+1+2t2-11Dte-x2+y2dσ = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-t15.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 计算ex ex-1ex+32 dx.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-j17.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 已知二次型f x1,x2,x3= 2x21 + 2x22 + ax23 - 2x1x2 + 2x1x3 - 2x2x3, 其矩阵为A. 1 α =b是矩阵A 对应特征值λ 的一个特征向量b<0. 1 (I) 求a,b,λ; (II) 求正交变换x = Qy, 将二次型f x1,x2,x3化为标准型, 并写出相应的标准型； (III) 求f x1,x2,x3在xTx = 1 的条件下的最小值.",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-j22.png"
  }

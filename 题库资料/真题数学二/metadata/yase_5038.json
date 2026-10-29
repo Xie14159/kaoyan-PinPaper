@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "当-1 < λ ≤0 时, 方程λex = x2 - x - 1 恰有() 个实根 A. 0B. 1C. 2D. 3",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5038-x03.png"
  },
@@ -127,7 +127,7 @@
   "tags": [],
   "stem": "-π 1+cos2xπ32 +sin4x⋅ln 2π+x-ln 2π-xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5038-t11.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设y = y x是由方程ey + 6xy + x2 - 1 = 0 所确定的隐函数, 则d2ydx2 x=0= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5038-t13.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设A 为4 阶实矩阵, A 的第四行元素分别为7,2, -5,0,A24 = 10,M2j,A2j 分别是A的第二行第j 列 元索的余子式和代数余子式j=1,2,3,4,则-7M21 + 2M22 + 5M23 + M24 = _____. 三、解答题.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第七章 行列式",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5038-t16.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(12 分) 设函数y = y x由参数方程x=1+t1t,0≤t≤1,t>1确定, 计算0 y2xdx. y=ln t+1+t2",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5038-j18.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(12 分) 若A 为三阶实对称阵, A 的迹tr A=-3, 非齐次线性方程组Ax = b 的通解为k1 1,-1,0T + k2 1,0,1T + 1,-2,0T,其中k1,k2 为任意常数. (1) 求A 及b. (2) 求A+ 32 E100.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5038-j22.png"
  }

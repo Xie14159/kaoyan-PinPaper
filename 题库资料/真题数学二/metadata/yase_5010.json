@@ -127,7 +127,7 @@
   "tags": [],
   "stem": "设x,y ∈R, 且4x2 + 4y2 - 2xy - 58 = 0, 则2x + y 的取值范围为_____. ln f x+1+ex2f1+tanx2- f 1+tanx",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5010-t11.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设1+∞x a+x3dx= 13 ln2 a>0, 则a = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5010-t13.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "0d1x01-xex+yxdy = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5010-t14.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x,y有一阶连续的偏导数, 在(1,1) 的某邻域内, f x,y= ex2+y2-2 + o ρ, 其中ρ =x-12+ y-12.又g x,y= f ex-y,xy. (I) 求dg x,y1,1; (II) 计算limg 1+sint,1-g 1,1-tant. t→0t",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5010-j18.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设上半平面的有界区域D =x,y1≤x2+ y- x2≤2,0≤y.计算I =D2x2+y2x+1dxdy.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5010-j20.png"
  },

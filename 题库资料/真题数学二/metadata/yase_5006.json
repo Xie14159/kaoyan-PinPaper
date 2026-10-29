@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设I1 =0ln11+xdx,I2 =01arctanx1+xdx,I3 =01ln 1+xdx, 则 A. I3 > I1 > I2.B. I3 > I2 > I1.C. I1 > I2 > I3.D. I2 > I3 > I1.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-x03.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设y = xcos2x 在x ∈0,nπn=1,2,⋯上与x 轴所围图形的面积为Sn, 则limn→∞n+1Sn2 = ___.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第一章 函数、极限、连续",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-t14.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x连续且严格单调递减. (I) 证明: 当x ∈0,1时, 有x0 f1tdt <0 fxtdt < xf 0; (II) 若0 f1tdt ≥0,f 0≤1,x0 ∈0,1,xn =0xn-1ftdt n=1,2,⋯.证明:limn→∞xn 存在,并求其值. 3",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-j21.png"
  },

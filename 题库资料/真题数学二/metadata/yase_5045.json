@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设区域D =x,yx+ y≤1,D1 是D 在第一象限的部分, f x,y在D 上连续,等式 D fx,ydσ = 4D1 fx,ydσ 成立的充分条件是() A. f -x,-y= f x,yB. f -x,-y=-f x,y C. f -x,y= f x,-y=-f x,yD. f -x,y= f x,-y= f x,y",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-x03.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "设x = secy，则dydx = () A. x x2-1B.x2-1C.1D.1 x2x2-1x x2-1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-x04.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设f x,y在0,0处连续, 则下列说法中错误的是() A. 若limf x,y= 0, 则f x,y在0,0处可微 x,y→0,0+ yx f x,y B. 若x,ylim→0,0x2+y2 = 0, 则f x,y在0,0处可微 C. 若f x,y在0,0处可微, 且f 0,0= f ′x 0,0= f ′y 0,0= 0, 则x,ylim→0,0+ yf x,yx= 0 D. 若f x,y在0,0处可微, 且f 0,0= f ′x 0,0= f ′y 0,0= 0, 则x,ylim→0,0x2+y2 = 0f x,y",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-x06.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "cosx-x1+sinx dx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-t12.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "已知函数f t=1dtyyt1+x3ydx, 则f 2= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-t15.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 已知曲线L: x=cos2t,y= f t, 0≤t≤π, 其中f t具有连续导数, 且满足f 0= 0,f t - tf t=-t2cos ​ t. (I) 求f t的表达式; (II) 求曲线L 围成的封闭图形的面积.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x在a,b上具有连续导数. (I) 证明: 存在ξ ∈a,b, 使a fbxdx = f bb-a- f ξ2b-a2; (II) 若f x在x = a 处二阶导存在且f a= 0,f a≠0, 求limb→a+b-a .ξ-a",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-j19.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 已知二次型f x1,x2,x3= xTAx 在正交变换x = Qy 下的标准形为4y21 + y22 + y23 且Q 的第一列为11,-1,-1T. 3 (I) 求二次型矩阵A; (II) 求可逆矩阵P, 使得A = PTP; (III) 记g x1,x2,x3= xTAx + 2xTb, 其中b = 0,0,1T, 求g 的最小值, 并写出一个最小值点.",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-j22.png"
  }

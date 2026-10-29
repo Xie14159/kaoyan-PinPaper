@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "如果对于微分方程y- 2k-4y+ ky = 0 的任一解y x, 反常积分0+∞yxdx 均收敛, 则k 的取 值范围为 A. (-∞,1].B. (0,1].C.-∞,2.D. (0,2).",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5011-x05.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设y = y x满足xy=1-x2,y 1= 0, 则0 y1xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5011-t12.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "已知函数y = y x由2t-x=arctan t+11y+t2e-u2du=0,确定, 则dydx t=0 = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5011-t13.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "0d1x0 ex- y22dy = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5011-t14.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设y = y x满足1+xy-1dx + x 1+xdy = 0,y 1= ln2. (1) 求y = y x的表达式及定义域； (2) 记f x=-1yxtdt, 求f 0.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5011-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x在0,1上连续, g x在0,1上可积且非负.证明: 存在一点ξ ∈ 0,1, 使0 f1xg xdx = f ξ0 g1xdx.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5011-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x,y在D =x,y∣x2+y2≤1上连续, f x,y= ex2+y2-D2x2+1x2+y2+1f x,ydxdy, 求D fx,ydxdy.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5011-j20.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设A =01-1,β =1,B =10-1, A,β= BC. 120-3210 (1) 求Ax = β 的解, 并求出C； (2) 求满足(A | β)Y = E 的所有Y.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5011-j22.png"
  }

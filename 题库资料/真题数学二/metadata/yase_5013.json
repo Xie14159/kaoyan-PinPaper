@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "f x,y= x4 + y4 - x+y2 有 A. 2 个极小值点, 1 个极大值点.B. 1 个极小值点, 1 个极大值点. C. 3 个极小值点,无极大值点.D. 2 个极小值点,无极大值点.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5013-x01.png"
  },
@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设函数f x,y连续, 且f x,y= f y,x= f -x,y, 则-2d2x24-x2 fx,ydy = A.02-2- 4-y2fx,ydx+- 4-y2 f2x,ydxdy.B. 20224-y2 fx,ydydx. C. 40 dπ4θ22secθfrcosθ,rsinθrdr.D. 40arctan 12dθ22secθfrcosθ,rsinθrdr.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5013-x02.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "设D 为由x = 0,y = 0,x + y = 12 ,x + y = 1 所围成的区域, I1 =Dln7x+ydσ,I2 =D x+y7dσ, I3 =Dsin7x+ydσ, 则 A. I1 < I2 < I3.B. I1 < I3 < I2.C. I3 < I2 < I1.D. I3 < I1 < I2.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5013-x07.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "已知D =x,yx-a2+y2≤a2,y≥0, 则D4a2-x2-y2dxdy = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5013-t13.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 计算Dlnxydxdy, 其中D =x,y∣1≤xy≤2,x≤y≤4x,x>0.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5013-j20.png"
  },

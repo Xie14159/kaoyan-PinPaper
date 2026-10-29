@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设函数f u在0,1上连续, 且f x= 1 + 12x f1yf y-xdy, 则0 f1xdx = () A. 1B. 2C. 3D. 4",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5041-x06.png"
  },
@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "下列矩阵与A =022相似的是() 002 212120101211 A.01-2B.130C.121D.130 002002002200 二、填空题.",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5041-x10.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "0 xπcos2x-cos4xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5041-t12.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设z = z x,y是由方程xy = xf z+ yg z所确定, 其中f ,g 具有连续导数, 且xf z+ ygz≠0, 则x ∂z∂x + y ∂z∂y = _____.",
   "options": [],
-  "chapter": "第四章 多元函数微分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5041-t15.png"
  },

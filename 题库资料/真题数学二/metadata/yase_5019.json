@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设f x=0lnx1+sint1-sint dt,K =- ππ22 fxsinxdx,M =- ππ22 1+ x22f xdx,N =- ππ22 exf xdx,则() A. N < K < MB. K < N < MC. K < M < ND. N < M < K",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5019-x02.png"
  },
@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设f x为-∞,+∞上的连续函数,若f x在-∞,+∞上无界,则下列说法正确的有() 个 ①如果数列xn有界, 则数列f xn也有界;②如果数列xn收敛,则数列f xn也收敛； ③存在数列xn使得f 2 xn单调递增并且趋近于无穷; ④存在数列xn使得e -1n f xn无界. A. 1B. 2C. 3D. 4",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5019-x03.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设f x=0x1-t6t3dt, 则0 fπ23 cosxcos2xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5019-t12.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分11 分) 设D =x,y∣x2+y22≤x+y, 求Dx-2yx2+y22dxdy.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5019-j17.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分11 分) 设函数f x,y具有连续的偏导数且满足f ′x x,y- f x,y= 3exx2 及f x,x= ex x3+x2. (I) 令g x,y= e-x f x,y, 求∂g∂x ; (II) 求f x,y并求f x,y的极值.",
   "options": [],
-  "chapter": "第四章 多元函数微分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5019-j18.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 4ba 设A =111, 若A 有一个二重特征值且可相似对角化, 1-13 (I) 求a,b; (II) 求可逆矩阵P 及对角矩阵Λ, 使得P-1AP = Λ.",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5019-j22.png"
  }

@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "设y = y x满足条件y+ 4y+ 4y = xe-x,y 0= 0,y0= 2, 则0+∞yxdx = (). A. 1B. 1C. 3D. 1 424",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-x07.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "将三阶实方阵A 的第一行加到第三行得矩阵B, 将B 的第一列加到第三列得三阶单位矩阵. 100 记P =010, 则下述命题中 -101 ①A = PPT②A = P-1 PT-1③A 与E 相似④A 与E 合同 正确命题的全体为(). A. ①③B. ①④C. ②③④D. ②④",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-x08.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设z = z x,y由方程xyz2 +x2+y2 + z + ez = 2 + e 确定, 则dzx=0= _____. y=1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-t12.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设f x具有二阶连续导数, f 0= f 0= 0, f x> 0, 记曲线y = f x在点 x,f xx≠0处切线在x 轴上的截距为ax. (I) 求极限limx→0axx 的值; (II) 求极限limf ax的值. x→0f x",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-j17.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f u具有二阶连续导数, f 0= 65 ,f 0=- 65 , 且当x ≠0 时z = f x2-2y2满足等式2 ∂2z∂x2 - ∂2z∂y2 - 4x ⋅∂z∂x = 8 x2-2y2e2y2-x2-4z, 求函数f u的表达式.",
   "options": [],
-  "chapter": "第四章 多元函数微分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 计算0dax0e- x2+y2ady +0 e-a2sec2xπ4dx, 其中a 为正的常数.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-j20.png"
  },

@@ -47,10 +47,17 @@ def classify_category(chapter_name: str, chapter_num: int = 1) -> ChapterCategor
 
 
 def parse_chapter_number(chapter_str: str, qid: str = "") -> int:
-    """解析章节编号"""
+    """解析章节编号
+
+    注意：qid 首段并不总是章号——880 是"章-篇-题"，而贾基/亚瑟是"套号-题型-序号"
+    （如 5001-选-01）。套号远超 1–23，若当章号用会被 classify_category 判成"概率论"。
+    因此只有落在 1–23 的首段才认作章号，其余继续用"第X章"解析、最后兜底 1。
+    """
     m = re.search(r"^(\d+)", qid)
     if m:
-        return int(m.group(1))
+        _num = int(m.group(1))
+        if 1 <= _num <= 23:
+            return _num
 
     cn_num = {
         "一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10,

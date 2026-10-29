@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设函数y = y x由x=t3+2t+11y+te-u2du=t确定, 则() A. dydx t=0 = e+12, d2ydx2 t=0= e22B. dydx t=0 = e-12, d2ydx2 t=0= e2 C. dydx t=0 = e+12, d2ydx2 t=0= e2D. dydx t=0 = e-12, d2ydx2 t=0= e22",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5035-x03.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设3 阶实对称矩阵A = α1,α2,α3, 且α1 + α2 + α3 = 1,1,1T, 又存在a ∈R 使得A3 + a5-1A2 + 2a3A + aE = O,tr A= 1, 则下列结论中: (1)r A= 1(2)A 的特征值为0,0,1 1001 (3)A 与矩阵020合同(4)1为Ax = 0 的解 000-2 正确的个数为() A. 1B. 2C. 3D. 4",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5035-x09.png"
  },
@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "矩阵P 满足PPT = E, 则下列四个式子中必成立有() 个 (1)P 的行向量组为标准正交向量组(2)P 的列向量组为标准正交向量组 (3)P 为正交矩阵(4)P 为可逆矩阵 A. 1B. 2C. 3D. 4 二、填空题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5035-x10.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "1-x+x2-x3 dx = _____.x3",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5035-t12.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设A =10, 矩阵B2×3 满足BA = E, 则AB 的特征值为_____. 0-1 三、解答题.",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5035-t16.png"
  },

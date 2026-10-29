@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设y x= excosx 是二阶常系数齐次线性方程y+ ay+ by = 0 的一个特解, 则可设二阶常系数非 齐次线性方程y+ ay+ by = ex 1+cosx的特解形式为(). A. ex acosx+bsinxB. ex axcosx+b C. ex acosx+bsinxxD. ex axcosx+bxsinx+c",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-x03.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设f t=0dtxxtln 1+y3y2dy, 且limt→0+at-sint = b, 其中a,b 为非零实数, 则(f t). A. a = 1,b = 1B. a = 1,b = 2C. a = 2,b = 1D. a = 2,b = 2",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-x06.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "已知3 阶实对称阵A 的秩r A= 1,α1 = 1,-1,1T 是A 的属于特征值λ1 = 12 的特征向量, k1,k2 为任意常数, 则非齐次线性方程组Ax = α1 的通解是(). A. k1 1,1,0T + k2 1,0,-1T + 1,-1,1TB. k1 1,0,-1T + k2 -1,1,2T +12 ,- 12 , 12T C. k1 1,1,0T + k2 1,0,1T + 2,-2,2TD. k1 1,1,0T + k2 -1,1,2T + 2,-2,2T",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-x09.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "-1d0y-y x2y3+x-11dx +0d1y1- 1-y2 x2y3+x-11dx = _____. x",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-t14.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "-∞01+e2 +exe63 +ex6xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-t15.png"
  },

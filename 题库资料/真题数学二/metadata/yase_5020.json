@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设f t=0dtx0tx-x21+x2+y212dy, 则f 1= () A. π 2B. π 2C. π 2D. π 2 481632",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-x06.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设连续函数f x满足f 2+x=-f 2-x+ 1,则0 f4xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-t15.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分11 分) 设D 是由曲线x2 + y2 =xy 和圆x2 + y2 = 1 及两个坐标轴在第一象限内所围成的平面区域, 求 Dx2+y22xy2dxdy.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-j17.png"
  },

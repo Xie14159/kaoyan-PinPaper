@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "已知连续函数f x,y满足limf x,y-5x2+2xy-2y2= 1,则下列说法中,正确的是() x,y→0,0x2+y2 A. 点0,0是f x,y的极大值点. B. 点0,0是f x,y的极小值点. C. 点0,0不是f x,y的极值点. D. 根据已知条件无法判别点0,0是否为f x,y的极值点.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-x06.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "将区域x+ y≤1 在第i 象限中的部分记为Di i=1,2,3,4, Ii =Dix2+y2+1x-yex2dxdy,则下列二 重积分中,值最大的是() A. I1.B. I2.C. I3.D. I4.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-x07.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设区域D 为圆x-12 + y2 = 1 与圆x2 + y-12 = 1 所围成的公共部分, 计算 Dxyx-y+1ex2+y2dxdy.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-j18.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数y x在[0,1) 上单调增加且满足y 0= 0, 过曲线y = y x上任一点x,y作该曲线的切线交 直线x = 1 于点1,y1.已知曲线y = y x从点0,0到点x,y的弧长等于y1,且曲线y = y x,x 轴以 及x = 1 围成的平面图形的面积为13 .求y x.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-j20.png"
  },

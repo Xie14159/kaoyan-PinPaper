@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设函数f x,y在(0,0) 处连续, 且limf x,y-xy= 1, 则f x,y() x,y→0,0x2+y2 A. 在点(0,0) 处可微, 且(0,0) 为极大值点.B. 在点(0,0) 处可微, 且(0,0) 为极小值点. C. 在点(0,0) 处不可微, 且(0,0) 不是极值点.D. 在点(0,0) 处不可微, 但(0,0) 是极值点.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5014-x05.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设A,B,C 为n 阶方阵, 则下列说法错误的是() A. 若ABx = 0 的解都是Bx = 0 的解, 则r AB= r B. B. 若r AB= r B, 则ABx = 0 的解都是Bx = 0 的解. C. 若r AB= r B, 则r ABC= r BC. D. 若r ABC= r BC, 则r AB= r B.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5014-x08.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设连续函数f x满足f 2x= 2f x, 且0 xf1xdx = a, 则1 xf2xdx = _____. a111",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5014-t15.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设xOy 坐标平面上, 连续曲线L 过点A 1,0, 其上任意点P x,yx≠0处切线 斜率与直线OP 的斜率之差等于2x. (I) 求L 的方程； (II) 当直线y = a x- 12所围成的平面图形的面积最小时, 求a 的值.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5014-j17.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设定义在右半平面x>0的正值函数z x,y具有二阶连续偏导数, 并且满足 z ⋅∂2z∂x∂y = ∂z∂x ⋅∂z∂y ,z x,0= xe- x22 ,z 1,y= e- 1+y22 . (I) 求z x,y的表达式; (II) 求z x,y的极值.",
   "options": [],
-  "chapter": "第四章 多元函数微分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5014-j18.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设区域D =x,y∣0≤x≤2,0≤y≤1, 其中x-12+y2表示不超过x-12 + y2 的最大整数, 求 D x+y2x-12+y2dxdy.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5014-j20.png"
  },

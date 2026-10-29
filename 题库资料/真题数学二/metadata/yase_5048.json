@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设函数y1 x,y2 x,y3 x分别为一阶非齐次线性微分方程y+ p xy = q x的三个不同的解, 已 知y1 0= a,y2 0= b,y3 0= c, 则下列说法中, 正确的是() A.y3 x-y1 x是否为常数与p x,q x有关. y2 x-y1 x B.y3 x-y1 x是否为常数与a,b,c 的取值有关. y2 x-y1 x C. 若a < b < c, 则y3 x-y1 x必为大于0 的常数. y2 x-y1 x D. 若a < b < c, 则y3 x-y1 x必为小于0 的常数. y2 x-y1 x",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5048-x05.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设D 是由曲线2xy = 1 与直线x + y = 32 所围成的封闭区域, 已知函数f x,y在区域D 上连续, 则D fx,ydxdy = () π3π3 A. 2π4 d2θ2 sinθ+cosθsin2θ1frcosθ,rsinθrdr.B. 2π4 d2θ2 sinθ+cosθ2sin2θ1frcosθ,rsinθrdr. C. 2arctan2π4dθ2 sinθ+cosθsin2θ13frcosθ,rsinθrdr.D. 2arctan2π4dθ2 sinθ+cosθsin2θ13frcosθ,rsinθrdr.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5048-x06.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设3 维列向量组α1,α2,α3 与β1,β2,β3 满足β1 = tα1 + α2,β2 = t-1α1 + tα2 + α3,β3 = t-1α2 + tα3,A 是3 阶矩阵, 则t ≠0 是β1,β2,β3 为方程组Ax = 0 的一个基础解系的() A. 充分不必要条件.B. 必要不充分条件. C. 充分必要条件.D. 既不是充分条件,也不是必要条件. abbbbabab",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第九章 向量",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5048-x08.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设矩阵A =bab,B =bab,C =abb,A,B,C 均可逆, 则() bbaabbbba A. A,B 不相似但合同.B. B,C 既相似又合同. C. A,C 不相似但合同.D. B,C 不相似但合同.",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5048-x09.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设函数z x,y由方程lnz + yz + cosx = 2 确定,则dz0,0= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5048-t14.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设函数fn x= cnx2ne-πx2,且满足0+∞fnxdx = 12 ,其中cn 为仅与n 有关的数.若c0 = 1,则c4 = _ ____. 0t1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5048-t15.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设矩阵A =-101相似于实对角矩阵, 则t 的取值范围是_____. 110 三、解答题.",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5048-t16.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x满足f 1-x= 1 - f x, 且0 f xπ+ 1+xf xdx =-2, 求f x.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5048-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 证明: 当0 < x ≤1 时, 0 <arcsinx -11-x2x≤2π .",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5048-j20.png"
  },

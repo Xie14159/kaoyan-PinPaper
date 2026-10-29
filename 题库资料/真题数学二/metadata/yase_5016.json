@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设连续函数f x= ax+1,a-ex,x≥0,x<0,其中a 为常数, 则f lnxdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5016-t12.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数y = y x由方程y3 x+y= 2x3 所确定. (1) 令u = xy ,写出y = y x的参数方程； (2) 求y3 dx.1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5016-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x连续, 且f x= x2 + x0 fx2x2-tdt +D fxydxdy,其中D 为以 A 1,-1,B -1,1,C 1,1为顶点的三角区域, 若f 1= 0. (1) 求0 f1xdx +D fxydxdy 的值； (2) 求0 f1xdx 的值.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5016-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x具有一阶连续导数, 且f 0f 0≠0. (1) 证明: 当x →0 时,0 fxtdt ∼f 0x； (2) 求limx→00 fx1tdt-xf 01； (3) 当x ≠0 时,证明:0 fxtdt = xf ξ,其中ξ 介于x 与0 之间,并求limx→0ξx .",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5016-j20.png"
  },

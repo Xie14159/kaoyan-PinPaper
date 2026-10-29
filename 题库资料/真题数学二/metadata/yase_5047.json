@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设I =01ln 1+x1+xdx,J =01ln 1+x1+x2dx,K =01ln 1+x2exdx, 则() A. I > J > K.B. J > I > K.C. I > K > J.D. J > K > I.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-x03.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "设q 为非零常数,若积分1+∞x2-xxq-1pdx 收敛,则必有() A. q > 0.B. q < 0.C. 12 < p < 2.D. 0 < p < 12 .",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-x04.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "已知sin4x - 38 为y 4+ ay+ by+ cy+ dy = 0 的解, 则a + b + c + d = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-t13.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设函数f x在0,1上连续,且01f x1-x2dx = 1,则0 dπ2xπ2 fxsinxf sinydy = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-t15.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设函数f x在[0, +∞) 上连续, 且f 0= 0,f ′+ 0= 1, 曲线La 的极坐标方程为ρ = aθ θ∈0,π, 其中a > 0, 记该曲线与θ = π 所围成的区域为Da, 求limaDax2+y2dxdy. a→0+arcsina4+1-a8-1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-j17.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D 是由曲线x4 + y2 + x2y - 1 = 0 围成的有界闭区域, 求函数f x,y= x2 1-x2-y2-x2y在区域 D 上的最小值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-j18.png"
  },

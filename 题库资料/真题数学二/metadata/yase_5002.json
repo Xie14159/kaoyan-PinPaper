@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "设I1 =011-x2xdx,I2 =01cosx1-x2dx,I3 =011-x2sinxdx, 则 A. I1 < I2 < I3.B. I2 < I3 < I1.C. I3 < I1 < I2.D. I2 < I1 < I3.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-x04.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "x3arccosx1-x2 dx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-t13.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设连续函数f x满足f x+1- f x= x2,0 f1xdx = 0, 则1 f2xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-t14.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x在x = 0 处连续, 且limx→0xf xx-e2ln 1+x1+x1x -e+1=- 2e , 证明f x在x = 0 处可导, 并求f 0.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-j18.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设平面区域D =x,yx-2≤y≤4-x2,0≤x≤2, 计算I =Dx2+y2x-ydxdy.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-j20.png"
  },

@@ -289,7 +289,10 @@ class PDFService:
                         f'<img src="data:image/png;base64,{b64}" style="max-width:100%;height:auto;">'
                         f'</div>')
             except Exception as exc:  # noqa: BLE001
-                logger.warning(f"题干图片读取失败 {img}: {exc}")
+                logger.error(f"题干图片读取失败，PDF 中该题只能印文字版 {img}: {exc}")
+                return (PDFService.format_question_stem(q_idx, q.stem)
+                        + '<p class="q-note" style="font-size:10px;color:#b00;">'
+                          '（原卷题干图未能嵌入，公式可能走形，请对照纸质卷）</p>')
         return PDFService.format_question_stem(q_idx, q.stem)
 
     def format_question_stem(q_idx: int, stem_text: str) -> str:

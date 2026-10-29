@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "设曲线f x= ax + b -14 -x2, 在区间0, 12上f x≥0, 则当积分0 f12xdx 最小时() A. a =- 12 ,b = 516B. a =- 12 ,b = 16 C. a =- 13 ,b = 13D. a =- 16 ,b = 13",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5044-x04.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设函数f x,g x满足f x- g x+ 20 fxtdt = 0,gx+ 2f x= 0,且f 0= 1,g 0=-2. (I) 求f x的表达式; (II) 求0+∞f x+g xe-2xdx.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5044-j17.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设区域D =x,y∣x2+y2≤4,y≥0, 证明:4π ≤Dx2+2y2-x2y2+4dxdy ≤4 3π.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5044-j18.png"
  },

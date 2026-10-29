@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "设A =a21a22a23与B =b21b22b23均为正定矩阵, 则下列矩阵中一定为正定矩阵的 a31a32a33b31b32b33 有() 个 a112a123a13 ①A + B,②AB,③AOOB,④2a214a226a23. 3a316a329a33 A. 1B. 2C. 3D. 4 二、填空题.",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-x10.png"
  },
@@ -127,7 +127,7 @@
   "tags": [],
   "stem": "设函数y = f x由参数方程ey+y+x=arctant0y-tcosu2du=cost确定,则d2ydx2 x=0= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-t11.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设f x=0x1+ettdt, 则-1 f1xdx = _____.x",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-t13.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设函数f x在x = 0 处连续且满足limxf0sinxt2dt+lncosx+ x22= 1, 试判断f x在x = 0 处是否可 x→01+x2sin2x-1 导, 如果可导, 求出f 0.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-j17.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D 是由直线x + y = 1,x = 1,y = 1 围成的平面有界区域, 求x23dxdy. Dx+y2 x2+y22",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-j20.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设n 为正整数, 证明: 当0 ≤x ≤n 时, 恒有:x - x33n ≤n0nx1-tnentdt.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-j21.png"
  },

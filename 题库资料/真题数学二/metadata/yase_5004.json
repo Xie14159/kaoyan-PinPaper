@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "已知y1 = xex + e2x 和y2 = xex + e-x 是二阶常系数非齐次线性微分方程的两个解, 则此方程为 A. y- y+ 2y = ex + 2xex.B. y- y- 2y = ex - 2xex. C. y- y+ 2y = e2x - e-x.D. y- y- 2y = xex + e2x.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-x04.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "设D =x,y||x∣≤1,0≤y≤2, 则Dy-x2dσ = A. π2 + 53 .B. π2 + 73 .C. π4 + 53 .D. π4 + 73 .",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-x07.png"
  },
@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "若矩阵A = aijn×n, 对i = 1,2, ⋯,n, 均有aii>aij, 其中aij表示元素aij 的绝对值, β 为任 j≠i 一n 维列向量, 则 A. Ax = 0 有非零解.B. Ax = 0 不一定有非零解. C. Ax = β 不一定有解.D. Ax = β 有唯一解. 二、填空题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-x10.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "已知函数y x由方程0 etydt +0cosxtdt = 0 确定,则d2ydx2 = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-t14.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设α1,α2,α3,α4 是四元非齐次线性方程组Ax = b 的4 个解向量, 且α1 + α2 = 2,4,6,8T, α2 + α3 + α4 = 3,5,7,9T,α1 + 2α2 - α3 = 2,0,0,2T, 若秩r A= 2, 则方程组Ax = b 的通解是_____. 三、解答题.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-t16.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 计算x4+2x2+1x3+1dx.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-j17.png"
  },

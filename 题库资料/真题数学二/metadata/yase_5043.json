@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设f x在-∞,+∞上有定义, 对任意x,y 恒有f x+y= f x+ f y, 又f x在点x = 0 处可 eyex 导, 且f 0= 1, 则f x的极大值为() A. eB. e-1C. 1D. - 1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5043-x05.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设f x,y是连续函数，则0d1x-2 x- 2x-x2fx,ydy = () A.-1d-2y14 y2 f1x,ydx +0 d-1y1- 1-y214 y2fx,ydx B.-2d-1y14 y2 f1x,ydx +-1d0y1+ 1-y214 y2fx,ydx C.- π-arctan 122dθ2cosθ4cotθcscθfrcosθ,rsinθrdr +-arctan 1- π42 dθ2cosθ fsecθrcosθ,rsinθrdr D.- π-arctan22dθ2cosθ4cotθcscθfrcosθ,rsinθrdr +-arctan2d- π4θ2cosθ fsecθrcosθ,rsinθrdr",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5043-x06.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "f x,y= 4x-x22y-y2的极大值为_____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5043-t12.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设连续函数f x满足f x+3- f x=1xueu1du,0 f3xdx = 1, 则1 f4xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5043-t15.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x= ex2x+∞e-t2dt.证明: (I)f x在[0, +∞) 上有界; (II) 方程f x= x 在0,+∞上有且仅有一个实根.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5043-j20.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x,y在D =x,y∣x2+y2≤1上具有连续的偏导数, 且在边界上的取值为0.设对任意的t > 0, 均有f tx,ty= tf x,y且f 0,0= 1. (I) 证明:xf ′x x,y+ yf ′y x,y= f x,y. (II) 计算limε→0+Dεx2+y2f x,ydxdy, 其中Dε=x,y∣ε2≤x2+y2≤1.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5043-j21.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 2a0 设xi 为三维列向量i=1,2,⋯,A =a220是二次型f1 x1= xT1 Ax1 的矩阵, 且二次型fn xn经 00a 可逆线性变换xn = Axn+1 化为二次型fn+1 xn+1n=1,2,⋯. (I) 求a 的值; (II) 求An; 5 (III) 若x =-5, 求f2025 x. 10",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5043-j22.png"
  }

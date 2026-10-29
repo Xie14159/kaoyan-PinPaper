@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "已知I1 =0π2x π-2xtanxdx,I2 =0+∞x3+xlnxdx, 则(). A. I1 收敛, I2 收敛B. I1 收敛, I2 发散C. I1 发散, I2 收敛D. I1 发散, I2 发散",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5029-x03.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设D:x23 + y23 ≤1,x ≥0,y ≥0, I1 =Dtanx-ydσ,I2 =Dtan x2+y2x2+y2dσ,I3 =Dsin x2+y2x2+y2dσ, 则I1,I2,I3 的大小关系为(). A. I1 < I2 < I3B. I2 < I1 < I3C. I2 < I3 < I1D. I1 < I3 < I2",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5029-x06.png"
  },
@@ -127,7 +127,7 @@
   "tags": [],
   "stem": "0100x- xsin2πxdx = _____.([·] 表示取整函数)",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5029-t11.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "已知动点M x,y在xOy 平面上运动方程为x=e2t-t,y=2et(时间单位: 秒; 距离单位: 米), 则该动点 在时间段14 ln2, 14 ln6内的运动路程是_____ 米.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5029-t12.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设区域D =x,y∣x2+y2≤2x,x2+y2≤2y, 则Dx2+sin x-yx2+y2dσ = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5029-t14.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设A 为3 阶矩阵, 非齐次线性方程组Ax = 2,1,0T 的通解为k1ξ1 + k2ξ2 + η*, 其中k1,k2 为任意常 数, ξ1 = 2,1,0T,ξ2 = 1,0,1T,η* = -1,2,1T, 记矩阵B = ξ1,ξ2,η*,β = 1,2,3T, 则(I)Bx = β 的解 为_____,(II)βTAβ = _____. 三、解答题.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5029-t16.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 求f x,y,z= x + 2y2 - 3z 在条件x2 + 2y2 + z2 = 1 下的最值.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5029-j20.png"
  },

@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设Ik =Dk xy2e-x2+x2sin x2+y2dσ,k = 1,2,3, 其中D1:x2 + y2 ≤π2 ,D2:x2 + y2 ≤π,D3:x2 + y2 ≤ 2π,则I1,I2,I3 三者的大小关系为() A. I1 ≤I2 ≤I3B. I3 ≤I2 ≤I1C. I1 ≤I3 ≤I2D. I3 ≤I1 ≤I2",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-x06.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "若A 为三阶实对称阵, b = 3,-6,-3T, 非齐次线性方程组Ax = b 的通解为k1 2,1,0T + k2 1,0,1T + -1,2,1T, 其中k1,k2 为任意常数, 则与矩阵A + E 合同的为() 1-1-1-1 A.1B.-1C.-1D.1 1-111",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-x08.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设A 为3 阶非零矩阵, b 为3 维非零列向量, A2 = O, 则非齐次线性方程组ATAx = ATb 线性无关的解 向量的个数为() A. 1B. 2C. 3D. 4",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-x09.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "已知f ′x x,y+ f x,y= xy, 且f 0,y= y.则f x,y= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-t14.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "函数z = x2 fxy, 其中f 具有连续二阶导数, 且∂2z∂x2 - y2x2∂y2 = 2 y∂2zx ,f 1= 0, 则f x= ____.",
   "options": [],
-  "chapter": "第四章 多元函数微分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-t15.png"
  },

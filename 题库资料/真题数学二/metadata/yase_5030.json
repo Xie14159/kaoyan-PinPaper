@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设α > 1,I1 =0sinα1xdx,I2 =0sin1xαdx,I3 =0tanα1xdx,I4 =0tan1xαdx, 则下列结论正确的是(). A. I1 ≥I2,I3 ≥I4B. I1 ≥I2,I3 ≤I4C. I1 ≤I2,I3 ≥I4D. I1 ≤I2,I3 ≤I4",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第九章 向量",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-x03.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设D =x,y∣x2+y2≤1, 常数a > 1, 则积分I =Da+x5 +xa-y5ydσ 的值(). A. 大于0B. 等于0 C. 小于0D. 符号与a 的取值有关",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-x06.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设A =002014-1-2,Aij 为A中元素aij 的代数余子式, 则i=14j=14Aij= (). 0002 A. 4B. 16C. 32D. 64",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第七章 行列式",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-x09.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设函数z x,y=0 x2+y2-t1f tdt,0 ≤x ≤1,0 ≤y ≤1, 其中函数f t连续且f12= 12 , 则 z′′xy 12 , 12= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-t12.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "积分I =0d1y0y/2e-x2dx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-t13.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "044+x+dx4-x+4= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-t14.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) (I) 设f x,g x均是0,a上的连续函数, 且对任意的x ∈0,a, 恒有f x= f a-x, g x+ g a-x= k(k 为常数).证明0 faxg xdx = k20 faxdx. π (II) 计算0 sin444x ⋅ln 1+tanxdx.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-j18.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 方程ex = mx(m 为常数) 有两个不同的根x1,x2. (I) 求m 的取值范围. (II) 令x1 = tx2 t>1, 证明x2 = lntt-1 . (III) 证明x1x2 < 1. 10a",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-j21.png"
  },

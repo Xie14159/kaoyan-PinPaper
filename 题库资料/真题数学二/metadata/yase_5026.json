@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "已知I1 =0π21+x2sinxdx,I2 =0π21+x2cosxdx,J1 =0ex11-xdx,J2 =0ex12 1-x dx,则(x). A. I1 > I2,J1 > J2B. I1 > I2,J1 < J2C. I1 < I2,J1 > J2D. I1 < I2,J1 < J2",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5026-x04.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设f x是-∞,+∞上的非负连续函数, 且f x⋅0 fxx-tdt = xcos4x, 则f x在0,π上的平 均值为_____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5026-t12.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设向量组:(i)α1 = a,0,1T,α2 = 0,-a,0T,α3 = 1,0,aT；(ii)β1 = a,0,1T,β2 = a,1,1T,β3 = a2,0,aT a≠0. (I) 若向量组(i) 与(ii) 等价, 求a 的值; (II) 记A = α1,α2,α3,B = β1,β2,β3, 当a 为何值时, 存在可逆矩阵P, 使得P-1AP = B, 并求P.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5026-j22.png"
  }

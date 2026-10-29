@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "0d1x011+max x2,y21dy = () A. e2B. ln2C. e3D. ln3",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5039-x06.png"
  },
@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "设3 阶方阵A 为正交实对称矩阵, 且A< 0,α1 = 0, 2+1,-1T 是A 的属于单特征值-1 的特征 向量, A*为A 的伴随矩阵, 若方阵B 满足A*B = AE + A*, 则Bx = 0 的一个基础解系为() 00 A.1B.2+1 2+1-1 0010 C.1,2+1D.0,1 2+1-102+1 二、填空题.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5039-x10.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设g x=4-2ex22ex2,x>0,x≤0, 则-5g5xdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5039-t12.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设单位圆的内接正n 边形与该圆之间部分的面积为An, 则limn→∞n2An = _____.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第一章 函数、极限、连续",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5039-t13.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设y1 = ex - e-xsin2x,y2 = ex 是某二阶常系数非齐次线性方程的两个解, 则该微分方程是____.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5039-t14.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(12 分) 设f x,g x在-a,a上连续, 若f x= f -x,g x+ g -x= m m常数, (1) 证明-a faxg xdx = m2-a faxdx; (2) 计算I =-ππex+1xsinx1+cos2xdx.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5039-j18.png"
  },

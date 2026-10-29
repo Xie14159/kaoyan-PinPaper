@@ -1753,8 +1753,13 @@ if active_module == "🎯 智能拼好卷":
         if _yase_idx_path.exists():
             try:
                 _yase_index = json.loads(_yase_idx_path.read_text(encoding="utf-8"))
-            except Exception:
+            except Exception as _ex:
+                logger.warning("亚瑟索引读取失败 %s: %s", _yase_idx_path, _ex)
+                st.warning("⚠️ 亚瑟50套索引文件损坏，整卷出题暂不可用（逐题练习不受影响）。")
                 _yase_index = []
+        else:
+            logger.warning("亚瑟索引缺失: %s", _yase_idx_path)
+            st.warning("⚠️ 亚瑟50套索引文件缺失，整卷出题暂不可用（逐题练习不受影响）。")
         if _yase_index:
             with st.expander("📚 或:直接做整套亚瑟爱数学精编50套", expanded=False):
                 st.caption("按原书目录顺序(卷一 → 卷五十)选一套直接出整卷(暂无答案解析,可用 AI 名师答疑)。")
@@ -1773,11 +1778,17 @@ if active_module == "🎯 智能拼好卷":
                     )
                 if _ygo:
                     _ypick = _ylabels[_ychoice]
-                    _yprefix = str(5000 + int(_ypick["n"]))
+                    _ynum = int(_ypick.get("n") or 0)
+                    if not (1 <= _ynum <= 50):
+                        st.error(f"⚠️ 卷号异常（{_ynum}），请在 _yase_index.json 中核对。")
+                        st.stop()
+                    _yprefix = str(5000 + _ynum)
                     _ypaper_qs = sorted(
                         [q for q in _yase_qs if q.id.split("-")[0] == _yprefix],
                         key=lambda q: parse_qid_tuple(q.id),
                     )
+                    if _ypaper_qs and len(_ypaper_qs) != 22:
+                        st.warning(f"⚠️ 亚瑟第{_ynum}套应有 22 题，实际 {len(_ypaper_qs)} 题，题库可能不完整。")
                     if _ypaper_qs:
                         paper = PaperItem(
                             title=f"亚瑟第{_ypick['n']}套 · {_ypick['title']}",

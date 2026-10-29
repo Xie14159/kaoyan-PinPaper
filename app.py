@@ -1746,6 +1746,53 @@ if active_module == "🎯 智能拼好卷":
                             state_mgr.set_last_papers([[q.id for q in _paper_qs]])
                             st.rerun()
 
+    _yase_qs = [q for q in raw_questions if getattr(q, "book", "") == "亚瑟50套"]
+    if _yase_qs:
+        _yase_idx_path = Path(__file__).resolve().parent / "题库资料" / "真题数学二" / "metadata" / "_yase_index.json"
+        _yase_index = []
+        if _yase_idx_path.exists():
+            try:
+                _yase_index = json.loads(_yase_idx_path.read_text(encoding="utf-8"))
+            except Exception:
+                _yase_index = []
+        if _yase_index:
+            with st.expander("📚 或:直接做整套亚瑟爱数学精编50套", expanded=False):
+                st.caption("按原书目录顺序(卷一 → 卷五十)选一套直接出整卷(暂无答案解析,可用 AI 名师答疑)。")
+                _ylabels = {f"卷{r['n']} · {r['title']}": r for r in _yase_index}
+                _yc1, _yc2 = st.columns([3, 1])
+                with _yc1:
+                    _ychoice = st.selectbox(
+                        "选择卷", list(_ylabels), index=0,
+                        key=f"p1_yase_sel_{current_subject.value}",
+                        label_visibility="collapsed",
+                    )
+                with _yc2:
+                    _ygo = st.button(
+                        "📄 出这套卷", use_container_width=True,
+                        key=f"p1_yase_btn_{current_subject.value}",
+                    )
+                if _ygo:
+                    _ypick = _ylabels[_ychoice]
+                    _yprefix = str(5000 + int(_ypick["n"]))
+                    _ypaper_qs = sorted(
+                        [q for q in _yase_qs if q.id.split("-")[0] == _yprefix],
+                        key=lambda q: parse_qid_tuple(q.id),
+                    )
+                    if _ypaper_qs:
+                        paper = PaperItem(
+                            title=f"亚瑟第{_ypick['n']}套 · {_ypick['title']}",
+                            paper_id=f"亚瑟-{current_subject.value}-{_ypick['n']}",
+                            subject=current_subject,
+                            mode=PaperMode.FULL_10_6_6,
+                            questions=_ypaper_qs,
+                            target_chapters={q.chapter for q in _ypaper_qs},
+                        )
+                        st.session_state.current_paper_p1 = paper
+                        st.session_state.current_bundle_p1 = None
+                        state_mgr.record_paper_generation(_ypaper_qs)
+                        state_mgr.set_last_papers([[q.id for q in _ypaper_qs]])
+                        st.rerun()
+
     # 仅在点击生成按钮时触发组卷
     if start_assemble:
         with st.spinner(f"⚡ 正在为您智能组装试卷..."):

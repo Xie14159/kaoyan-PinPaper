@@ -308,6 +308,26 @@ st.markdown(
 #     fixed 元素渲染不稳定，原生 metric 组件任何浏览器 100% 可见）
 st.sidebar.metric(_CD_MAIN, _CD_NUM)
 
+# 1.7 滚动性能：主区域内离屏元素跳过布局与绘制
+#     题库一页 25 道题 ≈ 1 万个 DOM 节点、8500px 高，滚动时浏览器仍要为屏外内容
+#     做布局/绘制的准备工作。content-visibility:auto 让屏外容器直接跳过这一步，
+#     配合 contain-intrinsic-size 预留占位高度，避免滚动条长度跳动。
+#     侧栏与页头保持原样（那里有固定定位与自动测量高度的组件）。
+st.markdown(
+    """
+<style>
+/* 卡片渲染隔离：让每张题卡的布局与绘制局限在自己盒子内，
+   滚动时浏览器不必为整页重排/重绘（不影响盒子尺寸，不会造成滚动条跳动）。
+   content-visibility 虽然也能跳帧渲染，但需要猜 contain-intrinsic-size，
+   猜小了会滚动跳动、猜大了会把滚动条拉长，实测收益不稳定，故不采用。 */
+[data-testid="stMain"] [data-testid="stVerticalBlockBorderWrapper"] {
+    contain: layout paint;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
 # 2. Global Singletons & Data Loader
 # =========================================================================
 @st.cache_resource(show_spinner="⚡ 正在初始化 880 题库与知识图谱引擎...")

@@ -316,11 +316,12 @@ st.sidebar.metric(_CD_MAIN, _CD_NUM)
 st.markdown(
     """
 <style>
-/* 卡片渲染隔离：让每张题卡的布局与绘制局限在自己盒子内，
-   滚动时浏览器不必为整页重排/重绘（不改变盒子尺寸，不会造成滚动条跳动）。
-   只命中带 st-key-qcard-/st-key-dcard- 的卡片容器，不碰其它布局元素。
-   content-visibility 虽然也能跳过屏外渲染，但需要猜 contain-intrinsic-size：
-   猜小了滚动会跳、猜大了滚动条被拉长，实测收益也不稳定，故不采用。 */
+/* 卡片渲染隔离：把每张卡的布局与绘制限制在自己盒子内，滚动时浏览器
+   不必为整页重算；不改变盒子尺寸，滚动条长度稳定。
+   实测对比（题库 25 卡、4x CPU 节流 260 帧）：
+   - contain: layout paint  → max 16.8ms，>50ms 帧 0
+   - content-visibility:auto → 首次进入视口要现算布局，出现 1 帧 83ms，且预估高度
+     让总高从 8554 涨到 9582（滚动条变长），故不采用。 */
 [class*="st-key-qcard-"], [class*="st-key-dcard-"] {
     contain: layout paint;
 }

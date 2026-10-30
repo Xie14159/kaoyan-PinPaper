@@ -111,7 +111,7 @@ def _start_bg_probe(skey: str, api_key: str, base_url: str, model: str, force: b
     ).start()
 
 
-@st.fragment(run_every=5.0)
+@st.fragment(run_every=30.0)
 def render_health_panel(_targets) -> None:
     """API 状态面板：轮询后台探测结果，探测完成自动刷新；重检走后台不阻塞。"""
     for _label, _k, _b, _m in _targets:
@@ -153,7 +153,8 @@ def render_question_stem(q) -> None:
         # 走静态文件 URL:浏览器自己缓存,不再让 Streamlit 每帧把图片解码+编码后
         # 通过 websocket 重发(22 题一次 rerun 曾要 268ms+ 且随题量线性增长)。
         st.markdown(
-            f'<img src="{img}" style="width:100%;height:auto;display:block;margin:2px 0 6px;">',
+            f'<img src="{img}" loading="lazy" decoding="async"'
+            ' style="width:100%;height:auto;display:block;margin:2px 0 6px;">',
             unsafe_allow_html=True,
         )
         return
@@ -322,6 +323,28 @@ def _cached_questions(subject_value: str) -> tuple:
     题库为静态文件；新增/更新题库后重启服务即刷新缓存。返回 tuple 只读引用，安全。"""
     _ld = get_bank_loader(SubjectType(subject_value))
     return tuple(_ld.load())
+
+
+_IDS_CACHE: dict[tuple, frozenset] = {}
+
+
+def _ids_of(seq) -> frozenset:
+    """题库题号集合（按内容指纹缓存）。
+
+    一屏渲染里有多处 `{q.id for q in ...}`（到期统计、导入校验、重练范围等），
+    每次全量 rerun 都要重新遍历 5000+ 题；题号集合在进程内是不变的，
+    用「长度 + 首尾题号」作指纹做一层缓存，避免重复构造。
+    """
+    if not seq:
+        return frozenset()
+    key = (len(seq), seq[0].id, seq[-1].id)
+    hit = _IDS_CACHE.get(key)
+    if hit is None:
+        hit = frozenset(q.id for q in seq)
+        if len(_IDS_CACHE) > 32:      # 防极端情况下无限增长（题库正常只有 1–2 份）
+            _IDS_CACHE.clear()
+        _IDS_CACHE[key] = hit
+    return hit
 
 
 
@@ -1214,7 +1237,7 @@ with st.sidebar:
         _was_due = _is_due_today(rec)
         state_mgr.mark_solved_correctly(qid)
         if _was_due:
-            _left = state_mgr.get_due_wrong_count(valid_ids={q.id for q in _pic_all})
+            _left = state_mgr.get_due_wrong_count(valid_ids=_ids_of(_pic_all))
             st.toast(f"✅ 已移入历史错题，今日到期剩余 {_left} 题")
         else:
             st.toast("✅ 已移入历史错题")
@@ -1254,11 +1277,11 @@ with st.sidebar:
         value=f"{_pic_stubborn_count} 题",
     )
 
-    @st.fragment(run_every=5.0)
+    @st.fragment(run_every=30.0)
     def _render_due_metric():
         # 每 5 秒自动重算"今日到期"数：做完一题(无论做对/做错)该题被推到明天或更久，
         # 不再属于今日到期 → 数字自动减 1；跳过/没做只把 next_review_at 拉回今天，数字不变。
-        _due_now = state_mgr.get_due_wrong_count(valid_ids={q.id for q in _pic_all})
+        _due_now = state_mgr.get_due_wrong_count(valid_ids=_ids_of(_pic_all))
         st.metric(
             label="⏰ 今日到期（艾宾浩斯）",
             value=f"{_due_now} 题",
@@ -2431,7 +2454,7 @@ elif active_module == "🏷️ 题库逐题标错":
             if st.button("📤 确认导入", type="primary", use_container_width=True, key=f"p2_import_btn_{current_subject.value}"):
                 try:
                     raw = uploaded_backup.getvalue().decode("utf-8")
-                    valid_ids = {q.id for q in raw_questions}
+                    valid_ids = _ids_of(raw_questions)
                     imported, skipped = state_mgr.import_wrong_questions_json(raw, valid_ids=valid_ids, merge=import_merge)
                     msg = f"✓ 成功导入 {imported} 道错题！"
                     if skipped:
@@ -2850,7 +2873,7 @@ elif active_module == "📕 我的错题本":
             was_due = _is_due_today(rec, _td)
             _prev_next = rec.next_review_at
             def _due_left() -> int:
-                return state_mgr.get_due_wrong_count(valid_ids={q.id for q in _pic_all})
+                return state_mgr.get_due_wrong_count(valid_ids=_ids_of(_pic_all))
             if correct:
                 _ok = state_mgr.record_review_result(qid, correct=True)
                 nxt = state_mgr.wrong_questions.get(qid)

@@ -317,12 +317,18 @@ def get_bank_loader(subject: SubjectType = SubjectType.MATH_1) -> BankLoader:
     return loader
 
 
+_BANK_GEN = 0          # 每成功载入一份题库 +1，用于给派生缓存打"代"标记
+
+
 @functools.lru_cache(maxsize=16)
 def _cached_questions(subject_value: str) -> tuple:
     """缓存 BankLoader.load() 结果：全量 rerun 时侧边栏不再每次重新解析题库 JSON（~227ms）。
     题库为静态文件；新增/更新题库后重启服务即刷新缓存。返回 tuple 只读引用，安全。"""
+    global _BANK_GEN
     _ld = get_bank_loader(SubjectType(subject_value))
-    return tuple(_ld.load())
+    _qs = tuple(_ld.load())
+    _BANK_GEN += 1
+    return _qs
 
 
 _IDS_CACHE: dict[tuple, frozenset] = {}
@@ -337,7 +343,9 @@ def _ids_of(seq) -> frozenset:
     """
     if not seq:
         return frozenset()
-    key = (len(seq), seq[0].id, seq[-1].id)
+    # 指纹 = 题库代号 + 长度 + 首尾题号。代号在每次 BankLoader.load() 后自增，
+    # 因此"题库被换掉但长度与首尾恰好相同"这种极端情况也会立刻失效重建。
+    key = (_BANK_GEN, len(seq), seq[0].id, seq[-1].id)
     hit = _IDS_CACHE.get(key)
     if hit is None:
         hit = frozenset(q.id for q in seq)

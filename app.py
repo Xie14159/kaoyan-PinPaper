@@ -317,10 +317,11 @@ st.markdown(
     """
 <style>
 /* 卡片渲染隔离：让每张题卡的布局与绘制局限在自己盒子内，
-   滚动时浏览器不必为整页重排/重绘（不影响盒子尺寸，不会造成滚动条跳动）。
-   content-visibility 虽然也能跳帧渲染，但需要猜 contain-intrinsic-size，
-   猜小了会滚动跳动、猜大了会把滚动条拉长，实测收益不稳定，故不采用。 */
-[data-testid="stMain"] [data-testid="stVerticalBlockBorderWrapper"] {
+   滚动时浏览器不必为整页重排/重绘（不改变盒子尺寸，不会造成滚动条跳动）。
+   只命中带 st-key-qcard-/st-key-dcard- 的卡片容器，不碰其它布局元素。
+   content-visibility 虽然也能跳过屏外渲染，但需要猜 contain-intrinsic-size：
+   猜小了滚动会跳、猜大了滚动条被拉长，实测收益也不稳定，故不采用。 */
+[class*="st-key-qcard-"], [class*="st-key-dcard-"] {
     contain: layout paint;
 }
 </style>
@@ -2565,7 +2566,7 @@ elif active_module == "🏷️ 题库逐题标错":
                 w_cnt = state_mgr.get_wrong_count(q.id)
                 diff_cls = "badge-basic" if q.difficulty == DifficultyLevel.BASIC else ("badge-adv" if q.difficulty == DifficultyLevel.ADVANCED else "badge-comp")
 
-                with st.container(border=True):
+                with st.container(border=True, key=f"qcard-{q.id}"):
                     # Header Row with integrated top-right toggle & count buttons
                     if is_active:
                         th1, th2, th3 = st.columns([3.8, 1.4, 0.6])
@@ -3350,7 +3351,7 @@ elif active_module == "📅 每日错题":
             for _i2, _qid2 in enumerate(_eb_view, (_eb_page - 1) * _eb_page_size + 1):
                 _q2 = _q_by_id2[_qid2]
                 _r2 = state_mgr.wrong_questions.get(_qid2)
-                with st.container(border=True):
+                with st.container(border=True, key=f"dcard-{_qid2}"):
                     _head2 = (
                         f'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">'
                         f'<span style="font-weight:800;font-size:15px;">{_i2}.</span>'

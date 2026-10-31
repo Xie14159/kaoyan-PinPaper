@@ -3365,17 +3365,18 @@ elif active_module == "📅 每日错题":
                         _oc1, _oc2 = st.columns(2)
                         for _oi, _opt in enumerate(_q2.options):
                             (_oc1 if _oi % 2 == 0 else _oc2).markdown(_opt)
-                    with st.expander("📖 查看答案与解析", expanded=True):  # 2026-10-31 默认展开，省去逐题点击
-                        if _q2.answer:
-                            st.markdown(f"**【参考答案】**：`{_q2.answer}`")
-                        if _q2.solution:
-                            st.markdown(f"**【详细解析】**：\\n{_q2.solution}")
-                        else:
+                    if _q2.answer:                                                            # 2026-10-31 参考答案常驻显示
+                        st.markdown(f"**【参考答案】**：`{_q2.answer}`")
+                    else:
+                        _h880 = ans880_page_hint(_q2)
+                        if _h880:
+                            st.caption(_h880)
+                    if _q2.solution:
+                        with st.expander("📖 查看详细解析", expanded=False):                   # 解析默认折叠，避免页面过长
+                            st.markdown(f"**【详细解析】**：\n{_q2.solution}")
+                    elif _q2.answer:
+                        with st.expander("📖 查看详细解析", expanded=False):
                             st.caption("（暂无解析，下载详细解析版 PDF 时由 AI 名师补全）")
-                        if not _q2.answer:
-                            _h880 = ans880_page_hint(_q2)
-                            if _h880:
-                                st.caption(_h880)
                     _ec1, _ec2, _ec3 = st.columns(3)
                     with _ec1:
                         st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True,

@@ -3365,7 +3365,7 @@ elif active_module == "📅 每日错题":
                         _oc1, _oc2 = st.columns(2)
                         for _oi, _opt in enumerate(_q2.options):
                             (_oc1 if _oi % 2 == 0 else _oc2).markdown(_opt)
-                    with st.expander("📖 查看答案与解析"):
+                    with st.expander("📖 查看答案与解析", expanded=True):  # 2026-10-31 默认展开，省去逐题点击
                         if _q2.answer:
                             st.markdown(f"**【参考答案】**：`{_q2.answer}`")
                         if _q2.solution:

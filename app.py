@@ -1558,6 +1558,54 @@ active_module = st.segmented_control(
 # -------------------------------------------------------------------------
 # WORKSPACE 1: 智能拼好卷大厅 (核心组卷与刷题，默认以错题组卷)
 # -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# 章节归一：题库里混着「第15章 微分方程」「第8章 相似理论」
+# 「第12章 一元函数积分学的应用(三)--物理应用」等旧命名，统一并到李林 880 的十二章。
+# 关键词顺序敏感：二次型/相似要先于矩阵，积分学要先于微分学。
+# -------------------------------------------------------------------------
+_CH12_ORDER = [
+    ("二次型", "第十二章 二次型"),
+    ("相似", "第十一章 相似矩阵"),
+    ("线性方程组", "第十章 线性方程组"),
+    ("行列式", "第七章 行列式"),
+    ("向量", "第九章 向量"),
+    ("矩阵", "第八章 矩阵"),
+    ("微分方程", "第六章 微分方程及其应用"),
+    ("二重积分", "第五章 二重积分"),
+    ("多元函数", "第四章 多元函数微分学及其应用"),
+    ("积分学", "第三章 一元函数积分学及其应用"),
+    ("积分", "第三章 一元函数积分学及其应用"),
+    ("微分学", "第二章 一元函数微分学及其应用"),
+    ("导数", "第二章 一元函数微分学及其应用"),
+    ("极限", "第一章 函数、极限、连续"),
+    ("连续", "第一章 函数、极限、连续"),
+]
+_CH12_ALL = [
+    "第一章 函数、极限、连续",
+    "第二章 一元函数微分学及其应用",
+    "第三章 一元函数积分学及其应用",
+    "第四章 多元函数微分学及其应用",
+    "第五章 二重积分",
+    "第六章 微分方程及其应用",
+    "第七章 行列式",
+    "第八章 矩阵",
+    "第九章 向量",
+    "第十章 线性方程组",
+    "第十一章 相似矩阵",
+    "第十二章 二次型",
+]
+
+
+def _norm_ch12(raw) -> str:
+    _t = str(raw or "").strip()
+    if not _t:
+        return "未分类"
+    for _kw, _std in _CH12_ORDER:
+        if _kw in _t:
+            return _std
+    return _t
+
+
 if active_module == "🎯 智能拼好卷":
     # 从本地文件恢复拼卷配置：每次渲染都 setdefault 注入文件值。
     # setdefault 只在 key 缺失时写入，不覆盖用户本次已调整的值；
@@ -2645,7 +2693,7 @@ elif active_module == "🏷️ 题库逐题标错":
                         if q.answer: st.markdown(f"**【参考答案】**：`{q.answer}`")
                         if q.solution: st.markdown(f"**【详细解析】**：\n{q.solution}")
                         if not q.answer:
-                            _h880 = ans880_page_hint(q)
+                            _h880 = ans880_page_hint(q, with_answer=False)
                             if _h880:
                                 st.caption(_h880)
 
@@ -2744,8 +2792,10 @@ elif active_module == "📕 我的错题本":
                 "状态", ["全部", "🎯 待练", "🔥 顽固", "🏆 历史"], index=0,
                 key=f"wb_status_{current_subject.value}")
         with f2:
-            wb_chs = ["全部"] + sorted({q.chapter for q in wb_all}, key=lambda c: parse_chapter_number(c))
-            wb_ch_pick = st.selectbox("章节", wb_chs, index=0, key=f"wb_ch_{current_subject.value}")
+            wb_chs = ["全部"] + _CH12_ALL
+            wb_ch_pick = st.selectbox(
+                "章节（按李林 880 十二章）", wb_chs, index=0,
+                key=f"wb_ch_{current_subject.value}")
         with f3:
             wb_type_pick = st.selectbox(
                 "题型", ["全部", "选择题", "填空题", "解答题"], index=0,
@@ -2808,7 +2858,7 @@ elif active_module == "📕 我的错题本":
                 return False
             if wb_status_pick == "🏆 历史" and not state_mgr.is_temporarily_mastered(q.id):
                 return False
-            if wb_ch_pick != "全部" and q.chapter != wb_ch_pick:
+            if wb_ch_pick != "全部" and _norm_ch12(q.chapter) != wb_ch_pick:
                 return False
             if wb_type_pick != "全部" and _wb_type_text(q) != wb_type_pick:
                 return False
@@ -3174,7 +3224,7 @@ elif active_module == "📕 我的错题本":
                     continue
                 _room = max(0, _wb_budget - _wb_rendered)
                 _show_qs = _gqs[:_room]
-                with st.expander(f"{_gname}", expanded=False, key=f"wb_grp_{current_subject.value}_{_gname}"):
+                with st.expander(f"{_gname}", expanded=True, key=f"wb_grp_{current_subject.value}_{_gname}"):
                     for q in _show_qs:
                         _wb_render_card(q)
                         _wb_rendered += 1

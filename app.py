@@ -3622,6 +3622,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _rv_done_now = {
                 k for k, v in st.session_state.get("rv_done", {}).items() if v == _rv_today_in
             }
+            _ch_norm = _ch_key.split("（")[0].split(". ", 1)[-1].strip()
+            _pg_key = f"rv_page_{_ch_norm}_{_rv_today_in}"  # 与分页段落共用，判分后要把页码拨回第一页
             _z_ids = [i for i in _z_in if i not in _rv_done_now]
             _o_ids = [i for i in _o_in if i not in _rv_done_now]
             _rv_flash = st.session_state.pop("rv_flash", None)
@@ -3650,6 +3652,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     else:
                         st.session_state["rv_flash"] = ("wrong", "今日已记录过此题，未重复计入")
                 # 判完即从本页列表撤下：同一道题今天不再出现
+                # 判分后回到第一页：不然在第 3 页做完最后几道、页数变 2 时会停在「第 2 页」
+                st.session_state[_pg_key] = 0
                 st.session_state.setdefault("rv_done", {})[_qid] = state_mgr._today().isoformat()
                 st.rerun(scope="fragment")
 
@@ -3714,8 +3718,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             else:
                 _pg_size = 8
                 _pages = max(1, (len(_rv_seq) + _pg_size - 1) // _pg_size)
-                _ch_key = _ch_key.split("（")[0].split(". ", 1)[-1].strip()
-                _pg_key = f"rv_page_{_ch_key}_{_rv_today_in}"
+                _ch_key = _ch_norm
                 _pg = int(st.session_state.get(_pg_key, 0) or 0)
                 _pg = max(0, min(_pg, _pages - 1))
                 st.session_state[_pg_key] = _pg

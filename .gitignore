@@ -87,3 +87,9 @@ user_data/*.corrupt.*
 logs/
 _*.txt
 _verify_*.py
+
+# 贾基85套卷已停用（用户改用亚瑟50套），归档目录不入库
+题库资料/_archive_jiaji/
+.archive_jiaji_figs/
+.draft/kp_batches/
+.draft/kp_all/

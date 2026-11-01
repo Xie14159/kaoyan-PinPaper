@@ -434,6 +434,23 @@ class StateManager:
             )
             self.save_state()
 
+    def set_error_tag(self, question_id: str, tag: str) -> bool:
+        """改正某题的错因标签（只改这一个字段，不动复习进度）。
+
+        错因决定每日错题的优先权重（TAG_PRIORITY）；早期批量导入时全部默认成
+        「概念模糊」，等于权重失效，所以需要一个能逐题改的入口。
+        返回是否真的发生了变化。
+        """
+        tag = (tag or "").strip()
+        if tag not in self.TAG_PRIORITY:
+            return False
+        rec = self.wrong_questions.get(question_id)
+        if rec is None or rec.error_tag == tag:
+            return False
+        rec.error_tag = tag
+        self.save_state()
+        return True
+
     def reactivate_to_pool(self, question_id: str) -> None:
         """历史错题"放回待练"：重新纳入艾宾浩斯复习。
 

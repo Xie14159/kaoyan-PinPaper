@@ -2942,6 +2942,14 @@ elif active_module == "📕 我的错题本":
         if wb_mode and len(shown) > 60:
             st.caption(f"⚠️ 当前筛选 {len(shown)} 道较多，建议先按章节/题型缩小范围")
 
+        # 错因标签：默认全是「概念模糊」，权重等于失效；打开开关后可逐题改（关闭时不渲染控件，避免拖慢）
+        wb_tag_edit = st.toggle(
+            "🏷️ 编辑错因",
+            value=False,
+            key=f"wb_tagedit_{current_subject.value}",
+            help="错因决定每日错题的优先权重：方法不会 20 / 概念模糊 15 / 审题错误 10 / 计算失误 8 / 其他 0",
+        )
+
         # 卡片分批渲染：默认 40 道，防止一次画几百张卡；表格模式不分批。
         _wb_limit_key = f"wb_view_limit_{current_subject.value}"
         if _wb_limit_key not in st.session_state:
@@ -3098,6 +3106,7 @@ elif active_module == "📕 我的错题本":
         def render_wrongbook_cards():
             # 消费上次操作反馈（rerun 后显示，避免丢 toast）
             _flash = st.session_state.pop("wb_flash", None)
+            _fb = st.session_state.pop("wb_feedback", None)   # 常驻横幅：必须无条件取出，否则无 flash 时会 NameError
             if _flash:
                 _fk, _fmsg = _flash
                 if _fk == "ok":
@@ -3108,7 +3117,6 @@ elif active_module == "📕 我的错题本":
                     st.toast(f"✓ {_fmsg}")
                 else:
                     st.toast(f"⚠️ {_fmsg}")
-                _fb = st.session_state.pop("wb_feedback", None)
             if _fb:
                 _bits = [f"**{_fb['qid']}**", ("做对了" if _fb["ok"] else "又错了一次")]
                 if _fb.get("stage") is not None:
@@ -3230,6 +3238,24 @@ elif active_module == "📕 我的错题本":
                         with b1:
                             st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
                                       help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
+
+                    if wb_tag_edit:
+                        _tags = list(state_mgr.TAG_PRIORITY.keys())
+                        _cur_tag = getattr(state_mgr.wrong_questions.get(q.id), "error_tag", "概念模糊")
+                        _tk = f"wbtag_{q.id}"
+                        if st.session_state.get(_tk) not in _tags:
+                            st.session_state[_tk] = _cur_tag if _cur_tag in _tags else _tags[0]
+
+                        def _apply_tag(_qid=q.id, _key=_tk):
+                            state_mgr.set_error_tag(_qid, st.session_state.get(_key, ""))
+
+                        st.selectbox(
+                            "错因（决定每日错题优先权重）",
+                            _tags,
+                            key=_tk,
+                            on_change=_apply_tag,
+                            help="方法不会=最该重做；计算失误=只需重算一遍；其他=不影响权重",
+                        )
 
 
             # ---------- 分组 ----------
@@ -3638,6 +3664,9 @@ elif active_module == "📅 每日错题":
                         _oc1, _oc2 = st.columns(2)
                         for _oi, _opt in enumerate(_q2.options):
                             (_oc1 if _oi % 2 == 0 else _oc2).markdown(_opt)
+                    if not _q2.options:                                  # 综合题/填空题：给个草稿框，只看不判分
+                        st.text_area("✍️ 草稿（不判分，只给你自己看）", key=f"eb_draft_{current_subject.value}_{_qid2}",
+                                     height=130, placeholder="在这里写思路/步骤，切走不丢；判分仍用下面三个按钮。")
                     if _q2.answer:                                                            # 2026-10-31 参考答案常驻显示
                         st.markdown(f"**【参考答案】**：`{_q2.answer}`")
                     else:
@@ -3941,6 +3970,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         _roc1, _roc2 = st.columns(2)
                         for _roi, _ropt in enumerate(_q3.options):
                             (_roc1 if _roi % 2 == 0 else _roc2).markdown(_ropt)
+                    if not _q3.options:
+                        st.text_area("✍️ 草稿（不判分，只给你自己看）", key=f"rv_draft_{current_subject.value}_{_qid}",
+                                     height=130, placeholder="在这里写思路/步骤，切走不丢；判分仍用下面的按钮。")
                     if _q3.answer:
                         st.markdown(f"**【参考答案】**：`{_q3.answer}`")
                     else:

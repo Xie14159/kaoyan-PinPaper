@@ -1549,7 +1549,7 @@ st.markdown(
 st.session_state.setdefault("active_ws", "🎯 智能拼好卷")
 active_module = st.segmented_control(
     "模块导航",
-    options=["🎯 智能拼好卷", "🏷️ 题库逐题标错", "📕 我的错题本", "📈 全科考点雷达", "📅 每日错题"],
+    options=["🎯 智能拼好卷", "🏷️ 题库逐题标错", "📕 我的错题本", "📈 全科考点雷达", "📅 每日错题", "🧭 复盘 · 薄弱章节"],
     key="active_ws",
     label_visibility="collapsed",
 ) or "🎯 智能拼好卷"  # 点击已选中项可能返回 None，兜底回默认模块，防页面空白
@@ -3390,6 +3390,187 @@ elif active_module == "📅 每日错题":
                                   on_click=_eb_skip, args=(_qid2,))
 
         render_eb_cards()
+elif active_module == "🧭 复盘 · 薄弱章节":
+    st.markdown("### 🧭 复盘 · 按薄弱章节专项练")
+    st.caption("按真题错题的分布排轻重：真题错得越多的章节排越前。先练该章的真题错题，再补同章节其它书的错题；在这里判分同样写入艾宾浩斯曲线，和「每日错题」共用一套进度。")
+
+    _q_by_id3 = {q.id: q for q in raw_questions}
+
+    _RV_CH_ORDER = [
+        ("二次型", "第十二章 二次型"),
+        ("相似理论", "第十一章 相似矩阵"),
+        ("相似矩阵", "第十一章 相似矩阵"),
+        ("线性方程组", "第十章 线性方程组"),
+        ("行列式", "第七章 行列式"),
+        ("向量", "第九章 向量"),
+        ("矩阵", "第八章 矩阵"),
+        ("微分方程", "第六章 微分方程及其应用"),
+        ("二重积分", "第五章 二重积分"),
+        ("多元函数", "第四章 多元函数微分学及其应用"),
+        ("积分学", "第三章 一元函数积分学及其应用"),
+        ("微分学", "第二章 一元函数微分学及其应用"),
+        ("极限", "第一章 函数、极限、连续"),
+        ("连续", "第一章 函数、极限、连续"),
+    ]
+
+    def _rv_norm_chapter(_raw) -> str:
+        """把不同书里同一考点的粗糙章名并到标准 12 章。
+
+        题库里混着「第15章 微分方程」「第12章 一元函数积分学的应用(三)--物理应用」
+        这类旧命名，不归一化会把同一考点拆成多行、排行榜失真。
+        规则按关键词顺序匹配（相似矩阵要先于矩阵、二次型要先于矩阵），命中即返回标准名。
+        """
+        _t = str(_raw or "").strip()
+        if not _t:
+            return "未分类"
+        for _kw, _std in _RV_CH_ORDER:
+            if _kw in _t:
+                return _std
+        return _t
+
+    def _rv_is_zhenti(_q) -> bool:
+        # 真题判定优先看 year（真题有年份、其它书为空），比匹配书名稳，书名带空格/改版本号都不会漏
+        if str(getattr(_q, "year", "") or "").strip():
+            return True
+        return str(getattr(_q, "book", "") or "").startswith("真题")
+
+    _rv_stats = {}
+    _rv_total = 0
+    for _qid3 in list(state_mgr.wrong_questions.keys()):
+        if not state_mgr.is_in_active_pool(_qid3):   # 已归档/已掌握的题不再进复盘池
+            continue
+        _q3 = _q_by_id3.get(_qid3)
+        if _q3 is None:
+            continue
+        _rv_total += 1
+        _ch3 = _rv_norm_chapter(_q3.chapter)
+        _bucket3 = _rv_stats.setdefault(_ch3, {"z": [], "o": []})
+        (_bucket3["z"] if _rv_is_zhenti(_q3) else _bucket3["o"]).append(_qid3)
+
+    if not _rv_stats:
+        st.info("错题池现在是空的 —— 先去「🎯 智能拼好卷」或「📅 每日错题」做题，做错的题会自动汇到这里。")
+    else:
+        _rv_z_total = sum(len(_v3["z"]) for _v3 in _rv_stats.values())
+        # 排序：真题错题数 desc → 总错题数 desc → 章节名，保证"真题错得多"的章节一定在上
+        _rv_rank = sorted(
+            _rv_stats.items(),
+            key=lambda kv: (-len(kv[1]["z"]), -(len(kv[1]["z"]) + len(kv[1]["o"])), kv[0]),
+        )
+        _rc1, _rc2, _rc3, _rc4 = st.columns(4)
+        _rc1.metric("错题池", f"{_rv_total} 题")
+        _rc2.metric("其中真题", f"{_rv_z_total} 题")
+        _rc3.metric("涉及章节", f"{len(_rv_stats)} 个")
+        _rc4.metric("最薄弱", _rv_rank[0][0].split(" ", 1)[-1])
+
+        st.markdown("**章节排行**（按真题错题数；占比 = 该章真题错题 ÷ 全部真题错题）")
+        _rv_rows = []
+        for _ri3, (_rch3, _rv3) in enumerate(_rv_rank, 1):
+            _rz3, _ro3 = len(_rv3["z"]), len(_rv3["o"])
+            _rpct3 = (_rz3 / _rv_z_total * 100.0) if _rv_z_total else 0.0
+            _rbar3 = "█" * max(1, round(_rpct3 / 5.0)) if _rz3 else "—"
+            _rv_rows.append(f"| {_ri3} | {_rch3} | {_rz3} | {_rpct3:.1f}% | {_ro3} | {_rbar3} |")
+        st.markdown(
+            "| # | 章节 | 真题错 | 占比 | 其它书错 | 强度 |\n"
+            "|---|---|---|---|---|---|\n" + "\n".join(_rv_rows)
+        )
+
+        _rv_labels = [
+            f"{_ri3}. {_rch3}（真题 {len(_rv3['z'])} / 其它 {len(_rv3['o'])}）"
+            for _ri3, (_rch3, _rv3) in enumerate(_rv_rank, 1)
+        ]
+        _rv_pick = st.selectbox(
+            "选择章节（选定后下面出该章卡片）",
+            _rv_labels,
+            key=f"rv_chapter_{current_subject.value}",
+        )
+        _rv_sel = _rv_rank[_rv_labels.index(_rv_pick)][1]
+        _rv_z_ids, _rv_o_ids = list(_rv_sel["z"]), list(_rv_sel["o"])
+        _RV_Z_CAP, _RV_O_CAP = 8, 3   # 真题最多 8 道、其它书最多 3 道，避免一屏塞太满
+
+        @st.fragment()
+        def render_rv_cards(_z_ids, _o_ids) -> None:
+            _rv_flash = st.session_state.pop("rv_flash", None)
+            if _rv_flash:
+                _rv_kind, _rv_msg = _rv_flash
+                st.toast(_rv_msg, icon="✅" if _rv_kind == "ok" else "❌")
+
+            def _rv_grade(_qid, _ok: bool) -> None:
+                _rec = state_mgr.wrong_questions.get(_qid)
+                _was_due = _is_due_today(_rec, state_mgr._today()) if _rec else False
+                if _ok:
+                    _changed = state_mgr.record_review_result(_qid, correct=True)
+                    _left = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions))  # 不依赖侧栏的 _pic_all，fragment 单独降级也安全
+                    if _changed:
+                        st.session_state["rv_flash"] = (
+                            "ok",
+                            f"已完成，今日到期剩余 {_left} 题" if _was_due else "已记录，复习间隔已推进",
+                        )
+                    else:
+                        st.session_state["rv_flash"] = ("ok", "今日已记录过此题，未重复计入")
+                else:
+                    _before = _rec.wrong_count if _rec else 0
+                    _cnt = state_mgr.increment_wrong_count(_qid)
+                    if (_cnt or 0) > _before:
+                        st.session_state["rv_flash"] = ("wrong", "已记录（明日再练），复习阶段已回退")
+                    else:
+                        st.session_state["rv_flash"] = ("wrong", "今日已记录过此题，未重复计入")
+                st.rerun(scope="fragment")
+
+            def _rv_card(_idx, _qid, _tag) -> None:
+                _q3 = _q_by_id3.get(_qid)
+                if _q3 is None:
+                    return
+                _rec3 = state_mgr.wrong_questions.get(_qid)
+                with st.container(border=True, key=f"rvcard-{_qid}"):
+                    _head3 = (
+                        f'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">'
+                        f'<span style="font-weight:800;font-size:15px;">{_idx}. {_tag}</span>'
+                        f'<span style="font-size:11px;color:#64748b;font-family:monospace;">'
+                        f'{_qid} · {getattr(_q3, "book", "")} · 错{_rec3.wrong_count if _rec3 else 1}次 · '
+                        f'阶段{_rec3.review_stage if _rec3 else 0}/5</span></div>'
+                    )
+                    st.markdown(_head3, unsafe_allow_html=True)
+                    render_question_stem(_q3)
+                    if _q3.options and not getattr(_q3, "stem_img", ""):
+                        _roc1, _roc2 = st.columns(2)
+                        for _roi, _ropt in enumerate(_q3.options):
+                            (_roc1 if _roi % 2 == 0 else _roc2).markdown(_ropt)
+                    if _q3.answer:
+                        st.markdown(f"**【参考答案】**：`{_q3.answer}`")
+                    else:
+                        _h880rv = ans880_page_hint(_q3)
+                        if _h880rv:
+                            st.caption(_h880rv)
+                    if _q3.solution:
+                        with st.expander("📖 查看详细解析", expanded=False):
+                            st.markdown(f"**【详细解析】**：\n{_q3.solution}")
+                    _rbc1, _rbc2 = st.columns(2)
+                    with _rbc1:
+                        st.button("✅ 做对了", key=f"rv_ok_{_qid}", use_container_width=True,
+                                  on_click=_rv_grade, args=(_qid, True))
+                    with _rbc2:
+                        st.button("❌ 又错了", key=f"rv_no_{_qid}", use_container_width=True,
+                                  on_click=_rv_grade, args=(_qid, False))
+
+            _rv_i = 0
+            if _z_ids:
+                st.markdown(f"#### 📄 真题错题（{len(_z_ids)} 道）")
+                for _qid in _z_ids[:_RV_Z_CAP]:
+                    _rv_i += 1
+                    _rv_card(_rv_i, _qid, "真题")
+                if len(_z_ids) > _RV_Z_CAP:
+                    st.caption(f"另有 {len(_z_ids) - _RV_Z_CAP} 道真题错题未展开，先把上面的做掉。")
+            else:
+                st.caption("这一章暂时没有真题错题。")
+            if _o_ids:
+                st.markdown(f"#### 📚 同章节其它书错题（{len(_o_ids)} 道，先补练 {min(len(_o_ids), _RV_O_CAP)} 道）")
+                for _qid in _o_ids[:_RV_O_CAP]:
+                    _rv_i += 1
+                    _rv_card(_rv_i, _qid, "同类")
+                if len(_o_ids) > _RV_O_CAP:
+                    st.caption(f"另有 {len(_o_ids) - _RV_O_CAP} 道同类错题，做完这批再补。")
+
+        render_rv_cards(_rv_z_ids, _rv_o_ids)
 
 # 7. URL 错题码同步（把当前科目错题状态写回网址，保持链接可跨设备恢复）
 # =========================================================================

@@ -1594,6 +1594,44 @@ _WB_CARD_CSS = """
 # 卡片/药丸/指标卡的样式必须全局注入：错题本、每日错题、复盘三处共用同一套类名。
 st.markdown(_WB_CARD_CSS, unsafe_allow_html=True)
 
+# ---- 方法簇索引（复盘用）：{qid: "03-积分-变限积分求导"}，由离线规则分类器生成 ----
+_KP_INDEX_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              "题库资料", "真题数学二", "metadata", "_kp_index.json")
+
+
+@functools.lru_cache(maxsize=1)
+def _kp_index_map() -> dict:
+    try:
+        with open(_KP_INDEX_FILE, encoding="utf-8") as _f:
+            _d = json.load(_f)
+        return _d if isinstance(_d, dict) else {}
+    except Exception:
+        return {}
+
+
+# ---- 复盘「本轮」边界：只记一个时间戳，不动主状态文件 ----
+_RV_CYCLE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              "user_data", "review_cycle.json")
+
+
+def _rv_cycle_get() -> dict:
+    try:
+        with open(_RV_CYCLE_FILE, encoding="utf-8") as _f:
+            _d = json.load(_f)
+        return _d if isinstance(_d, dict) else {}
+    except Exception:
+        return {}
+
+
+def _rv_cycle_end() -> None:
+    try:
+        os.makedirs(os.path.dirname(_RV_CYCLE_FILE), exist_ok=True)
+        with open(_RV_CYCLE_FILE, "w", encoding="utf-8") as _f:
+            json.dump({"last_end": datetime.datetime.now().isoformat(timespec="seconds")},
+                      _f, ensure_ascii=False)
+    except Exception as _e:
+        st.warning(f"本轮标记写入失败：{_e}")
+
 _CH12_ORDER = [
     ("二次型", "第十二章 二次型"),
     ("相似", "第十一章 相似矩阵"),
@@ -3969,49 +4007,96 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 else:
                     st.caption("做完一道就少一道；判分会写入艾宾浩斯曲线。")
             with _hc2:
+                if st.button("✅ 结束本轮", use_container_width=True,
+                             help="把「本轮」设为现在：之后新做错的题算下一轮，界面会说清楚每簇哪些是新的"):
+                    _rv_cycle_end()
+                    st.toast("已记录本轮结束时间，下一轮从新错题开始", icon="✅")
+                    st.rerun()
                 if _done_today and st.button("↺ 重置", use_container_width=True,
                                              help="把今天在本页隐藏的题放回来（不影响已写入的复习记录）"):
                     st.session_state["rv_done"] = {}
                     st.rerun()
 
-            # 真题优先 + 同类补足：合并成一串，按 8 道一页翻页。
-            # （旧做法把超出的卡片塞进 st.expander，但 expander 收起时 Streamlit 仍会完整执行，
-            #   一章最坏要画 20 张卡，页面又长又慢。）
-            _rv_seq = [(_qid, "真题") for _qid in _z_ids] + [(_qid, "同类") for _qid in _o_ids]
-            if not _rv_seq:
+            # ---- 方法簇精选（C 方案）：每簇最多 3 道 = 本轮新错 1 + 历史同类 2 ----
+            _kp_idx = _kp_index_map()
+            _since = str(_rv_cycle_get().get("last_end") or "")
+
+            def _rv_kp(_qid: str) -> str:
+                _k = _kp_idx.get(_qid)
+                return _k if _k else f"{str(_qid).split('-')[0]}-综合与其他"
+
+            def _rv_is_new(_qid: str) -> bool:
+                if not _since:
+                    return False
+                _rec = state_mgr.wrong_questions.get(_qid)
+                return str(getattr(_rec, "added_at", "") or "") > _since
+
+            _buckets = {}
+            for _qid in list(_z_ids) + list(_o_ids):
+                _buckets.setdefault(_rv_kp(_qid), []).append(_qid)
+
+            _rv_groups = []
+            for _kname, _qids_k in _buckets.items():
+                _sorted_k = sorted(_qids_k, key=_rv_sort_key)      # 错次多、久未复习的优先
+                _new_k = [i for i in _sorted_k if _rv_is_new(i)]
+                _old_k = [i for i in _sorted_k if not _rv_is_new(i)]
+                _take = (_new_k[:1] + _old_k[:2]) if _new_k else _old_k[:2]
+                if not _take:
+                    continue
+                # 簇内真题优先（只调顺序，不改变已选的三道）
+                _take.sort(key=lambda i: 0 if _rv_is_zhenti(_q_by_id3.get(i)) else 1)
+                _rv_groups.append((_kname, _take, len(_qids_k)))
+
+            if not _rv_groups:
                 st.success("这一章的错题今天都处理完了。换一章继续，或者明天再来。")
             else:
-                _pg_size = 8
-                _pages = max(1, (len(_rv_seq) + _pg_size - 1) // _pg_size)
-                _ch_key = _ch_norm
+                _rv_groups.sort(key=lambda g: (-sum(1 for i in g[1] if _rv_is_new(i)), -g[2], g[0]))
+                _gpp = 3                      # 每页 3 个方法簇（≈9 道）
+                _pages = max(1, (len(_rv_groups) + _gpp - 1) // _gpp)
                 _pg = int(st.session_state.get(_pg_key, 0) or 0)
                 _pg = max(0, min(_pg, _pages - 1))
                 st.session_state[_pg_key] = _pg
-                _seg = _rv_seq[_pg * _pg_size:(_pg + 1) * _pg_size]
-                _z_here = sum(1 for _t in _seg if _t[1] == "真题")
+                _gseg = _rv_groups[_pg * _gpp:(_pg + 1) * _gpp]
+                _total = sum(len(g[1]) for g in _rv_groups)
+                _n_new = sum(1 for g in _rv_groups for i in g[1] if _rv_is_new(i))
                 st.markdown(
-                    f"#### 第 {_pg + 1}/{_pages} 页 · 本页 {len(_seg)} 道"
-                    f"（真题 {_z_here} · 同类 {len(_seg) - _z_here}，真题优先）"
+                    f"#### 第 {_pg + 1}/{_pages} 页 · 本页 {len(_gseg)} 簇 / "
+                    f"全章精选 {_total} 道（同来源共 {sum(len(v) for v in _buckets.values())} 道）"
                 )
-                for _ofi, (_qid, _tag) in enumerate(_seg, start=_pg * _pg_size + 1):
-                    _rv_card(_ofi, _qid, _tag)
+                if _since:
+                    st.caption(f"本轮自 {_since.replace('T', ' ')} 起，新错题 {_n_new} 道已排在各簇最前；"
+                               f"没设本轮时按「错次多」排。")
+                else:
+                    st.caption("还没标记「本轮」：现在按「每个方法簇取 2 道」精选；"
+                               "点右上角『✅ 结束本轮』后，下一轮会优先排新错题。")
+                _idx = 0
+                for _kname, _take, _pool in _gseg:
+                    _new_n = sum(1 for i in _take if _rv_is_new(i))
+                    st.markdown(
+                        "<div class='wb-hd' style='margin:16px 0 4px;'>"
+                        f"<span class='wb-pill wb-blue'>🔹 {html.escape(_kname.split('-', 1)[-1])}</span>"
+                        f"<span class='wb-meta'>本簇 {len(_take)} 道（新 {_new_n} · 旧 {len(_take) - _new_n}）"
+                        f" · 同簇共 {_pool} 道</span></div>",
+                        unsafe_allow_html=True,
+                    )
+                    for _qid in _take:
+                        _idx += 1
+                        _rv_card(_idx, _qid,
+                                 "真题" if _rv_is_zhenti(_q_by_id3.get(_qid)) else "同类")
                 if _pages > 1:
                     _pc1, _pc2, _pc3 = st.columns([1, 2, 1])
                     with _pc1:
-                        if st.button("⬅ 上一页", key=f"rv_prev_{_ch_key}", use_container_width=True,
+                        if st.button("⬅ 上一页", key=f"rv_prev_{_ch_norm}", use_container_width=True,
                                      disabled=_pg <= 0):
                             st.session_state[_pg_key] = _pg - 1
                             st.rerun(scope="fragment")
                     with _pc3:
-                        if st.button("下一页 ➡", key=f"rv_next_{_ch_key}", use_container_width=True,
+                        if st.button("下一页 ➡", key=f"rv_next_{_ch_norm}", use_container_width=True,
                                      disabled=_pg >= _pages - 1):
                             st.session_state[_pg_key] = _pg + 1
                             st.rerun(scope="fragment")
                     with _pc2:
-                        st.caption(
-                            f"共 {len(_rv_seq)} 道待练（真题 {len(_z_ids)} · 同类 {len(_o_ids)}）；"
-                            f"做完一道此处会少一道"
-                        )
+                        st.caption(f"共 {len(_rv_groups)} 个方法簇；一簇一类方法，做完一簇再换下一簇。")
 
         render_rv_cards(_rv_z_ids, _rv_o_ids, _rv_pick)
 

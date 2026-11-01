@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设函数y = y x由x=t2+1t3,确定, 则y x的极小值为 y= t3-2t2t2+1 A. 0.B. 12 .C. - 12 .D. 1.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5024-x02.png"
  },
@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设f x是定义在R 上的偶函数, 且f x+ f x= 2ex, 若a f x-ex≤x 在R 上恒成立, 则a 的 取值范围为 A. (-∞,0].B.-∞,- 1e.C.-∞,-1.D. (-∞, -e].",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5024-x03.png"
  },
@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设Dt 是x23 + y23 = t23 t>0所围区域, 则limt→0+t21Dt sinx+cosydxdy = A. π8 .B. 2π8 .C. 3π8 .D. π2 .",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5024-x05.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设f x在0,1上是凹函数, 且非负连续, f 0= 0, 则正确的是 A. 40 f12xdx ≤0 f1xdx.B. 40 f12xdx ≥0 f1xdx. C. 80 f12xdx ≤0 f1xdx.D. 80 f12xdx ≥0 f1xdx.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5024-x06.png"
  },
@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "若实矩阵A 与B 合同, 则下列命题一定成立的个数为 ①AB≥0；②A 与B 等价； ③A 的行向量组与B 的行向量组等价；④若B 可相似对角化, 则A 也可相似对角化 A. 1.B. 2.C. 3.D. 4. 二、填空题.",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第十二章 二次型",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5024-x10.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设可导函数y t满足yt= y t+0 y1tdt, 且y 0= 1, 则y 1= _____.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5024-t13.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x,y有二阶连续偏导数, df x,y= ex-y y+axydx + ex-y x+bxydy, 且f 1,1= 1. (I) 求f x,y的表达式; (II) 求f x,y的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5024-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设M x,y是曲线y = f xy>0上任一点, 曲线在点M 处的切线交y 轴于点P,若MP= PO, 其中 O 为坐标原点, 且曲线过点(4,3).求y = f x的表达式, 并求f (x,y) 的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5024-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D =x,y∣x4+y4≤1,x≥0,y≥0, 计算I =D x2+xy-y2dxdy.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5024-j20.png"
  },

@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "已知f x在x = 0 处连续, 且满足limf x= 1, 则() x→0x2 A. f 0= 0B. limx→0 f x= 0C. limx→0f xx= 2D. f 0= 2",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-x01.png"
  },
@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设奇函数f x在-∞,+∞上有连续导数, f 1= 0, 且对任意的x 均有f x+2- f x= f 2， 则下列说法错误的是() A.0 cosf tx+ f t+2dt 是奇函数B.0 sinf tx+ f t+1dt 是偶函数 C.0 fxtdt - x20cos2f tdt 是周期函数D.0 fxtdt - x20sin2f tdt 是周期函数",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-x02.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "设x = secy，则dydx = () A. x x2-1B.x2-1C.1D.1 x2x2-1x x2-1",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-x04.png"
  },
@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "设A 是3 阶实对称矩阵, A-E= A-2E= 0, 且A 的各行元素的后2 个分量之和为0，则下列说 法正确的个数是() ①A= 0；②A33 = 1；③r A+A*= 2；④r A,A*= 3 A. 1B. 2C. 3D. 4 二、填空题.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-x10.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "已知函数f t=1dtyyt1+x3ydx, 则f 2= _____.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-t15.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 已知曲线L: x=cos2t,y= f t, 0≤t≤π, 其中f t具有连续导数, 且满足f 0= 0,f t - tf t=-t2cos ​ t. (I) 求f t的表达式; (II) 求曲线L 围成的封闭图形的面积.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-j18.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 已知函数z = z x,y由方程e-x+y2z+z + x2 + y2z = 3 确定, 求z = z x,y的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-j20.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 已知二次型f x1,x2,x3= xTAx 在正交变换x = Qy 下的标准形为4y21 + y22 + y23 且Q 的第一列为11,-1,-1T. 3 (I) 求二次型矩阵A; (II) 求可逆矩阵P, 使得A = PTP; (III) 记g x1,x2,x3= xTAx + 2xTb, 其中b = 0,0,1T, 求g 的最小值, 并写出一个最小值点.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十二章 二次型",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5045-j22.png"
  }

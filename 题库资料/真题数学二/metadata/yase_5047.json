@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "已知a 为非零常数,函数f x=0 1-xxk 1-cosx1-2sin2tdt,x∈- π4 , π4∖{0},在x=0处连续, 则a a,x=0 = () A. 23 .B. - 23 .C. 32 .D. - 32",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-x01.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "记I1 = limn→∞i=1nn-ij=1n2+1in+i+ j,I2 = limn→∞i=1nn-ij=1n2+1jn+i+ j, I3 = limn→∞i=1nj=n-inn2+1in+i+ j,则下列说法中,正确的是() A. I1 > I2.B. I1 < I2.C. I1 > I3.D. I1 < I3.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-x07.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设A 为4 阶实矩阵,已知ATA 有4 个不同的特征值且βi i=1,2,3,4为ATA 的属于特征值 λi i=1,2,3,4的特征向量. ∥α ∥表示向量α 的长度.令B =βTβT12, 则下列选项中, 是方程组Bx = 11 的通解为() A. k1β1 + k2β2 + β3 + β4, 其中k1,k2 为任意常数. B. k1β1 + k2β2 +β2β33+β2β44, 其中k1,k2 为任意常数. C. k1β3 + k2β4 + β1 + β2, 其中k1,k2 为任意常数. D. k1β3 + k2β4 +β2β11+β2β22, 其中k1,k2 为任意常数.",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-x09.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设函数f x=x,则f 1000= _____. x2-x+1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-t12.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设函数f x在0,1上连续,且01f x1-x2dx = 1,则0 dπ2xπ2 fxsinxf sinydy = _____.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-t15.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 已知当物体表面与周围存在温度差时, 物体温度对时间的变化率与温度差成正比.设某一物体的初始 温度为10 ​°C, 将其置于一个高温且恒温的环境中, 5min 后该物体的温度升为15 ​°C, 10min 后升为 18°C,问: 环境的温度为多少？",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5047-j20.png"
  },

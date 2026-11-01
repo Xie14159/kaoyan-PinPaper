@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "已知动点M x,y在xOy 平面上运动方程为x=e2t-t,y=2et(时间单位: 秒; 距离单位: 米), 则该动点 在时间段14 ln2, 14 ln6内的运动路程是_____ 米.",
   "options": [],
-  "chapter": "第四章 多元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5029-t12.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设an =0π21+sinx1ndx n≥1. (I) 求limn→∞an; (II) 证明limn→∞a1-a2+a3-⋯+ -1n-1an存在.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5029-j18.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x是0,1上恒正连续函数, 且在(0,1) 内二阶可导, f 0= 0. (I) 证明存在ξ ∈0,1, 有0 f 31xdx = f ξ0 f1xdx2; (II) 证明存在η ∈0,1, 有ηf η+ 2f η= 60 xf1xdx.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5029-j21.png"
  },

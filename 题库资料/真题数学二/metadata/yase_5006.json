@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "设limx→∞f x= 0, 且limx→∞1+x -bx-1ax2= limx→∞f x+1- f x, 则曲线y = ax21+x 的斜渐近线方程 为 A. y =-x + 1.B. y = x + 1.C. y =-x - 1.D. y = x - 1.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-x01.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "已知平面上的点A 0,1和抛物线x = 2y , 动点P 从坐标原点O 出发, 沿抛物线移动,若直线段 OA、AP 和抛物线所围成图形的面积对时间t 的增大速率为1, 则当P 移动到点6,9处时, P 的横坐 标的变动速率为 A. 12 .B. 13 .C. 14 .D. 15 .",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-x07.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设y = xcos2x 在x ∈0,nπn=1,2,⋯上与x 轴所围图形的面积为Sn, 则limn→∞n+1Sn2 = ___.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-t14.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "limn→∞n0 e-x2πsinnxdx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-t15.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设α1,α2,α3 为线性无关的3 维列向量, A = α1,α2,α3, 交换A 的第2 列与第3 列, 再将第2 列乘 以(-4)、第3 列乘以(-1) 得C,若BA = C,则tr B= _____. 三、解答题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-t16.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设定义在-∞,+∞内的连续函数f x满足 f xf y= f x+y, lim1- f x= 1 x→0x 求F x= xf x的极值.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-j17.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设y x满足4x dy2dx2 + 2 1-xdydx - 6y = e- x. (I) 作变换x = t2 t>0, 将方程变换成y 关于t 的方程; (II) 若limx→0+y x= 0, limx→+∞y x= 0, 求y x.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x满足f x- 1n f x= 1+ 1nx - 1 - n,f 0= n2,n 为正整数. (I) 求f x; (II) 若f x在点x = xn 处取得极小值, 求limn→∞xnn.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-j19.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x连续且严格单调递减. (I) 证明: 当x ∈0,1时, 有x0 f1tdt <0 fxtdt < xf 0; (II) 若0 f1tdt ≥0,f 0≤1,x0 ∈0,1,xn =0xn-1ftdt n=1,2,⋯.证明:limn→∞xn 存在,并求其值. 3",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-j21.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设实对称矩阵A = aij3×3 有二重特征值1, 且aij= 0 j=1,2,3. i=1 (I) 记X = x1,x2,x3T, 求方程X TAX = 0 的全部解; (II) 求可逆矩阵P, 使得X T 2E-AX = ||PX||.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十二章 二次型",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5006-j22.png"
  }

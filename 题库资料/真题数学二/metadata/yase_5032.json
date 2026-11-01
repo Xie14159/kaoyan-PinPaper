@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "设D 是由曲线y = x2 - 1 和y =1-x2 围成的平面区域, 则D axy+by2dxdy A. 等于0.B. 符号与a 有关, 与b 无关. C. 符号与b 有关, 与a 无关.D. 符号与a,b 都有关.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5032-x04.png"
  },
@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "曲线y = xln e+ 1x的斜渐近线方程为 A. y = x + e.B. y = x + 1e .C. y = x.D. y = x - 1e .",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5032-x05.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "若函数f x=2+∞t lnt1x+1dt 存在, 则该函数的最小值点为x0 = A. -lnln2 .1B. - lnln2.C.ln2 .1D. ln2.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5032-x06.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "limn→∞i=1n1in= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5032-t13.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "已知函数f x= x2 ex+5, 则f 51= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5032-t15.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设a =0e-t21dt,b =0 e-t212dt, 求整数m,n 使得 2- 1120e-y2xdydx = ma - nb + 1e - 14 e.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5032-j18.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x在0,+∞内可导, 对任意的s > 0,t > 0, 均有 1 fstxdx + lnts+ lnst =1 sf xt+ 1xdx +1 tf xs+ 1xdx 成立, 且f 1= 2, 求f x的表达式.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5032-j21.png"
  },

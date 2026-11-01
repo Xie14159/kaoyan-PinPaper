@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "已知y1 = xex + e2x 和y2 = xex + e-x 是二阶常系数非齐次线性微分方程的两个解, 则此方程为 A. y- y+ 2y = ex + 2xex.B. y- y- 2y = ex - 2xex. C. y- y+ 2y = e2x - e-x.D. y- y- 2y = xex + e2x.",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-x04.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设f x,y= sinxcosy,1-cosy,x≠0,x=0,则 A. f ′x 0,0= 0.B. limx→0limy→0 f x,y= 0.C. f ′′yx 0,0= 1.D. f ′y 0,0= 1.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-x06.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "α,β 是2 阶实矩阵A 的两个实特征向量, ||α + β|| = ||α - β||, 则矩阵A 必为 A. 正定矩阵.B. 正交矩阵.C. 对称矩阵.D. 单位矩阵.",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-x08.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "曲线y = 3 x3-2x2+1 的斜渐近线方程为_____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-t12.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设过点0,1的曲线y = y x满足y= x, 且在点0,1处与直线y = x2 + 1 相切, 则该曲线的方 程为_____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-t15.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 求函数F x=xx+1t t2-1dt 的最小值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-j18.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 求函数z = e2x+3y 8x2-6xy+3y2的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-j20.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 已知平面有界区域D =r,θ∣r≤4cosθ,r≤4sinθ, 计算Dr3sinθ-cosθ2drdθ.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-j21.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 41-2k00 已知矩阵A =111与B =060合同但不相似. -21a000 (1) 求a 的值及k 的取值范围； (2) 若存在可逆矩阵Q,使得QTAQ = B,求Q.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十二章 二次型",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5004-j22.png"
  }

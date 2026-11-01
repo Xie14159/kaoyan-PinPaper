@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "limn→∞n+1n2 +n+2n2 +⋯+n+nn2= A. 13 .B. π3 .C. 12 .D. π2 .",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5001-x02.png"
  },
@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "曲线y = x +x2-x+1 的渐近线条数为 A. 1.B. 2.C. 3.D. 4.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5001-x03.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "4 d112y2 e1yxydx +12 d1yy eyxydx = A. 3e4 -2 .eB. 3e4 +2 .eC. 3e8 -2 .eD. 3e8 +2 .e",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5001-x07.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "曲线y = xe-x+1 的斜渐近线方程为_____.1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5001-t13.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设曲面z = f x,y过点0,0,2,且Δz 关于x 的偏增量Δxz =-2xe-y ⋅Δx + o Δx, Δz 关于y 的偏增量 Δyz = e-y x2-y-1⋅Δy + o Δy, 求z = f x,y的表达式及z 的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5001-j17.png"
  },

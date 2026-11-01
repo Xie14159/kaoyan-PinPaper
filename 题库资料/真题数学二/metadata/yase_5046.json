@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "下列关于曲线y =1+x2etan 1x 的渐近线的说法中,正确的是() A. 该曲线没有铅直渐近线.B. x = 0 是该曲线的铅直渐近线. C. 该曲线仅有一条斜渐近线.D. 该曲线有两条斜渐近线.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-x02.png"
  },
@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设函数f x为-∞,+∞上的连续函数, 满足对任意的x, 都有f π-x+ f π+x= 2, fπ2 -x = fπ2 +x, 则下列说法中, 正确的是() A.- π02 fxdx =0 fπ2xdx.B.0 fπxdx =π f2πxdx. C.- 3π02 fxdx =0 f3π2xdx.D.0 f2πxdx =2π f4πxdx.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-x05.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "已知连续函数f x,y满足limf x,y-5x2+2xy-2y2= 1,则下列说法中,正确的是() x,y→0,0x2+y2 A. 点0,0是f x,y的极大值点. B. 点0,0是f x,y的极小值点. C. 点0,0不是f x,y的极值点. D. 根据已知条件无法判别点0,0是否为f x,y的极值点.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-x06.png"
  },
@@ -127,7 +127,7 @@
   "tags": [],
   "stem": "设函数y = y x由方程ex + tan xy= ycosx 确定,则y0= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-t11.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "limnn2+1n2+2⋯n2+n2= _____. n→∞n2",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-t13.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "函数f x,y= 4x2 + 3y2 - 3x + 2y 在椭圆x23 + y24 = 1 上的最大值与最小值之差的绝对值为_ ____. cosθ-sinθacosθ",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-t15.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设函数f x=0,1-cosxx,x≠0,x=0.问:f x,f x是否连续?",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-j17.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数y x在[0,1) 上单调增加且满足y 0= 0, 过曲线y = y x上任一点x,y作该曲线的切线交 直线x = 1 于点1,y1.已知曲线y = y x从点0,0到点x,y的弧长等于y1,且曲线y = y x,x 轴以 及x = 1 围成的平面图形的面积为13 .求y x.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5046-j20.png"
  },

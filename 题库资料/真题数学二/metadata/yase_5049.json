@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "已知数列an收敛于a a>0,则数列k=1nn+kan+k() A. 收敛于b b>a.B. 收敛于b b<a.C. 收敛于b b<a.D. 发散.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5049-x03.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "一物体在距离同一水平面上的地面观测器10m 处离地匀速铅垂上升, 其速度为am/s.若该物体上升 到离地20m 时, 观测器视线倾角的变化率为110 , 则a = () A. 1.B. 2.C. 3.D. 5.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5049-x07.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设A 为3 阶矩阵, 若E-A=-2, -E-A= 2, 2E-A= 3, 则3E-A= () A. 21.B. 20.C. 643 .D. 623 . -124",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第七章 行列式",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5049-x08.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设A =2-3,b =1, 若对任意2 维实列向量x, 均有|| b-Ax0|| ≤||b - Ax||, 则x0 = () -132 A.23.B.-23.C.2-3.D.-3-2. 1-11",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5049-x09.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "曲线y = 12 x2 x∈0,1的长度为_____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5049-t13.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设f x=xx+1et2+txdt, 则f 0= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5049-t15.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "D =212x-11xx121x-12x1x的展开式中x3 的系数为_____. 三、解答题.",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第七章 行列式",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5049-t16.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 若曲线y =ex-1 与y = 11x + k 在第一象限相交, 求k 的取值范围.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5049-j17.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x在0,1上二阶可导, f 0= 0, f x≤1, f x≤1, 证明:0 f1xdx≤1324 .",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5049-j21.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) a0-2a-110 设矩阵A =1a-1,B =0a-10. -1-1a00a+2 (1)A 能否相似对角化？说明理由； (2) 是否存在可逆矩阵P,使得P-1AP = B? 若存在,求出所有的P.若不存在,请说明理由.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5049-j22.png"
  }

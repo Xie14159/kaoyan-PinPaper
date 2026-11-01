@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设f a= 0, 则“极限limh→0f a+sinh1-cosh存在”是“函数f x在x = a 处可导”的(). A. 充分非必要条件B. 必要非充分条件 C. 充要条件D. 既非充分也非必要条件",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-x02.png"
  },
@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设α > 1,I1 =0sinα1xdx,I2 =0sin1xαdx,I3 =0tanα1xdx,I4 =0tan1xαdx, 则下列结论正确的是(). A. I1 ≥I2,I3 ≥I4B. I1 ≥I2,I3 ≤I4C. I1 ≤I2,I3 ≥I4D. I1 ≤I2,I3 ≤I4",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-x03.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "关于下列命题说法正确的是(). ①若f x,g x均为a,b上的连续函数, 则方程f xa gxtdt = g xx fbtdt 在(a, b) 至少有一个根; ②若f x是a,b上的连续可导函数且f x> 0, 则方程x-ax fbtdt = b-xa fxtdt 在(a, b) 内至少有一个根. A. ①②均正确B. ①正确,②错误C. ①错误,②正确D. ①②均错误",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-x04.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "若某二阶常系数非齐次线性微分方程有两个特解y1 = ex,y2 = ex sinx+1, 则该微分方程为(). A. y- 2y+ 2y = exB. y- 2y+ y = ex C. y- 2y+ 2y = sinxD. y- 2y+ y = excosx",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-x07.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "积分I =0d1y0y/2e-x2dx = _____.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-t13.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设函数y = y x由方程x2 -1x+ye- t-y2dt = 0 所确定, 则y0= _____. kx1-x3+x4=1,",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-t15.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设函数y = f x由参数方程函数t2-y-siny=1x=t2+2t-3t≥0确定,求limx→0+4f xsinx-x2x3.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-j17.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f t二阶可导, 且u = fx2+y2+z2满足u′′xx + u′′yy + u′′zz = 0,若f 1 = 0,f 1= 1, 求函数f t的表达式.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-j19.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 方阵A =01-a-2的特征值为实数, x = x1,x2,x3T, -102 (I) 若A 可对角化, 求参数a 的取值范围. (II) 当a < 0 且A 不可对角化时, 判断二次型f x1,x2,x3= xTAx 的正定性.",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5030-j22.png"
  }

@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设f x在-∞,+∞连续. F x=0 arctanx-arctant-x1+t2tf tdt.下列说法正确的个数为() (1) 若f x为奇函数,则F x为奇函数 (2) 若f x为偶函数,则F x为偶函数",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-x02.png"
  },
@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "若f x为单调递增函数,则F x为单调递增函数",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-x03.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "若f x为单调递增函数,则F x为单调递减函数 A. 1B. 2C. 3D. 4 3.设f x=0sin1x2t2dt, 则0 xf1xdx = () A.0 1-x1sinx2dxB.0sin1x2dx C. 120 1-x21sinx2dxD. 120sin1x2dx 4.设y = f x是微分方程y- P xy = 12 ex - 1 满足y 0= 1 的解, 其中P x=0 x-t1dt, 则有() A. 在点x = 0 处f x取极大值 B. 在点x = 0 处f x取极小值 C.0,f 0为曲线y = f x的拐点 D. 点x = 0 不是f x的极值点, 点0,f 0也不是曲线y = f x的拐点",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-x04.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "若A 为三阶实对称阵, b = 3,-6,-3T, 非齐次线性方程组Ax = b 的通解为k1 2,1,0T + k2 1,0,1T + -1,2,1T, 其中k1,k2 为任意常数, 则与矩阵A + E 合同的为() 1-1-1-1 A.1B.-1C.-1D.1 1-111",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第十二章 二次型",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-x08.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设函数y = y x,z = z x,x ∈-1,1, 由方程组z2=2x+2yx2+y2+z2=2y≥-1,z≥0确定, 则 -1y1xz2 xdx = _____.",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-t12.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设f x= x2e2x +1-x2 , 求f 62x0= _______.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-t13.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "函数z = x2 fxy, 其中f 具有连续二阶导数, 且∂2z∂x2 - y2x2∂y2 = 2 y∂2zx ,f 1= 0, 则f x= ____.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-t15.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(10 分) 已知曲线f x=b+xxa+xx x>0,b>0有一条斜渐近线y = xe2 + c, 求a,b,c 的值.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-j17.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(12 分) 设f x= lim6x enx-sin enx,x ∈-∞,+∞. n→∞1+x2e3nx (1) 求f x; (2) 求曲线y = f x与两条直线x = 1 和y = 12 x 所围成的所有封闭区域绕y 轴旋转一周形成的旋转 体体积.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(12 分) 设z = z x,y由方程x3 + 2y2 + z2 - 8yz - 3x + 23 = 0 确定的函数, 求z x,y的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5034-j19.png"
  },

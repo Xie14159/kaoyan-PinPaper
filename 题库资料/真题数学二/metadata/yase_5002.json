@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设函数y = f x由x=2t+ t,y= tet-1确定, 则 A. f x连续, f 0不存在.B. f 0存在, f x在x = 0 处不连续. C. f x连续, f 0不存在.D. f 0存在, f x在x = 0 处不连续.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-x03.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设方程组λ-1x2=1,有两个不同的解, 则该方程组的通解为_____. x1+x2+λx3=1 三、解答题.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-t16.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 计算limn→∞k=1nn2kln 1+ k2n2",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-j17.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x是0,1上的正值连续函数, 证明: (I) 存在唯一的ξ ∈0,1,使得0 fξtdt =ξ1f t1dt； (II) 对任意自然数n n≥2, 存在唯一的xn ∈0,1, 使得n f1xntdt =xn1f t1dt, 且limn→∞xn = ξ.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设平面区域D =x,yx-2≤y≤4-x2,0≤x≤2, 计算I =Dx2+y2x-ydxdy.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-j20.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设过点0,1的曲线, 其上任意点P 处的切线在y 轴上的截距等于原点到点P 的距离, 求该曲线方程.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-j21.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设4 阶实矩阵A 与4 维列向量α,β 满足A α+β= 4α + 3β,A α-β= 2α - 3β,α,β 线性无关.方程组 Ax = 0 有两个线性无关的解向量η1,η2. (I) 证明α,β,η1,η2 线性无关; 3100 (II) 判断矩阵A 与00300000是否相似,并说明理由. 0000",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5002-j22.png"
  }

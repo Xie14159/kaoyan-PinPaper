@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设函数f x可导, 且f 0> 0, 若limf0 fxtdt= 1, 则f 0= (). x→01+x2-cosx A. 1B.2C. 2D. 2 2",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第一章 函数、极限、连续",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-x02.png"
  },
@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设函数y = f x由方程x2cosx + x4 - 2y - y3 = ey 确定,则() A.0 fxtdt 为奇函数,0 f xtsintdt 为奇函数B.0 fxtdt 为奇函数,0 f xtsintdt 为偶函数 C.0 fxtdt 为偶函数,0 f xtsintdt 为奇函数D.0 fxtdt 为偶函数,0 f xtsintdt 为偶函数",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-x03.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设f t=0dtx0tx-x21+x2+y212dy, 则f 1= () A. π 2B. π 2C. π 2D. π 2 481632",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-x06.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "下列命题中错误的有() 个 ①若f x在[1, +∞) 上连续,且满足limx→+∞lnf xlnx=-2,则1+∞fxdx 收敛； ②f x在[1, +∞) 上连续,且满足limx→+∞lnf xlnx= 0,则1+∞fxdx 发散； ③若f x在[1, +∞) 上连续, 且满足limx→+∞lnf xlnx=-1, 则1+∞fxdx 发散; ④若f x在(0,1] 上连续, 且满足limx→0+lnf xlnx=- 12 , 则0 f1xdx 收敛. A. 1B. 2C. 3D. 4 12-13b",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-x07.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设A =2a-a-2,B =ab-1,若矩阵方程AX = B 有解且解不唯一,则X = () 32a+1-472 3k1-13k2-13k1-13k2-1 A.-k1+2-k2+1, 其中k1,k2为任意常数B.k1+2k2+1, 其中k1,k2为任意常数 k1k2k1k2 3k1+13k2+13k1+13k2+1 C.-k1+2-k2+1, 其中k1,k2为任意常数D.k1+2k2+1, 其中k1,k2为任意常数 k1k2k1k2",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-x08.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设A 为m × n 矩阵, B 为n × m 矩阵, BA = E,其中E 为n 阶单位矩阵,则下列说法中正确的有() 个 ①BA 的行向量组与A 的行向量组等价;②AB 的列向量组与A 的列向量组等价; ③对任意n 阶矩阵C,齐次线性方程组Cx = 0 与ACx = 0 同解. A. 0B. 1C. 2D. 3",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第九章 向量",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-x09.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "函数f x,y= xe- x22 + y2 - 2ln y的极值点个数为_____.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-t12.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设f x= x2-2xsin x-1,则f 61= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-t14.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数y = f x是微分方程y+ tan x2 ⋅y- 1+cosx2y = 0 满足f 0= 1,f 0= 2 的解, (I) 利用变量代换t = x + sinx 简化该微分方程, 并求f x; (II) 求曲线y = 2+x+xcosxf x与直线x = π,x = 0 及x 轴所围成的平面图形绕y 轴旋转一周所得 的旋转体体积.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5020-j19.png"
  },

@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "设A =a21a22a23与B =b21b22b23均为正定矩阵, 则下列矩阵中一定为正定矩阵的 a31a32a33b31b32b33 有() 个 a112a123a13 ①A + B,②AB,③AOOB,④2a214a226a23. 3a316a329a33 A. 1B. 2C. 3D. 4 二、填空题.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十二章 二次型",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-x10.png"
  },
@@ -127,7 +127,7 @@
   "tags": [],
   "stem": "设函数y = f x由参数方程ey+y+x=arctant0y-tcosu2du=cost确定,则d2ydx2 x=0= _____.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-t11.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "曲线y = 3 x3+x2+1cosx+1πx的斜渐近线方程为_____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-t12.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "已知A 为3 阶矩阵, α 为3 维列向量, 满足A2α =2,A3α = 0,A* 表示A 的伴随矩阵, AT 表示矩阵 3 A 的转置,则齐次线性方程组A*Tx = 0 的通解为_____. 三、解答题.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-t16.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 求函数f x,y= x2 - siny+cosyx + 12 sin2y 的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D 是由直线x + y = 1,x = 1,y = 1 围成的平面有界区域, 求x23dxdy. Dx+y2 x2+y22",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-j20.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设n 为正整数, 证明: 当0 ≤x ≤n 时, 恒有:x - x33n ≤n0nx1-tnentdt.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-j21.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) -1ba100 设A =-322相似于B =110, -111000 (I) 求a,b; (II) 求一个可逆矩阵P, 使得P-1AP = B.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5021-j22.png"
  }

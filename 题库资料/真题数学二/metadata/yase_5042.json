@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设f x= xex, 则limn→∞f n10k=1nff kn0= () A. 1B. eC. e2D. 2e 1",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5042-x02.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设A 是4 × 3 矩阵, A 的列向量组线性无关, 则下列结论中: (1)ATx = 0 有非零解(2) 对任意3 维列向量β,ATx = β 有无穷多解 (3)ATAx = 0 只有零解(4) 对3 × 5 矩阵B 和C, 若AB = AC, 则B = C 正确的个数为() A. 1B. 2C. 3D. 4",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5042-x08.png"
  },
@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "设A,B 均为n 阶正定矩阵, 则下列选项错误的是() A. 存在可逆矩阵P 和Q, 使得PAQ = BB. 存在可逆矩阵P, 使得PTAP = B C. 存在可逆矩阵P, 使得P-1ABP = BAD. 存在可逆矩阵Q, 使得Q-1AQ = B 二、填空题.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十二章 二次型",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5042-x10.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "limx→00xe- txesin5x-12-1dt = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5042-t13.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "已知方程y+ y = sinx + cosx 的解均为方程y+ y+ ay = f x的解, 其中a 为常数, 则f x= __ ___.",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5042-t14.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设3 阶方阵A 不可逆, α,β 是两个线性无关的3 维列向量, 且Aα = β,Aβ = α, 则trA+2E*= __ ___. 三、解答题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5042-t16.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(10 分) 求曲线y = f x= x21+ 1xx-ex>0的斜渐近线.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5042-j17.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(12 分) 求f x,y= 43 x2 + y2 + 43 x + y 在D:x2 + 34 y2 ≤1 内的最大值和最小值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5042-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(12 分) 设D =x,y∣0≤x≤π,0≤y≤π, 记I1 =Dsinmax x2,y2dxdy, I2 =Dsinmin x2,y2dxdy,证明I2 < I1.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5042-j20.png"
  },

@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "已知连续函数y = y x由方程12 x +2 y = arctan32 x- 132 y确定, 则下列说法中正确的个数 为(). ①y x为奇函数；②y x的零点个数是3；③曲线y = y x有两条斜渐近线. A. 0B. 1C. 2D. 3",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-x01.png"
  },
@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设函数f x在闭区间-1,1上连续, 数列an满足an ∈-1,1,n ∈N.则(). A. 若数列f an收敛, 则数列an收敛B. 若数列f an发散, 则数列an可能收敛 C. 若数列an单调, 则数列f an收敛D. 若数列f an单调, 则数列an收敛",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第一章 函数、极限、连续",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-x02.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "二次积分0d1y0yfx,ydx +1 d2y02-y2fx,ydx = (). A.0d1x0 fx2x,ydyB.0d1xx22-x2fx,ydy C.0d1x2-x2 fxx,ydyD.0d1xx22-x2fx,ydy",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-x06.png"
  },
@@ -127,7 +127,7 @@
   "tags": [],
   "stem": "limn→∞01n 1+narctanx21+x2dx = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-t11.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "已知函数f x= 1+x8 + 1-x8, 则f 31= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-t12.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设u = f x2,2y,z3,y = y x和z = z x是由方程组x2+y2+z2=3,y2-2xy+yz2=0,确定的两个函数, 其中y ≠0,z > 0, 则dudx x=1 = _____.",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-t14.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x为a,b上的连续单调增加函数F x=x-a1f aa fx,tdt,x∈(a,b],x=a, 证明: IF x为a,b上的连续函数; (II)F x为a,b上的单调增加函数.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 求函数f x,y= x3 + y3 - 3x - 3y + 3xy 的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-j19.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 已知二次型f x1,x2,x3= 2x21 + 2x22 + ax23 - 2x1x2 + 2x1x3 - 2x2x3, 其矩阵为A. 1 α =b是矩阵A 对应特征值λ 的一个特征向量b<0. 1 (I) 求a,b,λ; (II) 求正交变换x = Qy, 将二次型f x1,x2,x3化为标准型, 并写出相应的标准型； (III) 求f x1,x2,x3在xTx = 1 的条件下的最小值.",
   "options": [],
-  "chapter": "第十一章 相似矩阵",
+  "chapter": "第十二章 二次型",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5027-j22.png"
  }

@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "设f x在点x = 0 的某邻域内二阶可导, 且limx→0sinx+xf xx3= 13 , 若f x1+x = a + bx + cx2 + o x2, 则(). A. a = 1,b =-1,c = 1B. a =-1,b = 1,c =- 1 22 C. a = 1,b = 1,c =- 1D. a =-1,b = 1,c = 1 22",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第一章 函数、极限、连续",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-x01.png"
  },
@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设y x= excosx 是二阶常系数齐次线性方程y+ ay+ by = 0 的一个特解, 则可设二阶常系数非 齐次线性方程y+ ay+ by = ex 1+cosx的特解形式为(). A. ex acosx+bsinxB. ex axcosx+b C. ex acosx+bsinxxD. ex axcosx+bxsinx+c",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-x03.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "设f t=0dtxxtln 1+y3y2dy, 且limt→0+at-sint = b, 其中a,b 为非零实数, 则(f t). A. a = 1,b = 1B. a = 1,b = 2C. a = 2,b = 1D. a = 2,b = 2",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-x06.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "已知方程log ax = xb, a>1,b>0存在实根, 则(). A. lna ≤1B. lna ≤bC. lna ≥1D. lna ≥b beebee",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-x07.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "-1d0y-y x2y3+x-11dx +0d1y1- 1-y2 x2y3+x-11dx = _____. x",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-t14.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设α,β,γ 为3 维列向量, 且α,β,γ 线性无关, 记A = α,β,γ,B = 2α+3γ,3α+β,α+2γ, 已知 A-1+B-1= 6, 则A= _____. 三、解答题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-t16.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设z = z x,y是由方程x2 + y2 + z2 + lnz = 1 确定的函数, 求z x,y的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-j19.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 已知当x ∈0,+∞时, 1+axln 1+x> x 恒成立, 求常数a 的取值范围. 1-111a",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-j21.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设A =11,C =121. aba11 (I) 求参数a,b, 使得存在矩阵B, 满足AB = C. (II) 求矩阵B. (III) 令x = x1,x2T, 求二次型f = xTBAx 正负惯性指数.",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5028-j22.png"
  }

@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "设y = y x是y+ 2y+ y = e3x 满足y 0= y0= 0 的解, 则当x →0 时, 与y x为等价无穷小的 是 x2 A. 1 - e2 .B. 2sinx.C. ln 1+x2.D. ln 1+x2.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-x01.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "设f x严格单调递减, limx→0f xx存在, 记I =0d1y01f xxdx, 则正确的是 A. f 0< I < f 1.B. f 1< I < f 0.C. I < f 0< f 1.D. f 1< f 0< I.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-x04.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "设f x在[0, +∞) 上正值连续, cnn=1,2,⋯为正值数列, 记an =0 fcnxdx, bn =cncn+1fxdx, 则正确的是 A. 当bn < 0 时, an必发散.B. 当bn < 0 时, an必收敛. C. 当bn > 0 时, an必发散.D. 当bn > 0 时, an必收敛.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-x07.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设曲线的极坐标方程为r =3θ-π ,则该曲线的斜渐近线方程为_____.1",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-t13.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设f x=01-xet 2-tdt, 则曲线y = f x在区间0,1上与x,y 轴所围图形的面积为_____.",
   "options": [],
-  "chapter": "第四章 多元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-t14.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设α,β,γ 均为3 维列向量, 记A = α,β,γ,B = α+2β,2β+2γ,β+3γ,且A= 1, 则A-1+B-1= _ ____. 三、解答题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-t16.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D =x,y∣1≤x+y≤2,x≥0,y≥0, 计算D2x2+y2yx2+y2dxdy.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设非负函数f x在区间0,1上有连续的二阶导数, 且f 0= 1,f x< 0,证明: (I) 当x ∈0,1时, 有0 fxtdt ≥12xf x+x; (II)0123 -xf xdx ≥16 .",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-j20.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x在-∞,+∞内有连续的导数, f x> 0, 且满足f x+1+x2 f x2nx= 0(n 为大于1 的正整 数), f 0= 1. (I) 求f x的表达式; (II) 记Sn 为曲线y = f x与x 轴之间的无界区域的面积, 求limn→∞Sn-1Snn.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5050-j21.png"
  },

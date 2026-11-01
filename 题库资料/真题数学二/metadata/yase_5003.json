@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "设f x=0 x-2txe-t2dt x≥0,g x=0 x-2txsint2dt, 则 A. f x单调增加, g x是奇函数.B. f x单调增加, g x是偶函数. C. f x单调减少, g x是奇函数.D. f x单调减少, g x是偶函数.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-x01.png"
  },
@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设函数f x在0,1上二阶可导, 则 A. 当f x< 0 时, f12<0 f1xdx.B. 当f x> 0 时, f12<0 f1xdx. C. 当f x< 0 时, f13<0 f1x2dx.D. 当f x> 0 时, f13<0 f1x2dx.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-x02.png"
  },
@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设f x> 0,f x< 0,x > 0, 对任意的正整数n, 记 I1 = 12f n+1- f n,I2 = f n- f2n-12,I3 = f2n+12- f n, 则 A. I1 > I2 > I3.B. I1 > I3 > I2.C. I2 > I1 > I3.D. I2 > I3 > I1.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-x03.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "圆r = 1 之外和圆r = 23 cosθ 之内的公共部分面积表示为 A.0 dπ6θ023 cosθrdr.B. 20 dπ6θ023 cosθrdr.C. 20 dπ6θ123 cosθrdr.D.0 dπ6θ123 cosθrdr.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-x04.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "已知函数y = y x由2t-x=sint,1y+t2e-u2du=0确定, 则dydx t=0 = _____.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-t15.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 求函数z = cos2x + cos2y 在条件x - y = π4 下的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-j17.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设一光滑曲线在第一象限内且过坐标原点O,曲线上任意一点M 处的切线MT 交x 轴于点T,MP ⊥x 轴于点P.若三角形MPT 的面积与曲边三角形OMP 的面积之比恒为常数k k> 12, 且曲线是沿x 轴 正向单调增加的, 求该曲线的方程. 0-120-10-1",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-j21.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设矩阵A =-10-2-a-1,B =-10,A = BC. 21a+12321 (I) 求a 的值及C； (II) 求Ax = 0 的通解.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5003-j22.png"
  }

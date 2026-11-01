@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设函数f x在-∞,+∞内连续, 则关于F x= 1x0 fxtdt x≠0的下列四个结论: (1) 若f x为奇函数,则F x也是奇函数 (2) 若f x是以T T>0为周期的周期函数,则F x也是以T 为周期的周期函数 (3)F x是(0,1) 内的有界函数",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-x03.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "若f x在(0, +∞) 为单调递增函数,则F x在(0, +∞) 也为单调递增函数 中正确的个数是() A. 1B. 2C. 3D. 4 4.设f x在闭区间0,1上可导, f 0= 0 且f x> 0, 反常积分01f xxadx 和1+∞lnxxadx 均收敛, 则 α 的取值范围为() A. 1 < α ≤2B. 1 < α < 2C. 0 ≤α < 2D. 0 < α < 2",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-x04.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "设函数f x> 0 且单调递增, 则积分I1 =0 f2xsinxdx,I2 =0 f2xcosxdx,I3 =0 f2xtanxdx 的大 小顺序为() A. I1 > I2 > I3B. I1 > I3 > I2C. I2 > I3 > I1D. I3 > I1 > I2",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-x07.png"
  },
@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "设四阶矩阵A = aij1×4 满足aij= 0 i=1,2,3,4,Mij 与Aij 分别为元素aij 的余子式和代数余子 j=1 式, 下列四个式子中必成立有() 个 (1)M21 + M22 + M23 + M24 = 0(2)A21 + A22 + A23 + A24 = 0 (3)M21 = M22 = M23 = M24(4)A21 = A22 = A23 = A24 A. 1B. 2C. 3D. 4 二、填空题.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第七章 行列式",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-x10.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "若函数f x满足方程f x= f π-x且f 0= 1,则f x= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-t14.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "设函数u = x2 + y2 + yz, 函数y = y x,z = z x由方程组exy-y+z=2eyz-xz=0确定,则du 1,0,1= ___ __. 23a-4-3",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-t15.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "设A =03a+2, 若A 的任意两个特征向量都线性相关, 则a = _____. 0-11 三、解答题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-t16.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(12 分) 光滑凹曲线y = f x, - π2 <x< π2在原点与x 轴相切, 且该曲线在任一点x,y处的曲 率为e-y, 求该曲线的方程y = f x.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5040-j18.png"
  },

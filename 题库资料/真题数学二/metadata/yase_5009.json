@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "如图所示, 半径为1 的半圆薄片完全浸在水中, 水面与y = 0 平齐, 设水的密度为1, 重力加速度为 10, 则水对该薄片单侧的压力为() A. 5π2 - 103 .B. 203 . C. 5π - 203 .D. 103 .",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5009-x05.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "曲线y = x e1x -1- x 的斜渐近线为_____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5009-t12.png"
  },
@@ -175,7 +175,7 @@
   "tags": [],
   "stem": "0 dπ6θθπ6cosrrdr = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5009-t15.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "-3205-3-120-1-302-3502= _____. 三、解答题.",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第七章 行列式",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5009-t16.png"
  },

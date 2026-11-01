@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设A 是m × n 矩阵, B 是n × m 矩阵m>n, 则下列选项错误的是() A. r AATA= r AB. r AAT,A= r A C. 若r AB= r B, 则r A= nD. 若r AB= r B, 则ABx = 0 与Bx = 0 同解 1111",
   "options": [],
-  "chapter": "第十章 线性方程组",
+  "chapter": "第八章 矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5044-x08.png"
  },
@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "设A 为n 阶矩阵, 方程组Ax = β 有解, α 是AT y = 0 的任意一个解, 则() A. α 与β 线性相关B. α 与β 正交 C. α 与β 线性无关且正交D. α 与β 线性无关但不正交 二、填空题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5044-x10.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "设f x=ex-1e2x-2⋯enx-n2, 其中n 为正整数, 则f 0= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5044-t14.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设函数f x,g x满足f x- g x+ 20 fxtdt = 0,gx+ 2f x= 0,且f 0= 1,g 0=-2. (I) 求f x的表达式; (II) 求0+∞f x+g xe-2xdx.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5044-j17.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设区域D =x,y∣x2+y2≤4,y≥0, 证明:4π ≤Dx2+2y2-x2y2+4dxdy ≤4 3π.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5044-j18.png"
  },
@@ -247,7 +247,7 @@
   "tags": [],
   "stem": "(本题満分12 分) 设f x在区间0,1上可导且0 f1xdx = 0. (I) 若| f x| ≤1, 证明0 fxtdt ≤12 ; (II) 若| f x| ≤1, 证明0 fxtdt ≤18 .",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5044-j21.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设3 阶实对称矩阵A 的对角线元素之和为2, 且满足A2 = A,A α1+α2= α2, 其中a 1,a,0T,α2 = 1,-1,aT 是A 的特征向量. (I) 求参数a 的值; (II) 记x = x1,x2,x3T,A*为A 的伴随矩阵, 求方程xTA*x = 0 的全部解.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5044-j22.png"
  }

@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设函数f x=0sinnxtdt,n 是正整数, 关于f x有结论: ①当n 为偶数时, f x必为有界函数；②当n 为偶数时, f x必为周期函数; ③当n 为奇数时, f x必为有界函数；④当n 为奇数时, f x必为周期函数. 以上四个结论中正确结论的个数是(). A. 1B. 2C. 3D. 4",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5016-x05.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "曲线y =1+xex的渐近线条数为(). ex-1 A. 1B. 2C. 3D. 4",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5016-x07.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设多项式f x=4-x22-x19-4x23-2x116-9x24-3x1, 则(). A. 存在实数q ∈-1,1, 使得f q= 0B. 存在实数q ∈-1,1, 使得f q= 0 C. 对任意实数q ∈-1,1, 均有f q= 0D. 对任意实数q ∈-1,1, 均有f q= 0",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5016-x08.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "limt→0+t310 dπ4θ0cosθtsin r2sinθcosθsinθdr = _____. - x+23,x<-1,",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5016-t14.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x连续, 且f x= x2 + x0 fx2x2-tdt +D fxydxdy,其中D 为以 A 1,-1,B -1,1,C 1,1为顶点的三角区域, 若f 1= 0. (1) 求0 f1xdx +D fxydxdy 的值； (2) 求0 f1xdx 的值.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5016-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x具有一阶连续导数, 且f 0f 0≠0. (1) 证明: 当x →0 时,0 fxtdt ∼f 0x； (2) 求limx→00 fx1tdt-xf 01； (3) 当x ≠0 时,证明:0 fxtdt = xf ξ,其中ξ 介于x 与0 之间,并求limx→0ξx .",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5016-j20.png"
  },

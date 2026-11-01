@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "当t →0+ 时, α t=0dtxxsintxy2dy 是关于t 的n 阶无穷小, 则n = A. 3.B. 4.C. 5.D. 6.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-x01.png"
  },
@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "曲线y =x2+1的渐近线的条数为 x2-1 A. 1.B. 2.C. 3.D. 4.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-x02.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设B =2a4a>0,A 是3 阶非零矩阵, 且BAT = O,k1,k2 为任意常数, 则方程组AX = 0 的 35a 通解为 110110 A. k10.B. k12+ k2-1.C. k12.D. k12+ k21. 0-16331 b112b12-b13",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十章 线性方程组",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-x08.png"
  },
@@ -103,7 +103,7 @@
   "tags": [],
   "stem": "设A 是实对称矩阵, B = bij3×3 是可逆矩阵, 且AB =b212b22-b23, 则二次型X TAX 的规范 b312b32-b33 形为 A. y21 + y22 + y23.B. y21 + y22 - y23.C. y21 - y22 - y23.D. - y21 - y22 - y23.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十二章 二次型",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-x09.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "心形线r = 1 + cosθ 的全长为_____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-t13.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 计算limn→∞n21i=12nn+i1n.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-j17.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 求a 的值, 使得圆x2 + y-12 = 1 内切于椭圆23 x2 + 29 y2 = a2 a>0.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设D =x,y2≤2x2+y2≤4,x≥0,y≥0, 计算I =D2x2+y2yx2+y2dxdy.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f t有二阶连续导数, f 1= f 1= 1, 在x > 0 的平面区域内, 存在函数u x,y使得du x,y= y2x +xfxydx + y-xf xydy.求f t及f t的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5008-j20.png"
  },

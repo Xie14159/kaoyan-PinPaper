@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "下列说法正确的是(). A. 若f x= a + bx + cx2 + o x2, 则f 0= 2c. B. 若f x在x = a 点连续, 且limx→ax-a 存在, 则f af x= 0. C. 若limx→∞f x不存在, 则曲线y = f x没有水平渐近线. D. 若limf x= 1, 则曲线y = f x必有一条斜率k = 1 的斜渐近线. x→∞x",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5026-x03.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "limn→∞i=1nj=n-in+i1nln n n+in+ j = (). A.0d1y1-yln11+y dx +1+x1d2yy-1ln11+y dx1+xB.0d2y0y-1ln1+y dx1+x C.0d2y0 ln2y1+y dx1+xD.0d1y0 lny1+y dx +1+x1d2y02-yln1+y dx1+x",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5026-x06.png"
  },
@@ -115,7 +115,7 @@
   "tags": [],
   "stem": "设A 为2 × 3 矩阵, 若AAT= 2, ATA-2E= 0, 则ATA+2E= (). A. - 12B. 12C. - 24D. 24 二、填空题.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5026-x10.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "π4 d4θ01+sin2θ2r3sinθcosθ 1+rcosθdr = _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5026-t14.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x是-∞,+∞内以T T>0为周期的连续函数. (I) 证明F t=0 ftxdx - tT0 fTxdx 是以T 为周期的连续函数. (II) 证明limx→+∞0 fxxtdt= 1T0 fTtdt.(III) 求limx→+∞0xx1+cos2tsin2tdt. 01+cos2t1dt",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5026-j18.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设向量组:(i)α1 = a,0,1T,α2 = 0,-a,0T,α3 = 1,0,aT；(ii)β1 = a,0,1T,β2 = a,1,1T,β3 = a2,0,aT a≠0. (I) 若向量组(i) 与(ii) 等价, 求a 的值; (II) 记A = α1,α2,α3,B = β1,β2,β3, 当a 为何值时, 存在可逆矩阵P, 使得P-1AP = B, 并求P.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5026-j22.png"
  }

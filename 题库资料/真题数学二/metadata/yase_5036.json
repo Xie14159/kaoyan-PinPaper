@@ -7,7 +7,7 @@
   "tags": [],
   "stem": "曲线y =-x 1x+1+x2 有(x2) 条渐近线, 其中⋅表示取整函数 A. 0B. 1C. 2D. 3 lncosxx2,-1<x<0x",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-x01.png"
  },
@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "设f x=1+x2-100,0<x<1,x=0, F x=-1 ftdt,x ∈-1,1, 则点x = 0 是F x的() A. 不连续点,极小值点B. 可导点,极小值点 C. 连续但不可导点,极小值点D. 连续但不可导点,且不是极值点",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-x02.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "方程2x2 -0 e-t2x2dt = 1 在-∞,+∞内根的个数为() A. 0B. 1C. 2D. 3",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-x07.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设f x=x-1341x-2-2x-502x+11034x+5x+271, 则f 30= () A. - 6B. 0C. - 1D. 6",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第七章 行列式",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-x08.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(10 分) 设函数y x满足方程y+ 2ay+ a2-1y = 0, 其中a > 1. (1) 证明反常积分0+∞yxdx 收敛； (2) 若y 0= 1,y0= 1, 求0+∞yxdx.",
   "options": [],
-  "chapter": "第三章 一元函数积分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-j17.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(12 分) 设f x=-1 x3-u1eu2du, 求f x在-1,1上的最小值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-j18.png"
  },
@@ -259,7 +259,7 @@
   "tags": [],
   "stem": "(12 分) 设A =a4b, A= 24,α = 1,0,1T 为A-1 的特征向量. -3-35 (1) 求a,b； (2) 求可逆矩阵P,使P-1AP 为对角阵； (3) 求可逆的实对称阵Q,使Q-1AQ = AT.",
   "options": [],
-  "chapter": "第八章 矩阵",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5036-j22.png"
  }

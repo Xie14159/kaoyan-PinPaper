@@ -31,7 +31,7 @@
   "tags": [],
   "stem": "设an =0 xn11-x2dx,bn =011-x2xndx,n = 1,2,3, ⋯, 则极限limn→∞nanbnn= (). A. e-2B. e-1C. eD. e2",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-x03.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "设f x有二阶连续导数阶, 且f x> 0,I1 =0 f2πxcosxdx,I2 =-π fπxcosxdx,则(). A. I2 < 0 < I1B. I1 < 0 < I2C. I1 > 0,I2 > 0D. I1 < 0,I2 < 0",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-x04.png"
  },
@@ -67,7 +67,7 @@
   "tags": [],
   "stem": "函数f x,y= 1+excosy - xex 在全平面内(). A. 无极值B. 有有限个极值 C. 有无穷多个极大值D. 有无穷多个极小值",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-x06.png"
  },
@@ -79,7 +79,7 @@
   "tags": [],
   "stem": "设y = y x满足条件y+ 4y+ 4y = xe-x,y 0= 0,y0= 2, 则0+∞yxdx = (). A. 1B. 1C. 3D. 1 424",
   "options": [],
-  "chapter": "第四章 多元函数微分学及其应用",
+  "chapter": "第六章 微分方程及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-x07.png"
  },
@@ -151,7 +151,7 @@
   "tags": [],
   "stem": "设函数f x= x- x2sin2πx, 其中x为取整函数, 则f 1010132= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-t13.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "由椭圆x2 + y28 = 1 和椭圆x28 + y2 = 1 所围成图形公共部分的面积为_____.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-t14.png"
  },
@@ -187,7 +187,7 @@
   "tags": [],
   "stem": "若A =-a-1-1a+1只有两个线性无关的特征向量, 则a = _____. 1-2a02a 三、解答题.",
   "options": [],
-  "chapter": "第九章 向量",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-t16.png"
  },
@@ -211,7 +211,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设f x= 1+x2+ax4e-x2, 其中a 为正的常数.求f x的最值.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-j18.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f u具有二阶连续导数, f 0= 65 ,f 0=- 65 , 且当x ≠0 时z = f x2-2y2满足等式2 ∂2z∂x2 - ∂2z∂y2 - 4x ⋅∂z∂x = 8 x2-2y2e2y2-x2-4z, 求函数f u的表达式.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-j19.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 计算0dax0e- x2+y2ady +0 e-a2sec2xπ4dx, 其中a 为正的常数.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5023-j20.png"
  },

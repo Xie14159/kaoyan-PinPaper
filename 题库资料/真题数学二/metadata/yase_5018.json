@@ -55,7 +55,7 @@
   "tags": [],
   "stem": "设f x,y是连续函数,则0d1x0 fx2x,ydy +1 d2x02-x2fx,ydy = () A.0d1yy2-y2fx,ydxB.0d1y02-y2fx,ydx C.0 d22yy2-y2fx,ydxD.0 d22y02-y2fx,ydx πcos x",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-x05.png"
  },
@@ -139,7 +139,7 @@
   "tags": [],
   "stem": "设y = f x由方程ey + y3 + 2y = sin3x + 1 确定,则f 2π= _____.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-t12.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "曲线x=2t+sint+2πy=t2-t与两个坐标轴所围成的平面有界区域D 的面积为_____.",
   "options": [],
-  "chapter": "第五章 二重积分",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-t14.png"
  },
@@ -199,7 +199,7 @@
   "tags": [],
   "stem": "(本题满分10 分) 设函数f x在x = 1 处可导且当x →0 时, 有等式2xex-1fcostdt + 9f 2 sinxx=- 14 x4 + o x4成立, 求y = f x在x = 1 处的切线方程.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-j17.png"
  },
@@ -223,7 +223,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设函数f x,y具有连续的偏导数且满足df = ex+y3x2+x3+3ydx+ 3+x3+3ydy及f 0,0= 0. (I) 求f x,y; (II) 求f x,y的极值.",
   "options": [],
-  "chapter": "第二章 一元函数微分学及其应用",
+  "chapter": "第四章 多元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5018-j19.png"
  },

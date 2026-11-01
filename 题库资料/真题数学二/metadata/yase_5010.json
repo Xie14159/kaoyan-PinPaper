@@ -19,7 +19,7 @@
   "tags": [],
   "stem": "曲线y =-1 + ln 1+e-xx1的渐近线的条数为 A. 1.B. 2.C. 3.D. 4.",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第二章 一元函数微分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5010-x02.png"
  },
@@ -43,7 +43,7 @@
   "tags": [],
   "stem": "已知方程1x1+tlntdt +11x1+tlntdt = a x>0有实根, 则a 的取值范围为 A.0,+∞.B. [0, +∞).C. (0,1).D. [1, +∞).",
   "options": [],
-  "chapter": "第一章 函数、极限、连续",
+  "chapter": "第三章 一元函数积分学及其应用",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5010-x04.png"
  },
@@ -91,7 +91,7 @@
   "tags": [],
   "stem": "设A =10- 120120,B =12-1-101,C =12-1-200, 则下列选项中正确的是 012- 12011001 A. A 与C 合同.B. A 与B 相似.C. B 与C 相似.D. B 与C 合同.",
   "options": [],
-  "chapter": "第十二章 二次型",
+  "chapter": "第十一章 相似矩阵",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5010-x08.png"
  },
@@ -163,7 +163,7 @@
   "tags": [],
   "stem": "0d1x01-xex+yxdy = _____.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5010-t14.png"
  },
@@ -235,7 +235,7 @@
   "tags": [],
   "stem": "(本题满分12 分) 设上半平面的有界区域D =x,y1≤x2+ y- x2≤2,0≤y.计算I =D2x2+y2x+1dxdy.",
   "options": [],
-  "chapter": "第六章 微分方程及其应用",
+  "chapter": "第五章 二重积分",
   "difficulty": "基础题",
   "stem_img": "figs/yase_5010-j20.png"
  },

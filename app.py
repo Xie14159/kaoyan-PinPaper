@@ -2757,8 +2757,48 @@ elif active_module == "📕 我的错题本":
             "history": ('🏆 历史错题', 'badge-comp'),
         }
 
+        # ===== 排序 / 分组 / 搜索 / 表格模式 =====
+        _wb_today = state_mgr._today()
+
+        def _wb_due_delta(qid):
+            """距到期的天数：负=逾期，0=今天，正=未来；历史/无记录返回 None。"""
+            rec = state_mgr.wrong_questions.get(qid)
+            if rec is None or not state_mgr.is_in_active_pool(qid):
+                return None
+            try:
+                return (state_mgr._due_date(rec, _wb_today) - _wb_today).days
+            except Exception:
+                return None
+
+        def _wb_due_text(qid):
+            d = _wb_due_delta(qid)
+            if d is None:
+                return "🏆 已归档"
+            if d < 0:
+                return f"⏰ 逾期 {-d} 天"
+            if d == 0:
+                return "🔔 今日到期"
+            return f"⏳ 还剩 {d} 天"
+
+        def _wb_type_text(q):
+            return getattr(getattr(q, "question_type", None), "value", "") or ""
+
+        _wb_kw = st.text_input(
+            "🔍 搜索（题号 / 题干关键词，留空显示全部）",
+            key=f"wb_kw_{current_subject.value}",
+            placeholder="例：03-基础-选-10 / 极限 / 隐函数",
+        ).strip()
+        _wb_kw_low = _wb_kw.lower()
+
+        def _wb_hit(q):
+            if not _wb_kw_low:
+                return True
+            if _wb_kw_low in q.id.lower():
+                return True
+            return _wb_kw_low in (q.stem or "").replace("$", "").lower()
+
         # 应用筛选(待练=全部活跃含顽固;顽固=活跃且做错≥2 —— 与概览重叠语义一致)
-        def _wb_pass(q) -> bool:
+        def _wb_pass(q):
             if wb_book_pick != "全部" and getattr(q, "book", "880") != wb_book_pick:
                 return False
             active = state_mgr.is_in_active_pool(q.id)
@@ -2770,33 +2810,58 @@ elif active_module == "📕 我的错题本":
                 return False
             if wb_ch_pick != "全部" and q.chapter != wb_ch_pick:
                 return False
-            if wb_type_pick != "全部" and q.question_type.value != wb_type_pick:
+            if wb_type_pick != "全部" and _wb_type_text(q) != wb_type_pick:
                 return False
-            return True
+            return _wb_hit(q)
 
-        shown = sorted([q for q in wb_all if _wb_pass(q)], key=lambda q: parse_qid_tuple(q.id))
-        st.caption(f"共 {len(shown)} 道（按题号排序）")
+        s0, s1, s2 = st.columns([2.1, 1.9, 1.5])
+        with s0:
+            wb_sort_pick = st.selectbox(
+                "排序",
+                ["⏰ 到期优先（最该练的在上）", "🔥 错次最多在上", "🔢 按题号"],
+                index=0, key=f"wb_sort_{current_subject.value}")
+        with s1:
+            wb_group_pick = st.selectbox(
+                "分组",
+                ["📅 按到期档位", "📄 按年份", "🚫 不分组"],
+                index=0, key=f"wb_group_{current_subject.value}")
+        with s2:
+            wb_table_pick = st.toggle(
+                "📊 表格模式", value=False, key=f"wb_table_{current_subject.value}",
+                help="表格里勾选后批量归档/删除，适合一次清理多条；关闭则用卡片逐题看")
 
-        # 做题模式：卡片自动展开、隐藏答案，直接看题做题（做对/又错 推进艾宾浩斯）。
-        # 自动展开规则：做题模式开启，或已筛选到具体章节（非"全部"）且数量可控——满足"筛选某章直接做题"。
+        def _wb_sort_key(q):
+            _d = _wb_due_delta(q.id)
+            _dd = 9999 if _d is None else _d
+            _wc = state_mgr.get_wrong_count(q.id)
+            if wb_sort_pick.startswith("⏰"):
+                return (_dd, -_wc, parse_qid_tuple(q.id))
+            if wb_sort_pick.startswith("🔥"):
+                return (-_wc, _dd, parse_qid_tuple(q.id))
+            return parse_qid_tuple(q.id)
+
+        shown = sorted([q for q in wb_all if _wb_pass(q)], key=_wb_sort_key)
+        _wb_sort_txt = "到期优先" if wb_sort_pick.startswith("⏰") else ("错次优先" if wb_sort_pick.startswith("🔥") else "题号")
+        st.caption(f"共 {len(shown)} 道 · 排序：{_wb_sort_txt}" + (f" · 搜索「{_wb_kw}」" if _wb_kw else ""))
+
+        # 做题模式：卡片藏在「展开」后面，答案默认隐藏（先做后看），做对/又错 推进艾宾浩斯。
         wb_mode = st.toggle(
             "🎯 做题模式",
             value=False,
             key=f"wb_mode_{current_subject.value}",
-            help="开启后卡片自动展开、答案默认隐藏，直接做题：✅做对推进艾宾浩斯间隔，❌又错则明天再练",
+            help="开启后展开卡片时答案默认隐藏，直接做题：✅做对推进艾宾浩斯间隔，❌又错则明天再练",
         )
-        wb_auto_expand = wb_mode or (wb_ch_pick != "全部" and len(shown) <= 60)
+        wb_auto_expand = False
         if wb_mode and len(shown) > 60:
-            st.caption(f"⚠️ 当前筛选 {len(shown)} 道较多，建议先按章节/题型缩小范围，避免页面卡顿")
+            st.caption(f"⚠️ 当前筛选 {len(shown)} 道较多，建议先按章节/题型缩小范围")
 
-        # 错题本列表上限:默认只渲染前 40 道,防止 264 道卡片一次渲染导致卡顿;"显示更多"按 40 追加。
-        # key 按科目隔离;切到具体章节时不截断(全量渲染),同时把 limit 重置回默认,避免切回"全部"仍是大值。
+        # 卡片分批渲染：默认 40 道，防止一次画几百张卡；表格模式不分批。
         _wb_limit_key = f"wb_view_limit_{current_subject.value}"
         if _wb_limit_key not in st.session_state:
             st.session_state[_wb_limit_key] = 40
         elif wb_ch_pick != "全部" and st.session_state[_wb_limit_key] != 40:
             st.session_state[_wb_limit_key] = 40
-        if wb_ch_pick == "全部" and len(shown) > st.session_state[_wb_limit_key]:
+        if (not wb_table_pick) and wb_ch_pick == "全部" and len(shown) > st.session_state[_wb_limit_key]:
             shown_render = shown[: st.session_state[_wb_limit_key]]
         else:
             shown_render = shown
@@ -2965,101 +3030,211 @@ elif active_module == "📕 我的错题本":
                     else:
                         st.info(f"「{wb_book_pick}」这本书目前还没有错题。")
             def _wb_render_card(q):
+                """卡片：默认只画标题行，点「展开」才渲染题干/选项/答案/按钮（真正的按需渲染）。"""
                 stt = _wb_status(q.id)
                 w_cnt = state_mgr.get_wrong_count(q.id)
                 label, _ = _STATUS_LABEL.get(stt, ('', ''))
-                # 摘要标题:一眼看清"哪几道" + 状态 + 做错次数
-                head = f"{label}　{q.id}　·　{q.chapter}　·　[{q.difficulty.value}]　·　做错 {w_cnt} 次"
-                with st.expander(head, expanded=wb_auto_expand, key=f"wb_exp_{q.id}"):
-                    render_question_stem(q)
-                    if q.options and not getattr(q, "stem_img", ""):
-                        oc1, oc2 = st.columns(2)
-                        for oi, opt in enumerate(q.options):
-                            (oc1 if oi % 2 == 0 else oc2).markdown(opt)
-                    # 做题模式：答案/解析默认隐藏（先做后看）；管理模式：直接展示
-                    if wb_mode:
-                        with st.expander("📖 查看答案与解析", expanded=False):
-                            if q.answer:
-                                st.markdown(f"**【参考答案】**：`{q.answer}`")
-                            if q.solution:
-                                st.markdown(f"**【详细解析】**：\n{q.solution}")
-                            if not q.answer:
-                                _h880 = ans880_page_hint(q)
-                                if _h880:
-                                    st.caption(_h880)
-                    else:
+                _t_show = _wb_type_text(q)
+                head = (
+                    f"{label}　{q.id}　·　{q.chapter}"
+                    + (f"　·　{_t_show}" if _t_show else "")
+                    + f"　·　错 {w_cnt} 次　·　{_wb_due_text(q.id)}"
+                )
+                _open_key = f"wb_open_{current_subject.value}"
+                _is_open = st.session_state.get(_open_key) == q.id
+                _hc1, _hc2 = st.columns([9, 1.5])
+                with _hc1:
+                    st.markdown(f"**{head}**")
+                with _hc2:
+                    if st.button(
+                        "收起 ▲" if _is_open else "展开 ▼",
+                        key=f"wb_tog_{q.id}", use_container_width=True,
+                    ):
+                        st.session_state[_open_key] = None if _is_open else q.id
+                        st.rerun(scope="fragment")
+                if not _is_open:
+                    st.markdown(
+                        '<div style="height:1px;background:#e2e8f0;margin:4px 0 12px;"></div>',
+                        unsafe_allow_html=True,
+                    )
+                    return
+                render_question_stem(q)
+                if q.options and not getattr(q, "stem_img", ""):
+                    oc1, oc2 = st.columns(2)
+                    for oi, opt in enumerate(q.options):
+                        (oc1 if oi % 2 == 0 else oc2).markdown(opt)
+                # 做题模式：答案/解析默认隐藏（先做后看）；管理模式：直接展示
+                if wb_mode:
+                    with st.expander("📖 查看答案与解析", expanded=False):
                         if q.answer:
                             st.markdown(f"**【参考答案】**：`{q.answer}`")
                         if q.solution:
                             st.markdown(f"**【详细解析】**：\n{q.solution}")
-                    # 操作按钮(按状态给对应动作)
-                    b1, b2, b3, b4 = st.columns(4)
-                    if stt in ("active", "stubborn"):
-                        if wb_mode:
-                            # 做题模式: 做对/又错 两个主操作 + 归档/删除
-                            with b1:
-                                if st.button("✅ 做对", type="primary", key=f"wb_ok_{q.id}", use_container_width=True,
-                                             help="本次做对，推进艾宾浩斯复习间隔"):
-                                    _do_wb_review(q.id, correct=True)
-                            with b2:
-                                if st.button("❌ 又错", key=f"wb_again_{q.id}", use_container_width=True,
-                                             help="本次做错，纳入复习：明天再练"):
-                                    _do_wb_review(q.id, correct=False)
-                            with b3:
-                                st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
-                                          help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
-                            with b4:
-                                st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
-                                          help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
-                        else:
-                            with b1:
-                                st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
-                                          help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
-                            with b2:
-                                st.button("➕ 又错一次", key=f"wb_inc_{q.id}", use_container_width=True,
-                                          help="再次做错，做错次数+1 并纳入艾宾浩斯（明天再练）", on_click=cb_inc_wrong, args=(q.id,))
-                            with b4:
-                                st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
-                                          help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
-                    elif stt == "history":
+                        if not q.answer:
+                            _h880 = ans880_page_hint(q)
+                            if _h880:
+                                st.caption(_h880)
+                else:
+                    if q.answer:
+                        st.markdown(f"**【参考答案】**：`{q.answer}`")
+                    if q.solution:
+                        st.markdown(f"**【详细解析】**：\n{q.solution}")
+                b1, b2, b3, b4 = st.columns(4)
+                if stt in ("active", "stubborn"):
+                    if wb_mode:
                         with b1:
-                            st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
-                                      help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
+                            if st.button("✅ 做对", type="primary", key=f"wb_ok_{q.id}", use_container_width=True,
+                                         help="本次做对，推进艾宾浩斯复习间隔"):
+                                _do_wb_review(q.id, correct=True)
+                        with b2:
+                            if st.button("❌ 又错", key=f"wb_again_{q.id}", use_container_width=True,
+                                         help="本次做错，纳入复习：明天再练"):
+                                _do_wb_review(q.id, correct=False)
+                        with b3:
+                            st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
+                                      help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
+                        with b4:
+                            st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
+                                      help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
+                    else:
+                        with b1:
+                            st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
+                                      help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
+                        with b2:
+                            st.button("➕ 又错一次", key=f"wb_inc_{q.id}", use_container_width=True,
+                                      help="再次做错，做错次数+1 并纳入艾宾浩斯（明天再练）", on_click=cb_inc_wrong, args=(q.id,))
+                        with b4:
+                            st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
+                                      help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
+                elif stt == "history":
+                    with b1:
+                        st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
+                                  help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
+                st.markdown('<div style="height:1px;background:#e2e8f0;margin:10px 0 14px;"></div>', unsafe_allow_html=True)
 
 
-            # 真题按年份折叠：一年一块，点开才看该年错题（题号升序）
-            def _wb_qnum(_qid: str) -> int:
+            # ---------- 📊 表格模式：批量管理 ----------
+            if wb_table_pick:
+                import pandas as _pd
+
+                _rows = []
+                for q in shown:
+                    _rows.append({
+                        "选择": False,
+                        "题号": q.id,
+                        "书籍": getattr(q, "book", "880"),
+                        "章节": q.chapter,
+                        "题型": _wb_type_text(q),
+                        "错次": state_mgr.get_wrong_count(q.id),
+                        "到期": _wb_due_text(q.id),
+                    })
+                _df = _pd.DataFrame(_rows)
+                st.caption(f"表格模式：给「选择」列打勾后，用下面按钮批量操作（共 {len(_df)} 行）")
+                _edited = st.data_editor(
+                    _df, hide_index=True, use_container_width=True, height=620,
+                    column_config={
+                        "选择": st.column_config.CheckboxColumn("选择", default=False),
+                        "题号": st.column_config.TextColumn("题号", disabled=True),
+                        "书籍": st.column_config.TextColumn("书籍", disabled=True),
+                        "章节": st.column_config.TextColumn("章节", disabled=True),
+                        "题型": st.column_config.TextColumn("题型", disabled=True),
+                        "错次": st.column_config.NumberColumn("错次", disabled=True, width="small"),
+                        "到期": st.column_config.TextColumn("到期", disabled=True),
+                    },
+                    key=f"wb_table_editor_{current_subject.value}",
+                )
+                _sel = [r["题号"] for _, r in _edited.iterrows() if bool(r["选择"])]
+                st.caption(f"已选 {len(_sel)} 道")
+                t1, t2, t3 = st.columns(3)
+                with t1:
+                    if st.button(f"🏆 归档所选（{len(_sel)}）", disabled=not _sel,
+                                 key=f"wb_batch_arch_{current_subject.value}", use_container_width=True):
+                        for _qid in _sel:
+                            state_mgr.mark_solved_correctly(_qid)
+                        state_mgr.save_state()
+                        st.session_state["wb_flash"] = ("info", f"已归档 {len(_sel)} 道为历史错题")
+                        st.rerun(scope="fragment")
+                with t2:
+                    if st.button(f"➕ 又错一次（{len(_sel)}）", disabled=not _sel,
+                                 key=f"wb_batch_inc_{current_subject.value}", use_container_width=True):
+                        for _qid in _sel:
+                            state_mgr.increment_wrong_count(_qid)
+                        state_mgr.save_state()
+                        st.session_state["wb_flash"] = ("wrong", f"已记录 {len(_sel)} 道（明天再练）")
+                        st.rerun(scope="fragment")
+                with t3:
+                    if st.button(f"🗑️ 删除所选（{len(_sel)}）", disabled=not _sel,
+                                 key=f"wb_batch_del_{current_subject.value}", use_container_width=True):
+                        for _qid in _sel:
+                            state_mgr.remove_wrong_question(_qid)
+                        state_mgr.save_state()
+                        st.session_state["wb_flash"] = ("warn", f"已删除 {len(_sel)} 道")
+                        st.rerun(scope="fragment")
+                return
+
+            # ---------- 分组 ----------
+            def _wb_qnum(_qid):
                 _t = _qid.rsplit("-", 1)[-1]
                 return int(_t) if _t.isdigit() else 0
 
             _wb_groups = []
-            if _wb_cur and all(str(getattr(q, "year", "") or "") for q in _wb_cur):
+            if wb_group_pick.startswith("📅"):
+                def _wb_tier(q):
+                    _d = _wb_due_delta(q.id)
+                    if _d is None:
+                        return (9, "🏆 历史（已归档）")
+                    if _d < -14:
+                        return (0, "🔴 逾期 15 天以上")
+                    if _d < -7:
+                        return (1, "🟠 逾期 8–14 天")
+                    if _d < -3:
+                        return (2, "🟡 逾期 4–7 天")
+                    if _d < 0:
+                        return (3, "🟢 逾期 1–3 天")
+                    if _d == 0:
+                        return (4, "🔔 今日到期")
+                    return (5, "⏳ 未来到期")
+
+                _buckets = {}
+                for q in shown:
+                    _buckets.setdefault(_wb_tier(q), []).append(q)
+                for _k in sorted(_buckets):
+                    _wb_groups.append((_k[1], _buckets[_k]))
+            elif wb_group_pick.startswith("📄") and shown and all(
+                str(getattr(q, "year", "") or "") for q in shown
+            ):
                 _wb_by_year = {}
-                for q in _wb_cur:
+                for q in shown:
                     _wb_by_year.setdefault(str(getattr(q, "year", "")), []).append(q)
                 for _y in sorted(_wb_by_year, reverse=True):
-                    _qs = sorted(_wb_by_year[_y], key=lambda x: _wb_qnum(x.id))
-                    _wb_groups.append((_y, _qs))
+                    _wb_groups.append((f"📄 {_y} 年真题 · {len(_wb_by_year[_y])} 道", sorted(_wb_by_year[_y], key=lambda x: _wb_qnum(x.id))))
             else:
-                _wb_groups = [("", _wb_cur)]
+                _wb_groups = [("", shown)]
 
-            for _gy, _gqs in _wb_groups:
-                if not _gy:
+            # 预算内渲染：所有分组标题都出来（带真实总数），卡片刻到预算为止
+            _wb_budget = len(shown) if wb_table_pick else st.session_state[_wb_limit_key]
+            _wb_rendered = 0
+            for _gname, _gqs in _wb_groups:
+                if not _gname:
                     for q in _gqs:
+                        if _wb_rendered >= _wb_budget:
+                            break
                         _wb_render_card(q)
+                        _wb_rendered += 1
                     continue
-                with st.expander(
-                    f"📄 {_gy} 年真题错题 · {len(_gqs)} 道（按题号）",
-                    expanded=False,
-                    key=f"wb_year_{_gy}",
-                ):
-                    for q in _gqs:
+                _room = max(0, _wb_budget - _wb_rendered)
+                _show_qs = _gqs[:_room]
+                with st.expander(f"{_gname} · 共 {len(_gqs)} 道", expanded=False, key=f"wb_grp_{current_subject.value}_{_gname}"):
+                    for q in _show_qs:
                         _wb_render_card(q)
+                        _wb_rendered += 1
+                    if len(_show_qs) < len(_gqs):
+                        st.caption(f"本组还有 {len(_gqs) - len(_show_qs)} 道未显示 —— 点最下方「显示更多」继续加载")
 
-            # 列表上限截断:全部筛选下超过 40 道时分批加载,避免一次性渲染 264 个卡片卡顿
-            if len(shown_render) < len(shown):
+            # 列表上限截断:卡片模式下分批加载
+            if _wb_rendered < len(shown):
                 if st.button(
-                    f"⬇️ 显示更多（还剩 {len(shown) - len(shown_render)} 道）",
+                    f"⬇️ 显示更多（还剩 {len(shown) - _wb_rendered} 道）",
                     key=f"wb_more_{current_subject.value}", use_container_width=True,
                 ):
                     st.session_state[_wb_limit_key] += 40

@@ -1583,13 +1583,16 @@ _WB_CARD_CSS = """
 .wb-kpi-k{font-size:12px;color:#64748b;font-weight:600;margin-bottom:2px;}
 .wb-kpi-v{font-size:26px;font-weight:800;color:#0f172a;line-height:1.2;}
 .wb-kpi-s{font-size:11px;color:#94a3b8;margin-top:2px;}
-[class*="st-key-wbcard-"]{background:#fff;border:1px solid #e9edf3;border-radius:14px;
-  padding:14px 16px 6px 16px;margin:2px 0 12px 0;box-shadow:0 1px 2px rgba(16,24,40,.04);
-  transition:box-shadow .16s ease,border-color .16s ease;}
-[class*="st-key-wbcard-"]:hover{box-shadow:0 6px 18px rgba(16,24,40,.08);border-color:#d5dde8;}
+[class*="st-key-wbcard-"],[class*="st-key-dcard-"],[class*="st-key-rvcard-"]{background:#fff;
+  border:1px solid #e9edf3;border-radius:14px;padding:14px 16px 6px 16px;margin:2px 0 12px 0;
+  box-shadow:0 1px 2px rgba(16,24,40,.04);transition:box-shadow .16s ease,border-color .16s ease;}
+[class*="st-key-wbcard-"]:hover,[class*="st-key-dcard-"]:hover,[class*="st-key-rvcard-"]:hover{
+  box-shadow:0 6px 18px rgba(16,24,40,.08);border-color:#d5dde8;}
 @media (max-width:900px){.wb-kpi{grid-template-columns:repeat(2,minmax(0,1fr));}}
 </style>
 """
+# 卡片/药丸/指标卡的样式必须全局注入：错题本、每日错题、复盘三处共用同一套类名。
+st.markdown(_WB_CARD_CSS, unsafe_allow_html=True)
 
 _CH12_ORDER = [
     ("二次型", "第十二章 二次型"),
@@ -3101,8 +3104,7 @@ elif active_module == "📕 我的错题本":
                     st.toast(f"✓ {_fmsg}")
                 else:
                     st.toast(f"⚠️ {_fmsg}")
-            st.markdown(_WB_CARD_CSS, unsafe_allow_html=True)
-            _fb = st.session_state.pop("wb_feedback", None)
+                _fb = st.session_state.pop("wb_feedback", None)
             if _fb:
                 _bits = [f"**{_fb['qid']}**", ("做对了" if _fb["ok"] else "又错了一次")]
                 if _fb.get("stage") is not None:
@@ -3600,15 +3602,36 @@ elif active_module == "📅 每日错题":
                                   on_click=_eb_goto, args=(_eb_page + 1,))
                 st.caption(f"今日专项 {len(_ids)} 道 · 第 {_eb_page}/{_eb_n_pages} 页")
             _eb_view = _ids[(_eb_page - 1) * _eb_page_size: _eb_page * _eb_page_size]
+            def _eb_due_pill(_qid: str) -> str:
+                """到期状态药丸：逾期红 / 今日橙 / 3 天内蓝 / 更远灰 / 已归档金。"""
+                _rec = state_mgr.wrong_questions.get(_qid)
+                if _rec is None or not state_mgr.is_in_active_pool(_qid):
+                    return '<span class="wb-pill wb-gold">🏆 已归档</span>'
+                try:
+                    _d = (state_mgr._due_date(_rec, state_mgr._today()) - state_mgr._today()).days
+                except Exception:
+                    return ''
+                if _d < 0:
+                    return f'<span class="wb-pill wb-red">⏰ 逾期 {-_d} 天</span>'
+                if _d == 0:
+                    return '<span class="wb-pill wb-orange">🔔 今日到期</span>'
+                if _d <= 3:
+                    return f'<span class="wb-pill wb-blue">⏳ 还剩 {_d} 天</span>'
+                return f'<span class="wb-pill wb-grey">⏳ 还剩 {_d} 天</span>'
+
             for _i2, _qid2 in enumerate(_eb_view, (_eb_page - 1) * _eb_page_size + 1):
                 _q2 = _q_by_id2[_qid2]
                 _r2 = state_mgr.wrong_questions.get(_qid2)
-                with st.container(border=True, key=f"dcard-{_qid2}"):
+                with st.container(border=False, key=f"dcard-{_qid2}"):
                     _head2 = (
-                        f'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">'
-                        f'<span style="font-weight:800;font-size:15px;">{_i2}.</span>'
-                        f'<span style="font-size:11px;color:#64748b;font-family:monospace;">{_qid2} · 错{_r2.wrong_count if _r2 else 1}次 · 阶段{_r2.review_stage if _r2 else 0}/5 · {_r2.error_tag if _r2 else "概念模糊"}</span>'
-                        f'</div>'
+                        '<div class="wb-hd">' + _eb_due_pill(_qid2) +
+                        f'<span class="wb-pill wb-grey">错 {_r2.wrong_count if _r2 else 1} 次</span>' +
+                        f'<span class="wb-qid">{_i2}. {html.escape(str(_qid2))}</span>' +
+                        f'<span class="wb-meta">{html.escape(str(_q2.chapter))} · '
+                        f'{html.escape(str(getattr(getattr(_q2, "question_type", None), "value", "") or ""))} · '
+                        f'阶段 {_r2.review_stage if _r2 else 0}/5 · '
+                        f'{html.escape(str(getattr(_r2, "error_tag", "") or "概念模糊"))}</span>'
+                        '</div>'
                     )
                     st.markdown(_head2, unsafe_allow_html=True)
                     render_question_stem(_q2)
@@ -3880,18 +3903,37 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 st.session_state.setdefault("rv_done", {})[_qid] = state_mgr._today().isoformat()
                 st.rerun(scope="fragment")
 
+            def _rv_due_pill(_qid: str) -> str:
+                """到期状态药丸（与错题本/每日错题同一套配色）。"""
+                _rec = state_mgr.wrong_questions.get(_qid)
+                if _rec is None or not state_mgr.is_in_active_pool(_qid):
+                    return '<span class="wb-pill wb-gold">🏆 已归档</span>'
+                try:
+                    _d = (state_mgr._due_date(_rec, state_mgr._today()) - state_mgr._today()).days
+                except Exception:
+                    return ''
+                if _d < 0:
+                    return f'<span class="wb-pill wb-red">⏰ 逾期 {-_d} 天</span>'
+                if _d == 0:
+                    return '<span class="wb-pill wb-orange">🔔 今日到期</span>'
+                if _d <= 3:
+                    return f'<span class="wb-pill wb-blue">⏳ 还剩 {_d} 天</span>'
+                return f'<span class="wb-pill wb-grey">⏳ 还剩 {_d} 天</span>'
+
             def _rv_card(_idx, _qid, _tag) -> None:
                 _q3 = _q_by_id3.get(_qid)
                 if _q3 is None:
                     return
                 _rec3 = state_mgr.wrong_questions.get(_qid)
-                with st.container(border=True, key=f"rvcard-{_qid}"):
+                with st.container(border=False, key=f"rvcard-{_qid}"):
                     _head3 = (
-                        f'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">'
-                        f'<span style="font-weight:800;font-size:15px;">{_idx}. {_tag}</span>'
-                        f'<span style="font-size:11px;color:#64748b;font-family:monospace;">'
-                        f'{_qid} · {getattr(_q3, "book", "")} · 错{_rec3.wrong_count if _rec3 else 1}次 · '
-                        f'阶段{_rec3.review_stage if _rec3 else 0}/5</span></div>'
+                        '<div class="wb-hd">' + _rv_due_pill(_qid) +
+                        f'<span class="wb-pill wb-grey">{html.escape(str(_tag))}</span>' +
+                        f'<span class="wb-qid">{_idx}. {html.escape(str(_qid))}</span>' +
+                        f'<span class="wb-meta">{html.escape(str(getattr(_q3, "book", "") or ""))} · '
+                        f'错 {_rec3.wrong_count if _rec3 else 1} 次 · '
+                        f'阶段 {_rec3.review_stage if _rec3 else 0}/5</span>'
+                        '</div>'
                     )
                     st.markdown(_head3, unsafe_allow_html=True)
                     render_question_stem(_q3)

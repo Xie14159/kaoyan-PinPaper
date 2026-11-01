@@ -1627,10 +1627,29 @@ def _rv_cycle_end() -> None:
     try:
         os.makedirs(os.path.dirname(_RV_CYCLE_FILE), exist_ok=True)
         with open(_RV_CYCLE_FILE, "w", encoding="utf-8") as _f:
-            json.dump({"last_end": datetime.datetime.now().isoformat(timespec="seconds")},
-                      _f, ensure_ascii=False)
+            json.dump({"last_end": datetime.datetime.now().isoformat(timespec="seconds"),
+                       "shown": []}, _f, ensure_ascii=False)
     except Exception as _e:
         st.warning(f"本轮标记写入失败：{_e}")
+
+def _rv_cycle_mark(_qids) -> None:
+    """记录本轮已经排过版的题，避免同一簇里前几道长期占位、后面的题饿死。"""
+    _ids = [str(i) for i in _qids if i]
+    if not _ids:
+        return
+    try:
+        _d = _rv_cycle_get()
+        _shown = list(_d.get("shown") or [])
+        _add = [i for i in _ids if i not in set(_shown)]
+        if not _add:
+            return
+        _d["shown"] = _shown + _add
+        os.makedirs(os.path.dirname(_RV_CYCLE_FILE), exist_ok=True)
+        with open(_RV_CYCLE_FILE, "w", encoding="utf-8") as _f:
+            json.dump(_d, _f, ensure_ascii=False)
+    except Exception:
+        pass
+
 
 _CH12_ORDER = [
     ("二次型", "第十二章 二次型"),
@@ -3881,6 +3900,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 # 判分后回到第一页：不然在第 3 页做完最后几道、页数变 2 时会停在「第 2 页」
                 st.session_state[_pg_key] = 0
                 st.session_state.setdefault("rv_done", {})[_qid] = state_mgr._today().isoformat()
+                _rv_cycle_mark([_qid])
                 st.rerun(scope="fragment")
 
             def _rv_due_pill(_qid: str) -> str:
@@ -3977,9 +3997,11 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             for _qid in list(_z_ids) + list(_o_ids):
                 _buckets.setdefault(_rv_kp(_qid), []).append(_qid)
 
+            _rv_shown = set(_rv_cycle_get().get("shown") or [])
             _rv_groups = []
             for _kname, _qids_k in _buckets.items():
-                _sorted_k = sorted(_qids_k, key=_rv_sort_key)      # 错次多、久未复习的优先
+                # 本轮已经排过版的排到后面：错次再多，也不能一直霸占每簇的前两个位置
+                _sorted_k = sorted(_qids_k, key=lambda i: ((i in _rv_shown),) + _rv_sort_key(i))
                 _new_k = [i for i in _sorted_k if _rv_is_new(i)]
                 _old_k = [i for i in _sorted_k if not _rv_is_new(i)]
                 _take = (_new_k[:1] + _old_k[:2]) if _new_k else _old_k[:2]

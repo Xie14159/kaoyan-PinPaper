@@ -2964,7 +2964,7 @@ elif active_module == "📕 我的错题本":
                         )
                     else:
                         st.info(f"「{wb_book_pick}」这本书目前还没有错题。")
-            for q in _wb_cur:
+            def _wb_render_card(q):
                 stt = _wb_status(q.id)
                 w_cnt = state_mgr.get_wrong_count(q.id)
                 label, _ = _STATUS_LABEL.get(stt, ('', ''))
@@ -3025,6 +3025,36 @@ elif active_module == "📕 我的错题本":
                         with b1:
                             st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
                                       help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
+
+
+            # 真题按年份折叠：一年一块，点开才看该年错题（题号升序）
+            def _wb_qnum(_qid: str) -> int:
+                _t = _qid.rsplit("-", 1)[-1]
+                return int(_t) if _t.isdigit() else 0
+
+            _wb_groups = []
+            if _wb_cur and all(str(getattr(q, "year", "") or "") for q in _wb_cur):
+                _wb_by_year = {}
+                for q in _wb_cur:
+                    _wb_by_year.setdefault(str(getattr(q, "year", "")), []).append(q)
+                for _y in sorted(_wb_by_year, reverse=True):
+                    _qs = sorted(_wb_by_year[_y], key=lambda x: _wb_qnum(x.id))
+                    _wb_groups.append((_y, _qs))
+            else:
+                _wb_groups = [("", _wb_cur)]
+
+            for _gy, _gqs in _wb_groups:
+                if not _gy:
+                    for q in _gqs:
+                        _wb_render_card(q)
+                    continue
+                with st.expander(
+                    f"📄 {_gy} 年真题错题 · {len(_gqs)} 道（按题号）",
+                    expanded=False,
+                    key=f"wb_year_{_gy}",
+                ):
+                    for q in _gqs:
+                        _wb_render_card(q)
 
             # 列表上限截断:全部筛选下超过 40 道时分批加载,避免一次性渲染 264 个卡片卡顿
             if len(shown_render) < len(shown):

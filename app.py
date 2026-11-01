@@ -2888,9 +2888,9 @@ elif active_module == "📕 我的错题本":
         # 卡片分批渲染：默认 40 道，防止一次画几百张卡；表格模式不分批。
         _wb_limit_key = f"wb_view_limit_{current_subject.value}"
         if _wb_limit_key not in st.session_state:
-            st.session_state[_wb_limit_key] = 40
-        elif wb_ch_pick != "全部" and st.session_state[_wb_limit_key] != 40:
-            st.session_state[_wb_limit_key] = 40
+            st.session_state[_wb_limit_key] = 20
+        elif wb_ch_pick != "全部" and st.session_state[_wb_limit_key] != 20:
+            st.session_state[_wb_limit_key] = 20
         if (not wb_table_pick) and wb_ch_pick == "全部" and len(shown) > st.session_state[_wb_limit_key]:
             shown_render = shown[: st.session_state[_wb_limit_key]]
         else:
@@ -3060,13 +3060,14 @@ elif active_module == "📕 我的错题本":
                     else:
                         st.info(f"「{wb_book_pick}」这本书目前还没有错题。")
             def _wb_render_card(q):
-                """卡片：默认只画标题行，点「展开」才渲染题干/选项/答案/按钮（真正的按需渲染）。"""
+                """卡片：默认展开（题干/选项/答案/按钮直接可见），点「收起」只折叠这一张。"""
                 stt = _wb_status(q.id)
                 w_cnt = state_mgr.get_wrong_count(q.id)
                 label, _ = _STATUS_LABEL.get(stt, ('', ''))
                 head = f"{label}　{q.id}　·　{q.chapter}　·　[{q.difficulty.value}]　·　做错 {w_cnt} 次"
-                _open_key = f"wb_open_{current_subject.value}"
-                _is_open = st.session_state.get(_open_key) == q.id
+                _closed_key = f"wb_closed_{current_subject.value}"
+                _closed = st.session_state.setdefault(_closed_key, set())
+                _is_open = q.id not in _closed
                 _hc1, _hc2 = st.columns([9, 1.5])
                 with _hc1:
                     st.markdown(f"**{head}**")
@@ -3075,7 +3076,11 @@ elif active_module == "📕 我的错题本":
                         "收起 ▲" if _is_open else "展开 ▼",
                         key=f"wb_tog_{q.id}", use_container_width=True,
                     ):
-                        st.session_state[_open_key] = None if _is_open else q.id
+                        if _is_open:
+                            _closed.add(q.id)
+                        else:
+                            _closed.discard(q.id)
+                        st.session_state[_closed_key] = _closed
                         st.rerun(scope="fragment")
                 if not _is_open:
                     st.markdown(
@@ -3241,7 +3246,7 @@ elif active_module == "📕 我的错题本":
                     f"⬇️ 显示更多（还剩 {len(shown) - _wb_rendered} 道）",
                     key=f"wb_more_{current_subject.value}", use_container_width=True,
                 ):
-                    st.session_state[_wb_limit_key] += 40
+                    st.session_state[_wb_limit_key] += 20
                     st.rerun(scope="fragment")
 
 

@@ -1575,6 +1575,19 @@ _WB_CARD_CSS = """
 .wb-gold{background:#fef3c7;color:#92400e;}
 .wb-qid{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:15px;color:#0f172a;}
 .wb-meta{font-size:13px;color:#64748b;}
+.wb-kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:8px 0 16px;}
+.wb-kpi-card{background:#fff;border:1px solid #e6eaf0;border-radius:14px;padding:11px 14px;box-shadow:0 1px 2px rgba(16,24,40,.04);}
+.wb-kpi-warm{border-left:3px solid #f59e0b;}
+.wb-kpi-hot{border-left:3px solid #ef4444;}
+.wb-kpi-cool{border-left:3px solid #10b981;}
+.wb-kpi-k{font-size:12px;color:#64748b;font-weight:600;margin-bottom:2px;}
+.wb-kpi-v{font-size:26px;font-weight:800;color:#0f172a;line-height:1.2;}
+.wb-kpi-s{font-size:11px;color:#94a3b8;margin-top:2px;}
+[class*="st-key-wbcard-"]{background:#fff;border:1px solid #e9edf3;border-radius:14px;
+  padding:14px 16px 6px 16px;margin:2px 0 12px 0;box-shadow:0 1px 2px rgba(16,24,40,.04);
+  transition:box-shadow .16s ease,border-color .16s ease;}
+[class*="st-key-wbcard-"]:hover{box-shadow:0 6px 18px rgba(16,24,40,.08);border-color:#d5dde8;}
+@media (max-width:900px){.wb-kpi{grid-template-columns:repeat(2,minmax(0,1fr));}}
 </style>
 """
 
@@ -2780,10 +2793,34 @@ elif active_module == "📕 我的错题本":
     wb_stubborn = [q for q in wb_active_all if state_mgr.get_wrong_count(q.id) >= state_mgr.STUBBORN_THRESHOLD]
     wb_history = [q for q in wb_all if state_mgr.is_temporarily_mastered(q.id)]
 
-    wb_c1, wb_c2, wb_c3 = st.columns(3)
-    with wb_c1: st.metric("🎯 待练错题", f"{len(wb_active_all)} 题")
-    with wb_c2: st.metric("🔥 顽固错题", f"{len(wb_stubborn)} 题")
-    with wb_c3: st.metric("🏆 历史错题", f"{len(wb_history)} 题")
+    _wb_today = state_mgr._today()
+
+    def _wb_due_delta(qid):
+        """距到期的天数：负=逾期，0=今天，正=未来；历史/无记录返回 None。"""
+        rec = state_mgr.wrong_questions.get(qid)
+        if rec is None or not state_mgr.is_in_active_pool(qid):
+            return None
+        try:
+            return (state_mgr._due_date(rec, _wb_today) - _wb_today).days
+        except Exception:
+            return None
+
+
+    _wb_due_today = sum(1 for _q in wb_active_all if _wb_due_delta(_q.id) == 0)
+    _wb_overdue = sum(1 for _q in wb_active_all if (_wb_due_delta(_q.id) is not None and _wb_due_delta(_q.id) < 0))
+    st.markdown(
+        '<div class="wb-kpi">'
+        f'<div class="wb-kpi-card"><div class="wb-kpi-k">🎯 待练错题</div>'
+        f'<div class="wb-kpi-v">{len(wb_active_all)}</div><div class="wb-kpi-s">含顽固 {len(wb_stubborn)} 道</div></div>'
+        f'<div class="wb-kpi-card wb-kpi-warm"><div class="wb-kpi-k">⏰ 待复习</div>'
+        f'<div class="wb-kpi-v">{_wb_overdue + _wb_due_today}</div><div class="wb-kpi-s">逾期 {_wb_overdue} · 今日 {_wb_due_today}</div></div>'
+        f'<div class="wb-kpi-card wb-kpi-hot"><div class="wb-kpi-k">🔥 顽固错题</div>'
+        f'<div class="wb-kpi-v">{len(wb_stubborn)}</div><div class="wb-kpi-s">错≥2 次</div></div>'
+        f'<div class="wb-kpi-card wb-kpi-cool"><div class="wb-kpi-k">🏆 历史错题</div>'
+        f'<div class="wb-kpi-v">{len(wb_history)}</div><div class="wb-kpi-s">已归档</div></div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
 
     if not wb_all:
         st.info("还没有标记任何错题。去『🏷️ 题库逐题标错』把做错的题录进来，这里就能看到全科错题清单。")
@@ -2827,17 +2864,6 @@ elif active_module == "📕 我的错题本":
         }
 
         # ===== 排序 / 分组 / 搜索 / 表格模式 =====
-        _wb_today = state_mgr._today()
-
-        def _wb_due_delta(qid):
-            """距到期的天数：负=逾期，0=今天，正=未来；历史/无记录返回 None。"""
-            rec = state_mgr.wrong_questions.get(qid)
-            if rec is None or not state_mgr.is_in_active_pool(qid):
-                return None
-            try:
-                return (state_mgr._due_date(rec, _wb_today) - _wb_today).days
-            except Exception:
-                return None
 
         def _wb_due_text(qid):
             d = _wb_due_delta(qid)
@@ -3117,95 +3143,92 @@ elif active_module == "📕 我的错题本":
                         st.info(f"「{wb_book_pick}」这本书目前还没有错题。")
             def _wb_render_card(q):
                 """卡片：默认展开（题干/选项/答案/按钮直接可见），点「收起」只折叠这一张。"""
-                stt = _wb_status(q.id)
-                w_cnt = state_mgr.get_wrong_count(q.id)
-                label, _ = _STATUS_LABEL.get(stt, ('', ''))
-                _pills = f'<span class="wb-pill {_wb_due_cls(q.id)}">{html.escape(_wb_due_text(q.id))}</span>'
-                if label:
-                    _pills += f'<span class="wb-pill wb-grey">{html.escape(label)}</span>'
-                _head = (
-                    '<div class="wb-hd">' + _pills +
-                    f'<span class="wb-qid">{html.escape(str(q.id))}</span>' +
-                    f'<span class="wb-meta">{html.escape(str(q.chapter))} · '
-                    f'{html.escape(_wb_type_text(q))} · 做错 {w_cnt} 次</span>'
-                    '</div>'
-                )
-                _closed_key = f"wb_closed_{current_subject.value}"
-                _closed = st.session_state.setdefault(_closed_key, set())
-                _is_open = q.id not in _closed
-                _hc1, _hc2 = st.columns([9, 1.5])
-                with _hc1:
-                    st.markdown(_head, unsafe_allow_html=True)
-                with _hc2:
-                    if st.button(
-                        "收起 ▲" if _is_open else "展开 ▼",
-                        key=f"wb_tog_{q.id}", use_container_width=True,
-                    ):
-                        if _is_open:
-                            _closed.add(q.id)
-                        else:
-                            _closed.discard(q.id)
-                        st.session_state[_closed_key] = _closed
-                        st.rerun(scope="fragment")
-                if not _is_open:
-                    st.markdown(
-                        '<div style="height:1px;background:#e2e8f0;margin:4px 0 12px;"></div>',
-                        unsafe_allow_html=True,
+                # 每道题一个浅色卡片容器（CSS 见 _WB_CARD_CSS 的 .st-key-wbcard-）
+                with st.container(border=False, key=f"wbcard-{q.id}"):
+                    stt = _wb_status(q.id)
+                    w_cnt = state_mgr.get_wrong_count(q.id)
+                    label, _ = _STATUS_LABEL.get(stt, ('', ''))
+                    _pills = f'<span class="wb-pill {_wb_due_cls(q.id)}">{html.escape(_wb_due_text(q.id))}</span>'
+                    if label:
+                        _pills += f'<span class="wb-pill wb-grey">{html.escape(label)}</span>'
+                    _head = (
+                        '<div class="wb-hd">' + _pills +
+                        f'<span class="wb-qid">{html.escape(str(q.id))}</span>' +
+                        f'<span class="wb-meta">{html.escape(str(q.chapter))} · '
+                        f'{html.escape(_wb_type_text(q))} · 做错 {w_cnt} 次</span>'
+                        '</div>'
                     )
-                    return
-                render_question_stem(q)
-                if q.options and not getattr(q, "stem_img", ""):
-                    oc1, oc2 = st.columns(2)
-                    for oi, opt in enumerate(q.options):
-                        (oc1 if oi % 2 == 0 else oc2).markdown(opt)
-                # 做题模式：答案/解析默认隐藏（先做后看）；管理模式：直接展示
-                if wb_mode:
-                    with st.expander("📖 查看答案与解析", expanded=False):
+                    _closed_key = f"wb_closed_{current_subject.value}"
+                    _closed = st.session_state.setdefault(_closed_key, set())
+                    _is_open = q.id not in _closed
+                    _hc1, _hc2 = st.columns([9, 1.5])
+                    with _hc1:
+                        st.markdown(_head, unsafe_allow_html=True)
+                    with _hc2:
+                        if st.button(
+                            "收起 ▲" if _is_open else "展开 ▼",
+                            key=f"wb_tog_{q.id}", use_container_width=True,
+                        ):
+                            if _is_open:
+                                _closed.add(q.id)
+                            else:
+                                _closed.discard(q.id)
+                            st.session_state[_closed_key] = _closed
+                            st.rerun(scope="fragment")
+                    if not _is_open:
+                        return
+                    render_question_stem(q)
+                    if q.options and not getattr(q, "stem_img", ""):
+                        oc1, oc2 = st.columns(2)
+                        for oi, opt in enumerate(q.options):
+                            (oc1 if oi % 2 == 0 else oc2).markdown(opt)
+                    # 做题模式：答案/解析默认隐藏（先做后看）；管理模式：直接展示
+                    if wb_mode:
+                        with st.expander("📖 查看答案与解析", expanded=False):
+                            if q.answer:
+                                st.markdown(f"**【参考答案】**：`{q.answer}`")
+                            if q.solution:
+                                st.markdown(f"**【详细解析】**：\n{q.solution}")
+                            if not q.answer:
+                                _h880 = ans880_page_hint(q)
+                                if _h880:
+                                    st.caption(_h880)
+                    else:
                         if q.answer:
                             st.markdown(f"**【参考答案】**：`{q.answer}`")
                         if q.solution:
                             st.markdown(f"**【详细解析】**：\n{q.solution}")
-                        if not q.answer:
-                            _h880 = ans880_page_hint(q)
-                            if _h880:
-                                st.caption(_h880)
-                else:
-                    if q.answer:
-                        st.markdown(f"**【参考答案】**：`{q.answer}`")
-                    if q.solution:
-                        st.markdown(f"**【详细解析】**：\n{q.solution}")
-                b1, b2, b3, b4 = st.columns(4)
-                if stt in ("active", "stubborn"):
-                    if wb_mode:
+                    b1, b2, b3, b4 = st.columns(4)
+                    if stt in ("active", "stubborn"):
+                        if wb_mode:
+                            with b1:
+                                if st.button("✅ 做对", type="primary", key=f"wb_ok_{q.id}", use_container_width=True,
+                                             help="本次做对，推进艾宾浩斯复习间隔"):
+                                    _do_wb_review(q.id, correct=True)
+                            with b2:
+                                if st.button("❌ 又错", key=f"wb_again_{q.id}", use_container_width=True,
+                                             help="本次做错，纳入复习：明天再练"):
+                                    _do_wb_review(q.id, correct=False)
+                            with b3:
+                                st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
+                                          help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
+                            with b4:
+                                st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
+                                          help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
+                        else:
+                            with b1:
+                                st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
+                                          help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
+                            with b2:
+                                st.button("➕ 又错一次", key=f"wb_inc_{q.id}", use_container_width=True,
+                                          help="再次做错，做错次数+1 并纳入艾宾浩斯（明天再练）", on_click=cb_inc_wrong, args=(q.id,))
+                            with b4:
+                                st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
+                                          help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
+                    elif stt == "history":
                         with b1:
-                            if st.button("✅ 做对", type="primary", key=f"wb_ok_{q.id}", use_container_width=True,
-                                         help="本次做对，推进艾宾浩斯复习间隔"):
-                                _do_wb_review(q.id, correct=True)
-                        with b2:
-                            if st.button("❌ 又错", key=f"wb_again_{q.id}", use_container_width=True,
-                                         help="本次做错，纳入复习：明天再练"):
-                                _do_wb_review(q.id, correct=False)
-                        with b3:
-                            st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
-                                      help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
-                        with b4:
-                            st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
-                                      help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
-                    else:
-                        with b1:
-                            st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
-                                      help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
-                        with b2:
-                            st.button("➕ 又错一次", key=f"wb_inc_{q.id}", use_container_width=True,
-                                      help="再次做错，做错次数+1 并纳入艾宾浩斯（明天再练）", on_click=cb_inc_wrong, args=(q.id,))
-                        with b4:
-                            st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
-                                      help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
-                elif stt == "history":
-                    with b1:
-                        st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
-                                  help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
-                st.markdown('<div style="height:1px;background:#e2e8f0;margin:10px 0 14px;"></div>', unsafe_allow_html=True)
+                            st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
+                                      help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
 
 
             # ---------- 分组 ----------

@@ -3208,48 +3208,54 @@ elif active_module == "📕 我的错题本":
                 return int(_t) if _t.isdigit() else 0
 
             _wb_groups = []
-            if shown and all(str(getattr(q, "year", "") or "") for q in shown):
-                _wb_by_year = {}
+            _wb_year_mode = bool(shown) and all(str(getattr(q, "year", "") or "") for q in shown)
+            if _wb_year_mode:
+                # 按年份：只渲染「当前选中年份」的卡片，其余年份完全不执行渲染。
+                # Streamlit 的 st.expander 收起时仍会执行内部代码（等于白渲染），
+                # 所以这里用年份按钮代替折叠块，做到真正的按需加载。
+                _ybuckets = {}
                 for q in shown:
-                    _wb_by_year.setdefault(str(getattr(q, "year", "")), []).append(q)
-                for _y in sorted(_wb_by_year, reverse=True):
-                    _wb_groups.append((
-                        f"📄 {_y} 年真题错题 · {len(_wb_by_year[_y])} 道（按题号）",
-                        sorted(_wb_by_year[_y], key=lambda x: _wb_qnum(x.id)),
-                    ))
+                    _ybuckets.setdefault(str(getattr(q, "year", "")), []).append(q)
+                _years = [
+                    (_y, f"📄 {_y} 年真题错题 · {len(_ybuckets[_y])} 道（按题号）",
+                     sorted(_ybuckets[_y], key=lambda x: _wb_qnum(x.id)))
+                    for _y in sorted(_ybuckets, reverse=True)
+                ]
+                _ykey = f"wb_year_pick_{current_subject.value}"
+                _ynames = [_y for _y, _, _ in _years]
+                if st.session_state.get(_ykey) not in _ynames:
+                    st.session_state[_ykey] = _ynames[0]
+                st.caption("选择年份（只加载选中的那一年，其余不渲染）")
+                _ycols = st.columns(6)
+                for _iy, (_y, _ylab, _yqs) in enumerate(_years):
+                    with _ycols[_iy % 6]:
+                        if st.button(
+                            f"{_y}（{len(_yqs)}）",
+                            key=f"wb_ybtn_{current_subject.value}_{_y}",
+                            type=("primary" if st.session_state[_ykey] == _y else "secondary"),
+                            use_container_width=True,
+                        ):
+                            st.session_state[_ykey] = _y
+                            st.rerun(scope="fragment")
+                _picked_y = st.session_state[_ykey]
+                _plab = next((_lab for _y, _lab, _ in _years if _y == _picked_y), "")
+                _pqs = next((_qs for _y, _, _qs in _years if _y == _picked_y), [])
+                st.markdown(f"**{_plab}**")
+                for q in _pqs:
+                    _wb_render_card(q)
             else:
-                _wb_groups = [("", shown)]
-
-            # 预算内渲染：所有分组标题都出来（带真实总数），卡片刻到预算为止
-            _wb_budget = len(shown) if wb_table_pick else st.session_state[_wb_limit_key]
-            _wb_rendered = 0
-            for _gname, _gqs in _wb_groups:
-                if not _gname:
-                    for q in _gqs:
-                        if _wb_rendered >= _wb_budget:
-                            break
-                        _wb_render_card(q)
-                        _wb_rendered += 1
-                    continue
-                # 年份分组内整组渲染，不参与预算截断：
-                # expander 收起时 Streamlit 仍会跑里面的代码，若按预算切片，
-                # 折叠着的组会把预算吃光，底部就冒出「显示更多」——用户看不到任何题却提示还有 50 道。
-                _show_qs = _gqs
-                with st.expander(f"{_gname}", expanded=False, key=f"wb_grp_{current_subject.value}_{_gname}"):
-                    for q in _show_qs:
-                        _wb_render_card(q)
-                        _wb_rendered += 1
-                    if len(_show_qs) < len(_gqs):
-                        st.caption(f"本组还有 {len(_gqs) - len(_show_qs)} 道未显示 —— 点最下方「显示更多」继续加载")
-
-            # 列表上限截断:卡片模式下分批加载
-            if _wb_rendered < len(shown):
-                if st.button(
-                    f"⬇️ 显示更多（还剩 {len(shown) - _wb_rendered} 道）",
-                    key=f"wb_more_{current_subject.value}", use_container_width=True,
-                ):
-                    st.session_state[_wb_limit_key] += 20
-                    st.rerun(scope="fragment")
+                # 平铺（多本书混排）：按预算分批，底部「显示更多」继续加载
+                _wb_budget = len(shown) if wb_table_pick else st.session_state[_wb_limit_key]
+                _flat = shown[:_wb_budget]
+                for q in _flat:
+                    _wb_render_card(q)
+                if len(_flat) < len(shown):
+                    if st.button(
+                        f"⬇️ 显示更多（还剩 {len(shown) - len(_flat)} 道）",
+                        key=f"wb_more_{current_subject.value}", use_container_width=True,
+                    ):
+                        st.session_state[_wb_limit_key] += 20
+                        st.rerun(scope="fragment")
 
 
 

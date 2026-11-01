@@ -3434,6 +3434,13 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             return True
         return str(getattr(_q, "book", "") or "").startswith("真题")
 
+    # 「做完即消」：本页今天处理过的题记在这里，当天不再出现在卡片列表里（跨天自动失效）
+    _rv_today_s = state_mgr._today().isoformat()
+    _rv_done = st.session_state.setdefault("rv_done", {})
+    for _k in [k for k, v in _rv_done.items() if v != _rv_today_s]:
+        _rv_done.pop(_k, None)
+    _rv_done_today = set(_rv_done.keys())
+
     _rv_stats = {}
     _rv_total = 0
     for _qid3 in list(state_mgr.wrong_questions.keys()):
@@ -3456,26 +3463,100 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _rv_stats.items(),
             key=lambda kv: (-len(kv[1]["z"]), -(len(kv[1]["z"]) + len(kv[1]["o"])), kv[0]),
         )
-        _rc1, _rc2, _rc3, _rc4 = st.columns(4)
-        _rc1.metric("错题池", f"{_rv_total} 题")
-        _rc2.metric("其中真题", f"{_rv_z_total} 题")
-        _rc3.metric("涉及章节", f"{len(_rv_stats)} 个")
-        _rc4.metric("最薄弱", _rv_rank[0][0].split(" ", 1)[-1])
 
-        st.markdown("**章节排行**（按真题错题数；占比 = 该章真题错题 ÷ 全部真题错题）")
-        _rv_rows = []
+        # ------------------------------------------------------------------
+        # 顶部看板（纯 HTML，避免 st.metric 的四个大方块把页面撑太长）
+        # ------------------------------------------------------------------
+        _top_ch = _rv_rank[0][0].split(" ", 1)[-1]
+        _top_n = len(_rv_rank[0][1]["z"])
+        _top_pct = (_top_n / _rv_z_total * 100.0) if _rv_z_total else 0.0
+
+        def _rv_kpi(_label, _value, _unit, _accent, _sub=""):
+            _sub_html = (
+                '<div style="font-size:11px;color:#94a3b8;margin-top:2px;">' + _sub + "</div>"
+                if _sub else ""
+            )
+            return (
+                '<div style="background:#fff;border:1px solid #e6ebf2;border-radius:14px;'
+                'padding:12px 16px;box-shadow:0 1px 2px rgba(15,23,42,.04);">'
+                '<div style="font-size:12px;color:#64748b;letter-spacing:.3px;">' + _label + "</div>"
+                '<div style="margin-top:4px;font-size:26px;font-weight:800;line-height:1.1;color:'
+                + _accent + ';">' + str(_value)
+                + '<span style="font-size:12px;font-weight:600;color:#94a3b8;margin-left:3px;">'
+                + _unit + "</span></div>" + _sub_html + "</div>"
+            )
+
+        st.markdown(
+            '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0 6px;">'
+            + _rv_kpi("错题池", _rv_total, "题", "#0f172a")
+            + _rv_kpi("其中真题", _rv_z_total, "题", "#dc2626")
+            + _rv_kpi("涉及章节", len(_rv_stats), "个", "#0f172a")
+            + _rv_kpi("最薄弱", _top_n, "道真题错", "#dc2626", html.escape(_top_ch) + " · 占 " + f"{_top_pct:.1f}%")
+            + "</div>",
+            unsafe_allow_html=True,
+        )
+
+        # ------------------------------------------------------------------
+        # 章节排行（横向条形图，比纯 markdown 表格好读）
+        # ------------------------------------------------------------------
+        _bar_rows = []
         for _ri3, (_rch3, _rv3) in enumerate(_rv_rank, 1):
             _rz3, _ro3 = len(_rv3["z"]), len(_rv3["o"])
-            _rpct3 = (_rz3 / _rv_z_total * 100.0) if _rv_z_total else 0.0
-            _rbar3 = "█" * max(1, round(_rpct3 / 5.0)) if _rz3 else "—"
-            _rv_rows.append(f"| {_ri3} | {_rch3} | {_rz3} | {_rpct3:.1f}% | {_ro3} | {_rbar3} |")
+            _pct3 = (_rz3 / _rv_z_total * 100.0) if _rv_z_total else 0.0
+            if _ri3 == 1:
+                _bg, _fg = "#ef4444", "#ffffff"
+            elif _ri3 == 2:
+                _bg, _fg = "#f97316", "#ffffff"
+            elif _ri3 == 3:
+                _bg, _fg = "#f59e0b", "#ffffff"
+            else:
+                _bg, _fg = "#eef2f7", "#64748b"
+            _bar_color = "#dc2626" if _ri3 == 1 else ("#f97316" if _ri3 <= 3 else "#94a3b8")
+            _name_style = "font-weight:700;color:#0f172a;" if _ri3 <= 3 else "color:#334155;"
+            _bar_rows.append(
+                '<tr>'
+                '<td style="width:34px;padding:6px 0;">'
+                '<span style="display:inline-block;min-width:22px;text-align:center;border-radius:7px;'
+                'padding:2px 0;font-size:11px;font-weight:700;background:' + _bg + ';color:' + _fg + ';">'
+                + str(_ri3) + "</span></td>"
+                '<td style="padding:6px 8px 6px 0;' + _name_style + '">' + html.escape(_rch3) + "</td>"
+                '<td style="width:88px;padding:6px 8px;text-align:right;white-space:nowrap;">'
+                '<span style="font-weight:800;color:' + _bar_color + ';">' + str(_rz3) + "</span>"
+                '<span style="font-size:11px;color:#94a3b8;"> 道</span></td>'
+                '<td style="width:150px;padding:6px 8px;">'
+                '<div style="display:flex;align-items:center;gap:6px;">'
+                '<div style="flex:1;height:7px;background:#eef2f7;border-radius:999px;overflow:hidden;">'
+                '<div style="width:' + f"{max(_pct3, 2.0):.1f}" + '%;height:100%;background:' + _bar_color
+                + ';border-radius:999px;"></div></div>'
+                '<span style="font-size:11px;color:#64748b;min-width:34px;text-align:right;">'
+                + f"{_pct3:.1f}%" + "</span></div></td>"
+                '<td style="width:74px;padding:6px 0 6px 8px;text-align:right;font-size:12px;color:#94a3b8;">'
+                + (str(_ro3) + " 道" if _ro3 else "—") + "</td>"
+                "</tr>"
+            )
+
         st.markdown(
-            "| # | 章节 | 真题错 | 占比 | 其它书错 | 强度 |\n"
-            "|---|---|---|---|---|---|\n" + "\n".join(_rv_rows)
+            '<div style="margin:14px 0 4px;display:flex;align-items:baseline;gap:8px;">'
+            '<span style="font-size:14px;font-weight:800;color:#0f172a;">章节排行</span>'
+            '<span style="font-size:11px;color:#94a3b8;">按真题错题数排序 · 占比 = 该章真题错 ÷ 全部真题错</span>'
+            "</div>",
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            '<div style="background:#fff;border:1px solid #e6ebf2;border-radius:14px;padding:8px 16px;">'
+            '<table style="width:100%;border-collapse:collapse;font-size:13px;">'
+            '<tr style="color:#94a3b8;font-size:11px;letter-spacing:.3px;">'
+            '<th style="text-align:left;padding:4px 0;font-weight:600;">#</th>'
+            '<th style="text-align:left;padding:4px 8px 4px 0;font-weight:600;">章节</th>'
+            '<th style="text-align:right;padding:4px 8px;font-weight:600;">真题错</th>'
+            '<th style="text-align:left;padding:4px 8px;font-weight:600;">占比</th>'
+            '<th style="text-align:right;padding:4px 0 4px 8px;font-weight:600;">其它书</th>'
+            "</tr>" + "".join(_bar_rows) + "</table></div>",
+            unsafe_allow_html=True,
         )
 
         _rv_labels = [
-            f"{_ri3}. {_rch3}（真题 {len(_rv3['z'])} / 其它 {len(_rv3['o'])}）"
+            f"{_ri3}. {_rch3}（剩真题 {len([i for i in _rv3['z'] if i not in _rv_done_today])} / 剩其它 {len([i for i in _rv3['o'] if i not in _rv_done_today])}）"
             for _ri3, (_rch3, _rv3) in enumerate(_rv_rank, 1)
         ]
         _rv_pick = st.selectbox(
@@ -3484,11 +3565,22 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             key=f"rv_chapter_{current_subject.value}",
         )
         _rv_sel = _rv_rank[_rv_labels.index(_rv_pick)][1]
-        _rv_z_ids, _rv_o_ids = list(_rv_sel["z"]), list(_rv_sel["o"])
-        _RV_Z_CAP, _RV_O_CAP = 8, 3   # 真题最多 8 道、其它书最多 3 道，避免一屏塞太满
+        # 今天在本页已经判过分的题直接从列表里摘掉（做完一道消一道）
+        _rv_z_ids = [i for i in _rv_sel["z"] if i not in _rv_done_today]
+        _rv_o_ids = [i for i in _rv_sel["o"] if i not in _rv_done_today]
+        _RV_Z_CAP, _RV_O_CAP = 8, 3   # 真题最多 8 道、其它书最多 3 道，其余收进「展开更多」
 
         @st.fragment()
-        def render_rv_cards(_z_ids, _o_ids) -> None:
+        def render_rv_cards(_z_in, _o_in) -> None:
+            # 必须在 fragment 内部再过滤一次：模块级的 _rv_z_ids 是上一次整页渲染时的快照，
+            # 判分后只重跑 fragment，若不在此处重算，卡片就不会消失。
+            # 且只认"今天"的标记，避免页面跨零点点后把昨天的记录当成今天的过滤条件。
+            _rv_today_in = state_mgr._today().isoformat()
+            _rv_done_now = {
+                k for k, v in st.session_state.get("rv_done", {}).items() if v == _rv_today_in
+            }
+            _z_ids = [i for i in _z_in if i not in _rv_done_now]
+            _o_ids = [i for i in _o_in if i not in _rv_done_now]
             _rv_flash = st.session_state.pop("rv_flash", None)
             if _rv_flash:
                 _rv_kind, _rv_msg = _rv_flash
@@ -3514,6 +3606,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         st.session_state["rv_flash"] = ("wrong", "已记录（明日再练），复习阶段已回退")
                     else:
                         st.session_state["rv_flash"] = ("wrong", "今日已记录过此题，未重复计入")
+                # 判完即从本页列表撤下：同一道题今天不再出现
+                st.session_state.setdefault("rv_done", {})[_qid] = state_mgr._today().isoformat()
                 st.rerun(scope="fragment")
 
             def _rv_card(_idx, _qid, _tag) -> None:
@@ -3552,23 +3646,50 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         st.button("❌ 又错了", key=f"rv_no_{_qid}", use_container_width=True,
                                   on_click=_rv_grade, args=(_qid, False))
 
+            _done_today = len(st.session_state.get("rv_done", {}))
+            _hc1, _hc2 = st.columns([5, 1])
+            with _hc1:
+                if _done_today:
+                    st.caption(
+                        f"今天在本页已处理 **{_done_today}** 道；做完的题会立刻从列表消失，"
+                        "判分已写入艾宾浩斯，明天的复习队列会自动接手。"
+                    )
+                else:
+                    st.caption("做完一道就少一道；判分会写入艾宾浩斯曲线。")
+            with _hc2:
+                if _done_today and st.button("↺ 重置", use_container_width=True,
+                                             help="把今天在本页隐藏的题放回来（不影响已写入的复习记录）"):
+                    st.session_state["rv_done"] = {}
+                    st.rerun()
+
             _rv_i = 0
             if _z_ids:
-                st.markdown(f"#### 📄 真题错题（{len(_z_ids)} 道）")
+                st.markdown(f"#### 📄 真题错题（剩 {len(_z_ids)} 道）")
                 for _qid in _z_ids[:_RV_Z_CAP]:
                     _rv_i += 1
                     _rv_card(_rv_i, _qid, "真题")
                 if len(_z_ids) > _RV_Z_CAP:
-                    st.caption(f"另有 {len(_z_ids) - _RV_Z_CAP} 道真题错题未展开，先把上面的做掉。")
+                    _rest = _z_ids[_RV_Z_CAP:]
+                    with st.expander(f"📂 另有 {len(_rest)} 道真题错题（点开继续做）"):
+                        for _qid in _rest:
+                            _rv_i += 1
+                            _rv_card(_rv_i, _qid, "真题")
             else:
-                st.caption("这一章暂时没有真题错题。")
+                if _o_ids:
+                    st.caption("这一章的真题错题已经清空 👍 下面是同章节其它书的错题。")
+                else:
+                    st.success("这一章的错题今天都处理完了。换一章继续，或者明天再来。")
             if _o_ids:
-                st.markdown(f"#### 📚 同章节其它书错题（{len(_o_ids)} 道，先补练 {min(len(_o_ids), _RV_O_CAP)} 道）")
+                st.markdown(f"#### 📚 同章节其它书错题（剩 {len(_o_ids)} 道，先补练 {min(len(_o_ids), _RV_O_CAP)} 道）")
                 for _qid in _o_ids[:_RV_O_CAP]:
                     _rv_i += 1
                     _rv_card(_rv_i, _qid, "同类")
                 if len(_o_ids) > _RV_O_CAP:
-                    st.caption(f"另有 {len(_o_ids) - _RV_O_CAP} 道同类错题，做完这批再补。")
+                    _rest_o = _o_ids[_RV_O_CAP:]
+                    with st.expander(f"📂 另有 {len(_rest_o)} 道同类错题（点开继续做）"):
+                        for _qid in _rest_o:
+                            _rv_i += 1
+                            _rv_card(_rv_i, _qid, "同类")
 
         render_rv_cards(_rv_z_ids, _rv_o_ids)
 

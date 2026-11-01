@@ -1563,6 +1563,21 @@ active_module = st.segmented_control(
 # 「第12章 一元函数积分学的应用(三)--物理应用」等旧命名，统一并到李林 880 的十二章。
 # 关键词顺序敏感：二次型/相似要先于矩阵，积分学要先于微分学。
 # -------------------------------------------------------------------------
+
+_WB_CARD_CSS = """
+<style>
+.wb-hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 6px 0;}
+.wb-pill{font-size:12px;line-height:1.7;padding:1px 9px;border-radius:999px;font-weight:600;white-space:nowrap;}
+.wb-red{background:#fee2e2;color:#b91c1c;}
+.wb-orange{background:#ffedd5;color:#c2410c;}
+.wb-blue{background:#e0f2fe;color:#0369a1;}
+.wb-grey{background:#f1f5f9;color:#475569;}
+.wb-gold{background:#fef3c7;color:#92400e;}
+.wb-qid{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:15px;color:#0f172a;}
+.wb-meta{font-size:13px;color:#64748b;}
+</style>
+"""
+
 _CH12_ORDER = [
     ("二次型", "第十二章 二次型"),
     ("相似", "第十一章 相似矩阵"),
@@ -2834,6 +2849,18 @@ elif active_module == "📕 我的错题本":
                 return "🔔 今日到期"
             return f"⏳ 还剩 {d} 天"
 
+        def _wb_due_cls(qid):
+            d = _wb_due_delta(qid)
+            if d is None:
+                return "wb-gold"
+            if d < 0:
+                return "wb-red"
+            if d == 0:
+                return "wb-orange"
+            if d <= 3:
+                return "wb-blue"
+            return "wb-grey"
+
         def _wb_type_text(q):
             return getattr(getattr(q, "question_type", None), "value", "") or ""
 
@@ -2868,9 +2895,6 @@ elif active_module == "📕 我的错题本":
                 return False
             return _wb_hit(q)
 
-        wb_table_pick = st.toggle(
-            "📊 表格模式", value=False, key=f"wb_table_{current_subject.value}",
-            help="表格里勾选后批量归档/删除，适合一次清理多条；关闭则用卡片逐题看")
 
         shown = sorted([q for q in wb_all if _wb_pass(q)], key=lambda q: parse_qid_tuple(q.id))
         st.caption(f"共 {len(shown)} 道（按题号排序）" + (f" · 搜索「{_wb_kw}」" if _wb_kw else ""))
@@ -2891,93 +2915,94 @@ elif active_module == "📕 我的错题本":
             st.session_state[_wb_limit_key] = 20
         elif wb_ch_pick != "全部" and st.session_state[_wb_limit_key] != 20:
             st.session_state[_wb_limit_key] = 20
-        if (not wb_table_pick) and wb_ch_pick == "全部" and len(shown) > st.session_state[_wb_limit_key]:
+        if wb_ch_pick == "全部" and len(shown) > st.session_state[_wb_limit_key]:
             shown_render = shown[: st.session_state[_wb_limit_key]]
         else:
             shown_render = shown
 
-        # 错题本导出 PDF：导出【当前筛选结果】(书籍/状态/章节/题型 都跟着生效)。
-        # 与组卷页同理：download_button 的 data= 是急切求值,若直接放会让每次重跑都触发
-        # 无头浏览器排版(十几秒)并堵住整页,故先点「生成」再出下载按钮。
-        if shown:
-            _wb_ids = tuple(q.id for q in shown)
-            _wb_sig = hashlib.md5("|".join(_wb_ids).encode("utf-8")).hexdigest()[:8]
-            _WB_EDITIONS = {
-                "📝 A4 做题本（留白重做）": (PDFEdition.WORKBOOK_A4, "A4做题本"),
-                "📑 详细解析版（带答案解析）": (PDFEdition.SOLUTION, "详细解析"),
-                "📄 真题版（1:1 卡片）": (PDFEdition.REAL_EXAM, "真题版"),
-            }
-            wp1, wp2, wp3 = st.columns([1.8, 1.3, 2.1])
-            with wp1:
-                _wb_ed_label = st.selectbox(
-                    "错题本 PDF 版式", list(_WB_EDITIONS), index=0,
-                    key=f"wb_pdf_ed_{current_subject.value}",
-                )
-            _wb_ed, _wb_ed_short = _WB_EDITIONS[_wb_ed_label]
-            _wb_ready_key = f"wb_pdf_ready_{current_subject.value}_{_wb_sig}_{_wb_ed.value}"
-            with wp2:
-                if not st.session_state.get(_wb_ready_key):
-                    if st.button(
-                        "📦 生成错题本 PDF", type="primary", use_container_width=True,
-                        key=f"wb_pdf_gen_{current_subject.value}_{_wb_sig}_{_wb_ed.value}",
-                    ):
-                        st.session_state[_wb_ready_key] = True
-                        st.rerun()
-                else:
-                    # 详细解析版：点击下载时才触发 AI 名师补全缺失答案解析
-                    _wb_missing_now = [q for q in shown if not (q.answer and q.solution)]
-                    _wb_ai_ready_key = f"wb_ai_ready_{current_subject.value}_{_wb_sig}_{_wb_ed.value}"
-                    if (_wb_ed == PDFEdition.SOLUTION) and user_api_key and _wb_missing_now and not st.session_state.get(_wb_ai_ready_key):
+        with st.expander("📄 导出错题本 PDF（按当前筛选，留白重做 / 详细解析 / 真题版）", expanded=False):
+            # 错题本导出 PDF：导出【当前筛选结果】(书籍/状态/章节/题型 都跟着生效)。
+            # 与组卷页同理：download_button 的 data= 是急切求值,若直接放会让每次重跑都触发
+            # 无头浏览器排版(十几秒)并堵住整页,故先点「生成」再出下载按钮。
+            if shown:
+                _wb_ids = tuple(q.id for q in shown)
+                _wb_sig = hashlib.md5("|".join(_wb_ids).encode("utf-8")).hexdigest()[:8]
+                _WB_EDITIONS = {
+                    "📝 A4 做题本（留白重做）": (PDFEdition.WORKBOOK_A4, "A4做题本"),
+                    "📑 详细解析版（带答案解析）": (PDFEdition.SOLUTION, "详细解析"),
+                    "📄 真题版（1:1 卡片）": (PDFEdition.REAL_EXAM, "真题版"),
+                }
+                wp1, wp2, wp3 = st.columns([1.8, 1.3, 2.1])
+                with wp1:
+                    _wb_ed_label = st.selectbox(
+                        "错题本 PDF 版式", list(_WB_EDITIONS), index=0,
+                        key=f"wb_pdf_ed_{current_subject.value}",
+                    )
+                _wb_ed, _wb_ed_short = _WB_EDITIONS[_wb_ed_label]
+                _wb_ready_key = f"wb_pdf_ready_{current_subject.value}_{_wb_sig}_{_wb_ed.value}"
+                with wp2:
+                    if not st.session_state.get(_wb_ready_key):
                         if st.button(
-                            "📥 下载详细解析版 PDF（AI 补全解析）",
-                            use_container_width=True,
-                            key=f"wb_sol_ai_gen_{current_subject.value}_{_wb_sig}_{_wb_ed.value}",
-                            help="点击后 AI 名师先补齐缺失的答案解析（有缓存直接复用），完成后自动出下载按钮。",
+                            "📦 生成错题本 PDF", type="primary", use_container_width=True,
+                            key=f"wb_pdf_gen_{current_subject.value}_{_wb_sig}_{_wb_ed.value}",
                         ):
-                            _wb_ai2 = _build_solution_tutor(user_api_key, user_api_url, user_model_name)
-                            _bar_wb2 = st.progress(0.0, text=f"AI 名师正在生成 {len(_wb_missing_now)} 道错题的答案解析...")
-                            def _cb_wb2(done, total, qid, status):
-                                if status == "generated":
-                                    _bar_wb2.progress(done / total, text=f"AI 名师正在生成答案解析 ({done}/{total})：{qid}")
-                                elif status == "cached":
-                                    _bar_wb2.progress(done / total, text=f"复用已有 AI 解析缓存 ({done}/{total})...")
-                                elif isinstance(status, str) and status.startswith("pdf_detail:"):
-                                    _bar_wb2.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}（{status[12:]}）")
-                                elif status == "pdf":
-                                    _bar_wb2.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}")
-                                elif status == "reviewing":
-                                    _bar_wb2.progress(done / total, text=f"AI 阅卷专家正在独立审核答案 ({done}/{total})：{qid}")
-                                elif status == "failed":
-                                    _bar_wb2.progress(done / total, text=f"AI 解题失败且扫描版未命中 ({done}/{total})：{qid}")
-                                elif status == "review_failed":
-                                    _bar_wb2.progress(done / total, text=f"AI 审核失败，已标记未审核 ({done}/{total})：{qid}")
-                            try:
-                                gen_wb2, _ = ensure_solutions(shown, _wb_ai2, progress_cb=_cb_wb2)
-                                if gen_wb2 > 0:
-                                    get_cached_pdf.clear()
-                            except Exception:
-                                pass
-                            st.session_state[_wb_ai_ready_key] = True
+                            st.session_state[_wb_ready_key] = True
                             st.rerun()
                     else:
-                        _pdf_wb2 = _safe_pdf_bytes(
-                            f"错题本_{current_subject.value}_{_wb_sig}",
-                            f"错题本 · {current_subject.value} · 共 {len(shown)} 题",
-                            _wb_ids,
-                            edition_str=_wb_ed.value,
-                            subject_str=current_subject.value,
-                        )
-                        if _pdf_wb2:
-                            st.download_button(
-                                "📥 下载错题本 PDF",
-                                data=_pdf_wb2,
-                                file_name=f"错题本_{current_subject.value}_{len(shown)}题_{_wb_ed_short}.pdf",
-                                mime="application/pdf",
+                        # 详细解析版：点击下载时才触发 AI 名师补全缺失答案解析
+                        _wb_missing_now = [q for q in shown if not (q.answer and q.solution)]
+                        _wb_ai_ready_key = f"wb_ai_ready_{current_subject.value}_{_wb_sig}_{_wb_ed.value}"
+                        if (_wb_ed == PDFEdition.SOLUTION) and user_api_key and _wb_missing_now and not st.session_state.get(_wb_ai_ready_key):
+                            if st.button(
+                                "📥 下载详细解析版 PDF（AI 补全解析）",
                                 use_container_width=True,
-                                key=f"wb_pdf_dl_{current_subject.value}_{_wb_sig}_{_wb_ed.value}",
+                                key=f"wb_sol_ai_gen_{current_subject.value}_{_wb_sig}_{_wb_ed.value}",
+                                help="点击后 AI 名师先补齐缺失的答案解析（有缓存直接复用），完成后自动出下载按钮。",
+                            ):
+                                _wb_ai2 = _build_solution_tutor(user_api_key, user_api_url, user_model_name)
+                                _bar_wb2 = st.progress(0.0, text=f"AI 名师正在生成 {len(_wb_missing_now)} 道错题的答案解析...")
+                                def _cb_wb2(done, total, qid, status):
+                                    if status == "generated":
+                                        _bar_wb2.progress(done / total, text=f"AI 名师正在生成答案解析 ({done}/{total})：{qid}")
+                                    elif status == "cached":
+                                        _bar_wb2.progress(done / total, text=f"复用已有 AI 解析缓存 ({done}/{total})...")
+                                    elif isinstance(status, str) and status.startswith("pdf_detail:"):
+                                        _bar_wb2.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}（{status[12:]}）")
+                                    elif status == "pdf":
+                                        _bar_wb2.progress(done / total, text=f"AI 解题失败，正在扫描解析 PDF 定位答案 ({done}/{total})：{qid}")
+                                    elif status == "reviewing":
+                                        _bar_wb2.progress(done / total, text=f"AI 阅卷专家正在独立审核答案 ({done}/{total})：{qid}")
+                                    elif status == "failed":
+                                        _bar_wb2.progress(done / total, text=f"AI 解题失败且扫描版未命中 ({done}/{total})：{qid}")
+                                    elif status == "review_failed":
+                                        _bar_wb2.progress(done / total, text=f"AI 审核失败，已标记未审核 ({done}/{total})：{qid}")
+                                try:
+                                    gen_wb2, _ = ensure_solutions(shown, _wb_ai2, progress_cb=_cb_wb2)
+                                    if gen_wb2 > 0:
+                                        get_cached_pdf.clear()
+                                except Exception:
+                                    pass
+                                st.session_state[_wb_ai_ready_key] = True
+                                st.rerun()
+                        else:
+                            _pdf_wb2 = _safe_pdf_bytes(
+                                f"错题本_{current_subject.value}_{_wb_sig}",
+                                f"错题本 · {current_subject.value} · 共 {len(shown)} 题",
+                                _wb_ids,
+                                edition_str=_wb_ed.value,
+                                subject_str=current_subject.value,
                             )
-            with wp3:
-                st.caption("💡 生成约十几秒")
+                            if _pdf_wb2:
+                                st.download_button(
+                                    "📥 下载错题本 PDF",
+                                    data=_pdf_wb2,
+                                    file_name=f"错题本_{current_subject.value}_{len(shown)}题_{_wb_ed_short}.pdf",
+                                    mime="application/pdf",
+                                    use_container_width=True,
+                                    key=f"wb_pdf_dl_{current_subject.value}_{_wb_sig}_{_wb_ed.value}",
+                                )
+                with wp3:
+                    st.caption("💡 生成约十几秒")
 
         def _do_wb_review(qid: str, correct: bool) -> None:
             """做题模式复习回写：做对推进艾宾浩斯间隔；做错纳入复习（明天再练）。
@@ -3021,6 +3046,18 @@ elif active_module == "📕 我的错题本":
                     st.session_state["wb_flash"] = ("wrong", "已记录，明日再练")
                 else:
                     st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
+            # 富反馈：题号 + 结果 + 阶段 + 下次复习 + 今日剩余（toast 只有 2 秒，记不住）
+            _rec2 = state_mgr.wrong_questions.get(qid)
+            st.session_state["wb_feedback"] = {
+                "qid": qid,
+                "ok": bool(correct),
+                "stage": getattr(_rec2, "review_stage", None),
+                "next": getattr(_rec2, "next_review_at", None),
+                "left": (_due_left() if (was_due and _changed) else None),
+            }
+            _rc = st.session_state.setdefault("wb_recent", [])
+            _rc.append((qid, bool(correct)))
+            del _rc[:-5]
             # 仅重跑错题本卡片 fragment，避免整页重跑导致卡顿
             st.rerun(scope="fragment")
 
@@ -3038,6 +3075,25 @@ elif active_module == "📕 我的错题本":
                     st.toast(f"✓ {_fmsg}")
                 else:
                     st.toast(f"⚠️ {_fmsg}")
+            st.markdown(_WB_CARD_CSS, unsafe_allow_html=True)
+            _fb = st.session_state.pop("wb_feedback", None)
+            if _fb:
+                _bits = [f"**{_fb['qid']}**", ("做对了" if _fb["ok"] else "又错了一次")]
+                if _fb.get("stage") is not None:
+                    _bits.append(f"阶段 {_fb['stage']}")
+                if _fb.get("next"):
+                    _bits.append(f"下次复习 {_fb['next']}")
+                if _fb.get("left") is not None:
+                    _bits.append(f"今日还剩 {_fb['left']} 道")
+                _line = " · ".join(_bits)
+                if _fb["ok"]:
+                    st.success(f"✅ 已记录：{_line}")
+                else:
+                    st.error(f"❌ 已记录：{_line}")
+            _recent = st.session_state.get("wb_recent") or []
+            if _recent:
+                st.caption("最近判过：" + " ｜ ".join(
+                    f"{'✅' if _ok else '❌'} {_q}" for _q, _ok in list(reversed(_recent))[:5]))
             _wb_cur = tuple(q for q in shown_render if state_mgr.is_in_active_pool(q.id) or state_mgr.is_temporarily_mastered(q.id))
             if not _wb_cur:
                 # 书是固定列出的（全量题库四本），空态要分清两种情况：
@@ -3064,13 +3120,22 @@ elif active_module == "📕 我的错题本":
                 stt = _wb_status(q.id)
                 w_cnt = state_mgr.get_wrong_count(q.id)
                 label, _ = _STATUS_LABEL.get(stt, ('', ''))
-                head = f"{label}　{q.id}　·　{q.chapter}　·　[{q.difficulty.value}]　·　做错 {w_cnt} 次"
+                _pills = f'<span class="wb-pill {_wb_due_cls(q.id)}">{html.escape(_wb_due_text(q.id))}</span>'
+                if label:
+                    _pills += f'<span class="wb-pill wb-grey">{html.escape(label)}</span>'
+                _head = (
+                    '<div class="wb-hd">' + _pills +
+                    f'<span class="wb-qid">{html.escape(str(q.id))}</span>' +
+                    f'<span class="wb-meta">{html.escape(str(q.chapter))} · '
+                    f'{html.escape(_wb_type_text(q))} · 做错 {w_cnt} 次</span>'
+                    '</div>'
+                )
                 _closed_key = f"wb_closed_{current_subject.value}"
                 _closed = st.session_state.setdefault(_closed_key, set())
                 _is_open = q.id not in _closed
                 _hc1, _hc2 = st.columns([9, 1.5])
                 with _hc1:
-                    st.markdown(f"**{head}**")
+                    st.markdown(_head, unsafe_allow_html=True)
                 with _hc2:
                     if st.button(
                         "收起 ▲" if _is_open else "展开 ▼",
@@ -3143,65 +3208,6 @@ elif active_module == "📕 我的错题本":
                 st.markdown('<div style="height:1px;background:#e2e8f0;margin:10px 0 14px;"></div>', unsafe_allow_html=True)
 
 
-            # ---------- 📊 表格模式：批量管理 ----------
-            if wb_table_pick:
-                import pandas as _pd
-
-                _rows = []
-                for q in shown:
-                    _rows.append({
-                        "选择": False,
-                        "题号": q.id,
-                        "书籍": getattr(q, "book", "880"),
-                        "章节": q.chapter,
-                        "题型": _wb_type_text(q),
-                        "错次": state_mgr.get_wrong_count(q.id),
-                        "到期": _wb_due_text(q.id),
-                    })
-                _df = _pd.DataFrame(_rows)
-                st.caption(f"表格模式：给「选择」列打勾后，用下面按钮批量操作（共 {len(_df)} 行）")
-                _edited = st.data_editor(
-                    _df, hide_index=True, use_container_width=True, height=620,
-                    column_config={
-                        "选择": st.column_config.CheckboxColumn("选择", default=False),
-                        "题号": st.column_config.TextColumn("题号", disabled=True),
-                        "书籍": st.column_config.TextColumn("书籍", disabled=True),
-                        "章节": st.column_config.TextColumn("章节", disabled=True),
-                        "题型": st.column_config.TextColumn("题型", disabled=True),
-                        "错次": st.column_config.NumberColumn("错次", disabled=True, width="small"),
-                        "到期": st.column_config.TextColumn("到期", disabled=True),
-                    },
-                    key=f"wb_table_editor_{current_subject.value}",
-                )
-                _sel = [r["题号"] for _, r in _edited.iterrows() if bool(r["选择"])]
-                st.caption(f"已选 {len(_sel)} 道")
-                t1, t2, t3 = st.columns(3)
-                with t1:
-                    if st.button(f"🏆 归档所选（{len(_sel)}）", disabled=not _sel,
-                                 key=f"wb_batch_arch_{current_subject.value}", use_container_width=True):
-                        for _qid in _sel:
-                            state_mgr.mark_solved_correctly(_qid)
-                        state_mgr.save_state()
-                        st.session_state["wb_flash"] = ("info", f"已归档 {len(_sel)} 道为历史错题")
-                        st.rerun(scope="fragment")
-                with t2:
-                    if st.button(f"➕ 又错一次（{len(_sel)}）", disabled=not _sel,
-                                 key=f"wb_batch_inc_{current_subject.value}", use_container_width=True):
-                        for _qid in _sel:
-                            state_mgr.increment_wrong_count(_qid)
-                        state_mgr.save_state()
-                        st.session_state["wb_flash"] = ("wrong", f"已记录 {len(_sel)} 道（明天再练）")
-                        st.rerun(scope="fragment")
-                with t3:
-                    if st.button(f"🗑️ 删除所选（{len(_sel)}）", disabled=not _sel,
-                                 key=f"wb_batch_del_{current_subject.value}", use_container_width=True):
-                        for _qid in _sel:
-                            state_mgr.remove_wrong_question(_qid)
-                        state_mgr.save_state()
-                        st.session_state["wb_flash"] = ("warn", f"已删除 {len(_sel)} 道")
-                        st.rerun(scope="fragment")
-                return
-
             # ---------- 分组 ----------
             def _wb_qnum(_qid):
                 _t = _qid.rsplit("-", 1)[-1]
@@ -3245,7 +3251,7 @@ elif active_module == "📕 我的错题本":
                     _wb_render_card(q)
             else:
                 # 平铺（多本书混排）：按预算分批，底部「显示更多」继续加载
-                _wb_budget = len(shown) if wb_table_pick else st.session_state[_wb_limit_key]
+                _wb_budget = st.session_state[_wb_limit_key]
                 _flat = shown[:_wb_budget]
                 for q in _flat:
                     _wb_render_card(q)

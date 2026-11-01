@@ -3474,11 +3474,19 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             """今天还剩几道真题没做；已清空的章要沉到榜尾，否则点进去只剩一句"今天处理完了"。"""
             return sum(1 for i in _b["z"] if i not in _rv_done_today)
 
+        def _rv_left_o(_b) -> int:
+            # 今天还剩多少道「同章节其它书」错题（已判过的会从 _b["o"] 里消失，这里只兜底）
+            return len([q for q in _b["o"] if q not in _rv_done_today])
+
+        def _rv_left_all(_b) -> int:
+            # 这一章今天是否真的做干净了：真题 + 同类都必须为空
+            return _rv_left_z(_b) + _rv_left_o(_b)
+
         _rv_rank = sorted(
             _rv_stats.items(),
             key=lambda kv: (
-                _rv_left_z(kv[1]) == 0,
-                -_rv_left_z(kv[1]),
+                _rv_left_all(kv[1]) == 0,
+                -_rv_left_all(kv[1]),
                 -(len(kv[1]["z"]) + len(kv[1]["o"])),
                 kv[0],
             ),
@@ -3527,7 +3535,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         for _ri3, (_rch3, _rv3) in enumerate(_rv_rank, 1):
             _rz3, _ro3 = len(_rv3["z"]), len(_rv3["o"])
             _rz_left3 = _rv_left_z(_rv3)
-            _cleared3 = _rz_left3 == 0
+            _cleared3 = _rv_left_all(_rv3) == 0
             _pct3 = (_rz3 / _rv_z_total * 100.0) if _rv_z_total else 0.0
             if _cleared3:
                 _bg, _fg = "#f1f5f9", "#94a3b8"
@@ -3592,7 +3600,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         for _ri5, (_rch5, _rv5) in enumerate(_rv_rank, 1):
             _lz5 = sum(1 for i in _rv5["z"] if i not in _rv_done_today)
             _lo5 = sum(1 for i in _rv5["o"] if i not in _rv_done_today)
-            _mark5 = " · 今日已清" if _lz5 == 0 else ""
+            _mark5 = " · 今日已清" if (_lz5 + len([q for q in _rv5["o"] if q not in _rv_done_today])) == 0 else ""
             _rv_labels.append(f"{_ri5}. {_rch5}（剩真题 {_lz5} / 剩其它 {_lo5}）{_mark5}")
         _rv_pick = st.selectbox(
             "选择章节（选定后下面出该章卡片）",
@@ -3606,7 +3614,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         _RV_Z_CAP, _RV_O_CAP = 8, 3   # 真题最多 8 道、其它书最多 3 道，其余收进「展开更多」
 
         @st.fragment()
-        def render_rv_cards(_z_in, _o_in) -> None:
+        def render_rv_cards(_z_in, _o_in, _ch_key) -> None:
             # 必须在 fragment 内部再过滤一次：模块级的 _rv_z_ids 是上一次整页渲染时的快照，
             # 判分后只重跑 fragment，若不在此处重算，卡片就不会消失。
             # 且只认"今天"的标记，避免页面跨零点点后把昨天的记录当成今天的过滤条件。
@@ -3619,21 +3627,31 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _rv_flash = st.session_state.pop("rv_flash", None)
             if _rv_flash:
                 _rv_kind, _rv_msg = _rv_flash
-                st.toast(_rv_msg, icon="✅" if _rv_kind == "ok" else "❌")
+                st.toast(_rv_msg, icon={"ok": "✅", "slow": "🟡"}.get(_rv_kind, "❌"))
 
-            def _rv_grade(_qid, _ok: bool) -> None:
+            def _rv_grade(_qid, _kind: str) -> None:
                 _rec = state_mgr.wrong_questions.get(_qid)
                 _was_due = _is_due_today(_rec, state_mgr._today()) if _rec else False
-                if _ok:
+                if _kind == "ok":
                     _changed = state_mgr.record_review_result(_qid, correct=True)
-                    _left = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions))  # 不依赖侧栏的 _pic_all，fragment 单独降级也安全
+                    _left = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions))
                     if _changed:
                         st.session_state["rv_flash"] = (
                             "ok",
-                            f"已完成，今日到期剩余 {_left} 题" if _was_due else "已记录，复习间隔已推进",
+                            f"一眼就会，推进一档；今日到期剩余 {_left} 题",
                         )
                     else:
                         st.session_state["rv_flash"] = ("ok", "今日已记录过此题，未重复计入")
+                elif _kind == "slow":
+                    _changed_s = state_mgr.record_review_slow(_qid)
+                    _left_s = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions))
+                    if _changed_s:
+                        st.session_state["rv_flash"] = (
+                            "slow",
+                            f"想了会儿，档位照常推进、下次间隔压缩到 70%；今日到期剩余 {_left_s} 题",
+                        )
+                    else:
+                        st.session_state["rv_flash"] = ("slow", "今日已记录过此题，未重复计入")
                 else:
                     _before = _rec.wrong_count if _rec else 0
                     _cnt = state_mgr.increment_wrong_count(_qid)
@@ -3673,13 +3691,16 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     if _q3.solution:
                         with st.expander("📖 查看详细解析", expanded=False):
                             st.markdown(f"**【详细解析】**：\n{_q3.solution}")
-                    _rbc1, _rbc2 = st.columns(2)
+                    _rbc1, _rbc2, _rbc3 = st.columns(3)
                     with _rbc1:
-                        st.button("✅ 做对了", key=f"rv_ok_{_qid}", use_container_width=True,
-                                  on_click=_rv_grade, args=(_qid, True))
+                        st.button("✅ 一眼就会", key=f"rv_ok_{_qid}", use_container_width=True,
+                                  on_click=_rv_grade, args=(_qid, "ok"))
                     with _rbc2:
+                        st.button("🟡 想了会儿", key=f"rv_slow_{_qid}", use_container_width=True,
+                                  on_click=_rv_grade, args=(_qid, "slow"))
+                    with _rbc3:
                         st.button("❌ 又错了", key=f"rv_no_{_qid}", use_container_width=True,
-                                  on_click=_rv_grade, args=(_qid, False))
+                                  on_click=_rv_grade, args=(_qid, "wrong"))
 
             _done_today = len(st.session_state.get("rv_done", {}))
             _hc1, _hc2 = st.columns([5, 1])
@@ -3697,38 +3718,47 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     st.session_state["rv_done"] = {}
                     st.rerun()
 
-            # 真题不够 8 道时用同章其它书补足到 8 道；原来不足就直接收尾，旁边同类题白白闲置
-            _o_cap = _RV_O_CAP + max(0, _RV_Z_CAP - len(_z_ids))
-            _rv_i = 0
-            if _z_ids:
-                st.markdown(f"#### 📄 真题错题（剩 {len(_z_ids)} 道）")
-                for _qid in _z_ids[:_RV_Z_CAP]:
-                    _rv_i += 1
-                    _rv_card(_rv_i, _qid, "真题")
-                if len(_z_ids) > _RV_Z_CAP:
-                    _rest = _z_ids[_RV_Z_CAP:]
-                    with st.expander(f"📂 另有 {len(_rest)} 道真题错题（点开继续做）"):
-                        for _qid in _rest:
-                            _rv_i += 1
-                            _rv_card(_rv_i, _qid, "真题")
+            # 真题优先 + 同类补足：合并成一串，按 8 道一页翻页。
+            # （旧做法把超出的卡片塞进 st.expander，但 expander 收起时 Streamlit 仍会完整执行，
+            #   一章最坏要画 20 张卡，页面又长又慢。）
+            _rv_seq = [(_qid, "真题") for _qid in _z_ids] + [(_qid, "同类") for _qid in _o_ids]
+            if not _rv_seq:
+                st.success("这一章的错题今天都处理完了。换一章继续，或者明天再来。")
             else:
-                if _o_ids:
-                    st.caption("这一章的真题错题已经清空 👍 下面是同章节其它书的错题。")
-                else:
-                    st.success("这一章的错题今天都处理完了。换一章继续，或者明天再来。")
-            if _o_ids:
-                st.markdown(f"#### 📚 同章节其它书错题（剩 {len(_o_ids)} 道，先补练 {min(len(_o_ids), _o_cap)} 道）")
-                for _qid in _o_ids[:_o_cap]:
-                    _rv_i += 1
-                    _rv_card(_rv_i, _qid, "同类")
-                if len(_o_ids) > _o_cap:
-                    _rest_o = _o_ids[_o_cap:]
-                    with st.expander(f"📂 另有 {len(_rest_o)} 道同类错题（点开继续做）"):
-                        for _qid in _rest_o:
-                            _rv_i += 1
-                            _rv_card(_rv_i, _qid, "同类")
+                _pg_size = 8
+                _pages = max(1, (len(_rv_seq) + _pg_size - 1) // _pg_size)
+                _ch_key = _ch_key.split("（")[0].split(". ", 1)[-1].strip()
+                _pg_key = f"rv_page_{_ch_key}_{_rv_today_in}"
+                _pg = int(st.session_state.get(_pg_key, 0) or 0)
+                _pg = max(0, min(_pg, _pages - 1))
+                st.session_state[_pg_key] = _pg
+                _seg = _rv_seq[_pg * _pg_size:(_pg + 1) * _pg_size]
+                _z_here = sum(1 for _t in _seg if _t[1] == "真题")
+                st.markdown(
+                    f"#### 第 {_pg + 1}/{_pages} 页 · 本页 {len(_seg)} 道"
+                    f"（真题 {_z_here} · 同类 {len(_seg) - _z_here}，真题优先）"
+                )
+                for _ofi, (_qid, _tag) in enumerate(_seg, start=_pg * _pg_size + 1):
+                    _rv_card(_ofi, _qid, _tag)
+                if _pages > 1:
+                    _pc1, _pc2, _pc3 = st.columns([1, 2, 1])
+                    with _pc1:
+                        if st.button("⬅ 上一页", key=f"rv_prev_{_ch_key}", use_container_width=True,
+                                     disabled=_pg <= 0):
+                            st.session_state[_pg_key] = _pg - 1
+                            st.rerun(scope="fragment")
+                    with _pc3:
+                        if st.button("下一页 ➡", key=f"rv_next_{_ch_key}", use_container_width=True,
+                                     disabled=_pg >= _pages - 1):
+                            st.session_state[_pg_key] = _pg + 1
+                            st.rerun(scope="fragment")
+                    with _pc2:
+                        st.caption(
+                            f"共 {len(_rv_seq)} 道待练（真题 {len(_z_ids)} · 同类 {len(_o_ids)}）；"
+                            f"做完一道此处会少一道"
+                        )
 
-        render_rv_cards(_rv_z_ids, _rv_o_ids)
+        render_rv_cards(_rv_z_ids, _rv_o_ids, _rv_pick)
 
 # 7. URL 错题码同步（把当前科目错题状态写回网址，保持链接可跨设备恢复）
 # =========================================================================

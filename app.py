@@ -3454,21 +3454,45 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         _bucket3 = _rv_stats.setdefault(_ch3, {"z": [], "o": []})
         (_bucket3["z"] if _rv_is_zhenti(_q3) else _bucket3["o"]).append(_qid3)
 
+    # 章内排序：错次多的排前面（真题组 / 其它书组各自排，不混排——"真题优先"是硬规则）；
+    # 错次相同按"最久没复习"排，避免刚做过的题又占着第一屏。
+    def _rv_sort_key(_qid4):
+        _rec4 = state_mgr.wrong_questions.get(_qid4)
+        _wc4 = -(int(getattr(_rec4, "wrong_count", 0) or 0))
+        return (_wc4, str(getattr(_rec4, "last_reviewed_at", "") or ""), str(_qid4))
+
+    for _b4 in _rv_stats.values():
+        _b4["z"].sort(key=_rv_sort_key)
+        _b4["o"].sort(key=_rv_sort_key)
+
     if not _rv_stats:
         st.info("错题池现在是空的 —— 先去「🎯 智能拼好卷」或「📅 每日错题」做题，做错的题会自动汇到这里。")
     else:
         _rv_z_total = sum(len(_v3["z"]) for _v3 in _rv_stats.values())
         # 排序：真题错题数 desc → 总错题数 desc → 章节名，保证"真题错得多"的章节一定在上
+        def _rv_left_z(_b) -> int:
+            """今天还剩几道真题没做；已清空的章要沉到榜尾，否则点进去只剩一句"今天处理完了"。"""
+            return sum(1 for i in _b["z"] if i not in _rv_done_today)
+
         _rv_rank = sorted(
             _rv_stats.items(),
-            key=lambda kv: (-len(kv[1]["z"]), -(len(kv[1]["z"]) + len(kv[1]["o"])), kv[0]),
+            key=lambda kv: (
+                _rv_left_z(kv[1]) == 0,
+                -_rv_left_z(kv[1]),
+                -(len(kv[1]["z"]) + len(kv[1]["o"])),
+                kv[0],
+            ),
         )
 
         # ------------------------------------------------------------------
         # 顶部看板（纯 HTML，避免 st.metric 的四个大方块把页面撑太长）
         # ------------------------------------------------------------------
-        _top_ch = _rv_rank[0][0].split(" ", 1)[-1]
-        _top_n = len(_rv_rank[0][1]["z"])
+        # KPI 的"最薄弱"始终按总量算，不受当天清理状态影响，否则做完一章它就会跳走
+        _top_full, _top_bucket = max(
+            _rv_stats.items(), key=lambda kv: (len(kv[1]["z"]), len(kv[1]["o"]))
+        )
+        _top_ch = _top_full.split(" ", 1)[-1]
+        _top_n = len(_top_bucket["z"])
         _top_pct = (_top_n / _rv_z_total * 100.0) if _rv_z_total else 0.0
 
         def _rv_kpi(_label, _value, _unit, _accent, _sub=""):
@@ -3502,24 +3526,33 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         _bar_rows = []
         for _ri3, (_rch3, _rv3) in enumerate(_rv_rank, 1):
             _rz3, _ro3 = len(_rv3["z"]), len(_rv3["o"])
+            _rz_left3 = _rv_left_z(_rv3)
+            _cleared3 = _rz_left3 == 0
             _pct3 = (_rz3 / _rv_z_total * 100.0) if _rv_z_total else 0.0
-            if _ri3 == 1:
-                _bg, _fg = "#ef4444", "#ffffff"
-            elif _ri3 == 2:
-                _bg, _fg = "#f97316", "#ffffff"
-            elif _ri3 == 3:
-                _bg, _fg = "#f59e0b", "#ffffff"
+            if _cleared3:
+                _bg, _fg = "#f1f5f9", "#94a3b8"
+                _bar_color = "#cbd5e1"
+                _name_style = "color:#94a3b8;"
             else:
-                _bg, _fg = "#eef2f7", "#64748b"
-            _bar_color = "#dc2626" if _ri3 == 1 else ("#f97316" if _ri3 <= 3 else "#94a3b8")
-            _name_style = "font-weight:700;color:#0f172a;" if _ri3 <= 3 else "color:#334155;"
+                if _ri3 == 1:
+                    _bg, _fg = "#ef4444", "#ffffff"
+                elif _ri3 == 2:
+                    _bg, _fg = "#f97316", "#ffffff"
+                elif _ri3 == 3:
+                    _bg, _fg = "#f59e0b", "#ffffff"
+                else:
+                    _bg, _fg = "#eef2f7", "#64748b"
+                _bar_color = "#dc2626" if _ri3 == 1 else ("#f97316" if _ri3 <= 3 else "#94a3b8")
+                _name_style = "font-weight:700;color:#0f172a;" if _ri3 <= 3 else "color:#334155;"
             _bar_rows.append(
                 '<tr>'
                 '<td style="width:34px;padding:6px 0;">'
                 '<span style="display:inline-block;min-width:22px;text-align:center;border-radius:7px;'
                 'padding:2px 0;font-size:11px;font-weight:700;background:' + _bg + ';color:' + _fg + ';">'
                 + str(_ri3) + "</span></td>"
-                '<td style="padding:6px 8px 6px 0;' + _name_style + '">' + html.escape(_rch3) + "</td>"
+                '<td style="padding:6px 8px 6px 0;' + _name_style + '">' + html.escape(_rch3)
+                + ('<span style="font-size:11px;color:#94a3b8;margin-left:6px;">✓ 今日已清</span>'
+                   if _cleared3 else "") + "</td>"
                 '<td style="width:88px;padding:6px 8px;text-align:right;white-space:nowrap;">'
                 '<span style="font-weight:800;color:' + _bar_color + ';">' + str(_rz3) + "</span>"
                 '<span style="font-size:11px;color:#94a3b8;"> 道</span></td>'
@@ -3555,10 +3588,12 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             unsafe_allow_html=True,
         )
 
-        _rv_labels = [
-            f"{_ri3}. {_rch3}（剩真题 {len([i for i in _rv3['z'] if i not in _rv_done_today])} / 剩其它 {len([i for i in _rv3['o'] if i not in _rv_done_today])}）"
-            for _ri3, (_rch3, _rv3) in enumerate(_rv_rank, 1)
-        ]
+        _rv_labels = []
+        for _ri5, (_rch5, _rv5) in enumerate(_rv_rank, 1):
+            _lz5 = sum(1 for i in _rv5["z"] if i not in _rv_done_today)
+            _lo5 = sum(1 for i in _rv5["o"] if i not in _rv_done_today)
+            _mark5 = " · 今日已清" if _lz5 == 0 else ""
+            _rv_labels.append(f"{_ri5}. {_rch5}（剩真题 {_lz5} / 剩其它 {_lo5}）{_mark5}")
         _rv_pick = st.selectbox(
             "选择章节（选定后下面出该章卡片）",
             _rv_labels,
@@ -3662,6 +3697,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     st.session_state["rv_done"] = {}
                     st.rerun()
 
+            # 真题不够 8 道时用同章其它书补足到 8 道；原来不足就直接收尾，旁边同类题白白闲置
+            _o_cap = _RV_O_CAP + max(0, _RV_Z_CAP - len(_z_ids))
             _rv_i = 0
             if _z_ids:
                 st.markdown(f"#### 📄 真题错题（剩 {len(_z_ids)} 道）")
@@ -3680,12 +3717,12 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 else:
                     st.success("这一章的错题今天都处理完了。换一章继续，或者明天再来。")
             if _o_ids:
-                st.markdown(f"#### 📚 同章节其它书错题（剩 {len(_o_ids)} 道，先补练 {min(len(_o_ids), _RV_O_CAP)} 道）")
-                for _qid in _o_ids[:_RV_O_CAP]:
+                st.markdown(f"#### 📚 同章节其它书错题（剩 {len(_o_ids)} 道，先补练 {min(len(_o_ids), _o_cap)} 道）")
+                for _qid in _o_ids[:_o_cap]:
                     _rv_i += 1
                     _rv_card(_rv_i, _qid, "同类")
-                if len(_o_ids) > _RV_O_CAP:
-                    _rest_o = _o_ids[_RV_O_CAP:]
+                if len(_o_ids) > _o_cap:
+                    _rest_o = _o_ids[_o_cap:]
                     with st.expander(f"📂 另有 {len(_rest_o)} 道同类错题（点开继续做）"):
                         for _qid in _rest_o:
                             _rv_i += 1

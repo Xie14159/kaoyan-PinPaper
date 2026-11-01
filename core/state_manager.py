@@ -1244,43 +1244,6 @@ class StateManager:
             return False
         return True
 
-    def record_review_slow(self, question_id: str, today=None) -> bool:
-        """「想了会儿」：做对了但不够顺（三档判分的中间档）。
-
-        与 record_review_result(correct=True) 的差别只在间隔：
-        - stage 照常 +1（该题的进度确实往前走了）；
-        - 但下次复习间隔按 70% 打折（最少 1 天），下次更早回炉；
-        - wrong_count 不变（这次不是错），last_reviewed_at = 今天（保持当日幂等）；
-        - 达到 ARCHIVE_STAGE 仍然归档；
-        - save 失败回滚并返回 False。
-        """
-        rec = self.wrong_questions.get(question_id)
-        if not rec:
-            return False
-        today = today or self._today()
-        today_s = today.isoformat()
-        if rec.last_reviewed_at and str(rec.last_reviewed_at)[:10] == today_s:
-            return False  # 今日已复习过，幂等保护
-        _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool,
-                 rec.last_reviewed_at, rec.next_review_at)
-        rec.last_reviewed_at = today_s
-        new_stage = rec.review_stage + 1
-        if new_stage >= self.ARCHIVE_STAGE:
-            rec.review_stage = self.ARCHIVE_STAGE
-            rec.is_active_in_pool = False
-            rec.next_review_at = ""
-        else:
-            rec.review_stage = new_stage
-            _gap = self.EBBINGHAUS_INTERVALS[new_stage]
-            _scaled = max(1, int(round(_gap * 0.7)))
-            rec.next_review_at = (today + timedelta(days=_scaled)).isoformat()
-        if not self.save_state():
-            (rec.review_stage, rec.wrong_count, rec.is_active_in_pool,
-             rec.last_reviewed_at, rec.next_review_at) = _snap
-            logger.error("record_review_slow 保存失败(复习进度未持久化,已回滚): %s", question_id)
-            return False
-        return True
-
     def mark_wrong_not_done(self, question_id: str, today=None) -> bool:
         """标记"今天没做"：保持到期状态，明天继续推。
 

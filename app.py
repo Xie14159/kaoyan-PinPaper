@@ -3627,31 +3627,21 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _rv_flash = st.session_state.pop("rv_flash", None)
             if _rv_flash:
                 _rv_kind, _rv_msg = _rv_flash
-                st.toast(_rv_msg, icon={"ok": "✅", "slow": "🟡"}.get(_rv_kind, "❌"))
+                st.toast(_rv_msg, icon="✅" if _rv_kind == "ok" else "❌")
 
-            def _rv_grade(_qid, _kind: str) -> None:
+            def _rv_grade(_qid, _ok: bool) -> None:
                 _rec = state_mgr.wrong_questions.get(_qid)
                 _was_due = _is_due_today(_rec, state_mgr._today()) if _rec else False
-                if _kind == "ok":
+                if _ok:
                     _changed = state_mgr.record_review_result(_qid, correct=True)
-                    _left = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions))
+                    _left = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions))  # 不依赖侧栏的 _pic_all，fragment 单独降级也安全
                     if _changed:
                         st.session_state["rv_flash"] = (
                             "ok",
-                            f"一眼就会，推进一档；今日到期剩余 {_left} 题",
+                            f"已完成，今日到期剩余 {_left} 题" if _was_due else "已记录，复习间隔已推进",
                         )
                     else:
                         st.session_state["rv_flash"] = ("ok", "今日已记录过此题，未重复计入")
-                elif _kind == "slow":
-                    _changed_s = state_mgr.record_review_slow(_qid)
-                    _left_s = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions))
-                    if _changed_s:
-                        st.session_state["rv_flash"] = (
-                            "slow",
-                            f"想了会儿，档位照常推进、下次间隔压缩到 70%；今日到期剩余 {_left_s} 题",
-                        )
-                    else:
-                        st.session_state["rv_flash"] = ("slow", "今日已记录过此题，未重复计入")
                 else:
                     _before = _rec.wrong_count if _rec else 0
                     _cnt = state_mgr.increment_wrong_count(_qid)
@@ -3691,16 +3681,13 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     if _q3.solution:
                         with st.expander("📖 查看详细解析", expanded=False):
                             st.markdown(f"**【详细解析】**：\n{_q3.solution}")
-                    _rbc1, _rbc2, _rbc3 = st.columns(3)
+                    _rbc1, _rbc2 = st.columns(2)
                     with _rbc1:
-                        st.button("✅ 一眼就会", key=f"rv_ok_{_qid}", use_container_width=True,
-                                  on_click=_rv_grade, args=(_qid, "ok"))
+                        st.button("✅ 做对了", key=f"rv_ok_{_qid}", use_container_width=True,
+                                  on_click=_rv_grade, args=(_qid, True))
                     with _rbc2:
-                        st.button("🟡 想了会儿", key=f"rv_slow_{_qid}", use_container_width=True,
-                                  on_click=_rv_grade, args=(_qid, "slow"))
-                    with _rbc3:
                         st.button("❌ 又错了", key=f"rv_no_{_qid}", use_container_width=True,
-                                  on_click=_rv_grade, args=(_qid, "wrong"))
+                                  on_click=_rv_grade, args=(_qid, False))
 
             _done_today = len(st.session_state.get("rv_done", {}))
             _hc1, _hc2 = st.columns([5, 1])

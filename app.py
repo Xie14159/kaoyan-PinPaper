@@ -2793,9 +2793,13 @@ elif active_module == "📕 我的错题本":
                 key=f"wb_status_{current_subject.value}")
         with f2:
             wb_chs = ["全部"] + _CH12_ALL
+            _wb_ch_key = f"wb_ch_{current_subject.value}"
+            # 章节选项从「各书原始章名」换成了固定十二章，旧会话里可能存着已不存在的值，
+            # 先清掉再建控件，避免 selectbox 拿到非法值。
+            if st.session_state.get(_wb_ch_key) not in wb_chs:
+                st.session_state[_wb_ch_key] = "全部"
             wb_ch_pick = st.selectbox(
-                "章节（按李林 880 十二章）", wb_chs, index=0,
-                key=f"wb_ch_{current_subject.value}")
+                "章节（按李林 880 十二章）", wb_chs, index=0, key=_wb_ch_key)
         with f3:
             wb_type_pick = st.selectbox(
                 "题型", ["全部", "选择题", "填空题", "解答题"], index=0,

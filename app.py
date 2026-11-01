@@ -2814,35 +2814,12 @@ elif active_module == "📕 我的错题本":
                 return False
             return _wb_hit(q)
 
-        s0, s1, s2 = st.columns([2.1, 1.9, 1.5])
-        with s0:
-            wb_sort_pick = st.selectbox(
-                "排序",
-                ["⏰ 到期优先（最该练的在上）", "🔥 错次最多在上", "🔢 按题号"],
-                index=0, key=f"wb_sort_{current_subject.value}")
-        with s1:
-            wb_group_pick = st.selectbox(
-                "分组",
-                ["📅 按到期档位", "📄 按年份", "🚫 不分组"],
-                index=0, key=f"wb_group_{current_subject.value}")
-        with s2:
-            wb_table_pick = st.toggle(
-                "📊 表格模式", value=False, key=f"wb_table_{current_subject.value}",
-                help="表格里勾选后批量归档/删除，适合一次清理多条；关闭则用卡片逐题看")
+        wb_table_pick = st.toggle(
+            "📊 表格模式", value=False, key=f"wb_table_{current_subject.value}",
+            help="表格里勾选后批量归档/删除，适合一次清理多条；关闭则用卡片逐题看")
 
-        def _wb_sort_key(q):
-            _d = _wb_due_delta(q.id)
-            _dd = 9999 if _d is None else _d
-            _wc = state_mgr.get_wrong_count(q.id)
-            if wb_sort_pick.startswith("⏰"):
-                return (_dd, -_wc, parse_qid_tuple(q.id))
-            if wb_sort_pick.startswith("🔥"):
-                return (-_wc, _dd, parse_qid_tuple(q.id))
-            return parse_qid_tuple(q.id)
-
-        shown = sorted([q for q in wb_all if _wb_pass(q)], key=_wb_sort_key)
-        _wb_sort_txt = "到期优先" if wb_sort_pick.startswith("⏰") else ("错次优先" if wb_sort_pick.startswith("🔥") else "题号")
-        st.caption(f"共 {len(shown)} 道 · 排序：{_wb_sort_txt}" + (f" · 搜索「{_wb_kw}」" if _wb_kw else ""))
+        shown = sorted([q for q in wb_all if _wb_pass(q)], key=lambda q: parse_qid_tuple(q.id))
+        st.caption(f"共 {len(shown)} 道（按题号排序）" + (f" · 搜索「{_wb_kw}」" if _wb_kw else ""))
 
         # 做题模式：卡片藏在「展开」后面，答案默认隐藏（先做后看），做对/又错 推进艾宾浩斯。
         wb_mode = st.toggle(
@@ -2851,7 +2828,6 @@ elif active_module == "📕 我的错题本":
             key=f"wb_mode_{current_subject.value}",
             help="开启后展开卡片时答案默认隐藏，直接做题：✅做对推进艾宾浩斯间隔，❌又错则明天再练",
         )
-        wb_auto_expand = False
         if wb_mode and len(shown) > 60:
             st.caption(f"⚠️ 当前筛选 {len(shown)} 道较多，建议先按章节/题型缩小范围")
 
@@ -3034,12 +3010,7 @@ elif active_module == "📕 我的错题本":
                 stt = _wb_status(q.id)
                 w_cnt = state_mgr.get_wrong_count(q.id)
                 label, _ = _STATUS_LABEL.get(stt, ('', ''))
-                _t_show = _wb_type_text(q)
-                head = (
-                    f"{label}　{q.id}　·　{q.chapter}"
-                    + (f"　·　{_t_show}" if _t_show else "")
-                    + f"　·　错 {w_cnt} 次　·　{_wb_due_text(q.id)}"
-                )
+                head = f"{label}　{q.id}　·　{q.chapter}　·　[{q.difficulty.value}]　·　做错 {w_cnt} 次"
                 _open_key = f"wb_open_{current_subject.value}"
                 _is_open = st.session_state.get(_open_key) == q.id
                 _hc1, _hc2 = st.columns([9, 1.5])
@@ -3178,36 +3149,15 @@ elif active_module == "📕 我的错题本":
                 return int(_t) if _t.isdigit() else 0
 
             _wb_groups = []
-            if wb_group_pick.startswith("📅"):
-                def _wb_tier(q):
-                    _d = _wb_due_delta(q.id)
-                    if _d is None:
-                        return (9, "🏆 历史（已归档）")
-                    if _d < -14:
-                        return (0, "🔴 逾期 15 天以上")
-                    if _d < -7:
-                        return (1, "🟠 逾期 8–14 天")
-                    if _d < -3:
-                        return (2, "🟡 逾期 4–7 天")
-                    if _d < 0:
-                        return (3, "🟢 逾期 1–3 天")
-                    if _d == 0:
-                        return (4, "🔔 今日到期")
-                    return (5, "⏳ 未来到期")
-
-                _buckets = {}
-                for q in shown:
-                    _buckets.setdefault(_wb_tier(q), []).append(q)
-                for _k in sorted(_buckets):
-                    _wb_groups.append((_k[1], _buckets[_k]))
-            elif wb_group_pick.startswith("📄") and shown and all(
-                str(getattr(q, "year", "") or "") for q in shown
-            ):
+            if shown and all(str(getattr(q, "year", "") or "") for q in shown):
                 _wb_by_year = {}
                 for q in shown:
                     _wb_by_year.setdefault(str(getattr(q, "year", "")), []).append(q)
                 for _y in sorted(_wb_by_year, reverse=True):
-                    _wb_groups.append((f"📄 {_y} 年真题 · {len(_wb_by_year[_y])} 道", sorted(_wb_by_year[_y], key=lambda x: _wb_qnum(x.id))))
+                    _wb_groups.append((
+                        f"📄 {_y} 年真题错题 · {len(_wb_by_year[_y])} 道（按题号）",
+                        sorted(_wb_by_year[_y], key=lambda x: _wb_qnum(x.id)),
+                    ))
             else:
                 _wb_groups = [("", shown)]
 
@@ -3224,7 +3174,7 @@ elif active_module == "📕 我的错题本":
                     continue
                 _room = max(0, _wb_budget - _wb_rendered)
                 _show_qs = _gqs[:_room]
-                with st.expander(f"{_gname} · 共 {len(_gqs)} 道", expanded=False, key=f"wb_grp_{current_subject.value}_{_gname}"):
+                with st.expander(f"{_gname}", expanded=False, key=f"wb_grp_{current_subject.value}_{_gname}"):
                     for q in _show_qs:
                         _wb_render_card(q)
                         _wb_rendered += 1

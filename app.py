@@ -200,7 +200,7 @@ def _ans880_index() -> dict:
         return {}
 
 
-def ans880_page_hint(q) -> str:
+def ans880_page_hint(q, with_answer: bool = True) -> str:
     """880 题：返回解析册页码指引；非 880 书或索引缺失时返回空串。
 
     优先用 OCR 回溯出来的逐题精确页（page_index.json 的 pages 字段，键为题目 id）；
@@ -224,7 +224,7 @@ def ans880_page_hint(q) -> str:
     exact = pages.get(qid)
     if exact:
         letter = (idx.get("answers") or {}).get(qid)
-        tail = f" · 解析册标注 **{letter}**（OCR，仅供查书参考，以纸书为准）" if letter else ""
+        tail = f" · 解析册标注 **{letter}**（OCR，仅供查书参考，以纸书为准）" if (letter and with_answer) else ""
         return (
             f"📗《27版李林880 数二 解析分册》**第 {exact} 页**"
             f"（PDF 第 **{int(exact) + offset}** 页）· 页内找标号 **({n})**{tail}"
@@ -3573,7 +3573,7 @@ elif active_module == "📅 每日错题":
                     if _q2.answer:                                                            # 2026-10-31 参考答案常驻显示
                         st.markdown(f"**【参考答案】**：`{_q2.answer}`")
                     else:
-                        _h880 = ans880_page_hint(_q2)
+                        _h880 = ans880_page_hint(_q2, with_answer=False)
                         if _h880:
                             st.caption(_h880)
                     if _q2.solution:
@@ -3884,7 +3884,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     if _q3.answer:
                         st.markdown(f"**【参考答案】**：`{_q3.answer}`")
                     else:
-                        _h880rv = ans880_page_hint(_q3)
+                        _h880rv = ans880_page_hint(_q3, with_answer=False)
                         if _h880rv:
                             st.caption(_h880rv)
                     if _q3.solution:

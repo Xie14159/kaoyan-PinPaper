@@ -3231,9 +3231,11 @@ elif active_module == "📕 我的错题本":
                         _wb_render_card(q)
                         _wb_rendered += 1
                     continue
-                _room = max(0, _wb_budget - _wb_rendered)
-                _show_qs = _gqs[:_room]
-                with st.expander(f"{_gname}", expanded=True, key=f"wb_grp_{current_subject.value}_{_gname}"):
+                # 年份分组内整组渲染，不参与预算截断：
+                # expander 收起时 Streamlit 仍会跑里面的代码，若按预算切片，
+                # 折叠着的组会把预算吃光，底部就冒出「显示更多」——用户看不到任何题却提示还有 50 道。
+                _show_qs = _gqs
+                with st.expander(f"{_gname}", expanded=False, key=f"wb_grp_{current_subject.value}_{_gname}"):
                     for q in _show_qs:
                         _wb_render_card(q)
                         _wb_rendered += 1

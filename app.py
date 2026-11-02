@@ -3178,7 +3178,7 @@ elif active_module == "📕 我的错题本":
                         for oi, opt in enumerate(q.options):
                             (oc1 if oi % 2 == 0 else oc2).markdown(opt)
                     # 答案/解析默认藏在折叠区里（先做后看）
-                    with st.expander("📖 查看答案与解析", expanded=False):
+                    with st.expander("📖 查看答案与解析", expanded=True):
                         if q.answer:
                             st.markdown(f"**【参考答案】**：`{q.answer}`")
                         if q.solution:

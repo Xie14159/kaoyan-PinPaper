@@ -3184,7 +3184,7 @@ elif active_module == "📕 我的错题本":
                         if q.solution:
                             st.markdown(f"**【详细解析】**：\n{q.solution}")
                         if not q.answer:
-                            _h880 = ans880_page_hint(q)
+                            _h880 = ans880_page_hint(q, with_answer=False)
                             if _h880:
                                 st.caption(_h880)
                     b1, b2, b3, b4 = st.columns(4)
@@ -3656,6 +3656,18 @@ elif active_module == "📅 每日错题":
                                   help="今天没做这道题：今天不再推，明天会继续推给你。",
                                   on_click=_eb_skip, args=(_qid2,))
 
+                    _etags = list(state_mgr.TAG_PRIORITY.keys())
+                    _etk = f"ebtag_{current_subject.value}_{_qid2}"
+                    _ecur = getattr(state_mgr.wrong_questions.get(_qid2), "error_tag", "概念模糊")
+                    if st.session_state.get(_etk) not in _etags:
+                        st.session_state[_etk] = _ecur if _ecur in _etags else _etags[0]
+
+                    def _eb_apply_tag(_q=_qid2, _k=_etk):
+                        state_mgr.set_error_tag(_q, st.session_state.get(_k, ""))
+
+                    st.selectbox("错因（这次错在哪）", _etags, key=_etk, on_change=_eb_apply_tag,
+                                 help="方法不会 20 / 概念模糊 15 / 审题错误 10 / 计算失误 8 / 其他 0。做对时不会改动它。")
+
         render_eb_cards()
 elif active_module == "🧭 复盘 · 薄弱章节":
     st.markdown("### 🧭 复盘 · 按薄弱章节专项练")
@@ -3951,6 +3963,18 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     with _rbc2:
                         st.button("❌ 又错了", key=f"rv_no_{_qid}", use_container_width=True,
                                   on_click=_rv_grade, args=(_qid, False))
+
+                    _rtags = list(state_mgr.TAG_PRIORITY.keys())
+                    _rtk = f"rvtag_{current_subject.value}_{_qid}"
+                    _rcur = getattr(state_mgr.wrong_questions.get(_qid), "error_tag", "概念模糊")
+                    if st.session_state.get(_rtk) not in _rtags:
+                        st.session_state[_rtk] = _rcur if _rcur in _rtags else _rtags[0]
+
+                    def _rv_apply_tag(_q=_qid, _k=_rtk):
+                        state_mgr.set_error_tag(_q, st.session_state.get(_k, ""))
+
+                    st.selectbox("错因（这次错在哪）", _rtags, key=_rtk, on_change=_rv_apply_tag,
+                                 help="方法不会 20 / 概念模糊 15 / 审题错误 10 / 计算失误 8 / 其他 0。做对时不会改动它。")
 
             _done_today = len(st.session_state.get("rv_done", {}))
             _hc1, _hc2 = st.columns([5, 1])

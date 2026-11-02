@@ -4020,12 +4020,34 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 # 本轮已经排过版的排到后面：错次再多，也不能一直霸占每簇的前两个位置
                 _sorted_k = sorted(_qids_k, key=lambda i: ((i in _rv_shown),) + _rv_sort_key(i))
                 _new_k = [i for i in _sorted_k if _rv_is_new(i)]
-                _old_k = [i for i in _sorted_k if not _rv_is_new(i)]
-                _take = (_new_k[:1] + _old_k[:2]) if _new_k else _old_k[:2]
+                _is_zt = lambda i: _rv_is_zhenti(_q_by_id3.get(i))
+                _zt_k = [i for i in _sorted_k if _is_zt(i)]
+                _ob_k = [i for i in _sorted_k if not _is_zt(i)]
+                _target = 3 if _new_k else 2
+                _take = []
+                # ① 本轮新错优先 1 道（不限书目）
+                if _new_k:
+                    _take.append(_new_k[0])
+                # ② 真题 1 道（若①已是真题则不重复占位）
+                if not any(_is_zt(i) for i in _take):
+                    _rest_zt = [i for i in _zt_k if i not in _take]
+                    if _rest_zt:
+                        _take.append(_rest_zt[0])
+                # ③ 其它书 1 道（880 / 亚瑟 / 张宇），真题不足时由 ④ 补齐
+                _rest_ob = [i for i in _ob_k if i not in _take]
+                if len(_take) < _target and _rest_ob:
+                    _take.append(_rest_ob[0])
+                # ④ 仍不满（该簇没有这类题）就从剩余里按排序补
+                for _x in _sorted_k:
+                    if len(_take) >= _target:
+                        break
+                    if _x not in _take:
+                        _take.append(_x)
+                _take = _take[:_target]
                 if not _take:
                     continue
-                # 簇内真题优先（只调顺序，不改变已选的三道）
-                _take.sort(key=lambda i: 0 if _rv_is_zhenti(_q_by_id3.get(i)) else 1)
+                # 显示顺序：新错 → 真题 → 其它书
+                _take.sort(key=lambda i: (0 if i in _new_k else 1, 0 if _is_zt(i) else 1))
                 _rv_groups.append((_kname, _take, len(_qids_k)))
 
             if not _rv_groups:
@@ -4048,8 +4070,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     st.caption(f"本轮自 {_since.replace('T', ' ')} 起，新错题 {_n_new} 道已排在各簇最前；"
                                f"没设本轮时按「错次多」排。")
                 else:
-                    st.caption("还没标记「本轮」：现在按「每个方法簇取 2 道」精选；"
-                               "点右上角『✅ 结束本轮』后，下一轮会优先排新错题。")
+                    st.caption("还没标记「本轮」：现在每簇 1 道真题 + 1 道其它书（同簇里最该做的）；"
+                               "点右上角『✅ 结束本轮』后，下一轮会多带一道新错题。")
                 _idx = 0
                 for _kname, _take, _pool in _gseg:
                     _new_n = sum(1 for i in _take if _rv_is_new(i))

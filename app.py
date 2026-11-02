@@ -2932,23 +2932,9 @@ elif active_module == "📕 我的错题本":
         shown = sorted([q for q in wb_all if _wb_pass(q)], key=lambda q: parse_qid_tuple(q.id))
         st.caption(f"共 {len(shown)} 道（按题号排序）" + (f" · 搜索「{_wb_kw}」" if _wb_kw else ""))
 
-        # 做题模式：卡片藏在「展开」后面，答案默认隐藏（先做后看），做对/又错 推进艾宾浩斯。
-        wb_mode = st.toggle(
-            "🎯 做题模式",
-            value=False,
-            key=f"wb_mode_{current_subject.value}",
-            help="开启后展开卡片时答案默认隐藏，直接做题：✅做对推进艾宾浩斯间隔，❌又错则明天再练",
-        )
-        if wb_mode and len(shown) > 60:
+        # 2026-11-02 起：做题模式与错因编辑固定开启（用户要求默认打开、不再给关闭入口）
+        if len(shown) > 60:
             st.caption(f"⚠️ 当前筛选 {len(shown)} 道较多，建议先按章节/题型缩小范围")
-
-        # 错因标签：默认全是「概念模糊」，权重等于失效；打开开关后可逐题改（关闭时不渲染控件，避免拖慢）
-        wb_tag_edit = st.toggle(
-            "🏷️ 编辑错因",
-            value=False,
-            key=f"wb_tagedit_{current_subject.value}",
-            help="错因决定每日错题的优先权重：方法不会 20 / 概念模糊 15 / 审题错误 10 / 计算失误 8 / 其他 0",
-        )
 
         # 卡片分批渲染：默认 40 道，防止一次画几百张卡；表格模式不分批。
         _wb_limit_key = f"wb_view_limit_{current_subject.value}"
@@ -3191,25 +3177,18 @@ elif active_module == "📕 我的错题本":
                         oc1, oc2 = st.columns(2)
                         for oi, opt in enumerate(q.options):
                             (oc1 if oi % 2 == 0 else oc2).markdown(opt)
-                    # 做题模式：答案/解析默认隐藏（先做后看）；管理模式：直接展示
-                    if wb_mode:
-                        with st.expander("📖 查看答案与解析", expanded=False):
-                            if q.answer:
-                                st.markdown(f"**【参考答案】**：`{q.answer}`")
-                            if q.solution:
-                                st.markdown(f"**【详细解析】**：\n{q.solution}")
-                            if not q.answer:
-                                _h880 = ans880_page_hint(q)
-                                if _h880:
-                                    st.caption(_h880)
-                    else:
+                    # 答案/解析默认藏在折叠区里（先做后看）
+                    with st.expander("📖 查看答案与解析", expanded=False):
                         if q.answer:
                             st.markdown(f"**【参考答案】**：`{q.answer}`")
                         if q.solution:
                             st.markdown(f"**【详细解析】**：\n{q.solution}")
+                        if not q.answer:
+                            _h880 = ans880_page_hint(q)
+                            if _h880:
+                                st.caption(_h880)
                     b1, b2, b3, b4 = st.columns(4)
                     if stt in ("active", "stubborn"):
-                        if wb_mode:
                             with b1:
                                 if st.button("✅ 做对", type="primary", key=f"wb_ok_{q.id}", use_container_width=True,
                                              help="本次做对，推进艾宾浩斯复习间隔"):
@@ -3224,38 +3203,27 @@ elif active_module == "📕 我的错题本":
                             with b4:
                                 st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
                                           help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
-                        else:
-                            with b1:
-                                st.button("🏆 归为历史", key=f"wb_arch_{q.id}", use_container_width=True,
-                                          help="已掌握，移出待练池、归档为历史错题", on_click=cb_archive_to_history, args=(q.id,))
-                            with b2:
-                                st.button("➕ 又错一次", key=f"wb_inc_{q.id}", use_container_width=True,
-                                          help="再次做错，做错次数+1 并纳入艾宾浩斯（明天再练）", on_click=cb_inc_wrong, args=(q.id,))
-                            with b4:
-                                st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
-                                          help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
                     elif stt == "history":
                         with b1:
                             st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
                                       help="重新放回活跃错题池参与组卷", on_click=cb_reactivate_wrong, args=(q.id,))
 
-                    if wb_tag_edit:
-                        _tags = list(state_mgr.TAG_PRIORITY.keys())
-                        _cur_tag = getattr(state_mgr.wrong_questions.get(q.id), "error_tag", "概念模糊")
-                        _tk = f"wbtag_{q.id}"
-                        if st.session_state.get(_tk) not in _tags:
-                            st.session_state[_tk] = _cur_tag if _cur_tag in _tags else _tags[0]
+                    _tags = list(state_mgr.TAG_PRIORITY.keys())
+                    _cur_tag = getattr(state_mgr.wrong_questions.get(q.id), "error_tag", "概念模糊")
+                    _tk = f"wbtag_{q.id}"
+                    if st.session_state.get(_tk) not in _tags:
+                        st.session_state[_tk] = _cur_tag if _cur_tag in _tags else _tags[0]
 
-                        def _apply_tag(_qid=q.id, _key=_tk):
-                            state_mgr.set_error_tag(_qid, st.session_state.get(_key, ""))
+                    def _apply_tag(_qid=q.id, _key=_tk):
+                        state_mgr.set_error_tag(_qid, st.session_state.get(_key, ""))
 
-                        st.selectbox(
-                            "错因（决定每日错题优先权重）",
-                            _tags,
-                            key=_tk,
-                            on_change=_apply_tag,
-                            help="方法不会=最该重做；计算失误=只需重算一遍；其他=不影响权重",
-                        )
+                    st.selectbox(
+                        "错因（决定每日错题优先权重）",
+                        _tags,
+                        key=_tk,
+                        on_change=_apply_tag,
+                        help="方法不会=最该重做；计算失误=只需重算一遍；其他=不影响权重",
+                    )
 
 
             # ---------- 分组 ----------
@@ -3664,9 +3632,6 @@ elif active_module == "📅 每日错题":
                         _oc1, _oc2 = st.columns(2)
                         for _oi, _opt in enumerate(_q2.options):
                             (_oc1 if _oi % 2 == 0 else _oc2).markdown(_opt)
-                    if not _q2.options:                                  # 综合题/填空题：给个草稿框，只看不判分
-                        st.text_area("✍️ 草稿（不判分，只给你自己看）", key=f"eb_draft_{current_subject.value}_{_qid2}",
-                                     height=130, placeholder="在这里写思路/步骤，切走不丢；判分仍用下面三个按钮。")
                     if _q2.answer:                                                            # 2026-10-31 参考答案常驻显示
                         st.markdown(f"**【参考答案】**：`{_q2.answer}`")
                     else:
@@ -3970,9 +3935,6 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         _roc1, _roc2 = st.columns(2)
                         for _roi, _ropt in enumerate(_q3.options):
                             (_roc1 if _roi % 2 == 0 else _roc2).markdown(_ropt)
-                    if not _q3.options:
-                        st.text_area("✍️ 草稿（不判分，只给你自己看）", key=f"rv_draft_{current_subject.value}_{_qid}",
-                                     height=130, placeholder="在这里写思路/步骤，切走不丢；判分仍用下面的按钮。")
                     if _q3.answer:
                         st.markdown(f"**【参考答案】**：`{_q3.answer}`")
                     else:

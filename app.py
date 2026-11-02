@@ -3177,16 +3177,15 @@ elif active_module == "📕 我的错题本":
                         oc1, oc2 = st.columns(2)
                         for oi, opt in enumerate(q.options):
                             (oc1 if oi % 2 == 0 else oc2).markdown(opt)
-                    # 答案/解析默认藏在折叠区里（先做后看）
-                    with st.expander("📖 查看答案与解析", expanded=True):
-                        if q.answer:
-                            st.markdown(f"**【参考答案】**：`{q.answer}`")
-                        if q.solution:
-                            st.markdown(f"**【详细解析】**：\n{q.solution}")
-                        if not q.answer:
-                            _h880 = ans880_page_hint(q, with_answer=False)
-                            if _h880:
-                                st.caption(_h880)
+                    # 答案/解析直接平铺，不再折叠（错题本是"看懂了再练"，不是考场）
+                    if q.answer:
+                        st.markdown(f"**【参考答案】**：`{q.answer}`")
+                    if q.solution:
+                        st.markdown(f"**【详细解析】**：\n{q.solution}")
+                    if not q.answer:
+                        _h880 = ans880_page_hint(q, with_answer=False)
+                        if _h880:
+                            st.caption(_h880)
                     b1, b2, b3, b4 = st.columns(4)
                     if stt in ("active", "stubborn"):
                             with b1:

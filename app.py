@@ -3231,39 +3231,62 @@ elif active_module == "📕 我的错题本":
                 return int(_t) if _t.isdigit() else 0
 
             _wb_groups = []
-            _wb_year_mode = bool(shown) and all(str(getattr(q, "year", "") or "") for q in shown)
-            if _wb_year_mode:
-                # 按年份：只渲染「当前选中年份」的卡片，其余年份完全不执行渲染。
-                # Streamlit 的 st.expander 收起时仍会执行内部代码（等于白渲染），
-                # 所以这里用年份按钮代替折叠块，做到真正的按需加载。
-                _ybuckets = {}
-                for q in shown:
-                    _ybuckets.setdefault(str(getattr(q, "year", "")), []).append(q)
-                _years = [
-                    (_y, f"📄 {_y} 年真题错题 · {len(_ybuckets[_y])} 道（按题号）",
-                     sorted(_ybuckets[_y], key=lambda x: _wb_qnum(x.id)))
-                    for _y in sorted(_ybuckets, reverse=True)
+            def _wb_group_of(_q):
+                """分组键：(kind, key)。真题按年份；亚瑟50套按套号；其余返回 None（走平铺）。"""
+                _yy = str(getattr(_q, "year", "") or "")
+                if _yy:
+                    return ("year", _yy)
+                if (getattr(_q, "book", "") or "") == "亚瑟50套":
+                    _head = _q.id.split("-")[0]
+                    if _head.isdigit():
+                        return ("paper", _head)
+                return None
+
+            _wb_gkeys = [_wb_group_of(q) for q in shown]
+            _wb_grouped = bool(shown) and all(k is not None for k in _wb_gkeys)
+            if _wb_grouped:
+                # 分组视图：真题按年份（新→旧）、亚瑟50套按套号（小→大），
+                # 只渲染「当前选中那一组」的卡片，其余组完全不执行渲染。
+                _gbuckets = {}
+                for _q, _k in zip(shown, _wb_gkeys):
+                    _gbuckets.setdefault(_k, []).append(_q)
+
+                def _glabel(_k):
+                    if _k[0] == "year":
+                        return f"📄 {_k[1]} 年真题错题"
+                    _n = int(_k[1]) - 5000 if int(_k[1]) > 5000 else int(_k[1])
+                    return f"📄 第{_n}套"
+
+                def _gorder(_k):
+                    if _k[0] == "year":
+                        return (0, -int(_k[1]) if str(_k[1]).isdigit() else 0, _k[1])
+                    return (1, int(_k[1]), _k[1])
+
+                _groups = [
+                    (_k, _glabel(_k), sorted(_gbuckets[_k], key=lambda x: _wb_qnum(x.id)))
+                    for _k in sorted(_gbuckets, key=_gorder)
                 ]
-                _ykey = f"wb_year_pick_{current_subject.value}"
-                _ynames = [_y for _y, _, _ in _years]
-                if st.session_state.get(_ykey) not in _ynames:
-                    st.session_state[_ykey] = _ynames[0]
-                st.caption("选择年份（只加载选中的那一年，其余不渲染）")
+                _ykey = f"wb_grp_pick_{current_subject.value}"
+                _gids = [_k for _k, _, _ in _groups]
+                if st.session_state.get(_ykey) not in _gids:
+                    st.session_state[_ykey] = _gids[0]
+                st.caption("选择要看的年份 / 套卷（只加载选中的那一项，其余不渲染）")
                 _ycols = st.columns(6)
-                for _iy, (_y, _ylab, _yqs) in enumerate(_years):
+                for _iy, (_k, _klab, _kqs) in enumerate(_groups):
                     with _ycols[_iy % 6]:
+                        _btxt = _klab.replace("📄 ", "")
                         if st.button(
-                            f"{_y}（{len(_yqs)}）",
-                            key=f"wb_ybtn_{current_subject.value}_{_y}",
-                            type=("primary" if st.session_state[_ykey] == _y else "secondary"),
+                            f"{_btxt}（{len(_kqs)}）",
+                            key=f"wb_gbtn_{current_subject.value}_{_k[0]}_{_k[1]}",
+                            type=("primary" if st.session_state[_ykey] == _k else "secondary"),
                             use_container_width=True,
                         ):
-                            st.session_state[_ykey] = _y
+                            st.session_state[_ykey] = _k
                             st.rerun(scope="fragment")
-                _picked_y = st.session_state[_ykey]
-                _pqs = next((_qs for _y, _, _qs in _years if _y == _picked_y), [])
-                # 标题里的年份与道数一律由 _pqs 反推，保证「标题说哪一年」和「下面列的是哪一年」永远一致
-                _plab = f"📄 {_picked_y} 年真题错题 · {len(_pqs)} 道（按题号）"
+                _picked_g = st.session_state[_ykey]
+                _pqs = next((_qs for _k, _, _qs in _groups if _k == _picked_g), [])
+                # 标题里的名称与道数一律由 _pqs 反推，保证「标题说哪一组」和「下面列的是哪一组」永远一致
+                _plab = f"{_glabel(_picked_g)} · {len(_pqs)} 道（按题号）"
                 st.markdown(f"**{_plab}**")
                 for q in _pqs:
                     _wb_render_card(q)

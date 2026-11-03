@@ -3261,8 +3261,9 @@ elif active_module == "📕 我的错题本":
                             st.session_state[_ykey] = _y
                             st.rerun(scope="fragment")
                 _picked_y = st.session_state[_ykey]
-                _plab = next((_lab for _y, _lab, _ in _years if _y == _picked_y), "")
                 _pqs = next((_qs for _y, _, _qs in _years if _y == _picked_y), [])
+                # 标题里的年份与道数一律由 _pqs 反推，保证「标题说哪一年」和「下面列的是哪一年」永远一致
+                _plab = f"📄 {_picked_y} 年真题错题 · {len(_pqs)} 道（按题号）"
                 st.markdown(f"**{_plab}**")
                 for q in _pqs:
                     _wb_render_card(q)

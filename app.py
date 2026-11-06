@@ -3715,8 +3715,14 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         _rv_done.pop(_k, None)
     _rv_done_today = set(_rv_done.keys())
     # 已判分但还没刷新的题：跨天自动清空
-    if "rv_graded" not in st.session_state:
+    if not isinstance(st.session_state.get("rv_graded"), dict):
         st.session_state["rv_graded"] = {}
+    else:
+        # 顺手清理跨天的旧记录，防止无限增长
+        st.session_state["rv_graded"] = {
+            k: v for k, v in st.session_state["rv_graded"].items()
+            if isinstance(v, dict) and v.get("date") == _rv_today_s
+        }
 
     _rv_stats = {}
     _rv_total = 0
@@ -3930,9 +3936,10 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         st.session_state["rv_flash"] = ("wrong", "今日已记录过此题，未重复计入")
                 # 判完先留在原地，标为已处理；点「🔄 刷新错题」才正式撤下换新题
                 st.session_state[_pg_key] = 0
-                st.session_state.setdefault("rv_graded", {})[_qid] = (
-                    "ok" if _ok else "wrong"
-                )
+                st.session_state.setdefault("rv_graded", {})[_qid] = {
+                    "result": "ok" if _ok else "wrong",
+                    "date": state_mgr._today().isoformat(),
+                }
                 _rv_cycle_mark([_qid])
                 st.rerun(scope="fragment")
 
@@ -3958,7 +3965,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 if _q3 is None:
                     return
                 _rec3 = state_mgr.wrong_questions.get(_qid)
-                _graded = st.session_state.get("rv_graded", {}).get(_qid)
+                _g_raw = st.session_state.get("rv_graded", {}).get(_qid)
+                _graded = _g_raw.get("result") if isinstance(_g_raw, dict) and _g_raw.get("date") == _rv_today_in else None
                 with st.container(border=False, key=f"rvcard-{_qid}"):
                     _head3 = (
                         '<div class="wb-hd">' + _rv_due_pill(_qid) +
@@ -4008,7 +4016,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                                  help="方法不会 20 / 概念模糊 15 / 审题错误 10 / 计算失误 8 / 其他 0。做对时不会改动它。")
 
             _done_today = len(st.session_state.get("rv_done", {}))
-            _graded_today = len(st.session_state.get("rv_graded", {}))
+            _graded_raw = st.session_state.get("rv_graded", {})
+            _graded_today = sum(1 for g in _graded_raw.values()
+                                if isinstance(g, dict) and g.get("date") == _rv_today_in)
             _hc1, _hc2 = st.columns([5, 1])
             with _hc1:
                 if _graded_today:
@@ -4028,18 +4038,23 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     _rv_cycle_end()
                     st.toast("已记录本轮结束时间，下一轮从新错题开始", icon="✅")
                     st.rerun()
-                if _graded_today and st.button("🔄 刷新错题", use_container_width=True,
-                                               help="把已判分的题正式撤下，同簇补新题上来"):
-                    _graded = st.session_state.get("rv_graded", {})
+                if st.button("🔄 刷新错题", use_container_width=True,
+                             disabled=_graded_today == 0,
+                             help="把已判分的题正式撤下，同簇补新题上来"):
+                    _graded = {k: v for k, v in _graded_raw.items()
+                               if isinstance(v, dict) and v.get("date") == _rv_today_in}
                     st.session_state.setdefault("rv_done", {}).update(
                         {k: state_mgr._today().isoformat() for k in _graded}
                     )
-                    st.session_state["rv_graded"] = {}
+                    st.session_state["rv_graded"] = {k: v for k, v in _graded_raw.items()
+                                                     if k not in _graded}
                     st.toast(f"已刷新 {len(_graded)} 道，新题已补入", icon="🔄")
                     st.rerun()
-                if _done_today and st.button("↺ 重置", use_container_width=True,
-                                             help="把今天已刷新撤下的题放回来（不影响已写入的复习记录）"):
+                if st.button("↺ 重置", use_container_width=True,
+                             disabled=(_done_today + _graded_today) == 0,
+                             help="把今天已处理/已刷新的题全部放回来（不影响已写入的复习记录）"):
                     st.session_state["rv_done"] = {}
+                    st.session_state["rv_graded"] = {}
                     st.rerun()
 
             # ---- 方法簇精选（C 方案）：每簇最多 3 道 = 本轮新错 1 + 历史同类 2 ----

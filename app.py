@@ -3966,7 +3966,11 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     return
                 _rec3 = state_mgr.wrong_questions.get(_qid)
                 _g_raw = st.session_state.get("rv_graded", {}).get(_qid)
-                _graded = _g_raw.get("result") if isinstance(_g_raw, dict) and _g_raw.get("date") == _rv_today_in else None
+                _graded = (_g_raw.get("result")
+                           if isinstance(_g_raw, dict)
+                           and _g_raw.get("result") in ("ok", "wrong")
+                           and _g_raw.get("date") == _rv_today_in
+                           else None)
                 with st.container(border=False, key=f"rvcard-{_qid}"):
                     _head3 = (
                         '<div class="wb-hd">' + _rv_due_pill(_qid) +

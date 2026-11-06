@@ -3821,17 +3821,17 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         )
 
         if _rv_view == "按最近真题":
-            # 跨章节收集所有真题错题，按年份降序排列
+            # 跨章节收集所有真题错题，按错题加入时间降序排列（最近做的卷排最前）
             _all_z_qids = []
             for _ch_b in _rv_stats.values():
                 _all_z_qids.extend(_ch_b["z"])
             _all_z_qids = list(dict.fromkeys(_all_z_qids))  # 去重
             _all_z_qids = [i for i in _all_z_qids if i not in _rv_done_today and _q_by_id3.get(i) is not None]
             def _rv_added_key(_qid_a):
-                # 按错题加入时间降序（最近做的真题错题排最前），同年按错次降序
+                # 按错题加入时间降序（最近做的排最前），同时间按错次降序
                 _rec_a = state_mgr.wrong_questions.get(_qid_a)
                 _added = str(getattr(_rec_a, "added_at", "") or "")
-                _wc = -(int(getattr(_rec_a, "wrong_count", 0) or 0))
+                _wc = int(getattr(_rec_a, "wrong_count", 0) or 0)
                 return (_added, _wc, str(_qid_a))
             _all_z_qids.sort(key=_rv_added_key, reverse=True)
             _rv_z_ids = _all_z_qids

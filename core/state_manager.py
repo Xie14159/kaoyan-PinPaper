@@ -442,7 +442,7 @@ class StateManager:
         返回是否真的发生了变化。
         """
         tag = (tag or "").strip()
-        if tag not in self.TAG_PRIORITY:
+        if tag and tag not in self.TAG_PRIORITY:
             return False
         rec = self.wrong_questions.get(question_id)
         if rec is None or rec.error_tag == tag:

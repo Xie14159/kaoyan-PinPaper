@@ -2154,6 +2154,27 @@ if active_module == "🎯 智能拼好卷":
                         )
 
                         st.markdown(meta_row, unsafe_allow_html=True)
+
+                        # 错因标签选择（已标错题目的卡片里显示）
+                        if is_active:
+                            st.caption("错因：")
+                            _cur_etag = getattr(state_mgr.wrong_questions.get(q.id), "error_tag", "") or ""
+                            _etags = list(state_mgr.TAG_PRIORITY.keys())
+                            _et_cols = st.columns(len(_etags) + 1)
+                            for _ei, _et in enumerate(_etags):
+                                with _et_cols[_ei]:
+                                    _is_sel = (_cur_etag == _et)
+                                    _btn_label = f"✓ {_et}" if _is_sel else _et
+                                    st.button(_btn_label, key=f"p1_etag_{q.id}_{_qi}_{_et}_{current_subject.value}",
+                                              use_container_width=True,
+                                              type="primary" if _is_sel else "secondary",
+                                              on_click=lambda _q=q.id, _t=_et: state_mgr.set_error_tag(_q, _t))
+                            with _et_cols[-1]:
+                                if _cur_etag:
+                                    st.button("清除错因", key=f"p1_etag_clr_{q.id}_{_qi}_{current_subject.value}",
+                                              use_container_width=True,
+                                              on_click=lambda _q=q.id: state_mgr.set_error_tag(_q, ""))
+
                         if q.answer: st.markdown(f"**【参考答案】**：`{q.answer}`")
                         if q.solution: st.markdown(f"**【详细解析】**：\n{q.solution}")
 
@@ -2725,6 +2746,27 @@ elif active_module == "🏷️ 题库逐题标错":
                             f'</div>'
                         )
                         st.markdown(meta_tags_row, unsafe_allow_html=True)
+
+                        # 错因标签选择（已标错题目的卡片里显示）
+                        if is_active:
+                            st.caption("错因：")
+                            _cur_etag = getattr(state_mgr.wrong_questions.get(q.id), "error_tag", "") or ""
+                            _etags = list(state_mgr.TAG_PRIORITY.keys())
+                            _et_cols = st.columns(len(_etags) + 1)
+                            for _ei, _et in enumerate(_etags):
+                                with _et_cols[_ei]:
+                                    _is_sel = (_cur_etag == _et)
+                                    _btn_label = f"✓ {_et}" if _is_sel else _et
+                                    st.button(_btn_label, key=f"p2_etag_{q.id}_{_et}_{current_subject.value}",
+                                              use_container_width=True,
+                                              type="primary" if _is_sel else "secondary",
+                                              on_click=lambda _q=q.id, _t=_et: state_mgr.set_error_tag(_q, _t))
+                            with _et_cols[-1]:
+                                if _cur_etag:
+                                    st.button("清除错因", key=f"p2_etag_clr_{q.id}_{current_subject.value}",
+                                              use_container_width=True,
+                                              on_click=lambda _q=q.id: state_mgr.set_error_tag(_q, ""))
+
                         if q.answer: st.markdown(f"**【参考答案】**：`{q.answer}`")
                         if q.solution: st.markdown(f"**【详细解析】**：\n{q.solution}")
                         if not q.answer:

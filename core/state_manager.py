@@ -397,11 +397,17 @@ class StateManager:
             _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at, rec.last_reviewed_at)
             rec.is_active_in_pool = True
             rec.wrong_count = max(1, rec.wrong_count + delta)
+            _cur_tag = getattr(rec, "error_tag", "") or ""
             if rec.wrong_count >= self.STUBBORN_THRESHOLD and rec.review_stage > 0:
                 rec.review_stage = 0  # 顽固题强制回 0（与每日模块一致）
+                rec.next_review_at = (today + timedelta(days=1)).isoformat()
+            elif _cur_tag == "计算失误":
+                # 计算失误：只降一级stage，间隔按新stage算（不强制明天）
+                rec.review_stage = max(0, rec.review_stage - 1)
+                rec.next_review_at = (today + timedelta(days=self.EBBINGHAUS_INTERVALS[rec.review_stage])).isoformat()
             else:
                 rec.review_stage = max(0, rec.review_stage - 1)
-            rec.next_review_at = (today + timedelta(days=1)).isoformat()
+                rec.next_review_at = (today + timedelta(days=1)).isoformat()
             rec.last_reviewed_at = today.isoformat()  # 对齐每日模块"做错":当日幂等
             if not self.save_state():
                 (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at, rec.last_reviewed_at) = _snap
@@ -1151,14 +1157,21 @@ class StateManager:
                 rec.next_review_at = (today + timedelta(days=self.EBBINGHAUS_INTERVALS[new_stage])).isoformat()
         else:
             rec.wrong_count += 1
+            _cur_tag = getattr(rec, "error_tag", "") or ""
             if not rec.is_active_in_pool:
                 rec.is_active_in_pool = True  # 归档题做错重新激活
                 rec.review_stage = 0
+                rec.next_review_at = (today + timedelta(days=1)).isoformat()
             elif rec.wrong_count >= self.STUBBORN_THRESHOLD and rec.review_stage > 0:
                 rec.review_stage = 0  # 顽固题强制回 0
+                rec.next_review_at = (today + timedelta(days=1)).isoformat()
+            elif _cur_tag == "计算失误":
+                # 计算失误：只降一级stage，间隔按新stage算（不强制明天）
+                rec.review_stage = max(0, rec.review_stage - 1)
+                rec.next_review_at = (today + timedelta(days=self.EBBINGHAUS_INTERVALS[rec.review_stage])).isoformat()
             else:
                 rec.review_stage = max(0, rec.review_stage - 1)
-            rec.next_review_at = (today + timedelta(days=1)).isoformat()
+                rec.next_review_at = (today + timedelta(days=1)).isoformat()
         # —— 今日已处理内存逻辑（不落盘，与 mark_processed_today 保持一致：只保留当天）——
         cur = set(self._processed_daily.get(today_s, []))
         cur.add(question_id)

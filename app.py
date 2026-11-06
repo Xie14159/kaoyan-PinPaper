@@ -3714,6 +3714,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
     for _k in [k for k, v in _rv_done.items() if v != _rv_today_s]:
         _rv_done.pop(_k, None)
     _rv_done_today = set(_rv_done.keys())
+    # 已判分但还没刷新的题：跨天自动清空
+    if "rv_graded" not in st.session_state:
+        st.session_state["rv_graded"] = {}
 
     _rv_stats = {}
     _rv_total = 0
@@ -3925,10 +3928,11 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         st.session_state["rv_flash"] = ("wrong", "已记录（明日再练），复习阶段已回退")
                     else:
                         st.session_state["rv_flash"] = ("wrong", "今日已记录过此题，未重复计入")
-                # 判完即从本页列表撤下：同一道题今天不再出现
-                # 判分后回到第一页：不然在第 3 页做完最后几道、页数变 2 时会停在「第 2 页」
+                # 判完先留在原地，标为已处理；点「🔄 刷新错题」才正式撤下换新题
                 st.session_state[_pg_key] = 0
-                st.session_state.setdefault("rv_done", {})[_qid] = state_mgr._today().isoformat()
+                st.session_state.setdefault("rv_graded", {})[_qid] = (
+                    "ok" if _ok else "wrong"
+                )
                 _rv_cycle_mark([_qid])
                 st.rerun(scope="fragment")
 
@@ -3954,6 +3958,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 if _q3 is None:
                     return
                 _rec3 = state_mgr.wrong_questions.get(_qid)
+                _graded = st.session_state.get("rv_graded", {}).get(_qid)
                 with st.container(border=False, key=f"rvcard-{_qid}"):
                     _head3 = (
                         '<div class="wb-hd">' + _rv_due_pill(_qid) +
@@ -3961,7 +3966,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         f'<span class="wb-qid">{_idx}. {html.escape(str(_qid))}</span>' +
                         f'<span class="wb-meta">{html.escape(str(getattr(_q3, "book", "") or ""))} · '
                         f'错 {_rec3.wrong_count if _rec3 else 1} 次 · '
-                        f'阶段 {_rec3.review_stage if _rec3 else 0}/5</span>'
+                        f'阶段 {_rec3.review_stage if _rec3 else 0}/5</span>' +
+                        (f'<span class="wb-pill wb-green">✅ 已做对</span>' if _graded == "ok" else
+                         f'<span class="wb-pill wb-red">❌ 又错了</span>' if _graded == "wrong" else '') +
                         '</div>'
                     )
                     st.markdown(_head3, unsafe_allow_html=True)
@@ -3979,13 +3986,14 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     if _q3.solution:
                         with st.expander("📖 查看详细解析", expanded=False):
                             st.markdown(f"**【详细解析】**：\n{_q3.solution}")
-                    _rbc1, _rbc2 = st.columns(2)
-                    with _rbc1:
-                        st.button("✅ 做对了", key=f"rv_ok_{_qid}", use_container_width=True,
-                                  on_click=_rv_grade, args=(_qid, True))
-                    with _rbc2:
-                        st.button("❌ 又错了", key=f"rv_no_{_qid}", use_container_width=True,
-                                  on_click=_rv_grade, args=(_qid, False))
+                    if not _graded:
+                        _rbc1, _rbc2 = st.columns(2)
+                        with _rbc1:
+                            st.button("✅ 做对了", key=f"rv_ok_{_qid}", use_container_width=True,
+                                      on_click=_rv_grade, args=(_qid, True))
+                        with _rbc2:
+                            st.button("❌ 又错了", key=f"rv_no_{_qid}", use_container_width=True,
+                                      on_click=_rv_grade, args=(_qid, False))
 
                     _rtags = list(state_mgr.TAG_PRIORITY.keys())
                     _rtk = f"rvtag_{current_subject.value}_{_qid}"
@@ -4000,12 +4008,17 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                                  help="方法不会 20 / 概念模糊 15 / 审题错误 10 / 计算失误 8 / 其他 0。做对时不会改动它。")
 
             _done_today = len(st.session_state.get("rv_done", {}))
+            _graded_today = len(st.session_state.get("rv_graded", {}))
             _hc1, _hc2 = st.columns([5, 1])
             with _hc1:
-                if _done_today:
+                if _graded_today:
                     st.caption(
-                        f"今天在本页已处理 **{_done_today}** 道；做完的题会立刻从列表消失，"
-                        "判分已写入艾宾浩斯，明天的复习队列会自动接手。"
+                        f"已判分 **{_graded_today}** 道（留在原地可看解析）；"
+                        "点下面『🔄 刷新错题』正式换新题上来，判分已写入艾宾浩斯。"
+                    )
+                elif _done_today:
+                    st.caption(
+                        f"今天已刷新 **{_done_today}** 道；判分已写入艾宾浩斯，明天的复习队列会自动接手。"
                     )
                 else:
                     st.caption("做完一道就少一道；判分会写入艾宾浩斯曲线。")
@@ -4015,8 +4028,17 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     _rv_cycle_end()
                     st.toast("已记录本轮结束时间，下一轮从新错题开始", icon="✅")
                     st.rerun()
+                if _graded_today and st.button("🔄 刷新错题", use_container_width=True,
+                                               help="把已判分的题正式撤下，同簇补新题上来"):
+                    _graded = st.session_state.get("rv_graded", {})
+                    st.session_state.setdefault("rv_done", {}).update(
+                        {k: state_mgr._today().isoformat() for k in _graded}
+                    )
+                    st.session_state["rv_graded"] = {}
+                    st.toast(f"已刷新 {len(_graded)} 道，新题已补入", icon="🔄")
+                    st.rerun()
                 if _done_today and st.button("↺ 重置", use_container_width=True,
-                                             help="把今天在本页隐藏的题放回来（不影响已写入的复习记录）"):
+                                             help="把今天已刷新撤下的题放回来（不影响已写入的复习记录）"):
                     st.session_state["rv_done"] = {}
                     st.rerun()
 

@@ -3827,18 +3827,13 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 _all_z_qids.extend(_ch_b["z"])
             _all_z_qids = list(dict.fromkeys(_all_z_qids))  # 去重
             _all_z_qids = [i for i in _all_z_qids if i not in _rv_done_today and _q_by_id3.get(i) is not None]
-            import re as _re_year
-            def _rv_year_key(_qid_y):
-                _qy = _q_by_id3.get(_qid_y)
-                if _qy is None:
-                    return (0, 0, str(_qid_y))
-                _yr_raw = getattr(_qy, "year", "") or ""
-                _m = _re_year.match(r"(\d{4})", str(_yr_raw))
-                _yr_y = int(_m.group(1)) if _m else 0
-                _rec_y = state_mgr.wrong_questions.get(_qid_y)
-                _wc_y = -(int(getattr(_rec_y, "wrong_count", 0) or 0))
-                return (-_yr_y, _wc_y, str(_qid_y))
-            _all_z_qids.sort(key=_rv_year_key)
+            def _rv_added_key(_qid_a):
+                # 按错题加入时间降序（最近做的真题错题排最前），同年按错次降序
+                _rec_a = state_mgr.wrong_questions.get(_qid_a)
+                _added = str(getattr(_rec_a, "added_at", "") or "")
+                _wc = -(int(getattr(_rec_a, "wrong_count", 0) or 0))
+                return (_added, _wc, str(_qid_a))
+            _all_z_qids.sort(key=_rv_added_key, reverse=True)
             _rv_z_ids = _all_z_qids
             _rv_o_ids = []
             _rv_pick = "按最近真题"

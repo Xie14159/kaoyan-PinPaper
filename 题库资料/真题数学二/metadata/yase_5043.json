@@ -247,7 +247,7 @@
     "tags": [],
     "stem": "(本题满分12 分) 设f x,y在D =x,y∣x2+y2≤1上具有连续的偏导数, 且在边界上的取值为0.设对任意的t > 0, 均有f tx,ty= tf x,y且f 0,0= 1. (I) 证明:xf ′x x,y+ yf ′y x,y= f x,y. (II) 计算limε→0+Dεx2+y2f x,ydxdy, 其中Dε=x,y∣ε2≤x2+y2≤1.",
     "options": [],
-    "chapter": "第四章 多元函数微分学及其应用",
+    "chapter": "第五章 二重积分",
     "difficulty": "基础题",
     "stem_img": "figs/yase_5043-j21.png"
   },

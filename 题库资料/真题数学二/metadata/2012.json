@@ -173,7 +173,7 @@
     ],
     "stem": "$\\lim_{n\\to\\infty}n\\left(\\frac{1}{1+n^{2}}+\\frac{1}{2^{2}+n^{2}}+\\cdots+\\frac{1}{n^{2}+n^{2}}\\right)=$ \\_\\_\\_\\_.",
     "options": [],
-    "chapter": "第三章 一元函数积分学及其应用",
+    "chapter": "第一章 函数、极限、连续",
     "difficulty": "基础题"
   },
   {
@@ -226,7 +226,7 @@
     ],
     "stem": "设 $A$ 为 3 阶矩阵, $|A| = 3, A^*$ 为 $A$ 的伴随矩阵, 若交换 $A$ 的第 1 行与第 2 行得矩阵 $B$ , 则 $\\left|BA^*\\right| =$ \\_\\_\\_\\_.",
     "options": [],
-    "chapter": "第十一章 相似矩阵",
+    "chapter": "第八章 矩阵",
     "difficulty": "基础题"
   },
   {
@@ -333,7 +333,7 @@
     ],
     "stem": "设 $A = \\begin{pmatrix} 1 & a & 0 & 0 \\\\ 0 & 1 & a & 0 \\\\ 0 & 0 & 1 & a \\\\ a & 0 & 0 & 1 \\end{pmatrix}, \\beta = \\begin{pmatrix} 1 \\\\ -1 \\\\ 0 \\\\ 0 \\end{pmatrix}.$\n(I) 计算行列式 $\\left|A\\right|$ ;\n(II) 当实数 $a$ 为何值时, 方程组 $Ax = \\beta$ 有无穷多解, 并求其通解.",
     "options": [],
-    "chapter": "第十一章 相似矩阵",
+    "chapter": "第八章 矩阵",
     "difficulty": "综合题"
   },
   {

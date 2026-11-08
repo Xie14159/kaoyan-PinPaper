@@ -53,7 +53,7 @@
       "C. $F(x)$ 在 $x = \\pi$ 处连续但不可导.",
       "D. $F(x)$ 在 $x = \\pi$ 处可导."
     ],
-    "chapter": "第一章 函数、极限、连续",
+    "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "综合题"
   },
   {
@@ -72,7 +72,7 @@
       "C. $-2 < \\alpha < 0$ .",
       "D. $0 < \\alpha < 2$ ."
     ],
-    "chapter": "第一章 函数、极限、连续",
+    "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "基础题"
   },
   {
@@ -160,7 +160,7 @@
     ],
     "stem": "$\\lim_{x\\to0}\\left[2-\\frac{\\ln(1+x)}{x}\\right]^{\\frac{1}{x}}=$ \\_\\_\\_\\_.",
     "options": [],
-    "chapter": "第三章 一元函数积分学及其应用",
+    "chapter": "第一章 函数、极限、连续",
     "difficulty": "基础题"
   },
   {
@@ -174,7 +174,7 @@
     ],
     "stem": "设函数 $f(x) = \\int_{-1}^{x} \\sqrt{1 - \\mathrm{e}^t} dt$ ，则 $y = f(x)$ 的反函数 $x = f^{-1}(y)$ 在 $y = 0$ 处的导数 $\\left. \\frac{\\mathrm{d}x}{\\mathrm{d}y} \\right|_{y=0} =$ \\_\\_\\_\\_.",
     "options": [],
-    "chapter": "第二章 一元函数微分学及其应用",
+    "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "基础题"
   },
   {
@@ -226,7 +226,7 @@
     ],
     "stem": "设 $A = (a_{ij})$ 是 3 阶非零矩阵, $|A|$ 为 $A$ 的行列式, $A_{ij}$ 为 $a_{ij}$ 的代数余子式. 若 $a_{ij} + A_{ij} = 0 (i, j = 1, 2, 3)$ , 则 $|A| =$ \\_\\_\\_\\_.",
     "options": [],
-    "chapter": "第十一章 相似矩阵",
+    "chapter": "第八章 矩阵",
     "difficulty": "综合题"
   },
   {
@@ -337,7 +337,7 @@
     ],
     "stem": "设 $A = \\begin{pmatrix} 1 & a \\\\ 1 & 0 \\end{pmatrix}, B = \\begin{pmatrix} 0 & 1 \\\\ 1 & b \\end{pmatrix}$ . 当 $a, b$ 为何值时, 存在矩阵 $C$ 使得 $AC - CA = B$ , 并求所有矩阵 $C$ .",
     "options": [],
-    "chapter": "第十一章 相似矩阵",
+    "chapter": "第八章 矩阵",
     "difficulty": "综合题"
   },
   {

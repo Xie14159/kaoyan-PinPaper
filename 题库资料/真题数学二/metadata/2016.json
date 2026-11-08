@@ -175,7 +175,7 @@
     ],
     "stem": "极限 $\\lim_{n\\to\\infty}\\frac{1}{n^{2}}\\left(\\sin\\frac{1}{n}+2\\sin\\frac{2}{n}+\\cdots+n\\sin\\frac{n}{n}\\right)=$ \\_\\_\\_\\_.",
     "options": [],
-    "chapter": "第三章 一元函数积分学及其应用",
+    "chapter": "第一章 函数、极限、连续",
     "difficulty": "基础题"
   },
   {

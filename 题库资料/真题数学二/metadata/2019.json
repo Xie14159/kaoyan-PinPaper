@@ -158,7 +158,7 @@
     ],
     "stem": "$\\lim_{x\\to0}(x+2^{x})^{\\frac{2}{x}}=$ \\_\\_\\_\\_.",
     "options": [],
-    "chapter": "第三章 一元函数积分学及其应用",
+    "chapter": "第一章 函数、极限、连续",
     "difficulty": "基础题"
   },
   {
@@ -266,7 +266,7 @@
     ],
     "stem": "设函数 $y(x)$ 是微分方程 $y' - xy = \\frac{1}{2\\sqrt{x}}\\mathrm{e}^{\\frac{x^2}{2}}$ 满足条件 $y(1) = \\sqrt{\\mathrm{e}}$ 的特解.\n(I) 求 $y(x)$ ;\n(II) 设平面区域 $D = \\{(x, y) \\mid 1 \\leqslant x \\leqslant 2, 0 \\leqslant y \\leqslant y(x)\\}$ , 求 $D$ 绕 $x$ 轴旋转所得旋转体的体积.",
     "options": [],
-    "chapter": "第三章 一元函数积分学及其应用",
+    "chapter": "第六章 微分方程及其应用",
     "difficulty": "综合题"
   },
   {

@@ -107,7 +107,7 @@
       "C. $\\int_{0}^{1}dx\\int_{0}^{1}\\frac{1}{(1+x)(1+y)}dy.$",
       "D. $\\int_{0}^{1}dx\\int_{0}^{1}\\frac{1}{(1+x)(1+y^{2})}dy.$"
     ],
-    "chapter": "第三章 一元函数积分学及其应用",
+    "chapter": "第一章 函数、极限、连续",
     "difficulty": "综合题"
   },
   {
@@ -225,7 +225,7 @@
     ],
     "stem": "设 A, B 为 3 阶矩阵, 且 $\\left|A\\right|=3, \\left|B\\right|=2, \\left|A^{-1}+B\\right|=2$ , 则 $\\left|A+B^{-1}\\right|=$ \\_\\_\\_\\_.",
     "options": [],
-    "chapter": "第七章 行列式",
+    "chapter": "第八章 矩阵",
     "difficulty": "综合题"
   },
   {
@@ -350,7 +350,7 @@
     ],
     "stem": "设 $A = \\begin{pmatrix} 0 & -1 & 4 \\\\ -1 & 3 & a \\\\ 4 & a & 0 \\end{pmatrix}$ , 正交矩阵 $Q$ 使 $Q^T A Q$ 为对角矩阵, 若 $Q$ 的第1列为 $\\frac{1}{\\sqrt{6}} (1,2,1)^T$ , 求 $a, Q$ .",
     "options": [],
-    "chapter": "第十一章 相似矩阵",
+    "chapter": "第十二章 二次型",
     "difficulty": "综合题"
   }
 ]

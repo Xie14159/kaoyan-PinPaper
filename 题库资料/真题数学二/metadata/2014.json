@@ -279,7 +279,7 @@
     ],
     "stem": "设函数 $f(u)$ 具有2阶连续导数, $z = f(\\mathrm{e}^{x}\\cos y)$ 满足 $\\frac{\\partial^2z}{\\partial x^2} +\\frac{\\partial^2z}{\\partial y^2} = (4z + \\mathrm{e}^x\\cos y)\\mathrm{e}^{2x}$ . 若 $f(0) = 0,f'(0)$ $= 0$ ，求 $f(u)$ 的表达式.",
     "options": [],
-    "chapter": "第六章 微分方程及其应用",
+    "chapter": "第四章 多元函数微分学及其应用",
     "difficulty": "综合题"
   },
   {
@@ -293,7 +293,7 @@
     ],
     "stem": "设函数 $f(x), g(x)$ 在区间 $[a, b]$ 上连续, 且 $f(x)$ 单调增加, $0 \\leqslant g(x) \\leqslant 1$ . 证明:\n$(I)0 \\leqslant \\int_{a}^{x} g(t) dt \\leqslant x - a, x \\in [a, b]$ ;\n$(II)\\int_{a}^{a + \\int_{a}^{b}g(t)dt}f(x)\\mathrm{d}x\\leqslant \\int_{a}^{b}f(x)g(x)\\mathrm{d}x.$",
     "options": [],
-    "chapter": "第二章 一元函数微分学及其应用",
+    "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "综合题"
   },
   {
@@ -306,7 +306,7 @@
     ],
     "stem": "设函数 $f(x)=\\frac{x}{1+x},x\\in[0,1]$ . 定义函数列: $f_{1}(x)=f(x),f_{2}(x)=f\\big(f_{1}(x)\\big),\\cdots,f_{n}(x)=f\\big(f_{n-1}(x)\\big),\\cdots$ .\n记 $S_{n}$ 是由曲线 $y=f_{n}(x)$ ，直线x=1及x轴所围平面图形的面积.求极限 $\\lim_{n\\to\\infty}nS_{n}$ .",
     "options": [],
-    "chapter": "第三章 一元函数积分学及其应用",
+    "chapter": "第一章 函数、极限、连续",
     "difficulty": "综合题"
   },
   {

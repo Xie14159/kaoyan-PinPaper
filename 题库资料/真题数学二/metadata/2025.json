@@ -15,7 +15,7 @@
       "C. $-\\frac{z}{z+1}\\left(\\mathrm{e}^{-x^{2}}-\\mathrm{e}^{-y^{2}}\\right)$",
       "D. $-\\frac{z}{z+1}\\left(\\mathrm{e}^{-x^{2}}+\\mathrm{e}^{-y^{2}}\\right)$"
     ],
-    "chapter": "第二章 一元函数微分学及其应用",
+    "chapter": "第四章 多元函数微分学及其应用",
     "difficulty": "基础题"
   },
   {
@@ -181,7 +181,7 @@
       "C. 方程组 Ax = 0 与方程组 Bx = 0 没有公共非零解",
       "D. 方程组 $ABAx = 0$ 与方程组 $BABx = 0$ 有公共非零解"
     ],
-    "chapter": "第十一章 相似矩阵",
+    "chapter": "第八章 矩阵",
     "difficulty": "综合题"
   },
   {
@@ -223,7 +223,7 @@
     ],
     "stem": "13. $\\lim_{n\\to\\infty}\\frac{1}{n^{2}}\\left[\\ln\\frac{1}{n}+2\\ln\\frac{2}{n}+\\cdots+(n-1)\\ln\\frac{n-1}{n}\\right]=$ \\_\\_\\_\\_.",
     "options": [],
-    "chapter": "第三章 一元函数积分学及其应用",
+    "chapter": "第一章 函数、极限、连续",
     "difficulty": "基础题"
   },
   {
@@ -262,7 +262,7 @@
     ],
     "stem": "16. 设矩阵 $A = (\\alpha_1, \\alpha_2, \\alpha_3, \\alpha_4)$ ，若 $\\alpha_1, \\alpha_2, \\alpha_3$ 线性无关，且 $\\alpha_1 + \\alpha_2 = \\alpha_3 + \\alpha_4$ ，则方程组 $Ax = \\alpha_1 + 4\\alpha_4$ 的通解为 $x =$ \\_\\_\\_\\_.",
     "options": [],
-    "chapter": "第十章 线性方程组",
+    "chapter": "第九章 向量",
     "difficulty": "综合题"
   },
   {
@@ -289,7 +289,7 @@
     ],
     "stem": "18.(本题满分12分)\n设函数 $f(x)$ 在 $x = 0$ 处连续, 且 $\\lim_{x\\to 0}\\frac{xf(x) - \\mathrm{e}^{2\\sin x} + 1}{\\ln(1 + x) + \\ln(1 - x)} = -3,$ 证明 $f(x)$ 在 $x = 0$ 处可导, 并求 $f^{\\prime}(0)$ .",
     "options": [],
-    "chapter": "第二章 一元函数微分学及其应用",
+    "chapter": "第一章 函数、极限、连续",
     "difficulty": "综合题"
   },
   {

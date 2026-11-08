@@ -164,7 +164,7 @@
       "C. $Bx = 0$ 的解均为 $Ax = 0$ 的解.",
       "D. $B^{T}x = 0$ 的解均为 $A^{T}x = 0$ 的解."
     ],
-    "chapter": "第十一章 相似矩阵",
+    "chapter": "第九章 向量",
     "difficulty": "综合题"
   },
   {
@@ -182,7 +182,7 @@
       "C. $\\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & -1 & 0 \\\\ -3 & 2 & 1 \\end{pmatrix}, \\begin{pmatrix} 1 & 0 & 1 \\\\ 0 & 1 & 3 \\\\ 0 & 0 & 1 \\end{pmatrix}.$",
       "D. $\\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 1 & 3 & 1 \\end{pmatrix}, \\begin{pmatrix} 1 & 2 & -3 \\\\ 0 & -1 & 2 \\\\ 0 & 0 & 1 \\end{pmatrix}.$"
     ],
-    "chapter": "第十一章 相似矩阵",
+    "chapter": "第八章 矩阵",
     "difficulty": "综合题"
   },
   {
@@ -277,7 +277,7 @@
     ],
     "stem": "求极限 $\\lim_{x\\to0}\\left(\\frac{1+\\int_{0}^{x}\\mathrm{e}^{t^{2}}dt}{\\mathrm{e}^{x}-1}-\\frac{1}{\\sin x}\\right)$ .",
     "options": [],
-    "chapter": "第三章 一元函数积分学及其应用",
+    "chapter": "第一章 函数、极限、连续",
     "difficulty": "综合题"
   },
   {

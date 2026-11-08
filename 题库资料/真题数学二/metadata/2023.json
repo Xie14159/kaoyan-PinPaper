@@ -108,7 +108,7 @@
       "C. $\\frac{1}{\\ln 2}$",
       "D. $\\ln 2$"
     ],
-    "chapter": "第二章 一元函数微分学及其应用",
+    "chapter": "第三章 一元函数积分学及其应用",
     "difficulty": "综合题"
   },
   {
@@ -346,7 +346,7 @@
     ],
     "stem": "22.(本题满分12分)\n设矩阵 A 满足: 对任意 $x_{1}, x_{2}, x_{3}$ 均有 $A\\begin{pmatrix} x_{1} \\\\ x_{2} \\\\ x_{3} \\end{pmatrix} = \\begin{pmatrix} x_{1} + x_{2} + x_{3} \\\\ 2x_{1} - x_{2} + x_{3} \\\\ x_{2} - x_{3} \\end{pmatrix}$ .\n(1) 求 A;\n(2) 求可逆矩阵 $P$ 与对角矩阵 $\\Lambda$ , 使得 $P^{-1}AP = \\Lambda$ .",
     "options": [],
-    "chapter": "第十一章 相似矩阵",
+    "chapter": "第八章 矩阵",
     "difficulty": "综合题"
   }
 ]

@@ -3858,10 +3858,10 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             unsafe_allow_html=True,
         )
 
-        # 视图切换：按章节（默认） vs 按最近真题（年份降序）
+        # 视图切换：按章节（默认） vs 按最近真题 vs 到期真题
         _rv_view = st.radio(
             "复盘视图",
-            ["按章节", "按最近真题"],
+            ["按章节", "按最近真题", "到期真题"],
             horizontal=True,
             key=f"rv_view_{current_subject.value}",
             label_visibility="collapsed",
@@ -3884,6 +3884,43 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _rv_z_ids = _all_z_qids
             _rv_o_ids = []
             _rv_pick = "按最近真题"
+        elif _rv_view == "到期真题":
+            # 到期真题：只显示真题错题，按艾宾浩斯逾期天数排序（越久越紧急）
+            _all_z_qids = []
+            for _ch_b in _rv_stats.values():
+                _all_z_qids.extend(_ch_b["z"])
+            _all_z_qids = list(dict.fromkeys(_all_z_qids))
+            _today_d = state_mgr._today()
+            _due_z = []
+            for _qid_d in _all_z_qids:
+                if _qid_d in _rv_done_today:
+                    continue
+                _rec_d = state_mgr.wrong_questions.get(_qid_d)
+                if not _rec_d:
+                    continue
+                _due = state_mgr._due_date(_rec_d, _today_d)
+                if _due is None:
+                    continue
+                _raw_diff = (_today_d - _due).days  # 可正可负，用于统计和排序
+                _due_z.append((_qid_d, _raw_diff, _rec_d.wrong_count))
+            # 按原始差值降序：逾期越久越靠前，今日到期(0)排在即将到期(负数)前面
+            _due_z.sort(key=lambda x: (-x[1], -x[2], str(x[0])))
+            _rv_z_ids = [q for q, _, _ in _due_z]
+            _rv_o_ids = []
+            # 统计逾期情况（用原始差值，不要用max）
+            _n_overdue_3 = sum(1 for _, d, _ in _due_z if d > 3)
+            _n_overdue_13 = sum(1 for _, d, _ in _due_z if 1 <= d <= 3)
+            _n_today = sum(1 for _, d, _ in _due_z if d == 0)
+            _n_soon = sum(1 for _, d, _ in _due_z if d < 0)
+            if _rv_z_ids:
+                st.caption(
+                    f"共 **{len(_rv_z_ids)}** 道真题错题："
+                    f"🔴 逾期>3天 {_n_overdue_3} · "
+                    f"🟠 逾期1-3天 {_n_overdue_13} · "
+                    f"🟡 今日到期 {_n_today} · "
+                    f"⚪ 即将到期 {_n_soon}"
+                )
+            _rv_pick = "到期真题"
         else:
             # ------------------------------------------------------------------
             # 章节排行（横向条形图，比纯 markdown 表格好读）

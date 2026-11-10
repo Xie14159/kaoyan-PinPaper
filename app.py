@@ -2890,8 +2890,7 @@ elif active_module == "📕 我的错题本":
             wb_book_pick = st.selectbox("书籍", wb_books, index=0, key=f"wb_book_{current_subject.value}")
         with f1:
             wb_status_pick = st.selectbox(
-                "状态", ["🎯 待练", "全部", "🔥 顽固", "🏆 历史"], index=0,
-                help="默认只看待练错题，减少已掌握题目的干扰",
+                "状态", ["全部", "🎯 待练", "🔥 顽固", "🏆 历史"], index=0,
                 key=f"wb_status_{current_subject.value}")
         with f2:
             wb_chs = ["全部"] + _CH12_ALL
@@ -3925,6 +3924,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     f"🟠 逾期1-3天 {_n_overdue_13} · "
                     f"🟡 今日到期 {_n_today}"
                 )
+            else:
+                st.info("🎉 当前没有到期的真题错题，可以去「按章节」看看其他章节。")
             _rv_pick = "到期真题"
         else:
             # ------------------------------------------------------------------

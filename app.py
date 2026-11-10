@@ -3843,8 +3843,13 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 + _unit + "</span></div>" + _sub_html + "</div>"
             )
 
+        _rv_graded_today_n = len(st.session_state.get("rv_graded", {}))
+        _rv_done_today_n = len(_rv_done_today)
+        _rv_today_done = _rv_done_today_n + _rv_graded_today_n
+
         st.markdown(
-            '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0 6px;">'
+            '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:10px 0 6px;">'
+            + _rv_kpi("今日已做", _rv_today_done, "题", "#16a34a")
             + _rv_kpi("错题池", _rv_total, "题", "#0f172a")
             + _rv_kpi("其中真题", _rv_z_total, "题", "#dc2626")
             + _rv_kpi("涉及章节", len(_rv_stats), "个", "#0f172a")
@@ -3983,6 +3988,11 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 _rv_kind, _rv_msg = _rv_flash
                 st.toast(_rv_msg, icon="✅" if _rv_kind == "ok" else "❌")
 
+            # 实时剩余计数（判分后立即更新，比章节选择器里的快照更准）
+            _lz_now = sum(1 for i in _z_in if i not in _rv_done_now)
+            _lo_now = sum(1 for i in _o_in if i not in _rv_done_now)
+            st.caption(f"本章节剩余：**{_lz_now}** 道真题 / **{_lo_now}** 道其它书（实时）")
+
             def _rv_grade(_qid, _ok: bool) -> None:
                 _rec = state_mgr.wrong_questions.get(_qid)
                 _was_due = _is_due_today(_rec, state_mgr._today()) if _rec else False
@@ -4004,7 +4014,6 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     else:
                         st.session_state["rv_flash"] = ("wrong", "今日已记录过此题，未重复计入")
                 # 判完先留在原地，标为已处理；点「🔄 刷新错题」才正式撤下换新题
-                st.session_state[_pg_key] = 0
                 st.session_state.setdefault("rv_graded", {})[_qid] = {
                     "result": "ok" if _ok else "wrong",
                     "date": state_mgr._today().isoformat(),

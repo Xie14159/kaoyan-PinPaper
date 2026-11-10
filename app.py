@@ -3901,24 +3901,24 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 _due = state_mgr._due_date(_rec_d, _today_d)
                 if _due is None:
                     continue
-                _raw_diff = (_today_d - _due).days  # 可正可负，用于统计和排序
-                _due_z.append((_qid_d, _raw_diff, _rec_d.wrong_count))
-            # 按原始差值降序：逾期越久越靠前，今日到期(0)排在即将到期(负数)前面
+                _days_overdue = (_today_d - _due).days  # >=0 表示到期或逾期
+                if _days_overdue < 0:
+                    continue  # 还没到期，不进"到期真题"视图
+                _due_z.append((_qid_d, _days_overdue, _rec_d.wrong_count))
+            # 按逾期天数降序：逾期越久越靠前，今日到期(0)排最后
             _due_z.sort(key=lambda x: (-x[1], -x[2], str(x[0])))
             _rv_z_ids = [q for q, _, _ in _due_z]
             _rv_o_ids = []
-            # 统计逾期情况（用原始差值，不要用max）
+            # 统计逾期情况（全部都是到期或逾期的）
             _n_overdue_3 = sum(1 for _, d, _ in _due_z if d > 3)
             _n_overdue_13 = sum(1 for _, d, _ in _due_z if 1 <= d <= 3)
             _n_today = sum(1 for _, d, _ in _due_z if d == 0)
-            _n_soon = sum(1 for _, d, _ in _due_z if d < 0)
             if _rv_z_ids:
                 st.caption(
-                    f"共 **{len(_rv_z_ids)}** 道真题错题："
+                    f"共 **{len(_rv_z_ids)}** 道到期真题错题："
                     f"🔴 逾期>3天 {_n_overdue_3} · "
                     f"🟠 逾期1-3天 {_n_overdue_13} · "
-                    f"🟡 今日到期 {_n_today} · "
-                    f"⚪ 即将到期 {_n_soon}"
+                    f"🟡 今日到期 {_n_today}"
                 )
             _rv_pick = "到期真题"
         else:

@@ -4085,16 +4085,16 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                             st.button("❌ 又错了", key=f"rv_no_{_qid}", use_container_width=True,
                                       on_click=_rv_grade, args=(_qid, False))
 
-                    _rtags = list(state_mgr.TAG_PRIORITY.keys())
-                    _rtk = f"rvtag_{current_subject.value}_{_qid}"
-                    _rcur = getattr(state_mgr.wrong_questions.get(_qid), "error_tag", "概念模糊")
-                    if st.session_state.get(_rtk) not in _rtags:
-                        st.session_state[_rtk] = _rcur if _rcur in _rtags else _rtags[0]
+                        _rtags = list(state_mgr.TAG_PRIORITY.keys())
+                        _rtk = f"rvtag_{current_subject.value}_{_qid}"
+                        _rcur = getattr(state_mgr.wrong_questions.get(_qid), "error_tag", "概念模糊")
+                        if st.session_state.get(_rtk) not in _rtags:
+                            st.session_state[_rtk] = _rcur if _rcur in _rtags else _rtags[0]
 
-                    def _rv_apply_tag(_q=_qid, _k=_rtk):
-                        state_mgr.set_error_tag(_q, st.session_state.get(_k, ""))
+                        def _rv_apply_tag(_q=_qid, _k=_rtk):
+                            state_mgr.set_error_tag(_q, st.session_state.get(_k, ""))
 
-                    st.selectbox("错因（这次错在哪）", _rtags, key=_rtk, on_change=_rv_apply_tag,
+                        st.selectbox("错因（这次错在哪）", _rtags, key=_rtk, on_change=_rv_apply_tag,
                                  help="方法不会 20 / 概念模糊 15 / 审题错误 10 / 计算失误 8 / 其他 0。做对时不会改动它。")
 
             _done_today = len(st.session_state.get("rv_done", {}))

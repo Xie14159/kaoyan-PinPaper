@@ -2890,7 +2890,8 @@ elif active_module == "📕 我的错题本":
             wb_book_pick = st.selectbox("书籍", wb_books, index=0, key=f"wb_book_{current_subject.value}")
         with f1:
             wb_status_pick = st.selectbox(
-                "状态", ["全部", "🎯 待练", "🔥 顽固", "🏆 历史"], index=0,
+                "状态", ["🎯 待练", "全部", "🔥 顽固", "🏆 历史"], index=0,
+                help="默认只看待练错题，减少已掌握题目的干扰",
                 key=f"wb_status_{current_subject.value}")
         with f2:
             wb_chs = ["全部"] + _CH12_ALL
@@ -3709,7 +3710,7 @@ elif active_module == "📅 每日错题":
                     elif _q2.answer:
                         with st.expander("📖 查看详细解析", expanded=False):
                             st.caption("（暂无解析，下载详细解析版 PDF 时由 AI 名师补全）")
-                    _ec1, _ec2, _ec3 = st.columns(3)
+                    _ec1, _ec2, _ec3, _ec4 = st.columns(4)
                     with _ec1:
                         st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True,
                                   on_click=_eb_finish, args=(_qid2, True))
@@ -3720,6 +3721,10 @@ elif active_module == "📅 每日错题":
                         st.button("⏭️ 没做", key=f"eb_skip_{_qid2}", use_container_width=True,
                                   help="今天没做这道题：今天不再推，明天会继续推给你。",
                                   on_click=_eb_skip, args=(_qid2,))
+                    with _ec4:
+                        st.button("🏆 已掌握", key=f"eb_arch_{_qid2}", use_container_width=True,
+                                  help="已完全掌握，移入历史错题，不再每日推送",
+                                  on_click=cb_archive_to_history, args=(_qid2,))
 
                     _etags = list(state_mgr.TAG_PRIORITY.keys())
                     _etk = f"ebtag_{current_subject.value}_{_qid2}"
@@ -4114,13 +4119,17 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         with st.expander("📖 查看详细解析", expanded=False):
                             st.markdown(f"**【详细解析】**：\n{_q3.solution}")
                     if not _graded:
-                        _rbc1, _rbc2 = st.columns(2)
+                        _rbc1, _rbc2, _rbc3 = st.columns(3)
                         with _rbc1:
                             st.button("✅ 做对了", key=f"rv_ok_{_qid}", use_container_width=True,
                                       on_click=_rv_grade, args=(_qid, True))
                         with _rbc2:
                             st.button("❌ 又错了", key=f"rv_no_{_qid}", use_container_width=True,
                                       on_click=_rv_grade, args=(_qid, False))
+                        with _rbc3:
+                            st.button("🏆 已掌握", key=f"rv_arch_{_qid}", use_container_width=True,
+                                      help="已完全掌握，移入历史错题",
+                                      on_click=cb_archive_to_history, args=(_qid,))
 
                         _rtags = list(state_mgr.TAG_PRIORITY.keys())
                         _rtk = f"rvtag_{current_subject.value}_{_qid}"

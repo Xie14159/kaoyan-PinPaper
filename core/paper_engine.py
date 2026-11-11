@@ -55,6 +55,12 @@ class EngineRequest:
     # 真题章节分布软权重:{题型: {章名: 权重}}。抽题打分时乘上当前题(题型+章)的权重,
     # 缺省 1.0(不影响)。真题里考得多的章权重>1 → 880 组卷更易抽中。空 dict = 不启用。
     chapter_weights: dict[str, dict[str, float]] = field(default_factory=dict)
+    # 证明题题号集合：仅作用于错题优先池(priority_pool)，新题池不做降权。
+    # 错题池里抽到证明题时 score 乘 PROOF_POOL_WEIGHT=0.3。
+    proof_ids: set[str] = field(default_factory=set)
+
+
+PROOF_POOL_WEIGHT = 0.3  # 错题池里证明题的抽题权重（新题池不受影响）
 
 
 def get_standard_slots(
@@ -676,15 +682,19 @@ class PaperEngine:
         covered_knowledge: Counter,
         selected_ids: set[str],
         rng: random.Random,
+        is_priority_pool: bool = False,
     ) -> list[QuestionItem]:
-        """从 pool 里按打分轮盘抽 needed 道（不重复），并更新章节/知识点计数。"""
+        """从 pool 里按打分轮盘抽 needed 道（不重复），并更新章节/知识点计数。
+        is_priority_pool=True 时（错题池），池内证明题 score 乘 PROOF_POOL_WEIGHT 降权；
+        新题池调用时传 False，不做降权。"""
         work = [q for q in pool if q.id not in selected_ids]
         chosen: list[QuestionItem] = []
         for _ in range(min(needed, len(work))):
             if not work:
                 break
-            scores = [
-                self._compute_score(
+            scores = []
+            for q in work:
+                s = self._compute_score(
                     question=q,
                     difficulty_weight=request.difficulty_weights.get(q.difficulty, 1.0),
                     is_historically_uncovered=q.chapter in unseen_chapters,
@@ -693,8 +703,9 @@ class PaperEngine:
                     chapter_weight=request.chapter_weights.get(
                         q.question_type.value, {}).get(q.chapter, 1.0),
                 )
-                for q in work
-            ]
+                if is_priority_pool and request.proof_ids and q.id in request.proof_ids:
+                    s *= PROOF_POOL_WEIGHT
+                scores.append(s)
             idx = self._roulette_select(scores, rng)
             q = work.pop(idx)
             chosen.append(q)
@@ -735,11 +746,11 @@ class PaperEngine:
             # 兜底补齐也只回退到"非错题"完整池，绝不掺入错题（用户明确要求 0 错题）。
             new_full = [q for q in cat_pool if q.id not in pri_ids]
             new_only = _drop_seen(new_full)
-            chosen = self._pick_from_pool(new_only, needed, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng)
+            chosen = self._pick_from_pool(new_only, needed, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng, is_priority_pool=False)
             # 过滤后抽不满(未见题不够) → 从非错题完整池软重置补齐
             remaining = needed - len(chosen)
             if remaining > 0 and seen:
-                chosen += self._pick_from_pool(new_full, remaining, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng)
+                chosen += self._pick_from_pool(new_full, remaining, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng, is_priority_pool=False)
             return chosen
 
         want_pri = int(round(needed * ratio))
@@ -748,16 +759,16 @@ class PaperEngine:
         new_pool = _drop_seen(new_pool_full)  # 新题池按 seen 过滤 + 软重置
 
         chosen: list[QuestionItem] = []
-        chosen += self._pick_from_pool(pri_pool, want_pri, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng)
+        chosen += self._pick_from_pool(pri_pool, want_pri, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng, is_priority_pool=True)
         # 剩余名额（含错题不足时的缺口）用新题补
         remaining = needed - len(chosen)
-        chosen += self._pick_from_pool(new_pool, remaining, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng)
+        chosen += self._pick_from_pool(new_pool, remaining, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng, is_priority_pool=False)
         # 未见新题不够 → 从完整新题池软重置补齐(允许已抽过的新题)
         remaining = needed - len(chosen)
         if remaining > 0 and seen:
-            chosen += self._pick_from_pool(new_pool_full, remaining, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng)
+            chosen += self._pick_from_pool(new_pool_full, remaining, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng, is_priority_pool=False)
         # 新题仍不够 → 回补错题(原有兜底)
         remaining = needed - len(chosen)
         if remaining > 0:
-            chosen += self._pick_from_pool(pri_pool, remaining, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng)
+            chosen += self._pick_from_pool(pri_pool, remaining, request, unseen_chapters, chapter_usage, covered_knowledge, selected_ids, rng, is_priority_pool=True)
         return chosen

@@ -74,6 +74,7 @@ class StateManager:
         self.last_papers_qids: list[list[str]] = []  # 上次生成的试卷（每份卷一个题号列表）
         self._processed_daily: dict[str, list[str]] = {}  # 按日期持久化的"今日已处理"qid
         self._assigned_daily: dict[str, list[str]] = {}  # 按日期持久化的"今日安排"qid（每天只自动安排一次）
+        self._proof_ids: set[str] = set()  # 证明题题号集合（app.py加载题库后注入）
         self._load_failed = False  # 加载失败标志:True 时禁止写盘,防空状态覆盖真数据(DS审计)
         self._last_save_error: str = ""  # 最近一次保存失败原因(供UI横幅提示,DS终审2低危-D)
         self.load_state()
@@ -958,6 +959,24 @@ class StateManager:
     ARCHIVE_STAGE = 6  # 做对推进到该阶段 -> 归档（is_active_in_pool=False）
     TAG_PRIORITY = {"方法不会": 20, "概念模糊": 15, "审题错误": 10, "计算失误": 8, "其他": 0}
 
+    # 证明题降权参数（2026-11-11 DS终审）
+    # - PROOF_WEIGHT: 错题池/每日错题里证明题的优先级乘子（0.3=权重压到3折）
+    # - PROOF_DAILY_CAP: 每日错题里前N道证明题正常排序，超过此数的开始减分
+    # - PROOF_CAP_PENALTY: 超过软上限后，第3道起每道减50分（加法惩罚，不乘法叠加）
+    # - PROOF_WEIGHT_ENABLED: 总开关；关闭后识别和_is_proof_ids回填仍跑，只关权重计算
+    PROOF_WEIGHT = 0.3
+    PROOF_DAILY_CAP = 2
+    PROOF_CAP_PENALTY = 50
+    PROOF_WEIGHT_ENABLED = True
+
+    def set_proof_ids(self, proof_ids) -> None:
+        """注入证明题题号集合（由 app.py 加载题库后调用 is_proof_question 批量判定填充）。
+        识别函数和集合回填始终跑，不受 PROOF_WEIGHT_ENABLED 开关影响。"""
+        self._proof_ids = set(proof_ids or ())
+
+    def is_proof_id(self, qid: str) -> bool:
+        return qid in self._proof_ids
+
     @staticmethod
     def _parse_date(s: str):
         """容错解析日期：支持 YYYY-MM-DD 或 ISO 时间戳；失败返回 None（不抛异常）。"""
@@ -998,13 +1017,17 @@ class StateManager:
         return nxt
 
     def _wrong_priority(self, qid: str, today) -> float:
-        """优先级分：逾期天数x10 + 错误次数x5 + 错误标签分（越高越先复习）。"""
+        """优先级分：逾期天数x10 + 错误次数x5 + 错误标签分（越高越先复习）。
+        证明题在错题池/每日错题里乘 PROOF_WEIGHT 降权（错题本视图不经过此函数，不降权）。"""
         rec = self.wrong_questions.get(qid)
         if not rec:
             return 0.0
         nxt = self._due_date(rec, today)
         overdue = max(0, (today - nxt).days)
-        return overdue * 10 + rec.wrong_count * 5 + self.TAG_PRIORITY.get(rec.error_tag, 0)
+        score = overdue * 10 + rec.wrong_count * 5 + self.TAG_PRIORITY.get(rec.error_tag, 0)
+        if self.PROOF_WEIGHT_ENABLED and qid in self._proof_ids:
+            score *= self.PROOF_WEIGHT
+        return score
 
     def get_assigned_today(self, today=None) -> list:
         """返回今天已安排的错题 qid 列表（持久化；刷新后恢复同一份安排，不重复生成新题）。"""
@@ -1083,6 +1106,21 @@ class StateManager:
                 newbie.append(qid)
         due.sort(key=lambda q: (-self._wrong_priority(q, today),
                                 self._parse_date(self.wrong_questions[q].added_at) or today))
+        # 证明题软上限：前 PROOF_DAILY_CAP 道证明题正常排序，第 cap+1 道起每道减 PROOF_CAP_PENALTY 分。
+        # 加法惩罚而非乘法叠加，避免逾期很久的证明题被饿死永不进卷。
+        if self.PROOF_WEIGHT_ENABLED and self._proof_ids:
+            proof_seen = 0
+            proof_penalty: dict[str, int] = {}
+            for q in due:
+                if q in self._proof_ids:
+                    proof_seen += 1
+                    if proof_seen > self.PROOF_DAILY_CAP:
+                        proof_penalty[q] = self.PROOF_CAP_PENALTY
+            if proof_penalty:
+                due.sort(key=lambda q: (
+                    -(self._wrong_priority(q, today) - proof_penalty.get(q, 0)),
+                    self._parse_date(self.wrong_questions[q].added_at) or today,
+                ))
         stubborn.sort(key=lambda q: -self.wrong_questions[q].wrong_count)
         newbie.sort(key=lambda q: self._parse_date(self.wrong_questions[q].added_at) or today)
 

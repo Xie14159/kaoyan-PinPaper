@@ -356,6 +356,14 @@ def _cached_questions(subject_value: str) -> tuple:
 _IDS_CACHE: dict[tuple, frozenset] = {}
 
 
+@functools.lru_cache(maxsize=8)
+def _cached_proof_ids(subject_value: str) -> frozenset:
+    """缓存：某科目题库里被判为证明题的题号集合（进程内不变，题库更新重启后刷新）。"""
+    from core.question_utils import is_proof_question
+    qs = _cached_questions(subject_value)
+    return frozenset(q.id for q in qs if is_proof_question(q))
+
+
 def _ids_of(seq) -> frozenset:
     """题库题号集合（按内容指纹缓存）。
 
@@ -1104,6 +1112,12 @@ with st.sidebar:
     # 根据当前科目自动挂载专属错题本（数一/数二/数三相互独立隔离）
     active_sub = current_subject if current_subject != SubjectType.CUSTOM else SubjectType.MATH_1
     state_mgr = StateManager(username=current_user_param, subject=active_sub)
+    # 注入本科目题库里的证明题题号集合（每日错题/错题池降权用；错题本视图不经过此集合，不降权）
+    try:
+        state_mgr.set_proof_ids(_cached_proof_ids(active_sub.value))
+    except Exception as _e:
+        import logging as _lg
+        _lg.getLogger("pinpaper.app").warning("proof_ids 注入失败: %s", _e)
 
     # 数据只读保护横幅(DS 终审中危-2/终审2低危-D):加载失败/检测到损坏备份时,内存
     # 状态不可信,所有写操作被 state_manager 拒绝;保存失败也记录 _last_save_error。
@@ -1980,6 +1994,7 @@ if active_module == "🎯 智能拼好卷":
                 priority_ratio=effective_ratio,
                 exclude_seen=exclude_seen,
                 chapter_weights=chapter_weights,
+                proof_ids=state_mgr._proof_ids,
             )
             if current_mode == PaperMode.BUNDLE_3_PAPERS:
                 bundle = engine.generate_bundle(req, bundle_size=3)
@@ -3784,11 +3799,13 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         (_bucket3["z"] if _rv_is_zhenti(_q3) else _bucket3["o"]).append(_qid3)
 
     # 章内排序：错次多的排前面（真题组 / 其它书组各自排，不混排——"真题优先"是硬规则）；
-    # 错次相同按"最久没复习"排，避免刚做过的题又占着第一屏。
+    # 错次相同按"最久没复习"排，避免刚做过的题又占着第一屏；
+    # 同错次同复习时间时，证明题次级排后（2026-11-11 DS终审：复盘模块降权）。
     def _rv_sort_key(_qid4):
         _rec4 = state_mgr.wrong_questions.get(_qid4)
         _wc4 = -(int(getattr(_rec4, "wrong_count", 0) or 0))
-        return (_wc4, str(getattr(_rec4, "last_reviewed_at", "") or ""), str(_qid4))
+        _is_proof4 = 1 if _qid4 in state_mgr._proof_ids else 0
+        return (_wc4, _is_proof4, str(getattr(_rec4, "last_reviewed_at", "") or ""), str(_qid4))
 
     for _b4 in _rv_stats.values():
         _b4["z"].sort(key=_rv_sort_key)

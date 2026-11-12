@@ -4595,6 +4595,48 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                             "current": 0,
                         }
                         st.rerun()
+
+                # ---- A4 做题本导出（拼卷预览即可导出打印） ----
+                if len(_picked) >= 3:
+                    _picked_qs = [_q_by_id3[q] for q in _picked if q in _q_by_id3]
+                    _exam_sig = hashlib.md5("|".join(sorted(_picked)).encode("utf-8")).hexdigest()[:8]
+                    _exam_pdf_id = f"错题拼卷_{current_subject.value}_{_exam_sig}"
+                    _exam_title = f"错题拼卷 · {current_subject.value} · 共 {len(_picked_qs)} 题"
+                    st.markdown("---")
+                    st.markdown("##### 📕 导出 A4 做题本（可打印纸质先做）")
+                    _wb_ed = PDFEdition.WORKBOOK_A4.value
+                    if _ensure_eb_pdf(_exam_sig, _picked_qs, _exam_pdf_id, _exam_title, current_subject.value, _wb_ed):
+                        st.download_button(
+                            "📝 下载 A4 做题本", data=_eb_pdf_file(_exam_sig, _wb_ed).read_bytes(),
+                            file_name=f"{_exam_pdf_id}_A4做题本.pdf", mime="application/pdf",
+                            use_container_width=True, key=f"exam_down_wb_{_exam_sig}",
+                        )
+                    elif _eb_pdf_err_file(_exam_sig, _wb_ed).exists():
+                        _emsg = _eb_pdf_err_file(_exam_sig, _wb_ed).read_text(encoding="utf-8")[:200]
+                        st.error(f"A4 做题本生成失败：{_emsg}")
+                        if st.button("🔄 重试生成", use_container_width=True, key=f"exam_retry_wb_{_exam_sig}"):
+                            try:
+                                _eb_pdf_err_file(_exam_sig, _wb_ed).unlink()
+                            except Exception:
+                                pass
+                            _eb_pdf_threads.pop((_exam_sig, _wb_ed), None)
+                            st.rerun()
+                    else:
+                        st.caption("⏳ A4 做题本后台生成中…（可先点开始拼卷在线做，生成完自动出现下载按钮）")
+
+                    _cmp_ed = PDFEdition.COMPACT_A4.value
+                    if _ensure_eb_pdf(_exam_sig, _picked_qs, _exam_pdf_id, _exam_title, current_subject.value, _cmp_ed):
+                        st.download_button(
+                            "🖨️ 紧凑版 A4 打印（含题号）", data=_eb_pdf_file(_exam_sig, _cmp_ed).read_bytes(),
+                            file_name=f"{_exam_pdf_id}_紧凑版打印.pdf", mime="application/pdf",
+                            use_container_width=True, key=f"exam_down_cmp_{_exam_sig}",
+                            help="一页多题省纸 · 题头含题库题号 ID，打印后可直接做题、回系统对答案定位。",
+                        )
+                    elif _eb_pdf_err_file(_exam_sig, _cmp_ed).exists():
+                        st.caption("紧凑版生成失败，可重试 A4 做题本。")
+                    else:
+                        st.caption("⏳ 紧凑版后台生成中…")
+
                 _hist = [h for h in _exam_load_history() if h.get("subject", "") == current_subject.value]
                 if _hist:
                     st.markdown("---")
@@ -4809,50 +4851,6 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     unsafe_allow_html=True,
                 )
                 st.caption("本卷为错题重组卷，分数仅反映错题掌握情况，非模考分。对错结果已回写艾宾浩斯记忆曲线。")
-
-                # ---- A4 错题本导出（复用每日错题后台生成机制） ----
-                _exam_qids = [q for q in st.session_state[_exam_state_key].get("qids", []) if q in _q_by_id3]
-                if _exam_qids:
-                    _exam_qs = [_q_by_id3[q] for q in _exam_qids]
-                    _exam_sig = hashlib.md5("|".join(sorted(_exam_qids)).encode("utf-8")).hexdigest()[:8]
-                    _exam_pdf_id = f"错题拼卷_{current_subject.value}_{_exam_sig}"
-                    _exam_title = f"错题拼卷 · {current_subject.value} · 共 {len(_exam_qids)} 题"
-                    st.markdown("---")
-                    st.markdown("##### 📕 导出 A4 错题本")
-                    _wb_ed = PDFEdition.WORKBOOK_A4.value
-                    if _ensure_eb_pdf(_exam_sig, _exam_qs, _exam_pdf_id, _exam_title, current_subject.value, _wb_ed):
-                        st.download_button(
-                            "📝 下载 A4 做题本", data=_eb_pdf_file(_exam_sig, _wb_ed).read_bytes(),
-                            file_name=f"{_exam_pdf_id}_A4做题本.pdf", mime="application/pdf",
-                            use_container_width=True, key=f"exam_down_wb_{_exam_sig}",
-                        )
-                    elif _eb_pdf_err_file(_exam_sig, _wb_ed).exists():
-                        _emsg = _eb_pdf_err_file(_exam_sig, _wb_ed).read_text(encoding="utf-8")[:200]
-                        st.error(f"A4 做题本生成失败：{_emsg}")
-                        if st.button("🔄 重试生成", use_container_width=True, key=f"exam_retry_wb_{_exam_sig}"):
-                            try:
-                                _eb_pdf_err_file(_exam_sig, _wb_ed).unlink()
-                            except Exception:
-                                pass
-                            _eb_pdf_threads.pop((_exam_sig, _wb_ed), None)
-                            st.rerun()
-                    else:
-                        st.caption("⏳ A4 做题本后台生成中…（可先做别的，生成完自动出现下载按钮）")
-
-                    # 紧凑版
-                    _cmp_ed = PDFEdition.COMPACT_A4.value
-                    if _ensure_eb_pdf(_exam_sig, _exam_qs, _exam_pdf_id, _exam_title, current_subject.value, _cmp_ed):
-                        st.download_button(
-                            "🖨️ 紧凑版 A4 打印（含题号）", data=_eb_pdf_file(_exam_sig, _cmp_ed).read_bytes(),
-                            file_name=f"{_exam_pdf_id}_紧凑版打印.pdf", mime="application/pdf",
-                            use_container_width=True, key=f"exam_down_cmp_{_exam_sig}",
-                            help="一页多题省纸 · 题头含题库题号 ID，打印后可直接做题、回系统对答案定位。",
-                        )
-                    elif _eb_pdf_err_file(_exam_sig, _cmp_ed).exists():
-                        st.caption("紧凑版生成失败，可重试 A4 做题本。")
-                    else:
-                        st.caption("⏳ 紧凑版后台生成中…")
-
                 if st.button("🔄 再拼一套", use_container_width=True):
                     st.session_state.pop(_exam_state_key, None)
                     st.rerun()

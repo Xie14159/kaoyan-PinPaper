@@ -3773,29 +3773,30 @@ elif active_module == "🧭 复盘 · 薄弱章节":
     _rv_today_s = state_mgr._today().isoformat()
     # 持久化：刷新页面不丢今日进度，存到 user_data/rv_progress.json
     import json as _rv_json, os as _rv_os
-    _rv_prog_path = _rv_os.path.join("user_data", "rv_progress.json")
+    _rv_prog_path = _rv_os.path.join(_rv_os.path.dirname(_rv_os.path.abspath(__file__)), "user_data", "rv_progress.json")
     if _rv_os.path.exists(_rv_prog_path):
         try:
             with open(_rv_prog_path, encoding="utf-8") as _f:
                 _rv_prog = _rv_json.load(_f)
             if _rv_prog.get("date") == _rv_today_s:
-                st.session_state.setdefault("rv_done", _rv_prog.get("done", {}))
-                st.session_state.setdefault("rv_graded", _rv_prog.get("graded", {}))
-        except Exception:
-            pass
-    _rv_done = st.session_state.setdefault("rv_done", {})
+                # 文件是磁盘权威数据，直接加载（不用setdefault/if not，避免session里已有空dict时不加载）
+                st.session_state["rv_done"] = dict(_rv_prog.get("done", {}))
+                st.session_state["rv_graded"] = dict(_rv_prog.get("graded", {}))
+        except Exception as _e:
+            st.warning(f"rv_progress.json读取失败: {_e}")
+    if not isinstance(st.session_state.get("rv_done"), dict):
+        st.session_state["rv_done"] = {}
+    if not isinstance(st.session_state.get("rv_graded"), dict):
+        st.session_state["rv_graded"] = {}
+    _rv_done = st.session_state["rv_done"]
     for _k in [k for k, v in _rv_done.items() if v != _rv_today_s]:
         _rv_done.pop(_k, None)
     _rv_done_today = set(_rv_done.keys())
-    # 已判分但还没刷新的题：跨天自动清空
-    if not isinstance(st.session_state.get("rv_graded"), dict):
-        st.session_state["rv_graded"] = {}
-    else:
-        # 顺手清理跨天的旧记录，防止无限增长
-        st.session_state["rv_graded"] = {
-            k: v for k, v in st.session_state["rv_graded"].items()
-            if isinstance(v, dict) and v.get("date") == _rv_today_s
-        }
+    # 清理跨天的旧记录，防止无限增长
+    st.session_state["rv_graded"] = {
+        k: v for k, v in st.session_state["rv_graded"].items()
+        if isinstance(v, dict) and v.get("date") == _rv_today_s
+    }
     # 持久化保存函数（原子写，实时取日期防止跨零点写错）
     def _rv_save():
         try:
@@ -3804,14 +3805,16 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                          if v == _today_now}
             _graded_now = {k: v for k, v in st.session_state.get("rv_graded", {}).items()
                            if isinstance(v, dict) and v.get("date") == _today_now}
-            _rv_os.makedirs("user_data", exist_ok=True)
+            _rv_os.makedirs(_rv_os.path.dirname(_rv_prog_path), exist_ok=True)
             _tmp = _rv_prog_path + ".tmp"
             with open(_tmp, "w", encoding="utf-8") as _f:
                 _rv_json.dump({"date": _today_now, "done": _done_now, "graded": _graded_now},
                               _f, ensure_ascii=False)
             _rv_os.replace(_tmp, _rv_prog_path)
-        except Exception:
-            pass
+            return len(_done_now), len(_graded_now)
+        except Exception as _e:
+            st.warning(f"rv_save失败: {_e} | path={_rv_prog_path}")
+            return None, None
 
     _rv_stats = {}
     _rv_total = 0
@@ -4166,6 +4169,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _z_ids = [i for i in _z_in if i not in _rv_done_now]
             _o_ids = [i for i in _o_in if i not in _rv_done_now]
             _rv_flash = st.session_state.pop("rv_flash", None)
+            if st.session_state.pop("_rv_saved", False):
+                st.toast("💾 进度已保存", icon="✅")
             if _rv_flash:
                 _rv_kind, _rv_msg = _rv_flash
                 st.toast(_rv_msg, icon="✅" if _rv_kind == "ok" else "❌")
@@ -4201,8 +4206,15 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     "result": "ok" if _ok else "wrong",
                     "date": state_mgr._today().isoformat(),
                 }
-                _rv_save()
-                _rv_cycle_mark([_qid])
+                _d, _g = _rv_save()
+                if _d is not None:
+                    try:
+                        _rv_cycle_mark([_qid])
+                    except Exception as _ce:
+                        st.warning(f"cycle_mark失败: {_ce}")
+                    st.session_state["_rv_saved"] = True
+                else:
+                    st.session_state["_rv_save_failed"] = True
                 st.rerun(scope="fragment")
 
             def _rv_due_pill(_qid: str) -> str:

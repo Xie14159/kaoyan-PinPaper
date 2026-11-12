@@ -960,11 +960,12 @@ class StateManager:
     TAG_PRIORITY = {"方法不会": 20, "概念模糊": 15, "审题错误": 10, "计算失误": 8, "其他": 0}
 
     # 证明题降权参数（2026-11-11 DS终审）
-    # - PROOF_WEIGHT: 错题池/每日错题里证明题的优先级乘子（0.3=权重压到3折）
+    # - PROOF_WEIGHT: 错题池/每日错题里证明题的优先级乘子（0.15=权重压到1.5折，2026-11-12二轮调低）
     # - PROOF_DAILY_CAP: 每日错题里前N道证明题正常排序，超过此数的开始减分
     # - PROOF_CAP_PENALTY: 超过软上限后，第3道起每道减50分（加法惩罚，不乘法叠加）
     # - PROOF_WEIGHT_ENABLED: 总开关；关闭后识别和_is_proof_ids回填仍跑，只关权重计算
-    PROOF_WEIGHT = 0.3
+    # - 重点错题视图额外直接排除证明题（在app.py视图层过滤，不走权重）
+    PROOF_WEIGHT = 0.15
     PROOF_DAILY_CAP = 2
     PROOF_CAP_PENALTY = 50
     PROOF_WEIGHT_ENABLED = True

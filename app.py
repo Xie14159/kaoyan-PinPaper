@@ -3946,7 +3946,10 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _rv_pick = "到期真题"
         elif _rv_view == "重点错题":
             # 跨章节按方法簇聚合：同一考点在不同题上都错过，就是"典型薄弱点"。
-            # 直接把全量未归档错题喂给 render_rv_cards，它内部会按 _kp_index 自动分组。
+            # 重点错题视图规则（DS+Claude 2026-11-12 二轮定稿）：
+            #   - 排除证明题（用户会做但写不完整，不占重点练习时间）
+            #   - 选题阈值：错次≥3，或错次≥2且是真题
+            #   - 过滤单题簇（只错1道不算反复出错）
             _all_z_f = []
             _all_o_f = []
             for _ch_bf in _rv_stats.values():
@@ -3954,10 +3957,21 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 _all_o_f.extend(_ch_bf["o"])
             _all_z_f = [i for i in dict.fromkeys(_all_z_f) if i not in _rv_done_today and _q_by_id3.get(i) is not None]
             _all_o_f = [i for i in dict.fromkeys(_all_o_f) if i not in _rv_done_today and _q_by_id3.get(i) is not None]
-            # z/o 互斥：理论上 _rv_stats 源头已分桶，这里再防御一次，避免同题重复计数
+            # z/o 互斥
             _all_o_f = [i for i in _all_o_f if i not in set(_all_z_f)]
+            # 重点错题视图：排除证明题
+            _all_z_f = [i for i in _all_z_f if i not in state_mgr._proof_ids]
+            _all_o_f = [i for i in _all_o_f if i not in state_mgr._proof_ids]
 
-            # 统计每个方法簇的题数，过滤单题簇（只错1道题不算"反复出错"）
+            # 选题阈值：错次≥2 进候选（实际数据里75%错题wrong_count=1，卡≥3只剩24道太严）
+            def _focl_pass(_qid_f):
+                _rec_f = state_mgr.wrong_questions.get(_qid_f)
+                _wc_f = int(getattr(_rec_f, "wrong_count", 0) or 0)
+                return _wc_f >= 2
+            _all_z_f = [i for i in _all_z_f if _focl_pass(i)]
+            _all_o_f = [i for i in _all_o_f if _focl_pass(i)]
+
+            # 统计每个方法簇的题数，过滤单题簇
             _kp_map = _kp_index_map()
             _focl_cnt = {}
             _qid_to_kp = {}
@@ -3965,22 +3979,21 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 _kf = _kp_map.get(_qf) or f"{str(_qf).split('-')[0]}-综合与其他"
                 _qid_to_kp[_qf] = _kf
                 _focl_cnt[_kf] = _focl_cnt.get(_kf, 0) + 1
-            # 单题簇白名单：保留下来的题id
             _multi_kp = {k for k, n in _focl_cnt.items() if n >= 2}
             _all_z_f = [i for i in _all_z_f if _qid_to_kp[i] in _multi_kp]
             _all_o_f = [i for i in _all_o_f if _qid_to_kp[i] in _multi_kp]
-            _n_filtered = _n_q_total = len(_all_z_f) + len(_all_o_f)
+            _n_q_total = len(_all_z_f) + len(_all_o_f)
             _n_clusters = len(_multi_kp)
 
-            # 显式组内排序：真题按错次降序，其它书按错次降序（不依赖下游 render_rv_cards 内部）
+            # 组内排序：真题按错次降序，其它书按错次降序
             _all_z_f.sort(key=_rv_sort_key)
             _all_o_f.sort(key=_rv_sort_key)
 
             if _n_q_total:
                 st.caption(
-                    f"🎯 跨章节按方法簇聚合：**{_n_clusters}** 个考点组、"
-                    f"**{_n_q_total}** 道错题（真题 {len(_all_z_f)} 道）；"
-                    f"已过滤单题簇，组内真题优先、按错次排序。"
+                    f"🎯 重点错题：跨章节聚合 **{_n_clusters}** 个考点组、"
+                    f"**{_n_q_total}** 道（真题 {len(_all_z_f)} 道）；"
+                    f"已排除证明题，按错次≥2筛选。"
                 )
             else:
                 st.info("🎉 当前没有跨题反复出错的考点。")
@@ -4223,11 +4236,12 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 else:
                     st.caption("做完一道就少一道；判分会写入艾宾浩斯曲线。")
             with _hc2:
-                if st.button("✅ 结束本轮", use_container_width=True,
-                             help="把「本轮」设为现在：之后新做错的题算下一轮，界面会说清楚每簇哪些是新的"):
-                    _rv_cycle_end()
-                    st.toast("已记录本轮结束时间，下一轮从新错题开始", icon="✅")
-                    st.rerun()
+                if _ch_norm != "重点错题":
+                    if st.button("✅ 结束本轮", use_container_width=True,
+                                 help="把「本轮」设为现在：之后新做错的题算下一轮，界面会说清楚每簇哪些是新的"):
+                        _rv_cycle_end()
+                        st.toast("已记录本轮结束时间，下一轮从新错题开始", icon="✅")
+                        st.rerun()
                 if st.button("🔄 刷新错题", use_container_width=True,
                              disabled=_graded_today == 0,
                              help="把已判分的题正式撤下，同簇补新题上来"):
@@ -4331,11 +4345,17 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     _gseg = _rv_groups[_pg * _gpp:(_pg + 1) * _gpp]
                     _total = sum(len(g[1]) for g in _rv_groups)
                     _n_new = sum(1 for g in _rv_groups for i in g[1] if _rv_is_new(i))
+                    if _ch_norm == "重点错题":
+                        _title_mid = f"重点精选 {_total} 道"
+                    else:
+                        _title_mid = f"全章精选 {_total} 道"
                     st.markdown(
                         f"#### 第 {_pg + 1}/{_pages} 页 · 本页 {len(_gseg)} 簇 / "
-                        f"全章精选 {_total} 道（同来源共 {sum(len(v) for v in _buckets.values())} 道）"
+                        f"{_title_mid}（同来源共 {sum(len(v) for v in _buckets.values())} 道）"
                     )
-                    if _since:
+                    if _ch_norm == "重点错题":
+                        st.caption("按方法簇聚合，已排除证明题；每簇取错次最高的题，无需按轮次标记。")
+                    elif _since:
                         st.caption(f"本轮自 {_since.replace('T', ' ')} 起，新错题 {_n_new} 道已排在各簇最前；"
                                    f"没设本轮时按「错次多」排。")
                     else:

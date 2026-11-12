@@ -3913,10 +3913,10 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             unsafe_allow_html=True,
         )
 
-        # 视图切换：按章节（默认） vs 按最近真题 vs 到期真题
+        # 视图切换：按章节（默认） vs 按最近真题 vs 到期真题 vs 重点错题 vs 错题拼卷
         _rv_view = st.radio(
             "复盘视图",
-            ["按章节", "按最近真题", "到期真题", "重点错题"],
+            ["按章节", "按最近真题", "到期真题", "重点错题", "🎯 错题拼卷"],
             horizontal=True,
             key=f"rv_view_{current_subject.value}",
             label_visibility="collapsed",
@@ -4507,6 +4507,314 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                                 st.rerun(scope="fragment")
                         with _pc2:
                             st.caption(f"共 {len(_rv_groups)} 个方法簇；一簇一类方法，做完一簇再换下一簇。")
+
+        # ---- 🎯 错题拼卷：成套模拟 + 限时 + 出分 + 回写记忆曲线 ----
+        if _rv_view == "🎯 错题拼卷":
+            import time as _time_exam
+            import json as _json_exam
+            from datetime import datetime as _dt_exam
+            _exam_state_key = f"exam_state_{current_subject.value}"
+            _exam_hist_path = os.path.join("user_data", "exam_history.json")
+
+            def _exam_load_history():
+                try:
+                    with open(_exam_hist_path, "r", encoding="utf-8") as f:
+                        return _json_exam.load(f)
+                except Exception:
+                    return []
+
+            def _exam_save_history(rec):
+                hist = _exam_load_history()
+                hist.append(rec)
+                try:
+                    with open(_exam_hist_path, "w", encoding="utf-8") as f:
+                        _json_exam.dump(hist, f, ensure_ascii=False, indent=2)
+                except Exception as _e:
+                    st.warning(f"历史记录保存失败: {_e}")
+
+            def _exam_gen_paper():
+                """从active pool按题型抽题：选择10+填空6+解答6，按wrong_count降序。"""
+                pool = [
+                    (qid, rec) for qid, rec in state_mgr.wrong_questions.items()
+                    if rec.is_active_in_pool and rec.wrong_count > 0 and qid in _q_by_id3
+                ]
+                by_type = {QuestionType.CHOICE: [], QuestionType.FILL_BLANK: [], QuestionType.SOLUTION: []}
+                for qid, rec in pool:
+                    q = _q_by_id3[qid]
+                    if q.question_type in by_type:
+                        by_type[q.question_type].append((qid, rec.wrong_count))
+                for t in by_type:
+                    by_type[t].sort(key=lambda x: -x[1])
+                picked = []
+                picked.extend([q for q, _ in by_type[QuestionType.CHOICE][:10]])
+                picked.extend([q for q, _ in by_type[QuestionType.FILL_BLANK][:6]])
+                picked.extend([q for q, _ in by_type[QuestionType.SOLUTION][:6]])
+                return picked, {
+                    "选择": len(by_type[QuestionType.CHOICE]),
+                    "填空": len(by_type[QuestionType.FILL_BLANK]),
+                    "解答": len(by_type[QuestionType.SOLUTION]),
+                }
+
+            def _exam_normalize_choice(s):
+                """选择题答案归一化：取首字母A/B/C/D。"""
+                s = (s or "").strip().upper()
+                for ch in s:
+                    if ch in "ABCD":
+                        return ch
+                return s
+
+            def _exam_already_reviewed_today(qid):
+                """检查这道题今天是否已在每日错题中复习过（避免重复推进记忆曲线）。"""
+                rec = state_mgr.wrong_questions.get(qid)
+                if not rec:
+                    return False
+                last = str(getattr(rec, "last_reviewed_at", "") or "")
+                today_s = _dt_exam.now().strftime("%Y-%m-%d")
+                return last.startswith(today_s)
+
+            _exam = st.session_state.get(_exam_state_key, {})
+            _exam_phase = _exam.get("phase", "idle")
+
+            # ---- 待机界面 ----
+            if _exam_phase == "idle":
+                st.markdown("#### 🎯 错题拼卷 · 限时成套模拟")
+                st.caption("从错题池抽题组成150分模拟卷，180分钟限时，交卷后自动判分并回写记忆曲线。本卷为错题重组卷，分数仅反映错题掌握情况，非模考分。")
+                _picked, _avail = _exam_gen_paper()
+                _need = {"选择": 10, "填空": 6, "解答": 6}
+                _short = [f"{t}缺{_need[t]-min(_avail[t],_need[t])}" for t in _need if _avail[t] < _need[t]]
+                st.info(f"当前错题池可用：选择 {_avail['选择']} · 填空 {_avail['填空']} · 解答 {_avail['解答']}（计划抽 {_need['选择']}/{_need['填空']}/{_need['解答']}）" + (f"；⚠️ {', '.join(_short)}，不足部分将以实际数量组卷" if _short else ""))
+                if st.button("📝 开始拼卷（180分钟限时）", type="primary", use_container_width=True):
+                    if len(_picked) < 3:
+                        st.error("错题池题目太少，无法组卷。")
+                    else:
+                        st.session_state[_exam_state_key] = {
+                            "phase": "exam",
+                            "qids": _picked,
+                            "start": _time_exam.time(),
+                            "answers": {},
+                            "current": 0,
+                        }
+                        st.rerun()
+                _hist = [h for h in _exam_load_history() if h.get("subject", "") == current_subject.value]
+                if _hist:
+                    st.markdown("---")
+                    st.markdown("##### 历史成绩")
+                    for h in reversed(_hist[-10:]):
+                        _subj = h.get("subject", "")
+                        st.caption(f"{h.get('date','')} · {_subj} · {h.get('total',0)}分 · 用时{h.get('mins',0)}分钟")
+
+            # ---- 考试界面 ----
+            elif _exam_phase == "exam":
+                _qids = list(_exam["qids"])
+                _start = _exam["start"]
+                _elapsed = _time_exam.time() - _start
+                _remaining = max(0, 180 * 60 - _elapsed)
+                _mins = int(_remaining // 60)
+                _secs = int(_remaining % 60)
+                _cur = min(_exam.get("current", 0), len(_qids) - 1)
+
+                st.markdown(
+                    f'<div style="background:#f1f5f9;border-radius:8px;padding:10px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">'
+                    f'<span style="font-size:20px;font-weight:800;color:#0f172a;">⏰ {_mins:02d}:{_secs:02d}</span>'
+                    f'<span style="color:#64748b;font-size:13px;">第 {_cur+1}/{len(_qids)} 题 · 满分150</span>'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+                if _remaining <= 0:
+                    # 时间到：先保存当前题答案再交卷
+                    if _cur_q.question_type != QuestionType.SOLUTION:
+                        st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
+                    st.warning("时间到！自动交卷。")
+                    st.session_state[_exam_state_key]["phase"] = "grading"
+                    st.rerun()
+
+                # 题号导航
+                _nav_cols = st.columns(min(len(_qids), 11))
+                for _ni, _nqid in enumerate(_qids):
+                    with _nav_cols[_ni % len(_nav_cols)]:
+                        _done = _nqid in st.session_state[_exam_state_key].get("answers", {})
+                        if st.button(f"{_ni+1}", key=f"exam_nav_{_ni}",
+                                     type="primary" if _ni == _cur else "secondary",
+                                     use_container_width=True):
+                            st.session_state[_exam_state_key]["current"] = _ni
+                            st.rerun()
+
+                _cur_qid = _qids[_cur]
+                if _cur_qid not in _q_by_id3:
+                    st.error("题目已失效，请重新组卷。")
+                    st.session_state.pop(_exam_state_key, None)
+                    st.stop()
+                _cur_q = _q_by_id3[_cur_qid]
+                st.markdown(f"**第 {_cur+1} 题**（{_cur_q.question_type.value}）")
+                render_question_stem(_cur_q)
+                if _cur_q.options and not getattr(_cur_q, "stem_img", ""):
+                    for _oi, _opt in enumerate(_cur_q.options):
+                        st.markdown(_opt)
+
+                _ans_key = f"exam_ans_{_cur_qid}"
+                _user_ans = ""
+                if _cur_q.question_type == QuestionType.SOLUTION:
+                    st.info("✍️ 解答题请在草稿纸上作答，交卷后统一自评。")
+                else:
+                    _user_ans = st.text_input("你的答案（选择填A/B/C/D，填空填结果）", key=_ans_key,
+                                              value=st.session_state[_exam_state_key].get("answers", {}).get(_cur_qid, ""))
+
+                _b1, _b2, _b3 = st.columns([1, 1, 2])
+                with _b1:
+                    if _cur > 0:
+                        if st.button("← 上一题", use_container_width=True):
+                            if _cur_q.question_type != QuestionType.SOLUTION:
+                                st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
+                            st.session_state[_exam_state_key]["current"] = _cur - 1
+                            st.rerun()
+                with _b2:
+                    if _cur < len(_qids) - 1:
+                        if st.button("下一题 →", use_container_width=True):
+                            if _cur_q.question_type != QuestionType.SOLUTION:
+                                st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
+                            st.session_state[_exam_state_key]["current"] = _cur + 1
+                            st.rerun()
+                with _b3:
+                    if st.button("📤 交卷", type="primary", use_container_width=True):
+                        if _cur_q.question_type != QuestionType.SOLUTION:
+                            st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
+                        st.session_state[_exam_state_key]["phase"] = "grading"
+                        st.rerun()
+
+            # ---- 判分界面 ----
+            elif _exam_phase == "grading":
+                _qids = [q for q in _exam["qids"] if q in _q_by_id3]
+                if not _qids:
+                    st.error("题目数据失效，请重新组卷。")
+                    st.session_state.pop(_exam_state_key, None)
+                    st.stop()
+                _start = _exam["start"]
+                _total_mins = int((_time_exam.time() - _start) // 60)
+                st.markdown("#### 📋 判分 · 选择/填空自动判分，解答题请自评")
+                st.caption("选择填空已根据参考答案自动判定；解答题请根据你的作答对照参考答案选择：对=满分，半对=半分，错=0分。")
+
+                if "_auto" not in st.session_state[_exam_state_key]:
+                    _auto = {}
+                    for _qid in _qids:
+                        _q = _q_by_id3[_qid]
+                        if _q.question_type == QuestionType.SOLUTION:
+                            continue
+                        _ua = str(st.session_state[_exam_state_key].get("answers", {}).get(_qid, "")).strip().upper()
+                        _ref = str(getattr(_q, "answer", "") or "").strip().upper()
+                        if _q.question_type == QuestionType.CHOICE:
+                            _ua = _exam_normalize_choice(_ua)
+                            _ref = _exam_normalize_choice(_ref)
+                        _auto[_qid] = (bool(_ua) and _ua == _ref)
+                    st.session_state[_exam_state_key]["_auto"] = _auto
+
+                _auto = st.session_state[_exam_state_key]["_auto"]
+                _sol_qs = [q for q in _qids if _q_by_id3[q].question_type == QuestionType.SOLUTION]
+                _sol_count = len(_sol_qs)
+                _sol_per = 70 // _sol_count if _sol_count else 0
+
+                for _gi, _qid in enumerate(_qids):
+                    _q = _q_by_id3[_qid]
+                    with st.container(border=True):
+                        st.markdown(f"**{_gi+1}.** {_q.question_type.value} · {html.escape(str(_q.chapter or ''))}")
+                        render_question_stem(_q)
+                        if _q.options and not getattr(_q, "stem_img", ""):
+                            for _oi, _opt in enumerate(_q.options):
+                                st.markdown(_opt)
+                        if _q.question_type == QuestionType.SOLUTION:
+                            st.markdown(f"参考答案：`{getattr(_q, 'answer', '') or '（见解析）'}`")
+                            if _q.solution:
+                                with st.expander("查看解析"):
+                                    st.markdown(_q.solution)
+                            st.radio(
+                                f"自评第{_gi+1}题", ["对（满分）", "半对（半分）", "错（0分）"],
+                                key=f"self_{_qid}", horizontal=True, index=2
+                            )
+                        else:
+                            _ua = st.session_state[_exam_state_key].get("answers", {}).get(_qid, "")
+                            _ok = _auto.get(_qid, False)
+                            _icon = "✅" if _ok else "❌"
+                            st.markdown(f"你的答案：`{_ua or '（未答）'}` · 参考答案：`{getattr(_q, 'answer', '') or '—'}` → {_icon}")
+
+                if st.button("✅ 确认判分并出分", type="primary", use_container_width=True):
+                    _choice_score = 0
+                    _fill_score = 0
+                    _sol_score = 0
+                    for _qid in _qids:
+                        _q = _q_by_id3[_qid]
+                        if _q.question_type == QuestionType.CHOICE:
+                            if _auto.get(_qid, False):
+                                _choice_score += 5
+                        elif _q.question_type == QuestionType.FILL_BLANK:
+                            if _auto.get(_qid, False):
+                                _fill_score += 5
+                        elif _q.question_type == QuestionType.SOLUTION:
+                            _sv = st.session_state.get(f"self_{_qid}", "错（0分）")
+                            if _sv.startswith("对"):
+                                _sol_score += _sol_per
+                            elif _sv.startswith("半对"):
+                                _sol_score += _sol_per // 2
+                    _total = _choice_score + _fill_score + _sol_score
+
+                    # 批量回写记忆曲线（跳过今天已在每日错题复习过的题）
+                    _skipped = 0
+                    for _qid in _qids:
+                        _q = _q_by_id3[_qid]
+                        if _q.question_type == QuestionType.SOLUTION:
+                            _sv = st.session_state.get(f"self_{_qid}", "错（0分）")
+                            _correct = _sv.startswith("对")
+                        else:
+                            _correct = _auto.get(_qid, False)
+                        if _exam_already_reviewed_today(_qid):
+                            _skipped += 1
+                            continue
+                        try:
+                            state_mgr.record_review_result(_qid, correct=_correct)
+                        except Exception as _e:
+                            st.warning(f"回写 {_qid} 失败: {_e}")
+                    if _skipped:
+                        st.info(f"（{_skipped}道题今天已在每日错题复习过，跳过回写避免重复推进记忆曲线）")
+
+                    _exam_save_history({
+                        "subject": current_subject.value,
+                        "date": _dt_exam.now().strftime("%Y-%m-%d %H:%M"),
+                        "total": _total,
+                        "mins": _total_mins,
+                        "choice_score": _choice_score,
+                        "fill_score": _fill_score,
+                        "sol_score": _sol_score,
+                        "count": len(_qids),
+                    })
+                    st.session_state[_exam_state_key] = {
+                        "phase": "done",
+                        "total": _total,
+                        "choice_score": _choice_score,
+                        "fill_score": _fill_score,
+                        "sol_score": _sol_score,
+                        "mins": _total_mins,
+                        "count": len(_qids),
+                    }
+                    st.rerun()
+
+            # ---- 出分界面 ----
+            elif _exam_phase == "done":
+                st.markdown("#### 🎉 拼卷完成")
+                _total = _exam.get("total", 0)
+                _color = "#16a34a" if _total >= 100 else ("#f59e0b" if _total >= 70 else "#dc2626")
+                st.markdown(
+                    f'<div style="text-align:center;padding:30px;background:#f8fafc;border-radius:12px;margin:20px 0;">'
+                    f'<div style="font-size:48px;font-weight:900;color:{_color};">{_total}<span style="font-size:20px;color:#64748b;">/150</span></div>'
+                    f'<div style="color:#64748b;margin-top:8px;">用时 {_exam.get("mins",0)} 分钟 · {_exam.get("count",0)} 题</div>'
+                    f'<div style="margin-top:16px;display:flex;justify-content:center;gap:24px;">'
+                    f'<span>选择 {_exam.get("choice_score",0)}/50</span>'
+                    f'<span>填空 {_exam.get("fill_score",0)}/30</span>'
+                    f'<span>解答 {_exam.get("sol_score",0)}/70</span>'
+                    f'</div></div>',
+                    unsafe_allow_html=True,
+                )
+                st.caption("本卷为错题重组卷，分数仅反映错题掌握情况，非模考分。对错结果已回写艾宾浩斯记忆曲线。")
+                if st.button("🔄 再拼一套", use_container_width=True):
+                    st.session_state.pop(_exam_state_key, None)
+                    st.rerun()
 
         _rv_ch_key = "重点错题" if _rv_view == "重点错题" else _rv_pick
         render_rv_cards(_rv_z_ids, _rv_o_ids, _rv_ch_key, flat_mode=(_rv_view == "按最近真题"))

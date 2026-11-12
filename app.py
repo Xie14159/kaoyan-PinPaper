@@ -3801,6 +3801,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
     def _rv_save():
         try:
             _today_now = state_mgr._today().isoformat()
+            if _today_now != _rv_today_s:
+                st.warning("日期已变更，请刷新页面")
+                return None, None
             _done_now = {k: v for k, v in st.session_state.get("rv_done", {}).items()
                          if v == _today_now}
             _graded_now = {k: v for k, v in st.session_state.get("rv_graded", {}).items()
@@ -4215,7 +4218,10 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     st.session_state["_rv_saved"] = True
                 else:
                     st.session_state["_rv_save_failed"] = True
-                st.rerun(scope="fragment")
+                try:
+                    st.rerun(scope="fragment")
+                except Exception:
+                    st.rerun()
 
             def _rv_due_pill(_qid: str) -> str:
                 """到期状态药丸（与错题本/每日错题同一套配色）。"""

@@ -245,17 +245,46 @@ class StateManager:
             # 置标志禁止后续 save_state 用空状态覆盖真数据(已备份留证,可手动恢复)。
             # 注意:此处【不】清空内存(DS 终审)——保留旧内存,双保险防空状态覆盖。
             self._load_failed = True
-            # 尝试从.bak恢复
+            # 尝试从.bak恢复（只重试一次，不递归）
             _bak = self.data_file.with_suffix(self.data_file.suffix + ".bak")
-            if _bak.exists():
+            if _bak.exists() and not getattr(self, "_restored_from_bak", False):
                 try:
+                    _bak_text = _bak.read_text(encoding="utf-8")
+                    _payload = json.loads(_bak_text)
+                    # .bak能正常解析，恢复
                     import shutil as _sh
                     _sh.copy2(_bak, self.data_file)
                     logger.warning("主状态文件损坏，已从.bak恢复: %s", _bak)
-                    # 递归加载恢复后的文件
-                    self._load_state_unlocked()
-                    if not self._load_failed:
-                        return
+                    self._restored_from_bak = True
+                    # 手动加载恢复后的payload
+                    _records = _payload.get("wrong_questions", {})
+                    _new_wrong = {}
+                    for qid, data in _records.items():
+                        try:
+                            _new_wrong[qid] = WrongQuestionRecord(
+                                question_id=qid,
+                                added_at=data.get("added_at", ""),
+                                user_note=data.get("user_note", ""),
+                                error_tag=data.get("error_tag", "概念模糊"),
+                                wrong_count=int(data.get("wrong_count", 1)),
+                                is_active_in_pool=bool(data.get("is_active_in_pool", True)),
+                                subject=data.get("subject", self.subject),
+                                last_reviewed_at=data.get("last_reviewed_at", ""),
+                                next_review_at=data.get("next_review_at", ""),
+                                review_stage=int(data.get("review_stage", 0)),
+                            )
+                        except Exception:
+                            pass
+                    self.wrong_questions = _new_wrong
+                    self.historical_seen_ids = set(_payload.get("seen_question_ids", []))
+                    for _qid in self.wrong_questions:
+                        self.historical_seen_ids.add(_qid)
+                    self.historical_covered_chapters = set(_payload.get("covered_chapters", []))
+                    self.last_papers_qids = _payload.get("last_papers_qids", []) or []
+                    self._processed_daily = _payload.get("processed_daily", {}) or {}
+                    self._assigned_daily = _payload.get("assigned_daily", {}) or {}
+                    self._load_failed = False
+                    return
                 except Exception:
                     logger.exception("从.bak恢复失败")
 
@@ -305,6 +334,14 @@ class StateManager:
                         os.fsync(f.fileno())
                     # Windows 上 os.replace 会因杀毒/索引/并发读句柄瞬时返回
                     # WinError 5(拒绝访问)。重试几次即可,不必让用户重做一遍错题。
+                    # 备份链：原子替换前，把旧文件（必须能正常解析）备份成.bak
+                    try:
+                        if self.data_file.exists():
+                            json.loads(self.data_file.read_text(encoding="utf-8"))
+                            import shutil as _sh
+                            _sh.copy2(self.data_file, str(self.data_file) + ".bak")
+                    except Exception:
+                        pass  # 旧文件已坏，不覆盖.bak
                     _last_exc = None
                     for _attempt in range(5):
                         try:
@@ -331,12 +368,6 @@ class StateManager:
             # 成功复位移入 with 块内(DS终审3残留#3):避免 with 退出与赋值之间
             # 异常/线程切换导致上次错误信息残留、UI 误报保存失败。
             self._last_save_error = ""
-            # 备份链：写成功后把当前文件copy成.bak，损坏时可恢复
-            try:
-                import shutil as _sh
-                _sh.copy2(self.data_file, str(self.data_file) + ".bak")
-            except Exception:
-                pass
             # 首次成功写盘:创建"曾初始化"哨兵(DS终审3残留#1)。此后即使数据文件
             # 被误删/目录被清空,加载时也能识别"老用户"而非误判全新用户空写覆盖。
             try:

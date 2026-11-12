@@ -3971,17 +3971,30 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _all_z_f = [i for i in _all_z_f if _focl_pass(i)]
             _all_o_f = [i for i in _all_o_f if _focl_pass(i)]
 
-            # 统计每个方法簇的题数，过滤单题簇
+            # 数二125+核心考点白名单：只保留大题/高频小题考点，过滤低频小题簇
+            # 排除：连续与间断点（一道选择）、反常积分敛散（一道填空）、物理应用（数二不考大题）、
+            #       二次型标准形/正交变换（一道选择，非大题）
+            _CORE_KP = {
+                "05-直角坐标计算", "05-极坐标换元",           # 二重积分大题 10-12分
+                "03-定积分计算与对称性", "03-面积体积弧长旋转体",  # 定积分大题
+                "06-一阶方程", "06-二阶常系数", "06-几何与物理应用",  # 微分方程大题
+                "01-未定式与等价替换", "01-数列极限与单调有界",  # 极限大题/必考题
+                "02-复合隐函数参数方程求导", "02-导数定义与可导性",  # 求导计算
+                "10-解的判定", "08-秩", "09-相关性与秩",       # 线代大题
+            }
+            # 统计每个方法簇的题数，过滤单题簇 + 非核心考点簇
             _kp_map = _kp_index_map()
             _focl_cnt = {}
             _qid_to_kp = {}
             for _qf in _all_z_f + _all_o_f:
                 _kf = _kp_map.get(_qf) or f"{str(_qf).split('-')[0]}-综合与其他"
+                if _kf not in _CORE_KP:
+                    continue  # 非核心考点簇直接跳过
                 _qid_to_kp[_qf] = _kf
                 _focl_cnt[_kf] = _focl_cnt.get(_kf, 0) + 1
             _multi_kp = {k for k, n in _focl_cnt.items() if n >= 2}
-            _all_z_f = [i for i in _all_z_f if _qid_to_kp[i] in _multi_kp]
-            _all_o_f = [i for i in _all_o_f if _qid_to_kp[i] in _multi_kp]
+            _all_z_f = [i for i in _all_z_f if _qid_to_kp.get(i) in _multi_kp]
+            _all_o_f = [i for i in _all_o_f if _qid_to_kp.get(i) in _multi_kp]
             _n_q_total = len(_all_z_f) + len(_all_o_f)
             _n_clusters = len(_multi_kp)
 
@@ -3991,9 +4004,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
             if _n_q_total:
                 st.caption(
-                    f"🎯 重点错题：跨章节聚合 **{_n_clusters}** 个考点组、"
+                    f"🎯 重点错题：数二125+核心考点跨章节聚合 **{_n_clusters}** 个考点组、"
                     f"**{_n_q_total}** 道（真题 {len(_all_z_f)} 道）；"
-                    f"已排除证明题，按错次≥2筛选；核心大题考点优先排列。"
+                    f"已排除证明题、低频小题考点，只保留大题/高频考点。"
                 )
             else:
                 st.info("🎉 当前没有跨题反复出错的考点。")

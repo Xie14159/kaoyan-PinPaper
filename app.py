@@ -3882,7 +3882,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         # 视图切换：按章节（默认） vs 按最近真题 vs 到期真题
         _rv_view = st.radio(
             "复盘视图",
-            ["按章节", "按最近真题", "到期真题"],
+            ["按章节", "按最近真题", "到期真题", "重点错题"],
             horizontal=True,
             key=f"rv_view_{current_subject.value}",
             label_visibility="collapsed",
@@ -3944,6 +3944,36 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             else:
                 st.info("🎉 当前没有到期的真题错题，可以去「按章节」看看其他章节。")
             _rv_pick = "到期真题"
+        elif _rv_view == "重点错题":
+            # 跨章节按方法簇聚合：同一考点在不同题上都错过，就是"典型薄弱点"。
+            # 直接把全量未归档错题喂给 render_rv_cards，它内部会按 _kp_index 自动分组。
+            _all_z_f = []
+            _all_o_f = []
+            for _ch_bf in _rv_stats.values():
+                _all_z_f.extend(_ch_bf["z"])
+                _all_o_f.extend(_ch_bf["o"])
+            _all_z_f = [i for i in dict.fromkeys(_all_z_f) if i not in _rv_done_today and _q_by_id3.get(i) is not None]
+            _all_o_f = [i for i in dict.fromkeys(_all_o_f) if i not in _rv_done_today and _q_by_id3.get(i) is not None]
+
+            # 统计跨章节簇（仅用于顶部 caption）
+            _kp_map = _kp_index_map()
+            _focl_cnt = {}
+            for _qf in _all_z_f + _all_o_f:
+                _kf = _kp_map.get(_qf) or f"{str(_qf).split('-')[0]}-综合与其他"
+                _focl_cnt[_kf] = _focl_cnt.get(_kf, 0) + 1
+            _n_clusters = len(_focl_cnt)
+            _n_q_total = len(_all_z_f) + len(_all_o_f)
+            if _n_q_total:
+                st.caption(
+                    f"🎯 跨章节按方法簇聚合：共 **{_n_clusters}** 个考点组、"
+                    f"**{_n_q_total}** 道错题（真题 {len(_all_z_f)} 道）；"
+                    f"组内真题优先，按错次排序。"
+                )
+            else:
+                st.info("🎉 当前没有可练的重点错题。")
+            _rv_z_ids = _all_z_f
+            _rv_o_ids = _all_o_f
+            _rv_pick = "重点错题"
         else:
             # ------------------------------------------------------------------
             # 章节排行（横向条形图，比纯 markdown 表格好读）
@@ -4051,7 +4081,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             # 实时剩余计数（判分后立即更新，比章节选择器里的快照更准）
             _lz_now = sum(1 for i in _z_in if i not in _rv_done_now)
             _lo_now = sum(1 for i in _o_in if i not in _rv_done_now)
-            st.caption(f"本章节剩余：**{_lz_now}** 道真题 / **{_lo_now}** 道其它书（实时）")
+            _rv_scope_label = "本视图" if _ch_norm == "重点错题" else "本章节"
+            st.caption(f"{_rv_scope_label}剩余：**{_lz_now}** 道真题 / **{_lo_now}** 道其它书（实时）")
 
             def _rv_grade(_qid, _ok: bool) -> None:
                 _rec = state_mgr.wrong_questions.get(_qid)
@@ -4326,7 +4357,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         with _pc2:
                             st.caption(f"共 {len(_rv_groups)} 个方法簇；一簇一类方法，做完一簇再换下一簇。")
 
-        render_rv_cards(_rv_z_ids, _rv_o_ids, _rv_pick, flat_mode=(_rv_view == "按最近真题"))
+        _rv_ch_key = "重点错题" if _rv_view == "重点错题" else _rv_pick
+        render_rv_cards(_rv_z_ids, _rv_o_ids, _rv_ch_key, flat_mode=(_rv_view == "按最近真题"))
 
 # 7. URL 错题码同步（把当前科目错题状态写回网址，保持链接可跨设备恢复）
 # =========================================================================

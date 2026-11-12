@@ -3796,17 +3796,19 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             k: v for k, v in st.session_state["rv_graded"].items()
             if isinstance(v, dict) and v.get("date") == _rv_today_s
         }
-    # 持久化保存函数（原子写，防止崩溃时文件损坏）
+    # 持久化保存函数（原子写，实时取日期防止跨零点写错）
     def _rv_save():
         try:
+            _today_now = state_mgr._today().isoformat()
+            _done_now = {k: v for k, v in st.session_state.get("rv_done", {}).items()
+                         if v == _today_now}
+            _graded_now = {k: v for k, v in st.session_state.get("rv_graded", {}).items()
+                           if isinstance(v, dict) and v.get("date") == _today_now}
             _rv_os.makedirs("user_data", exist_ok=True)
             _tmp = _rv_prog_path + ".tmp"
             with open(_tmp, "w", encoding="utf-8") as _f:
-                _rv_json.dump({
-                    "date": _rv_today_s,
-                    "done": st.session_state.get("rv_done", {}),
-                    "graded": st.session_state.get("rv_graded", {}),
-                }, _f, ensure_ascii=False)
+                _rv_json.dump({"date": _today_now, "done": _done_now, "graded": _graded_now},
+                              _f, ensure_ascii=False)
             _rv_os.replace(_tmp, _rv_prog_path)
         except Exception:
             pass

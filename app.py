@@ -4290,6 +4290,12 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                             st.button("🏆 已掌握", key=f"rv_arch_{_qid}", use_container_width=True,
                                       help="已完全掌握，移入历史错题",
                                       on_click=cb_archive_to_history, args=(_qid,))
+                    # 撤销上次判分
+                    if state_mgr.has_undo():
+                        st.button("↩️ 撤销上次判分", key=f"rv_undo_{_qid}",
+                                  help="回退到判分前状态",
+                                  on_click=lambda: state_mgr.undo_last_grade(),
+                                  type="secondary")
 
                         _rtags = list(state_mgr.TAG_PRIORITY.keys())
                         _rtk = f"rvtag_{current_subject.value}_{_qid}"

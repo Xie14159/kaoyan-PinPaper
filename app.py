@@ -3954,23 +3954,36 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 _all_o_f.extend(_ch_bf["o"])
             _all_z_f = [i for i in dict.fromkeys(_all_z_f) if i not in _rv_done_today and _q_by_id3.get(i) is not None]
             _all_o_f = [i for i in dict.fromkeys(_all_o_f) if i not in _rv_done_today and _q_by_id3.get(i) is not None]
+            # z/o 互斥：理论上 _rv_stats 源头已分桶，这里再防御一次，避免同题重复计数
+            _all_o_f = [i for i in _all_o_f if i not in set(_all_z_f)]
 
-            # 统计跨章节簇（仅用于顶部 caption）
+            # 统计每个方法簇的题数，过滤单题簇（只错1道题不算"反复出错"）
             _kp_map = _kp_index_map()
             _focl_cnt = {}
+            _qid_to_kp = {}
             for _qf in _all_z_f + _all_o_f:
                 _kf = _kp_map.get(_qf) or f"{str(_qf).split('-')[0]}-综合与其他"
+                _qid_to_kp[_qf] = _kf
                 _focl_cnt[_kf] = _focl_cnt.get(_kf, 0) + 1
-            _n_clusters = len(_focl_cnt)
-            _n_q_total = len(_all_z_f) + len(_all_o_f)
+            # 单题簇白名单：保留下来的题id
+            _multi_kp = {k for k, n in _focl_cnt.items() if n >= 2}
+            _all_z_f = [i for i in _all_z_f if _qid_to_kp[i] in _multi_kp]
+            _all_o_f = [i for i in _all_o_f if _qid_to_kp[i] in _multi_kp]
+            _n_filtered = _n_q_total = len(_all_z_f) + len(_all_o_f)
+            _n_clusters = len(_multi_kp)
+
+            # 显式组内排序：真题按错次降序，其它书按错次降序（不依赖下游 render_rv_cards 内部）
+            _all_z_f.sort(key=_rv_sort_key)
+            _all_o_f.sort(key=_rv_sort_key)
+
             if _n_q_total:
                 st.caption(
-                    f"🎯 跨章节按方法簇聚合：共 **{_n_clusters}** 个考点组、"
+                    f"🎯 跨章节按方法簇聚合：**{_n_clusters}** 个考点组、"
                     f"**{_n_q_total}** 道错题（真题 {len(_all_z_f)} 道）；"
-                    f"组内真题优先，按错次排序。"
+                    f"已过滤单题簇，组内真题优先、按错次排序。"
                 )
             else:
-                st.info("🎉 当前没有可练的重点错题。")
+                st.info("🎉 当前没有跨题反复出错的考点。")
             _rv_z_ids = _all_z_f
             _rv_o_ids = _all_o_f
             _rv_pick = "重点错题"

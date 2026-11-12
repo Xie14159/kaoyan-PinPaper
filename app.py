@@ -3771,6 +3771,18 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
     # 「做完即消」：本页今天处理过的题记在这里，当天不再出现在卡片列表里（跨天自动失效）
     _rv_today_s = state_mgr._today().isoformat()
+    # 持久化：刷新页面不丢今日进度，存到 user_data/rv_progress.json
+    import json as _rv_json, os as _rv_os
+    _rv_prog_path = _rv_os.path.join("user_data", "rv_progress.json")
+    if _rv_os.path.exists(_rv_prog_path):
+        try:
+            with open(_rv_prog_path, encoding="utf-8") as _f:
+                _rv_prog = _rv_json.load(_f)
+            if _rv_prog.get("date") == _rv_today_s:
+                st.session_state.setdefault("rv_done", _rv_prog.get("done", {}))
+                st.session_state.setdefault("rv_graded", _rv_prog.get("graded", {}))
+        except Exception:
+            pass
     _rv_done = st.session_state.setdefault("rv_done", {})
     for _k in [k for k, v in _rv_done.items() if v != _rv_today_s]:
         _rv_done.pop(_k, None)
@@ -3784,6 +3796,20 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             k: v for k, v in st.session_state["rv_graded"].items()
             if isinstance(v, dict) and v.get("date") == _rv_today_s
         }
+    # 持久化保存函数（原子写，防止崩溃时文件损坏）
+    def _rv_save():
+        try:
+            _rv_os.makedirs("user_data", exist_ok=True)
+            _tmp = _rv_prog_path + ".tmp"
+            with open(_tmp, "w", encoding="utf-8") as _f:
+                _rv_json.dump({
+                    "date": _rv_today_s,
+                    "done": st.session_state.get("rv_done", {}),
+                    "graded": st.session_state.get("rv_graded", {}),
+                }, _f, ensure_ascii=False)
+            _rv_os.replace(_tmp, _rv_prog_path)
+        except Exception:
+            pass
 
     _rv_stats = {}
     _rv_total = 0
@@ -4173,6 +4199,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     "result": "ok" if _ok else "wrong",
                     "date": state_mgr._today().isoformat(),
                 }
+                _rv_save()
                 _rv_cycle_mark([_qid])
                 st.rerun(scope="fragment")
 
@@ -4290,6 +4317,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     )
                     st.session_state["rv_graded"] = {k: v for k, v in _graded_raw.items()
                                                      if k not in _graded}
+                    _rv_save()
                     st.toast(f"已刷新 {len(_graded)} 道，新题已补入", icon="🔄")
                     st.rerun()
                 if st.button("↺ 重置", use_container_width=True,
@@ -4297,6 +4325,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                              help="把今天已处理/已刷新的题全部放回来（不影响已写入的复习记录）"):
                     st.session_state["rv_done"] = {}
                     st.session_state["rv_graded"] = {}
+                    _rv_save()
                     st.rerun()
 
             # ---- 方法簇精选（C 方案）：每簇最多 3 道 = 本轮新错 1 + 历史同类 2 ----

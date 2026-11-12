@@ -3993,7 +3993,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 st.caption(
                     f"🎯 重点错题：跨章节聚合 **{_n_clusters}** 个考点组、"
                     f"**{_n_q_total}** 道（真题 {len(_all_z_f)} 道）；"
-                    f"已排除证明题，按错次≥2筛选。"
+                    f"已排除证明题，按错次≥2筛选；核心大题考点优先排列。"
                 )
             else:
                 st.info("🎉 当前没有跨题反复出错的考点。")
@@ -4336,7 +4336,24 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 if not _rv_groups:
                     st.success("这一章的错题今天都处理完了。换一章继续，或者明天再来。")
                 else:
-                    _rv_groups.sort(key=lambda g: (-sum(1 for i in g[1] if _rv_is_new(i)), -g[2], g[0]))
+                    if _ch_norm == "重点错题":
+                        # 数二125+核心考点白名单：大题考点优先，次要小题考点排后
+                        _CORE_KP = {
+                            "05-直角坐标计算", "05-极坐标换元",           # 二重积分大题
+                            "03-定积分计算与对称性", "03-面积体积弧长旋转体",  # 定积分大题
+                            "06-一阶方程", "06-二阶常系数", "06-几何与物理应用",  # 微分方程大题
+                            "01-未定式与等价替换", "01-数列极限与单调有界",  # 极限大题/小题
+                            "02-复合隐函数参数方程求导", "02-导数定义与可导性",  # 求导计算
+                            "10-解的判定", "08-秩", "09-相关性与秩",       # 线代大题
+                        }
+                        def _rv_group_sort_key(_g):
+                            _gname = _g[0]
+                            _is_core = 0 if _gname in _CORE_KP else 1  # 核心=0排前面
+                            _n_new = sum(1 for i in _g[1] if _rv_is_new(i))
+                            return (_is_core, -_n_new, -_g[2], _gname)
+                        _rv_groups.sort(key=_rv_group_sort_key)
+                    else:
+                        _rv_groups.sort(key=lambda g: (-sum(1 for i in g[1] if _rv_is_new(i)), -g[2], g[0]))
                     _gpp = 3                      # 每页 3 个方法簇（≈9 道）
                     _pages = max(1, (len(_rv_groups) + _gpp - 1) // _gpp)
                     _pg = int(st.session_state.get(_pg_key, 0) or 0)

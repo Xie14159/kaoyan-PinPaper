@@ -4621,9 +4621,6 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     unsafe_allow_html=True,
                 )
                 if _remaining <= 0:
-                    # 时间到：先保存当前题答案再交卷
-                    if _cur_q.question_type != QuestionType.SOLUTION:
-                        st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
                     st.warning("时间到！自动交卷。")
                     st.session_state[_exam_state_key]["phase"] = "grading"
                     st.rerun()

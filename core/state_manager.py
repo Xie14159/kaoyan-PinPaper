@@ -1338,6 +1338,8 @@ class StateManager:
         if not self.save_state():
             if _pre is not None:
                 self.wrong_questions[qid] = _pre
+            else:
+                self.wrong_questions.pop(qid, None)
             return False
         return True
 

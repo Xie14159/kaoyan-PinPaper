@@ -284,6 +284,7 @@ class StateManager:
                     self._processed_daily = _payload.get("processed_daily", {}) or {}
                     self._assigned_daily = _payload.get("assigned_daily", {}) or {}
                     self._load_failed = False
+                    self.save_state()  # 恢复后立即落盘
                     return
                 except Exception:
                     logger.exception("从.bak恢复失败")
@@ -1332,8 +1333,12 @@ class StateManager:
             return False
         qid = undo["qid"]
         old_rec = undo["rec"]
+        _pre = self.wrong_questions.get(qid)
         self.wrong_questions[qid] = old_rec
-        self.save_state()
+        if not self.save_state():
+            if _pre is not None:
+                self.wrong_questions[qid] = _pre
+            return False
         return True
 
     def has_undo(self) -> bool:

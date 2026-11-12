@@ -245,6 +245,19 @@ class StateManager:
             # 置标志禁止后续 save_state 用空状态覆盖真数据(已备份留证,可手动恢复)。
             # 注意:此处【不】清空内存(DS 终审)——保留旧内存,双保险防空状态覆盖。
             self._load_failed = True
+            # 尝试从.bak恢复
+            _bak = self.data_file.with_suffix(self.data_file.suffix + ".bak")
+            if _bak.exists():
+                try:
+                    import shutil as _sh
+                    _sh.copy2(_bak, self.data_file)
+                    logger.warning("主状态文件损坏，已从.bak恢复: %s", _bak)
+                    # 递归加载恢复后的文件
+                    self._load_state_unlocked()
+                    if not self._load_failed:
+                        return
+                except Exception:
+                    logger.exception("从.bak恢复失败")
 
     def save_state(self) -> bool:
         """原子写 + 线程锁 + 跨进程文件锁：临时文件 + fsync + os.replace。
@@ -318,6 +331,12 @@ class StateManager:
             # 成功复位移入 with 块内(DS终审3残留#3):避免 with 退出与赋值之间
             # 异常/线程切换导致上次错误信息残留、UI 误报保存失败。
             self._last_save_error = ""
+            # 备份链：写成功后把当前文件copy成.bak，损坏时可恢复
+            try:
+                import shutil as _sh
+                _sh.copy2(self.data_file, str(self.data_file) + ".bak")
+            except Exception:
+                pass
             # 首次成功写盘:创建"曾初始化"哨兵(DS终审3残留#1)。此后即使数据文件
             # 被误删/目录被清空,加载时也能识别"老用户"而非误判全新用户空写覆盖。
             try:
@@ -1262,6 +1281,38 @@ class StateManager:
             return False
         return True
 
+    # ---- 栈式撤销（判分误操作可回退最近一次）----
+    def snapshot_before_grade(self, question_id: str) -> None:
+        """判分前调用，把该题记录深拷贝存到session层。"""
+        rec = self.wrong_questions.get(question_id)
+        if rec:
+            import copy as _c
+            st_state = self._get_streamlit_state()
+            st_state["_undo_last"] = {
+                "qid": question_id,
+                "rec": _c.deepcopy(rec),
+            }
+
+    def undo_last_grade(self) -> bool:
+        """撤销最近一次判分。"""
+        st_state = self._get_streamlit_state()
+        undo = st_state.pop("_undo_last", None)
+        if not undo:
+            return False
+        qid = undo["qid"]
+        old_rec = undo["rec"]
+        self.wrong_questions[qid] = old_rec
+        self.save_state()
+        return True
+
+    def has_undo(self) -> bool:
+        return "_undo_last" in self._get_streamlit_state()
+
+    @staticmethod
+    def _get_streamlit_state():
+        import streamlit as st
+        return st.session_state
+
     def record_review_result(self, question_id: str, correct: bool, today=None) -> bool:
         """艾宾浩斯复习回写。
 
@@ -1284,6 +1335,8 @@ class StateManager:
         # 快照关键字段(DS终审7中危):save 失败时回滚,防'内存与磁盘不一致+幂等键被吞'
         _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool,
                  rec.last_reviewed_at, rec.next_review_at)
+        # 栈式撤销：判分前存旧记录，用户可随时点撤销
+        self.snapshot_before_grade(question_id)
         rec.last_reviewed_at = today_s
         if correct:
             new_stage = rec.review_stage + 1

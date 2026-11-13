@@ -1648,7 +1648,7 @@ st.markdown(
 st.session_state.setdefault("active_ws", "🎯 智能拼好卷")
 active_module = st.segmented_control(
     "模块导航",
-    options=["🎯 智能拼好卷", "🏷️ 题库逐题标错", "📕 我的错题本", "📈 全科考点雷达", "📅 每日错题", "🧭 复盘 · 薄弱章节", "🔍 答案校对"],
+    options=["🎯 智能拼好卷", "🏷️ 题库逐题标错", "📕 我的错题本", "📈 全科考点雷达", "📅 每日错题", "🧭 复盘 · 薄弱章节"],
     key="active_ws",
     label_visibility="collapsed",
 ) or "🎯 智能拼好卷"  # 点击已选中项可能返回 None，兜底回默认模块，防页面空白
@@ -5016,101 +5016,6 @@ if paper_url_key and current_subject != SubjectType.CUSTOM:
         _pcode = StateManager.encode_papers_code(_papers_qids, canonical_ids)
         if st.query_params.get(paper_url_key) != _pcode:
             st.query_params[paper_url_key] = _pcode
-
-# -------------------------------------------------------------------------
-# WORKSPACE 7: 880 答案校对（P1-3）
-# -------------------------------------------------------------------------
-elif active_module == "🔍 答案校对":
-    import json as _json_ans
-
-    _ANS_INDEX_FILE = os.path.join("题库资料", "880数学二", "page_index.json")
-    _ANS_VERIFIED_FILE = os.path.join("user_data", "verified_answers_880.json")
-
-    @st.cache_data(ttl=300)
-    def _load_880_answers():
-        try:
-            with open(_ANS_INDEX_FILE, encoding="utf-8") as f:
-                return json.load(f).get("answers", {})
-        except Exception:
-            return {}
-
-    def _load_verified():
-        try:
-            with open(_ANS_VERIFIED_FILE, encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            return {}
-
-    def _save_verified(v):
-        os.makedirs("user_data", exist_ok=True)
-        with open(_ANS_VERIFIED_FILE, "w", encoding="utf-8") as f:
-            json.dump(v, f, ensure_ascii=False, indent=2)
-        _ans880_verified.cache_clear()
-
-    _ocr_ans = _load_880_answers()
-    _verified = _load_verified()
-    _all_qids = sorted(_ocr_ans.keys())
-    _total = len(_all_qids)
-    _done = len([k for k in _all_qids if k in _verified])
-
-    st.markdown("### 🔍 880 答案校对")
-    st.caption(f"共 {_total} 道选择题 · 已校对 {_done} · 剩余 {_total - _done}")
-    if _total:
-        st.progress(_done / _total, text=f"{_done}/{_total}")
-
-    _page_size = 50
-    _max_page = max(1, (_total + _page_size - 1) // _page_size)
-    _pg = st.number_input("页码", min_value=1, max_value=_max_page, value=1, step=1, key="ans_check_page")
-    _start = (_pg - 1) * _page_size
-    _page_qids = _all_qids[_start:_start + _page_size]
-
-    _qmap = {q.id: q for q in all_questions}
-
-    for i, qid in enumerate(_page_qids):
-        q = _qmap.get(qid)
-        stem = ""
-        if q:
-            import re as _re_ans
-            stem = (q.stem or "").replace("\n", " ")[:60]
-            stem = _re_ans.sub(r"\$[^$]*\$", "[公式]", stem)
-            stem = _re_ans.sub(r"<[^>]+>", "", stem)
-
-        _ocr = _ocr_ans.get(qid, "?")
-        _cur = _verified.get(qid, _ocr)
-
-        with st.container(border=True):
-            c1, c2, c3 = st.columns([3, 1, 1])
-            with c1:
-                st.markdown(f"**{qid}**  \n{stem}")
-            with c2:
-                st.markdown(f"OCR: `{_ocr}`")
-            with c3:
-                _new = st.selectbox(
-                    "答案",
-                    options=["A", "B", "C", "D", "存疑", "未校对"],
-                    index=["A", "B", "C", "D", "存疑", "未校对"].index(_cur) if _cur in ["A", "B", "C", "D", "存疑", "未校对"] else 5,
-                    key=f"ans_{qid}",
-                    label_visibility="collapsed",
-                )
-                if _new != _cur:
-                    if _new == "未校对":
-                        _verified.pop(qid, None)
-                    else:
-                        _verified[qid] = _new
-                    _save_verified(_verified)
-                    st.cache_data.clear()
-                    st.toast(f"✅ {qid} → {_new}")
-                    st.rerun()
-
-    c1, c2 = st.columns(2)
-    with c1:
-        if st.button("⬅ 上一页", disabled=_pg <= 1, use_container_width=True):
-            st.session_state["ans_check_page"] = _pg - 1
-            st.rerun()
-    with c2:
-        if st.button("下一页 ➡", disabled=_pg >= _max_page, use_container_width=True):
-            st.session_state["ans_check_page"] = _pg + 1
-            st.rerun()
 
 # AI 配置同步：仅 Base URL 与 Model 进网址，API Key 严禁写入
 _ai_url = st.session_state.get("ai_base_url", "")

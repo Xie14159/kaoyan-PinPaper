@@ -4744,30 +4744,30 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
                 _ans_key = f"exam_ans_{_cur_qid}"
                 _user_ans = ""
-                if _cur_q.question_type == QuestionType.SOLUTION:
-                    st.info("✍️ 解答题请在草稿纸上作答，交卷后统一自评。")
+                if _cur_q.question_type in (QuestionType.SOLUTION, QuestionType.FILL_BLANK):
+                    st.info("✍️ 请在草稿纸上作答，交卷后对照参考答案自评。")
                 else:
-                    _user_ans = st.text_input("你的答案（选择填A/B/C/D，填空填结果）", key=_ans_key,
+                    _user_ans = st.text_input("你的答案（选择填A/B/C/D）", key=_ans_key,
                                               value=st.session_state[_exam_state_key].get("answers", {}).get(_cur_qid, ""))
 
                 _b1, _b2, _b3 = st.columns([1, 1, 2])
                 with _b1:
                     if _cur > 0:
                         if st.button("← 上一题", use_container_width=True):
-                            if _cur_q.question_type != QuestionType.SOLUTION:
+                            if _cur_q.question_type == QuestionType.CHOICE:
                                 st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
                             st.session_state[_exam_state_key]["current"] = _cur - 1
                             st.rerun()
                 with _b2:
                     if _cur < len(_qids) - 1:
                         if st.button("下一题 →", use_container_width=True):
-                            if _cur_q.question_type != QuestionType.SOLUTION:
+                            if _cur_q.question_type == QuestionType.CHOICE:
                                 st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
                             st.session_state[_exam_state_key]["current"] = _cur + 1
                             st.rerun()
                 with _b3:
                     if st.button("📤 交卷", type="primary", use_container_width=True):
-                        if _cur_q.question_type != QuestionType.SOLUTION:
+                        if _cur_q.question_type == QuestionType.CHOICE:
                             st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
                         st.session_state[_exam_state_key]["phase"] = "grading"
                         st.rerun()
@@ -4781,20 +4781,19 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     st.stop()
                 _start = _exam["start"]
                 _total_mins = int((_time_exam.time() - _start) // 60)
-                st.markdown("#### 📋 判分 · 选择/填空自动判分，解答题请自评")
-                st.caption("选择填空已根据参考答案自动判定；解答题请根据你的作答对照参考答案选择：对=满分，半对=半分，错=0分。")
+                st.markdown("#### 📋 判分 · 选择自动判分，填空/解答请自评")
+                st.caption("选择题已根据参考答案自动判定；填空和解答题请根据你的作答对照参考答案选择：对=满分，错=0分。")
 
                 if "_auto" not in st.session_state[_exam_state_key]:
                     _auto = {}
                     for _qid in _qids:
                         _q = _q_by_id3[_qid]
-                        if _q.question_type == QuestionType.SOLUTION:
+                        if _q.question_type != QuestionType.CHOICE:
                             continue
                         _ua = str(st.session_state[_exam_state_key].get("answers", {}).get(_qid, "")).strip().upper()
                         _ref = str(getattr(_q, "answer", "") or "").strip().upper()
-                        if _q.question_type == QuestionType.CHOICE:
-                            _ua = _exam_normalize_choice(_ua)
-                            _ref = _exam_normalize_choice(_ref)
+                        _ua = _exam_normalize_choice(_ua)
+                        _ref = _exam_normalize_choice(_ref)
                         _auto[_qid] = (bool(_ua) and _ua == _ref)
                     st.session_state[_exam_state_key]["_auto"] = _auto
 
@@ -4820,6 +4819,12 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                                 f"自评第{_gi+1}题", ["对（满分）", "半对（半分）", "错（0分）"],
                                 key=f"self_{_qid}", horizontal=True, index=2
                             )
+                        elif _q.question_type == QuestionType.FILL_BLANK:
+                            st.markdown(f"参考答案：`{getattr(_q, 'answer', '') or '—'}`")
+                            st.radio(
+                                f"自评第{_gi+1}题", ["对（5分）", "错（0分）"],
+                                key=f"self_{_qid}", horizontal=True, index=1
+                            )
                         else:
                             _ua = st.session_state[_exam_state_key].get("answers", {}).get(_qid, "")
                             _ok = _auto.get(_qid, False)
@@ -4836,7 +4841,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                             if _auto.get(_qid, False):
                                 _choice_score += 5
                         elif _q.question_type == QuestionType.FILL_BLANK:
-                            if _auto.get(_qid, False):
+                            _fv = st.session_state.get(f"self_{_qid}", "错（0分）")
+                            if _fv.startswith("对"):
                                 _fill_score += 5
                         elif _q.question_type == QuestionType.SOLUTION:
                             _sv = st.session_state.get(f"self_{_qid}", "错（0分）")
@@ -4853,6 +4859,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         if _q.question_type == QuestionType.SOLUTION:
                             _sv = st.session_state.get(f"self_{_qid}", "错（0分）")
                             _correct = _sv.startswith("对")
+                        elif _q.question_type == QuestionType.FILL_BLANK:
+                            _fv = st.session_state.get(f"self_{_qid}", "错（0分）")
+                            _correct = _fv.startswith("对")
                         else:
                             _correct = _auto.get(_qid, False)
                         if _exam_already_reviewed_today(_qid):

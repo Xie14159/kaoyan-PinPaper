@@ -3034,7 +3034,22 @@ elif active_module == "📕 我的错题本":
             # 与组卷页同理：download_button 的 data= 是急切求值,若直接放会让每次重跑都触发
             # 无头浏览器排版(十几秒)并堵住整页,故先点「生成」再出下载按钮。
             if shown:
-                _wb_ids = tuple(q.id for q in shown)
+                # P1-5 重练卷：题量选择 + 打乱
+                _rp_c1, _rp_c2 = st.columns(2)
+                with _rp_c1:
+                    _rp_n = st.selectbox(
+                        "题量", ["全部", "10", "15", "20", "30"], index=0,
+                        key=f"wb_rp_n_{current_subject.value}",
+                    )
+                with _rp_c2:
+                    _rp_shuffle = st.checkbox("打乱顺序", value=False, key=f"wb_rp_shuf_{current_subject.value}")
+                _shown_qs = list(shown)
+                if _rp_shuffle:
+                    import random as _rnd_rp
+                    _rnd_rp.Random(42).shuffle(_shown_qs)
+                if _rp_n != "全部":
+                    _shown_qs = _shown_qs[:int(_rp_n)]
+                _wb_ids = tuple(q.id for q in _shown_qs)
                 _wb_sig = hashlib.md5("|".join(_wb_ids).encode("utf-8")).hexdigest()[:8]
                 _WB_EDITIONS = {
                     "📝 A4 做题本（留白重做）": (PDFEdition.WORKBOOK_A4, "A4做题本"),
@@ -3059,7 +3074,7 @@ elif active_module == "📕 我的错题本":
                             st.rerun()
                     else:
                         # 详细解析版：点击下载时才触发 AI 名师补全缺失答案解析
-                        _wb_missing_now = [q for q in shown if not (q.answer and q.solution)]
+                        _wb_missing_now = [q for q in _shown_qs if not (q.answer and q.solution)]
                         _wb_ai_ready_key = f"wb_ai_ready_{current_subject.value}_{_wb_sig}_{_wb_ed.value}"
                         if (_wb_ed == PDFEdition.SOLUTION) and user_api_key and _wb_missing_now and not st.session_state.get(_wb_ai_ready_key):
                             if st.button(
@@ -3086,7 +3101,7 @@ elif active_module == "📕 我的错题本":
                                     elif status == "review_failed":
                                         _bar_wb2.progress(done / total, text=f"AI 审核失败，已标记未审核 ({done}/{total})：{qid}")
                                 try:
-                                    gen_wb2, _ = ensure_solutions(shown, _wb_ai2, progress_cb=_cb_wb2)
+                                    gen_wb2, _ = ensure_solutions(_shown_qs, _wb_ai2, progress_cb=_cb_wb2)
                                     if gen_wb2 > 0:
                                         get_cached_pdf.clear()
                                 except Exception:
@@ -3096,7 +3111,7 @@ elif active_module == "📕 我的错题本":
                         else:
                             _pdf_wb2 = _safe_pdf_bytes(
                                 f"错题本_{current_subject.value}_{_wb_sig}",
-                                f"错题本 · {current_subject.value} · 共 {len(shown)} 题",
+                                f"错题本 · {current_subject.value} · 共 {len(_shown_qs)} 题",
                                 _wb_ids,
                                 edition_str=_wb_ed.value,
                                 subject_str=current_subject.value,
@@ -3105,7 +3120,7 @@ elif active_module == "📕 我的错题本":
                                 st.download_button(
                                     "📥 下载错题本 PDF",
                                     data=_pdf_wb2,
-                                    file_name=f"错题本_{current_subject.value}_{len(shown)}题_{_wb_ed_short}.pdf",
+                                    file_name=f"错题本_{current_subject.value}_{len(_shown_qs)}题_{_wb_ed_short}.pdf",
                                     mime="application/pdf",
                                     use_container_width=True,
                                     key=f"wb_pdf_dl_{current_subject.value}_{_wb_sig}_{_wb_ed.value}",

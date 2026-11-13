@@ -189,13 +189,22 @@ def render_stem(text: str) -> None:
 # 《27版李林880 数二 解析分册》是扫描图片 PDF（354 页、0 文字层），既不能抽文本也不能
 # 逐题对齐；但目录给出了「章 → 基础/综合/拓展题」的起始页，故退一步只做页码指引：
 # 告诉用户"这题的答案在第 X 页、本节第 N 题、标号 (N)"，让他翻纸质/PDF 就能对上。
-_ANS880_INDEX_FILE = Path(__file__).resolve().parent / "题库资料" / "880数学二" / "page_index.json"
+_ANS880_INDEX_FILE = Path(__file__).resolve().parent / "题库资料" / "880数学二"
+_ANS880_VERIFIED_FILE = Path(__file__).resolve().parent / "user_data" / "verified_answers_880.json"
 
 
 @functools.lru_cache(maxsize=1)
 def _ans880_index() -> dict:
     try:
-        return json.loads(_ANS880_INDEX_FILE.read_text(encoding="utf-8-sig"))
+        return json.loads((_ANS880_INDEX_FILE / "page_index.json").read_text(encoding="utf-8-sig"))
+    except Exception:
+        return {}
+
+
+@functools.lru_cache(maxsize=1)
+def _ans880_verified() -> dict:
+    try:
+        return json.loads(_ANS880_VERIFIED_FILE.read_text(encoding="utf-8-sig"))
     except Exception:
         return {}
 
@@ -205,6 +214,7 @@ def ans880_page_hint(q, with_answer: bool = True) -> str:
 
     优先用 OCR 回溯出来的逐题精确页（page_index.json 的 pages 字段，键为题目 id）；
     没有该题的记录时回退到"本节起始页"，仍能让人翻到附近。
+    答案字母优先取人工校对值（verified_answers_880.json），其次 OCR 值。
     """
     if getattr(q, "book", "") != "880":
         return ""
@@ -221,10 +231,14 @@ def ans880_page_hint(q, with_answer: bool = True) -> str:
         n = int(num)
     except ValueError:
         return ""
+    # 答案字母：校对值优先，OCR 兜底
+    verified = _ans880_verified()
+    letter = verified.get(qid) or (idx.get("answers") or {}).get(qid)
+    if letter in ("存疑", "未校对"):
+        letter = None
     exact = pages.get(qid)
     if exact:
-        letter = (idx.get("answers") or {}).get(qid)
-        tail = f" · 解析册标注 **{letter}**（OCR，仅供查书参考，以纸书为准）" if (letter and with_answer) else ""
+        tail = f" · 答案 **{letter}**" if (letter and with_answer) else ""
         return (
             f"📗《27版李林880 数二 解析分册》**第 {exact} 页**"
             f"（PDF 第 **{int(exact) + offset}** 页）· 页内找标号 **({n})**{tail}"
@@ -1120,7 +1134,7 @@ with st.sidebar:
         _lg.getLogger("pinpaper.app").warning("proof_ids 注入失败: %s", _e)
 
     # P1-7 使用日志：每次判分追加一行 logs/usage.jsonl（只记不改，失败静默）
-    def _log_usage(qid: str, kind: str, src: str, stage=None):
+    def _log_usage(qid: str, kind: str, src: str, stage=None, ms=None):
         try:
             import json as _ju, time as _tu
             os.makedirs("logs", exist_ok=True)
@@ -1128,6 +1142,8 @@ with st.sidebar:
                    "kind": kind, "src": src}
             if stage is not None:
                 rec["stage"] = stage
+            if ms is not None:
+                rec["ms"] = ms
             with open(os.path.join("logs", "usage.jsonl"), "a", encoding="utf-8") as _f:
                 _f.write(_ju.dumps(rec, ensure_ascii=False) + "\n")
         except Exception:
@@ -2810,7 +2826,7 @@ elif active_module == "🏷️ 题库逐题标错":
                         if q.answer: st.markdown(f"**【参考答案】**：`{q.answer}`")
                         if q.solution: st.markdown(f"**【详细解析】**：\n{q.solution}")
                         if not q.answer:
-                            _h880 = ans880_page_hint(q, with_answer=False)
+                            _h880 = ans880_page_hint(q, with_answer=True)
                             if _h880:
                                 st.caption(_h880)
 
@@ -3044,11 +3060,11 @@ elif active_module == "📕 我的错题本":
                 with _rp_c2:
                     _rp_shuffle = st.checkbox("打乱顺序", value=False, key=f"wb_rp_shuf_{current_subject.value}")
                 _shown_qs = list(shown)
+                if _rp_n != "全部":
+                    _shown_qs = _shown_qs[:int(_rp_n)]
                 if _rp_shuffle:
                     import random as _rnd_rp
                     _rnd_rp.Random(42).shuffle(_shown_qs)
-                if _rp_n != "全部":
-                    _shown_qs = _shown_qs[:int(_rp_n)]
                 _wb_ids = tuple(q.id for q in _shown_qs)
                 _wb_sig = hashlib.md5("|".join(_wb_ids).encode("utf-8")).hexdigest()[:8]
                 _WB_EDITIONS = {
@@ -3135,6 +3151,8 @@ elif active_module == "📕 我的错题本":
             保证两入口的 stage/next_review_at 语义一致。
             反馈经 session_state 传递，fragment 重跑后消费显示（rerun 不丢 toast）。
             """
+            import time as _t_rev
+            _t0 = _t_rev.time()
             rec = state_mgr.wrong_questions.get(qid)
             if rec is None:
                 st.session_state["wb_flash"] = ("warn", "记录不存在，请刷新页面后重试")
@@ -3173,7 +3191,8 @@ elif active_module == "📕 我的错题本":
             # P1-7 使用日志
             _rec_log = state_mgr.wrong_questions.get(qid)
             _log_usage(qid, "correct" if correct else "wrong", "wrongbook",
-                       stage=getattr(_rec_log, "review_stage", None))
+                       stage=getattr(_rec_log, "review_stage", None),
+                       ms=int((_t_rev.time() - _t0) * 1000))
             # 富反馈：题号 + 结果 + 阶段 + 下次复习 + 今日剩余（toast 只有 2 秒，记不住）
             _rec2 = state_mgr.wrong_questions.get(qid)
             st.session_state["wb_feedback"] = {
@@ -3532,18 +3551,18 @@ elif active_module == "📅 每日错题":
     # P1-8 配额与剩余天数挂钩（纯显示）
     from datetime import date as _date_p18
     _EXAM_DATE = _date_p18(2026, 12, 19)
-    _days_left = max(0, (_EXAM_DATE - _date_p18.today()).days)
+    _days_left = max(1, (_EXAM_DATE - _date_p18.today()).days)
     _active_count = len([q for q in state_mgr.wrong_questions if state_mgr.is_in_active_pool(q)])
     _EB_DAILY = 11  # 每日安排道数（2026-10-27 用户定为 11 道）
-    _need_days = (_active_count + _EB_DAILY - 1) // _EB_DAILY if _EB_DAILY else 0
-    _buffer = _days_left - _need_days
-    _buf_color = "#10b981" if _buffer >= 7 else ("#f59e0b" if _buffer >= 0 else "#ef4444")
+    _daily_needed = _active_count / _days_left
+    _need_red = _daily_needed > _EB_DAILY
+    _need_color = "#ef4444" if _need_red else ("#f59e0b" if _daily_needed > _EB_DAILY * 0.7 else "#10b981")
     st.markdown(
         f'<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;'
         f'padding:8px 14px;margin:4px 0 10px 0;font-size:13px;color:#475569;">'
         f'📅 距初试 <b>{_days_left}</b> 天 · 待复习 <b>{_active_count}</b> 道 · '
-        f'每天 {_EB_DAILY} 道需 <b>{_need_days}</b> 天 · '
-        f'<span style="color:{_buf_color};font-weight:600;">余量 {_buffer} 天</span>'
+        f'日均需练 <b>{_daily_needed:.1f}</b> 道/天（配额 {_EB_DAILY}）'
+        f'<span style="color:{_need_color};font-weight:600;">{" ⚠️ 超配额" if _need_red else ""}</span>'
         f'</div>',
         unsafe_allow_html=True,
     )
@@ -3686,6 +3705,8 @@ elif active_module == "📅 每日错题":
                 """on_click 回调：fragment rerun 前先落地状态+今日列表，本次渲染即移除（不用点两次）。
                 (流畅度优化)finish_daily_review 一次保存复习回写+今日已处理,点击一次只写一次盘;
                 (DS终审13高危-2)保存失败必须可见:不移除/不标记,提示重试,杜绝"UI显示已处理但磁盘未持久化"。"""
+                import time as _t_eb
+                _t0 = _t_eb.time()
                 _ok1 = state_mgr.finish_daily_review(_qid, bool(_ok))
                 if not _ok1:
                     st.session_state["_eb_save_error"] = f"保存失败：{_qid} 未记录，请检查磁盘/权限后重试"
@@ -3699,7 +3720,8 @@ elif active_module == "📅 每日错题":
                 st.session_state[_eb_processed_key] = list(_eb_pl)
                 _rec_l = state_mgr.wrong_questions.get(_qid)
                 _log_usage(_qid, "correct" if _ok else "wrong", "daily",
-                           stage=getattr(_rec_l, "review_stage", None))
+                           stage=getattr(_rec_l, "review_stage", None),
+                           ms=int((_t_eb.time() - _t0) * 1000))
 
             def _eb_skip(_qid: str) -> None:
                 """没做：今天不再推，明天继续推。
@@ -4271,6 +4293,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             st.caption(f"{_rv_scope_label}剩余：**{_lz_now}** 道真题 / **{_lo_now}** 道其它书（实时）")
 
             def _rv_grade(_qid, _ok: bool) -> None:
+                import time as _t_rv
+                _t0 = _t_rv.time()
                 _rec = state_mgr.wrong_questions.get(_qid)
                 _was_due = _is_due_today(_rec, state_mgr._today()) if _rec else False
                 if _ok:
@@ -4297,7 +4321,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 }
                 _rec_r = state_mgr.wrong_questions.get(_qid)
                 _log_usage(_qid, "correct" if _ok else "wrong", "review",
-                           stage=getattr(_rec_r, "review_stage", None))
+                           stage=getattr(_rec_r, "review_stage", None),
+                           ms=int((_t_rv.time() - _t0) * 1000))
                 _d, _g = _rv_save()
                 if _d is not None:
                     try:
@@ -5047,6 +5072,7 @@ elif active_module == "🔍 答案校对":
         os.makedirs("user_data", exist_ok=True)
         with open(_ANS_VERIFIED_FILE, "w", encoding="utf-8") as f:
             json.dump(v, f, ensure_ascii=False, indent=2)
+        _ans880_verified.cache_clear()
 
     _ocr_ans = _load_880_answers()
     _verified = _load_verified()
@@ -5100,6 +5126,7 @@ elif active_module == "🔍 答案校对":
                         _verified[qid] = _new
                     _save_verified(_verified)
                     st.cache_data.clear()
+                    st.toast(f"✅ {qid} → {_new}")
                     st.rerun()
 
     c1, c2 = st.columns(2)

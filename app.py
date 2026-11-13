@@ -1531,6 +1531,17 @@ with st.sidebar:
             render_health_panel(_health_targets)
         st.markdown("---")
 
+        # P0-5: 最近错误日志（折叠显示）
+        try:
+            from core.safe import read_recent_errors
+            _errs = read_recent_errors(3)
+            if _errs:
+                with st.expander(f"⚠️ 最近错误（{len(_errs)}）", expanded=False):
+                    for _e in _errs:
+                        st.code(_e[:500], language="text")
+        except Exception:
+            pass
+
 
 # =========================================================================
 # 5. Top Modern Hero Header

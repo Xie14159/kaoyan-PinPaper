@@ -1149,7 +1149,47 @@ with st.sidebar:
         except Exception:
             pass
 
-    # 数据只读保护横幅(DS 终审中危-2/终审2低危-D):加载失败/检测到损坏备份时,内存
+    # P0-4 统一判分入口：三处页面共用，只返回事实不碰 UI
+    def apply_grade(qid: str, ok: bool, src: str) -> dict:
+        """统一判分：pop _seen → 调 state_mgr → 返回事实 dict。
+        UI 反馈（flash/rerun/列表移除）由各页面包装函数处理。
+        src: "wrongbook" | "daily" | "review"
+        """
+        import time as _t_ag
+        _t0 = st.session_state.pop(f"_seen_{qid}", _t_ag.time())
+        rec = state_mgr.wrong_questions.get(qid)
+        was_due = _is_due_today(rec, state_mgr._today()) if rec else False
+        prev_next = rec.next_review_at if rec else None
+        facts = {"qid": qid, "ok": ok, "src": src, "was_due": was_due,
+                 "changed": False, "save_ok": True, "stage": None, "next": None}
+
+        if src == "daily":
+            # 每日错题：finish_daily_review 一次落盘（复习回写+今日已处理）
+            facts["save_ok"] = bool(state_mgr.finish_daily_review(qid, ok))
+            facts["changed"] = facts["save_ok"]
+        else:
+            # 错题本/复盘：record_review_result 或 increment_wrong_count
+            if ok:
+                r = state_mgr.record_review_result(qid, correct=True)
+                nxt = state_mgr.wrong_questions.get(qid)
+                facts["changed"] = (r is True) or (nxt is not None and nxt.next_review_at != prev_next)
+            else:
+                cnt = state_mgr.increment_wrong_count(qid)
+                nxt = state_mgr.wrong_questions.get(qid)
+                facts["changed"] = (cnt is not None and cnt >= 1) or (nxt is not None and nxt.next_review_at != prev_next)
+
+        rec2 = state_mgr.wrong_questions.get(qid)
+        facts["stage"] = getattr(rec2, "review_stage", None)
+        facts["next"] = getattr(rec2, "next_review_at", None)
+        facts["left"] = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions)) if (was_due and facts["changed"]) else None
+
+        # 统一日志（只此一处）
+        _log_usage(qid, "correct" if ok else "wrong", src,
+                   stage=facts["stage"],
+                   ms=int((_t_ag.time() - _t0) * 1000))
+        return facts
+
+
     # 状态不可信,所有写操作被 state_manager 拒绝;保存失败也记录 _last_save_error。
     # 两者都必须在 UI 顶部强提示用户,否则用户无感知地以为在正常刷题,实际进度
     # 不会保存(静默丢失红线)。
@@ -3145,62 +3185,24 @@ elif active_module == "📕 我的错题本":
                     st.caption("💡 生成约十几秒")
 
         def _do_wb_review(qid: str, correct: bool) -> None:
-            """做题模式复习回写：做对推进艾宾浩斯间隔；做错纳入复习（明天再练）。
-
-            与每日错题模块共用 record_review_result / increment_wrong_count，
-            保证两入口的 stage/next_review_at 语义一致。
-            反馈经 session_state 传递，fragment 重跑后消费显示（rerun 不丢 toast）。
-            """
-            import time as _t_rev
-            _t0 = st.session_state.pop(f"_seen_{qid}", _t_rev.time())
-            rec = state_mgr.wrong_questions.get(qid)
-            if rec is None:
-                st.session_state["wb_flash"] = ("warn", "记录不存在，请刷新页面后重试")
-                st.rerun(scope="fragment")
-                return
-            _td = state_mgr._today()
-            # 幂等判定用双保险：record_review_result/increment_wrong_count 真实执行返回 True/计数，
-            # 叠加 next_review_at 前后变化，任一命中即视为"状态真变更"。不依赖 last_reviewed_at
-            # 字符串守卫或单一返回值语义；右支（next 变化）为未来间隔表/返回值语义变化的兜底。
-            was_due = _is_due_today(rec, _td)
-            _prev_next = rec.next_review_at
-            def _due_left() -> int:
-                return state_mgr.get_due_wrong_count(valid_ids=_ids_of(_pic_all))
-            if correct:
-                _ok = state_mgr.record_review_result(qid, correct=True)
-                nxt = state_mgr.wrong_questions.get(qid)
-                _changed = _ok is True or (nxt is not None and nxt.next_review_at != _prev_next)
-                if was_due and _changed:
-                    _left = _due_left()
-                    st.session_state["wb_flash"] = ("ok", f"已完成，今日到期剩余 {_left} 题")
-                elif _changed:
-                    st.session_state["wb_flash"] = ("ok", f"已记录，下次复习：{nxt.next_review_at if nxt else '—'}")
+            """做题模式复习回写：调 apply_grade 统一判分，本函数只处理 UI 反馈。"""
+            f = apply_grade(qid, correct, "wrongbook")
+            if f["changed"]:
+                if f["was_due"] and f["left"] is not None:
+                    st.session_state["wb_flash"] = (
+                        "ok" if correct else "wrong",
+                        f"已完成，今日到期剩余 {f['left']} 题" if correct else f"已记录（明日再练），今日到期剩余 {f['left']} 题",
+                    )
                 else:
-                    st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
+                    st.session_state["wb_flash"] = (
+                        "ok" if correct else "wrong",
+                        f"已记录，下次复习：{f['next'] or '—'}" if correct else "已记录，明日再练",
+                    )
             else:
-                _cnt = state_mgr.increment_wrong_count(qid)
-                nxt = state_mgr.wrong_questions.get(qid)
-                _changed = (_cnt is not None and _cnt >= 1) or (nxt is not None and nxt.next_review_at != _prev_next)
-                if was_due and _changed:
-                    _left = _due_left()
-                    st.session_state["wb_flash"] = ("wrong", f"已记录（明日再练），今日到期剩余 {_left} 题")
-                elif _changed:
-                    st.session_state["wb_flash"] = ("wrong", "已记录，明日再练")
-                else:
-                    st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
-            # P1-7 使用日志
-            _rec_log = state_mgr.wrong_questions.get(qid)
-            _log_usage(qid, "correct" if correct else "wrong", "wrongbook",
-                       stage=getattr(_rec_log, "review_stage", None),
-                       ms=int((_t_rev.time() - _t0) * 1000))
-            # 富反馈：题号 + 结果 + 阶段 + 下次复习 + 今日剩余（toast 只有 2 秒，记不住）
-            _rec2 = state_mgr.wrong_questions.get(qid)
+                st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
             st.session_state["wb_feedback"] = {
-                "qid": qid,
-                "ok": bool(correct),
-                "stage": getattr(_rec2, "review_stage", None),
-                "next": getattr(_rec2, "next_review_at", None),
-                "left": (_due_left() if (was_due and _changed) else None),
+                "qid": qid, "ok": bool(correct), "stage": f["stage"],
+                "next": f["next"], "left": f["left"],
             }
             _rc = st.session_state.setdefault("wb_recent", [])
             _rc.append((qid, bool(correct)))
@@ -3713,13 +3715,9 @@ elif active_module == "📅 每日错题":
             # 防御：_q_by_id2 是 fragment 闭包捕获的静态题库快照（session 内题库不变），
             # 过滤掉快照中不存在的 id，避免"再开 11 道/切科目"等全量 rerun 路径引入新 id 时 KeyError。
             def _eb_finish(_qid: str, _ok: bool) -> None:
-                """on_click 回调：fragment rerun 前先落地状态+今日列表，本次渲染即移除（不用点两次）。
-                (流畅度优化)finish_daily_review 一次保存复习回写+今日已处理,点击一次只写一次盘;
-                (DS终审13高危-2)保存失败必须可见:不移除/不标记,提示重试,杜绝"UI显示已处理但磁盘未持久化"。"""
-                import time as _t_eb
-                _t0 = st.session_state.pop(f"_seen_{_qid}", _t_eb.time())
-                _ok1 = state_mgr.finish_daily_review(_qid, bool(_ok))
-                if not _ok1:
+                """on_click 回调：调 apply_grade 统一判分，本函数处理列表移除和错误反馈。"""
+                f = apply_grade(_qid, _ok, "daily")
+                if not f["save_ok"]:
                     st.session_state["_eb_save_error"] = f"保存失败：{_qid} 未记录，请检查磁盘/权限后重试"
                     return
                 _eb_lst = list(st.session_state.get(_eb_list_key, ()))
@@ -3729,10 +3727,6 @@ elif active_module == "📅 每日错题":
                 _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
                 _eb_pl.add(_qid)
                 st.session_state[_eb_processed_key] = list(_eb_pl)
-                _rec_l = state_mgr.wrong_questions.get(_qid)
-                _log_usage(_qid, "correct" if _ok else "wrong", "daily",
-                           stage=getattr(_rec_l, "review_stage", None),
-                           ms=int((_t_eb.time() - _t0) * 1000))
 
             def _eb_skip(_qid: str) -> None:
                 """没做：今天不再推，明天继续推。
@@ -4306,36 +4300,24 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             st.caption(f"{_rv_scope_label}剩余：**{_lz_now}** 道真题 / **{_lo_now}** 道其它书（实时）")
 
             def _rv_grade(_qid, _ok: bool) -> None:
-                import time as _t_rv
-                _t0 = st.session_state.pop(f"_seen_{_qid}", _t_rv.time())
-                _rec = state_mgr.wrong_questions.get(_qid)
-                _was_due = _is_due_today(_rec, state_mgr._today()) if _rec else False
-                if _ok:
-                    _changed = state_mgr.record_review_result(_qid, correct=True)
-                    _left = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions))  # 不依赖侧栏的 _pic_all，fragment 单独降级也安全
-                    if _changed:
+                f = apply_grade(_qid, _ok, "review")
+                if f["changed"]:
+                    if f["was_due"] and f["left"] is not None:
                         st.session_state["rv_flash"] = (
-                            "ok",
-                            f"已完成，今日到期剩余 {_left} 题" if _was_due else "已记录，复习间隔已推进",
+                            "ok" if _ok else "wrong",
+                            f"已完成，今日到期剩余 {f['left']} 题" if _ok else "已记录（明日再练），复习阶段已回退",
                         )
                     else:
-                        st.session_state["rv_flash"] = ("ok", "今日已记录过此题，未重复计入")
+                        st.session_state["rv_flash"] = (
+                            "ok" if _ok else "wrong",
+                            "已记录，复习间隔已推进" if _ok else "已记录（明日再练），复习阶段已回退",
+                        )
                 else:
-                    _before = _rec.wrong_count if _rec else 0
-                    _cnt = state_mgr.increment_wrong_count(_qid)
-                    if (_cnt or 0) > _before:
-                        st.session_state["rv_flash"] = ("wrong", "已记录（明日再练），复习阶段已回退")
-                    else:
-                        st.session_state["rv_flash"] = ("wrong", "今日已记录过此题，未重复计入")
-                # 判完先留在原地，标为已处理；点「🔄 刷新错题」才正式撤下换新题
+                    st.session_state["rv_flash"] = ("ok", "今日已记录过此题，未重复计入")
                 st.session_state.setdefault("rv_graded", {})[_qid] = {
                     "result": "ok" if _ok else "wrong",
                     "date": state_mgr._today().isoformat(),
                 }
-                _rec_r = state_mgr.wrong_questions.get(_qid)
-                _log_usage(_qid, "correct" if _ok else "wrong", "review",
-                           stage=getattr(_rec_r, "review_stage", None),
-                           ms=int((_t_rv.time() - _t0) * 1000))
                 _d, _g = _rv_save()
                 if _d is not None:
                     try:

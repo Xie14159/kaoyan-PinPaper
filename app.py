@@ -1158,7 +1158,11 @@ with st.sidebar:
         import time as _t_ag
         _t0 = st.session_state.pop(f"_seen_{qid}", _t_ag.time())
         rec = state_mgr.wrong_questions.get(qid)
-        was_due = _is_due_today(rec, state_mgr._today()) if rec else False
+        if rec is None:
+            _log_usage(qid, "missing", src, stage=None, ms=int((_t_ag.time() - _t0) * 1000))
+            return {"qid": qid, "ok": ok, "src": src, "was_due": False,
+                    "changed": False, "save_ok": False, "stage": None, "next": None, "left": None}
+        was_due = _is_due_today(rec, state_mgr._today())
         prev_next = rec.next_review_at if rec else None
         facts = {"qid": qid, "ok": ok, "src": src, "was_due": was_due,
                  "changed": False, "save_ok": True, "stage": None, "next": None}
@@ -4946,7 +4950,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                             _skipped += 1
                             continue
                         try:
-                            state_mgr.record_review_result(_qid, correct=_correct)
+                            apply_grade(_qid, _correct, "exam")
                         except Exception as _e:
                             st.warning(f"回写 {_qid} 失败: {_e}")
                     if _skipped:

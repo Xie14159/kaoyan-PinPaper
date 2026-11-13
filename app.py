@@ -4533,27 +4533,35 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     st.warning(f"历史记录保存失败: {_e}")
 
             def _exam_gen_paper():
-                """从active pool按题型抽题：选择10+填空6+解答6，按wrong_count降序。"""
+                """按数二真题分布抽题：选择(7高数+3线代)+填空(5高数+1线代)+解答(5高数+1线代)，按wrong_count降序。"""
                 pool = [
                     (qid, rec) for qid, rec in state_mgr.wrong_questions.items()
                     if rec.is_active_in_pool and rec.wrong_count > 0 and qid in _q_by_id3
                 ]
-                by_type = {QuestionType.CHOICE: [], QuestionType.FILL_BLANK: [], QuestionType.SOLUTION: []}
+                buckets = {}
                 for qid, rec in pool:
                     q = _q_by_id3[qid]
-                    if q.question_type in by_type:
-                        by_type[q.question_type].append((qid, rec.wrong_count))
-                for t in by_type:
-                    by_type[t].sort(key=lambda x: -x[1])
+                    cat = q.category if hasattr(q, "category") else ChapterCategory.ADVANCED_MATH
+                    subj = "math" if cat == ChapterCategory.ADVANCED_MATH else ("linalg" if cat == ChapterCategory.LINEAR_ALGEBRA else "other")
+                    key = (q.question_type, subj)
+                    buckets.setdefault(key, []).append((qid, rec.wrong_count))
+                for k in buckets:
+                    buckets[k].sort(key=lambda x: -x[1])
+                quota = [
+                    (QuestionType.CHOICE, "math", 7),
+                    (QuestionType.CHOICE, "linalg", 3),
+                    (QuestionType.FILL_BLANK, "math", 5),
+                    (QuestionType.FILL_BLANK, "linalg", 1),
+                    (QuestionType.SOLUTION, "math", 5),
+                    (QuestionType.SOLUTION, "linalg", 1),
+                ]
                 picked = []
-                picked.extend([q for q, _ in by_type[QuestionType.CHOICE][:10]])
-                picked.extend([q for q, _ in by_type[QuestionType.FILL_BLANK][:6]])
-                picked.extend([q for q, _ in by_type[QuestionType.SOLUTION][:6]])
-                return picked, {
-                    "选择": len(by_type[QuestionType.CHOICE]),
-                    "填空": len(by_type[QuestionType.FILL_BLANK]),
-                    "解答": len(by_type[QuestionType.SOLUTION]),
-                }
+                avail = {}
+                for qt, subj, n in quota:
+                    lst = buckets.get((qt, subj), [])
+                    avail[f"{qt.value}_{subj}"] = len(lst)
+                    picked.extend([q for q, _ in lst[:n]])
+                return picked, avail
 
             def _exam_normalize_choice(s):
                 """选择题答案归一化：取首字母A/B/C/D。"""
@@ -4580,9 +4588,16 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 st.markdown("#### 错题拼卷 · 限时成套模拟")
                 st.caption("从错题池抽题组成150分模拟卷，180分钟限时，交卷后自动判分并回写记忆曲线。本卷为错题重组卷，分数仅反映错题掌握情况，非模考分。")
                 _picked, _avail = _exam_gen_paper()
-                _need = {"选择": 10, "填空": 6, "解答": 6}
-                _short = [f"{t}缺{_need[t]-min(_avail[t],_need[t])}" for t in _need if _avail[t] < _need[t]]
-                st.info(f"当前错题池可用：选择 {_avail['选择']} · 填空 {_avail['填空']} · 解答 {_avail['解答']}（计划抽 {_need['选择']}/{_need['填空']}/{_need['解答']}）" + (f"；⚠️ {', '.join(_short)}，不足部分将以实际数量组卷" if _short else ""))
+                _cm = _avail.get("选择_math", 0)
+                _cl = _avail.get("选择_linalg", 0)
+                _fm = _avail.get("填空_math", 0)
+                _fl = _avail.get("填空_linalg", 0)
+                _sm = _avail.get("解答_math", 0)
+                _sl = _avail.get("解答_linalg", 0)
+                st.info(
+                    f"按数二真题分布组卷：选择(高数7+线代3)、填空(高数5+线代1)、解答(高数5+线代1)\n\n"
+                    f"当前可用：选择 高数{_cm}/线代{_cl} · 填空 高数{_fm}/线代{_fl} · 解答 高数{_sm}/线代{_sl}"
+                )
                 if st.button("📝 开始拼卷（180分钟限时）", type="primary", use_container_width=True):
                     if len(_picked) < 3:
                         st.error("错题池题目太少，无法组卷。")

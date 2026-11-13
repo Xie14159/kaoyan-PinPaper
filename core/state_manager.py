@@ -1322,28 +1322,37 @@ class StateManager:
         rec = self.wrong_questions.get(question_id)
         if rec:
             import copy as _c, time as _t
+            today_s = self._today().isoformat()
             st_state = self._get_streamlit_state()
             st_state["_undo_last"] = {
                 "qid": question_id,
                 "rec": _c.deepcopy(rec),
+                "today_s": today_s,
+                "was_processed": question_id in set(self._processed_daily.get(today_s, [])),
                 "ts": _t.time(),
             }
 
     def undo_last_grade(self) -> bool:
-        """撤销最近一次判分。"""
+        """撤销最近一次判分。恢复wrong_questions记录+从今日已处理集合移除qid。"""
         st_state = self._get_streamlit_state()
         undo = st_state.pop("_undo_last", None)
         if not undo:
             return False
         qid = undo["qid"]
         old_rec = undo["rec"]
-        _pre = self.wrong_questions.get(qid)
+        today_s = undo.get("today_s", self._today().isoformat())
+        was_processed = undo.get("was_processed", False)
+        # 1) 恢复错题记录
         self.wrong_questions[qid] = old_rec
-        if not self.save_state():
-            if _pre is not None:
-                self.wrong_questions[qid] = _pre
-            else:
-                self.wrong_questions.pop(qid, None)
+        # 2) 精确回滚今日已处理集合：只移除当前qid，不影响其他题
+        if was_processed:
+            lst = self._processed_daily.get(today_s)
+            if lst and qid in lst:
+                lst.remove(qid)
+        # 3) 持久化
+        try:
+            self.save_state()
+        except Exception:
             return False
         return True
 

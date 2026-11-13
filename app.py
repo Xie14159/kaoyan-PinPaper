@@ -3509,6 +3509,16 @@ elif active_module == "📅 每日错题":
     # 清理旧版无日期后缀的 key(升级兼容,避免 session 残留)(DS终审14建议)
     st.session_state.pop(f"eb_processed_{current_subject.value}", None)
     _eb_processed = set(state_mgr.get_processed_today()) | set(st.session_state.get(_eb_processed_key, ()))  # 持久化(刷新不失效) + 会话级
+
+    def _cb_undo_grade():
+        """撤销判分：恢复state_mgr状态 + 清理session临时processed list"""
+        _undo_qid = st.session_state.get("_undo_last", {}).get("qid")
+        state_mgr.undo_last_grade()
+        if _undo_qid:
+            _pl = st.session_state.get(_eb_processed_key, [])
+            if _undo_qid in _pl:
+                _pl.remove(_undo_qid)
+                st.session_state[_eb_processed_key] = _pl
     # 今日安排持久化：每天首次进入自动选一批并记录；刷新后恢复同一份安排（减去已处理），不再自动生成新题
     # 考点覆盖：qid -> 章节 映射，选题按章节轮转，11 道尽量覆盖不同考点
     # 考点覆盖：qid -> 章节 映射（无 chapter 的题回退到 qid 前缀作伪章节，防止全部落入空桶稀释覆盖）
@@ -3761,7 +3771,7 @@ elif active_module == "📅 每日错题":
                     if _undo_info and _undo_info.get("qid") == _qid2 and state_mgr.has_undo():
                         st.button("↩️ 撤销上次判分（30秒内）", key=f"eb_undo_{_qid2}",
                                   help="回退到判分前状态", use_container_width=True,
-                                  on_click=lambda: state_mgr.undo_last_grade())
+                                  on_click=_cb_undo_grade)
 
                     _etags = list(state_mgr.TAG_PRIORITY.keys())
                     _etk = f"ebtag_{current_subject.value}_{_qid2}"

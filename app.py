@@ -3330,12 +3330,6 @@ elif active_module == "📕 我的错题本":
                             with b4:
                                 st.button("🗑️ 删除", key=f"wb_del_{q.id}", use_container_width=True,
                                           help="彻底从错题记录中移除", on_click=cb_remove_wrong, args=(q.id,))
-                    # 撤销按钮：只在刚判分的这道题卡片里显示
-                    _undo_info = st.session_state.get("_undo_last")
-                    if _undo_info and _undo_info.get("qid") == q.id and state_mgr.has_undo():
-                        st.button("↩️ 撤销上次判分（30秒内）", key=f"wb_undo_{q.id}",
-                                  help="回退到判分前状态", use_container_width=True,
-                                  on_click=lambda: state_mgr.undo_last_grade())
                     elif stt == "history":
                         with b1:
                             st.button("🎯 放回待练", key=f"wb_react_{q.id}", type="primary", use_container_width=True,
@@ -3596,15 +3590,6 @@ elif active_module == "📅 每日错题":
     st.session_state.pop(f"eb_processed_{current_subject.value}", None)
     _eb_processed = set(state_mgr.get_processed_today()) | set(st.session_state.get(_eb_processed_key, ()))  # 持久化(刷新不失效) + 会话级
 
-    def _cb_undo_grade():
-        """撤销判分：恢复state_mgr状态 + 清理session临时processed list"""
-        _undo_qid = st.session_state.get("_undo_last", {}).get("qid")
-        state_mgr.undo_last_grade()
-        if _undo_qid:
-            _pl = st.session_state.get(_eb_processed_key, [])
-            if _undo_qid in _pl:
-                _pl.remove(_undo_qid)
-                st.session_state[_eb_processed_key] = _pl
     # 今日安排持久化：每天首次进入自动选一批并记录；刷新后恢复同一份安排（减去已处理），不再自动生成新题
     # 考点覆盖：qid -> 章节 映射，选题按章节轮转，11 道尽量覆盖不同考点
     # 考点覆盖：qid -> 章节 映射（无 chapter 的题回退到 qid 前缀作伪章节，防止全部落入空桶稀释覆盖）
@@ -3852,12 +3837,6 @@ elif active_module == "📅 每日错题":
                         st.button("🏆 已掌握", key=f"eb_arch_{_qid2}", use_container_width=True,
                                   help="已完全掌握，移入历史错题，不再每日推送",
                                   on_click=cb_archive_to_history, args=(_qid2,))
-                    # 撤销按钮：只在刚判分的这道题卡片里显示
-                    _undo_info = st.session_state.get("_undo_last")
-                    if _undo_info and _undo_info.get("qid") == _qid2 and state_mgr.has_undo():
-                        st.button("↩️ 撤销上次判分（30秒内）", key=f"eb_undo_{_qid2}",
-                                  help="回退到判分前状态", use_container_width=True,
-                                  on_click=_cb_undo_grade)
 
                     _etags = list(state_mgr.TAG_PRIORITY.keys())
                     _etk = f"ebtag_{current_subject.value}_{_qid2}"
@@ -4408,13 +4387,6 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                             st.button("🏆 已掌握", key=f"rv_arch_{_qid}", use_container_width=True,
                                       help="已完全掌握，移入历史错题",
                                       on_click=cb_archive_to_history, args=(_qid,))
-                    # 撤销上次判分（只在刚判分的这道题卡片显示）
-                    _undo_info = st.session_state.get("_undo_last")
-                    if _undo_info and _undo_info.get("qid") == _qid and state_mgr.has_undo():
-                        st.button("↩️ 撤销上次判分（30秒内）", key=f"rv_undo_{_qid}",
-                                  help="回退到判分前状态",
-                                  on_click=lambda: state_mgr.undo_last_grade(),
-                                  type="secondary")
 
                         _rtags = list(state_mgr.TAG_PRIORITY.keys())
                         _rtk = f"rvtag_{current_subject.value}_{_qid}"

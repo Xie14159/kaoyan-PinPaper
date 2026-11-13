@@ -1236,7 +1236,6 @@ class StateManager:
         _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool,
                  rec.last_reviewed_at, rec.next_review_at)
         _pd_snap = {k: list(v) for k, v in self._processed_daily.items()}
-        self.snapshot_before_grade(question_id)
         # —— 复习回写内存逻辑（不落盘，与 record_review_result 保持一致）——
         rec.last_reviewed_at = today_s
         if correct:
@@ -1315,55 +1314,6 @@ class StateManager:
             logger.error("skip_daily_review 保存失败(已整体回滚): %s", question_id)
             return False
         return True
-
-    # ---- 栈式撤销（判分误操作可回退最近一次）----
-    def snapshot_before_grade(self, question_id: str) -> None:
-        """判分前调用，把该题记录深拷贝存到session层（带时间戳，30秒内可撤销）。"""
-        rec = self.wrong_questions.get(question_id)
-        if rec:
-            import copy as _c, time as _t
-            today_s = self._today().isoformat()
-            st_state = self._get_streamlit_state()
-            st_state["_undo_last"] = {
-                "qid": question_id,
-                "rec": _c.deepcopy(rec),
-                "today_s": today_s,
-                "was_processed": question_id in set(self._processed_daily.get(today_s, [])),
-                "ts": _t.time(),
-            }
-
-    def undo_last_grade(self) -> bool:
-        """撤销最近一次判分。恢复wrong_questions记录+从今日已处理集合移除qid。"""
-        st_state = self._get_streamlit_state()
-        undo = st_state.pop("_undo_last", None)
-        if not undo:
-            return False
-        qid = undo["qid"]
-        old_rec = undo["rec"]
-        today_s = undo.get("today_s", self._today().isoformat())
-        was_processed = undo.get("was_processed", False)
-        # 1) 恢复错题记录
-        self.wrong_questions[qid] = old_rec
-        # 2) 精确回滚今日已处理集合：只移除当前qid，不影响其他题
-        if was_processed:
-            lst = self._processed_daily.get(today_s)
-            if lst and qid in lst:
-                lst.remove(qid)
-        # 3) 持久化
-        try:
-            self.save_state()
-        except Exception:
-            return False
-        return True
-
-    def has_undo(self, window_sec: float = 30.0) -> bool:
-        """30秒内可撤销。"""
-        import time as _t
-        st_state = self._get_streamlit_state()
-        undo = st_state.get("_undo_last")
-        if not undo:
-            return False
-        return (_t.time() - undo.get("ts", 0)) <= window_sec
 
     @staticmethod
     def _get_streamlit_state():

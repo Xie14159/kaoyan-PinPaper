@@ -3152,7 +3152,7 @@ elif active_module == "📕 我的错题本":
             反馈经 session_state 传递，fragment 重跑后消费显示（rerun 不丢 toast）。
             """
             import time as _t_rev
-            _t0 = st.session_state.pop(f"_seen_{qid}", _t_rev.time())
+            _t0 = st.session_state.setdefault(f"_seen_{qid}", _t_rev.time())
             rec = state_mgr.wrong_questions.get(qid)
             if rec is None:
                 st.session_state["wb_flash"] = ("warn", "记录不存在，请刷新页面后重试")
@@ -3550,11 +3550,13 @@ elif active_module == "📈 全科考点雷达":
 elif active_module == "📅 每日错题":
     st.markdown("### 📅 每日错题 · 艾宾浩斯抗遗忘")
     st.caption("到期优先、逾期越久越靠前；做对间隔翻倍、做错隔天回炉。")
-    # P1-8 配额与剩余天数挂钩（纯显示）
+    _q_by_id2 = {q.id: q for q in raw_questions}  # 全量题库(含真题):每日错题需展示跨书籍的真题错题,不能用当前书籍过滤后的 all_questions
+    # P1-8 配额与剩余天数挂钩（纯显示，active_count 与题库求交）
     from datetime import date as _date_p18
     _EXAM_DATE = _date_p18(2026, 12, 19)
     _days_left = (_EXAM_DATE - _date_p18.today()).days
-    _active_count = len([q for q in state_mgr.wrong_questions if state_mgr.is_in_active_pool(q)])
+    _valid_ids = set(_q_by_id2.keys())
+    _active_count = len([q for q in state_mgr.wrong_questions if q in _valid_ids and state_mgr.is_in_active_pool(q)])
     _EB_DAILY = 11  # 每日安排道数（2026-10-27 用户定为 11 道）
     if _days_left <= 0:
         st.markdown(
@@ -3577,7 +3579,6 @@ elif active_module == "📅 每日错题":
             unsafe_allow_html=True,
         )
     st.markdown("---")
-    _q_by_id2 = {q.id: q for q in raw_questions}  # 全量题库(含真题):每日错题需展示跨书籍的真题错题,不能用当前书籍过滤后的 all_questions
     _eb_list_key = f"eb_list_{current_subject.value}"
     # 今日已处理集合（做对/又错/没做都计入）：防止重新 select 或"再开 11 道"把当天已处理题拉回
     # (DS终审13高危-3)key 带日期后缀:session_state 里的 processed 不得跨天累积,
@@ -3716,7 +3717,7 @@ elif active_module == "📅 每日错题":
                 (流畅度优化)finish_daily_review 一次保存复习回写+今日已处理,点击一次只写一次盘;
                 (DS终审13高危-2)保存失败必须可见:不移除/不标记,提示重试,杜绝"UI显示已处理但磁盘未持久化"。"""
                 import time as _t_eb
-                _t0 = st.session_state.pop(f"_seen_{_qid}", _t_eb.time())
+                _t0 = st.session_state.setdefault(f"_seen_{_qid}", _t_eb.time())
                 _ok1 = state_mgr.finish_daily_review(_qid, bool(_ok))
                 if not _ok1:
                     st.session_state["_eb_save_error"] = f"保存失败：{_qid} 未记录，请检查磁盘/权限后重试"
@@ -4306,7 +4307,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
             def _rv_grade(_qid, _ok: bool) -> None:
                 import time as _t_rv
-                _t0 = st.session_state.pop(f"_seen_{_qid}", _t_rv.time())
+                _t0 = st.session_state.setdefault(f"_seen_{_qid}", _t_rv.time())
                 _rec = state_mgr.wrong_questions.get(_qid)
                 _was_due = _is_due_today(_rec, state_mgr._today()) if _rec else False
                 if _ok:

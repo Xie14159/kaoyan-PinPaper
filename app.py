@@ -3916,7 +3916,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         # 视图切换：按章节（默认） vs 按最近真题 vs 到期真题 vs 重点错题 vs 错题拼卷
         _rv_view = st.radio(
             "复盘视图",
-            ["按章节", "按最近真题", "到期真题", "重点错题", "🎯 错题拼卷"],
+            ["按章节", "按最近真题", "到期真题", "重点错题", "错题拼卷"],
             horizontal=True,
             key=f"rv_view_{current_subject.value}",
             label_visibility="collapsed",
@@ -4509,7 +4509,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                             st.caption(f"共 {len(_rv_groups)} 个方法簇；一簇一类方法，做完一簇再换下一簇。")
 
         # ---- 🎯 错题拼卷：成套模拟 + 限时 + 出分 + 回写记忆曲线 ----
-        if _rv_view == "🎯 错题拼卷":
+        if _rv_view == "错题拼卷":
             import time as _time_exam
             import json as _json_exam
             from datetime import datetime as _dt_exam
@@ -4577,7 +4577,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
             # ---- 待机界面 ----
             if _exam_phase == "idle":
-                st.markdown("#### 🎯 错题拼卷 · 限时成套模拟")
+                st.markdown("#### 错题拼卷 · 限时成套模拟")
                 st.caption("从错题池抽题组成150分模拟卷，180分钟限时，交卷后自动判分并回写记忆曲线。本卷为错题重组卷，分数仅反映错题掌握情况，非模考分。")
                 _picked, _avail = _exam_gen_paper()
                 _need = {"选择": 10, "填空": 6, "解答": 6}

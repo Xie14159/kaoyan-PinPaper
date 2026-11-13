@@ -3152,7 +3152,7 @@ elif active_module == "📕 我的错题本":
             反馈经 session_state 传递，fragment 重跑后消费显示（rerun 不丢 toast）。
             """
             import time as _t_rev
-            _t0 = _t_rev.time()
+            _t0 = st.session_state.pop(f"_seen_{qid}", _t_rev.time())
             rec = state_mgr.wrong_questions.get(qid)
             if rec is None:
                 st.session_state["wb_flash"] = ("warn", "记录不存在，请刷新页面后重试")
@@ -3307,6 +3307,8 @@ elif active_module == "📕 我的错题本":
                         if _h880:
                             st.caption(_h880)
                     b1, b2, b3, b4 = st.columns(4)
+                    import time as _t_wb_render
+                    st.session_state[f"_seen_{q.id}"] = _t_wb_render.time()
                     if stt in ("active", "stubborn"):
                             with b1:
                                 if st.button("✅ 做对", type="primary", key=f"wb_ok_{q.id}", use_container_width=True,
@@ -3551,21 +3553,29 @@ elif active_module == "📅 每日错题":
     # P1-8 配额与剩余天数挂钩（纯显示）
     from datetime import date as _date_p18
     _EXAM_DATE = _date_p18(2026, 12, 19)
-    _days_left = max(1, (_EXAM_DATE - _date_p18.today()).days)
+    _days_left = (_EXAM_DATE - _date_p18.today()).days
     _active_count = len([q for q in state_mgr.wrong_questions if state_mgr.is_in_active_pool(q)])
     _EB_DAILY = 11  # 每日安排道数（2026-10-27 用户定为 11 道）
-    _daily_needed = _active_count / _days_left
-    _need_red = _daily_needed > _EB_DAILY
-    _need_color = "#ef4444" if _need_red else ("#f59e0b" if _daily_needed > _EB_DAILY * 0.7 else "#10b981")
-    st.markdown(
-        f'<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;'
-        f'padding:8px 14px;margin:4px 0 10px 0;font-size:13px;color:#475569;">'
-        f'📅 距初试 <b>{_days_left}</b> 天 · 待复习 <b>{_active_count}</b> 道 · '
-        f'日均需练 <b>{_daily_needed:.1f}</b> 道/天（配额 {_EB_DAILY}）'
-        f'<span style="color:{_need_color};font-weight:600;">{" ⚠️ 超配额" if _need_red else ""}</span>'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
+    if _days_left <= 0:
+        st.markdown(
+            f'<div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;'
+            f'padding:8px 14px;margin:4px 0 10px 0;font-size:13px;color:#92400e;">'
+            f'📅 初试已结束（{_EXAM_DATE.isoformat()}）</div>',
+            unsafe_allow_html=True,
+        )
+    else:
+        _daily_needed = _active_count / _days_left
+        _need_red = _daily_needed > _EB_DAILY
+        _need_color = "#ef4444" if _need_red else ("#f59e0b" if _daily_needed > _EB_DAILY * 0.7 else "#10b981")
+        st.markdown(
+            f'<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;'
+            f'padding:8px 14px;margin:4px 0 10px 0;font-size:13px;color:#475569;">'
+            f'📅 距初试 <b>{_days_left}</b> 天 · 待复习 <b>{_active_count}</b> 道 · '
+            f'日均需练 <b>{_daily_needed:.1f}</b> 道/天（配额 {_EB_DAILY}）'
+            f'<span style="color:{_need_color};font-weight:600;">{" ⚠️ 超配额" if _need_red else ""}</span>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
     st.markdown("---")
     _q_by_id2 = {q.id: q for q in raw_questions}  # 全量题库(含真题):每日错题需展示跨书籍的真题错题,不能用当前书籍过滤后的 all_questions
     _eb_list_key = f"eb_list_{current_subject.value}"
@@ -3706,7 +3716,7 @@ elif active_module == "📅 每日错题":
                 (流畅度优化)finish_daily_review 一次保存复习回写+今日已处理,点击一次只写一次盘;
                 (DS终审13高危-2)保存失败必须可见:不移除/不标记,提示重试,杜绝"UI显示已处理但磁盘未持久化"。"""
                 import time as _t_eb
-                _t0 = _t_eb.time()
+                _t0 = st.session_state.pop(f"_seen_{_qid}", _t_eb.time())
                 _ok1 = state_mgr.finish_daily_review(_qid, bool(_ok))
                 if not _ok1:
                     st.session_state["_eb_save_error"] = f"保存失败：{_qid} 未记录，请检查磁盘/权限后重试"
@@ -3827,6 +3837,8 @@ elif active_module == "📅 每日错题":
                         with st.expander("📖 查看详细解析", expanded=False):
                             st.caption("（暂无解析，下载详细解析版 PDF 时由 AI 名师补全）")
                     _ec1, _ec2, _ec3, _ec4 = st.columns(4)
+                    import time as _t_eb_render
+                    st.session_state[f"_seen_{_qid2}"] = _t_eb_render.time()
                     with _ec1:
                         st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True,
                                   on_click=_eb_finish, args=(_qid2, True))
@@ -4294,7 +4306,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
             def _rv_grade(_qid, _ok: bool) -> None:
                 import time as _t_rv
-                _t0 = _t_rv.time()
+                _t0 = st.session_state.pop(f"_seen_{_qid}", _t_rv.time())
                 _rec = state_mgr.wrong_questions.get(_qid)
                 _was_due = _is_due_today(_rec, state_mgr._today()) if _rec else False
                 if _ok:
@@ -4397,6 +4409,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                             st.markdown(f"**【详细解析】**：\n{_q3.solution}")
                     if not _graded:
                         _rbc1, _rbc2, _rbc3 = st.columns(3)
+                        import time as _t_rv_render
+                        st.session_state[f"_seen_{_qid}"] = _t_rv_render.time()
                         with _rbc1:
                             st.button("✅ 做对了", key=f"rv_ok_{_qid}", use_container_width=True,
                                       on_click=_rv_grade, args=(_qid, True))

@@ -1119,6 +1119,20 @@ with st.sidebar:
         import logging as _lg
         _lg.getLogger("pinpaper.app").warning("proof_ids 注入失败: %s", _e)
 
+    # P1-7 使用日志：每次判分追加一行 logs/usage.jsonl（只记不改，失败静默）
+    def _log_usage(qid: str, kind: str, src: str, stage=None):
+        try:
+            import json as _ju, time as _tu
+            os.makedirs("logs", exist_ok=True)
+            rec = {"ts": _tu.strftime("%Y-%m-%dT%H:%M:%S"), "qid": qid,
+                   "kind": kind, "src": src}
+            if stage is not None:
+                rec["stage"] = stage
+            with open(os.path.join("logs", "usage.jsonl"), "a", encoding="utf-8") as _f:
+                _f.write(_ju.dumps(rec, ensure_ascii=False) + "\n")
+        except Exception:
+            pass
+
     # 数据只读保护横幅(DS 终审中危-2/终审2低危-D):加载失败/检测到损坏备份时,内存
     # 状态不可信,所有写操作被 state_manager 拒绝;保存失败也记录 _last_save_error。
     # 两者都必须在 UI 顶部强提示用户,否则用户无感知地以为在正常刷题,实际进度
@@ -3141,6 +3155,10 @@ elif active_module == "📕 我的错题本":
                     st.session_state["wb_flash"] = ("wrong", "已记录，明日再练")
                 else:
                     st.session_state["wb_flash"] = ("info", "今日已记录过此题，未重复计入")
+            # P1-7 使用日志
+            _rec_log = state_mgr.wrong_questions.get(qid)
+            _log_usage(qid, "correct" if correct else "wrong", "wrongbook",
+                       stage=getattr(_rec_log, "review_stage", None))
             # 富反馈：题号 + 结果 + 阶段 + 下次复习 + 今日剩余（toast 只有 2 秒，记不住）
             _rec2 = state_mgr.wrong_questions.get(qid)
             st.session_state["wb_feedback"] = {
@@ -3647,6 +3665,9 @@ elif active_module == "📅 每日错题":
                 _eb_pl = set(st.session_state.get(_eb_processed_key, ()))
                 _eb_pl.add(_qid)
                 st.session_state[_eb_processed_key] = list(_eb_pl)
+                _rec_l = state_mgr.wrong_questions.get(_qid)
+                _log_usage(_qid, "correct" if _ok else "wrong", "daily",
+                           stage=getattr(_rec_l, "review_stage", None))
 
             def _eb_skip(_qid: str) -> None:
                 """没做：今天不再推，明天继续推。
@@ -4242,6 +4263,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     "result": "ok" if _ok else "wrong",
                     "date": state_mgr._today().isoformat(),
                 }
+                _rec_r = state_mgr.wrong_questions.get(_qid)
+                _log_usage(_qid, "correct" if _ok else "wrong", "review",
+                           stage=getattr(_rec_r, "review_stage", None))
                 _d, _g = _rv_save()
                 if _d is not None:
                     try:

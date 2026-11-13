@@ -683,8 +683,8 @@ table th {
             cat_cn = cat_names.get(cat, "其他")
             t_title = type_titles.get(q.question_type, "题目")
             if prev_cat is not None and cat != prev_cat:
-                # 学科块间强制分页（CL 评审：便于按科目剪裁打印）
-                blocks.append('<div style="page-break-before: always; height: 0;"></div>')
+                # 学科块间不强制分页，自然流动省纸
+                pass
             if cat != prev_cat:
                 blocks.append(f'<div class="section-title">{html.escape(cat_cn)} · {t_title}（{len([x for x in paper.questions if getattr(x,"category",None)==cat and x.question_type==q.question_type])} 题）</div>')
                 prev_type = q.question_type
@@ -795,13 +795,12 @@ body {{
     page-break-after: avoid;
 }}
 .q-card {{
-    break-inside: avoid;
     margin-bottom: 2px;
     padding: 1px 0;
     border-bottom: 0.5px solid #e2e8f0;
 }}
-.q-card-solution {{ break-inside: auto; }}
-.q-block {{ break-inside: avoid; }}
+.q-card-solution {{ }}
+.q-block {{ }}
 .q-head {{
     display: flex;
     justify-content: space-between;

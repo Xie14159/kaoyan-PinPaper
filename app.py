@@ -2889,6 +2889,11 @@ elif active_module == "📕 我的错题本":
     if not wb_all:
         st.info("还没有标记任何错题。去『🏷️ 题库逐题标错』把做错的题录进来，这里就能看到全科错题清单。")
     else:
+        # 撤销上次判分（30秒内）
+        if state_mgr.has_undo():
+            st.button("↩️ 撤销上次判分（30秒内）", key=f"wb_undo_{current_subject.value}",
+                      help="回退到判分前状态", use_container_width=True,
+                      on_click=lambda: state_mgr.undo_last_grade())
         # 导出错题本备份
         st.download_button(
             "📥 导出错题本备份 (JSON)",
@@ -3646,6 +3651,10 @@ elif active_module == "📅 每日错题":
                 st.info(f"今日安排已清空 🎉 点上方『再开 {_EB_DAILY} 道』可继续加练；今天处理过的错题明天会自动排进复习队列。")
                 return
             st.caption(f"今日安排 {len(_ids)} 道：到期优先、逾期越久越靠前。")
+            if state_mgr.has_undo():
+                st.button("↩️ 撤销上次判分（30秒内）", key="eb_undo",
+                          help="回退到判分前状态", use_container_width=True,
+                          on_click=lambda: state_mgr.undo_last_grade())
             # ---- 分页(前端渲染量优化,DS/Claude性能审查首选): 每页12道,页码按钮仅触发fragment rerun ----
             # 专项日(如36道真题)不再一次性渲染全部卡片,避免 KaTeX+DOM 重建导致的卡顿;
             # 同一页面同一批次,不违背"一次看到36道"需求;页码状态存 session_state,跨rerun稳定。

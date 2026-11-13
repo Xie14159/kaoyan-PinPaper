@@ -313,6 +313,7 @@ class StateManager:
             try:
                 self.data_file.parent.mkdir(parents=True, exist_ok=True)
                 payload = {
+                    "_schema": 2,
                     "username": self.username,
                     "subject": self.subject,
                     "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),

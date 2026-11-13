@@ -792,9 +792,9 @@ body {{
     margin: 3px 0 2px 0;
     padding-bottom: 1px;
     border-bottom: 1px solid #cbd5e1;
-    page-break-after: avoid;
 }}
 .q-card {{
+    break-inside: auto;
     margin-bottom: 2px;
     padding: 1px 0;
     border-bottom: 0.5px solid #e2e8f0;

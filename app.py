@@ -3152,7 +3152,7 @@ elif active_module == "📕 我的错题本":
             反馈经 session_state 传递，fragment 重跑后消费显示（rerun 不丢 toast）。
             """
             import time as _t_rev
-            _t0 = st.session_state.setdefault(f"_seen_{qid}", _t_rev.time())
+            _t0 = st.session_state.pop(f"_seen_{qid}", _t_rev.time())
             rec = state_mgr.wrong_questions.get(qid)
             if rec is None:
                 st.session_state["wb_flash"] = ("warn", "记录不存在，请刷新页面后重试")
@@ -3308,7 +3308,7 @@ elif active_module == "📕 我的错题本":
                             st.caption(_h880)
                     b1, b2, b3, b4 = st.columns(4)
                     import time as _t_wb_render
-                    st.session_state[f"_seen_{q.id}"] = _t_wb_render.time()
+                    st.session_state.setdefault(f"_seen_{q.id}", _t_wb_render.time())
                     if stt in ("active", "stubborn"):
                             with b1:
                                 if st.button("✅ 做对", type="primary", key=f"wb_ok_{q.id}", use_container_width=True,
@@ -3717,7 +3717,7 @@ elif active_module == "📅 每日错题":
                 (流畅度优化)finish_daily_review 一次保存复习回写+今日已处理,点击一次只写一次盘;
                 (DS终审13高危-2)保存失败必须可见:不移除/不标记,提示重试,杜绝"UI显示已处理但磁盘未持久化"。"""
                 import time as _t_eb
-                _t0 = st.session_state.setdefault(f"_seen_{_qid}", _t_eb.time())
+                _t0 = st.session_state.pop(f"_seen_{_qid}", _t_eb.time())
                 _ok1 = state_mgr.finish_daily_review(_qid, bool(_ok))
                 if not _ok1:
                     st.session_state["_eb_save_error"] = f"保存失败：{_qid} 未记录，请检查磁盘/权限后重试"
@@ -3839,7 +3839,7 @@ elif active_module == "📅 每日错题":
                             st.caption("（暂无解析，下载详细解析版 PDF 时由 AI 名师补全）")
                     _ec1, _ec2, _ec3, _ec4 = st.columns(4)
                     import time as _t_eb_render
-                    st.session_state[f"_seen_{_qid2}"] = _t_eb_render.time()
+                    st.session_state.setdefault(f"_seen_{_qid2}", _t_eb_render.time())
                     with _ec1:
                         st.button("✅ 做对了", key=f"eb_ok_{_qid2}", use_container_width=True,
                                   on_click=_eb_finish, args=(_qid2, True))
@@ -4307,7 +4307,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
             def _rv_grade(_qid, _ok: bool) -> None:
                 import time as _t_rv
-                _t0 = st.session_state.setdefault(f"_seen_{_qid}", _t_rv.time())
+                _t0 = st.session_state.pop(f"_seen_{_qid}", _t_rv.time())
                 _rec = state_mgr.wrong_questions.get(_qid)
                 _was_due = _is_due_today(_rec, state_mgr._today()) if _rec else False
                 if _ok:
@@ -4411,7 +4411,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     if not _graded:
                         _rbc1, _rbc2, _rbc3 = st.columns(3)
                         import time as _t_rv_render
-                        st.session_state[f"_seen_{_qid}"] = _t_rv_render.time()
+                        st.session_state.setdefault(f"_seen_{_qid}", _t_rv_render.time())
                         with _rbc1:
                             st.button("✅ 做对了", key=f"rv_ok_{_qid}", use_container_width=True,
                                       on_click=_rv_grade, args=(_qid, True))

@@ -4260,6 +4260,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                            and _g_raw.get("result") in ("ok", "wrong")
                            and _g_raw.get("date") == _rv_today_in
                            else None)
+                # P0-4: 跨模块幂等——如果数据库里 last_reviewed_at 已是今天，说明在每日错题/错题本已判过
+                if not _graded and _rec3 and str(getattr(_rec3, "last_reviewed_at", ""))[:10] == _rv_today_in:
+                    _graded = "ok"  # 已判过，隐藏按钮（具体对错不区分，只标记已处理）
                 with st.container(border=False, key=f"rvcard-{_qid}"):
                     _head3 = (
                         '<div class="wb-hd">' + _rv_due_pill(_qid) +

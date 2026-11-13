@@ -752,11 +752,11 @@ table th {
         return f"""
 @page {{
     size: A4 portrait;
-    margin: 12mm 12mm 14mm 12mm;
+    margin: 9mm 10mm 11mm 10mm;
     @bottom-center {{
         content: "今日错题 · 数学{sub_cn} · 第 " counter(page) " 页 / 共 " counter(pages) " 页";
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-        font-size: 8pt;
+        font-size: 7.5pt;
         color: #94a3b8;
     }}
 }}
@@ -769,8 +769,8 @@ table th {
 * {{ box-sizing: border-box; }}
 body {{
     font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    font-size: 12.5px;
-    line-height: 1.45;
+    font-size: 10.5px;
+    line-height: 1.3;
     color: #0f172a;
     background: #ffffff;
     margin: 0;
@@ -780,24 +780,24 @@ body {{
 .paper-header {{
     text-align: center;
     border-bottom: 1px solid #000000;
-    padding-bottom: 3px;
-    margin-bottom: 7px;
+    padding-bottom: 2px;
+    margin-bottom: 4px;
 }}
-.paper-title {{ font-size: 14px; font-weight: 800; margin: 0 0 2px 0; color: #000; }}
-.paper-meta {{ font-size: 10px; color: #475569; }}
+.paper-title {{ font-size: 12px; font-weight: 800; margin: 0 0 1px 0; color: #000; }}
+.paper-meta {{ font-size: 8.5px; color: #475569; }}
 .section-title {{
-    font-size: 12px;
+    font-size: 10.5px;
     font-weight: 800;
     color: #000;
-    margin: 5px 0 3px 0;
-    padding-bottom: 2px;
+    margin: 3px 0 2px 0;
+    padding-bottom: 1px;
     border-bottom: 1px solid #cbd5e1;
     page-break-after: avoid;
 }}
 .q-card {{
     break-inside: avoid;
-    margin-bottom: 6px;
-    padding: 3px 0;
+    margin-bottom: 2px;
+    padding: 1px 0;
     border-bottom: 0.5px solid #e2e8f0;
 }}
 .q-card-solution {{ break-inside: auto; }}
@@ -807,11 +807,11 @@ body {{
     justify-content: space-between;
     align-items: baseline;
     gap: 6px;
-    margin-bottom: 1px;
+    margin-bottom: 0;
 }}
-.q-head-num {{ font-weight: 800; font-size: 13px; color: #000; white-space: nowrap; }}
+.q-head-num {{ font-weight: 800; font-size: 11px; color: #000; white-space: nowrap; }}
 .q-head-meta {{
-    font-size: 9.5px;
+    font-size: 8px;
     color: #64748b;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -819,36 +819,36 @@ body {{
     max-width: 72%;
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }}
-.q-stem {{ font-size: 12.5px; line-height: 1.45; color: #000; }}
-.q-stem p {{ margin: 0 0 2px 0; }}
+.q-stem {{ font-size: 10.5px; line-height: 1.3; color: #000; }}
+.q-stem p {{ margin: 0 0 1px 0; }}
 .q-stem p:last-child {{ margin-bottom: 0; }}
 .options-grid {{
     display: flex;
     flex-wrap: wrap;
-    gap: 2px 14px;
-    margin: 3px 0 1px 0;
-    font-size: 12px;
+    gap: 1px 12px;
+    margin: 1px 0;
+    font-size: 10px;
 }}
-.opt-item {{ flex: 0 0 calc(50% - 7px); }}
-.opt-item p {{ margin: 0; line-height: 1.45; }}
+.opt-item {{ flex: 0 0 calc(50% - 6px); }}
+.opt-item p {{ margin: 0; line-height: 1.3; }}
 .answer-space {{
-    height: 2cm;
+    height: 1.1cm;
     border-top: 1px dashed #94a3b8;
-    margin-top: 3px;
+    margin-top: 2px;
 }}
 table {{
     border-collapse: collapse;
-    margin: 5px 0;
-    font-size: 11.5px;
+    margin: 2px 0;
+    font-size: 10px;
     text-align: center;
 }}
 table th, table td {{
     border: 1px solid #cbd5e1;
-    padding: 3px 10px;
+    padding: 2px 6px;
     font-weight: normal;
 }}
 .katex {{ font-size: inherit !important; text-rendering: optimizeLegibility; }}
-.katex-display {{ margin: 0.2em 0 !important; }}
+.katex-display {{ margin: 0.1em 0 !important; }}
 """
 
     # =========================================================================

@@ -831,9 +831,10 @@ body {{
 .opt-item {{ flex: 0 0 calc(50% - 6px); }}
 .opt-item p {{ margin: 0; line-height: 1.3; }}
 .answer-space {{
-    height: 1.1cm;
+    height: 1.0cm;
     border-top: 1px dashed #94a3b8;
     margin-top: 2px;
+    break-inside: avoid;
 }}
 table {{
     border-collapse: collapse;

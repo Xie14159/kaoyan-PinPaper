@@ -3529,7 +3529,24 @@ elif active_module == "📈 全科考点雷达":
 elif active_module == "📅 每日错题":
     st.markdown("### 📅 每日错题 · 艾宾浩斯抗遗忘")
     st.caption("到期优先、逾期越久越靠前；做对间隔翻倍、做错隔天回炉。")
+    # P1-8 配额与剩余天数挂钩（纯显示）
+    from datetime import date as _date_p18
+    _EXAM_DATE = _date_p18(2026, 12, 19)
+    _days_left = max(0, (_EXAM_DATE - _date_p18.today()).days)
+    _active_count = len([q for q in state_mgr.wrong_questions if state_mgr.is_in_active_pool(q)])
     _EB_DAILY = 11  # 每日安排道数（2026-10-27 用户定为 11 道）
+    _need_days = (_active_count + _EB_DAILY - 1) // _EB_DAILY if _EB_DAILY else 0
+    _buffer = _days_left - _need_days
+    _buf_color = "#10b981" if _buffer >= 7 else ("#f59e0b" if _buffer >= 0 else "#ef4444")
+    st.markdown(
+        f'<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;'
+        f'padding:8px 14px;margin:4px 0 10px 0;font-size:13px;color:#475569;">'
+        f'📅 距初试 <b>{_days_left}</b> 天 · 待复习 <b>{_active_count}</b> 道 · '
+        f'每天 {_EB_DAILY} 道需 <b>{_need_days}</b> 天 · '
+        f'<span style="color:{_buf_color};font-weight:600;">余量 {_buffer} 天</span>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
     st.markdown("---")
     _q_by_id2 = {q.id: q for q in raw_questions}  # 全量题库(含真题):每日错题需展示跨书籍的真题错题,不能用当前书籍过滤后的 all_questions
     _eb_list_key = f"eb_list_{current_subject.value}"

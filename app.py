@@ -1154,7 +1154,7 @@ with st.sidebar:
         """统一判分：pop _seen → 调 state_mgr → 返回事实 dict。
         UI 反馈（flash/rerun/列表移除）由各页面包装函数处理。
         src: "wrongbook" | "daily" | "review" | "exam"
-        kind: "correct" | "wrong" | "missing" | "dup"
+        kind: "correct" | "wrong" | "missing" | "dup" | "save_fail"
         """
         assert src in {"wrongbook", "daily", "review", "exam"}, f"unknown src: {src!r}"
         import time as _t_ag
@@ -1178,19 +1178,25 @@ with st.sidebar:
                 nxt = state_mgr.wrong_questions.get(qid)
                 facts["changed"] = (r is True) or (nxt is not None and nxt.next_review_at != prev_next)
             else:
+                _before_cnt = rec.wrong_count if rec else 0   # 必须在调用前取：increment 会原地改同一对象
                 cnt = state_mgr.increment_wrong_count(qid)
                 nxt = state_mgr.wrong_questions.get(qid)
-                facts["changed"] = (cnt is not None and cnt >= 1) or (nxt is not None and nxt.next_review_at != prev_next)
+                # 幂等重复时 increment 只返回当前 wrong_count 不推进，必须比较前后值才算"真变更"
+                facts["changed"] = (cnt is not None and cnt > _before_cnt) or (nxt is not None and nxt.next_review_at != prev_next)
 
         rec2 = state_mgr.wrong_questions.get(qid)
         facts["stage"] = getattr(rec2, "review_stage", None)
         facts["next"] = getattr(rec2, "next_review_at", None)
         facts["left"] = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions)) if (was_due and facts["changed"]) else None
 
-        # 统一日志：只在真变更时记 correct/wrong；幂等重复记 dup（不灌周报判分次数）
+        # 统一日志：只在真变更时记 correct/wrong；幂等重复记 dup（不灌周报判分次数）；
+        # 落盘失败单记 save_fail，避免和"重复点击"混为一谈、掩盖真实故障
         if facts["changed"]:
             _log_usage(qid, "correct" if ok else "wrong", src,
                        stage=facts["stage"],
+                       ms=int((_t_ag.time() - _t0) * 1000))
+        elif not facts["save_ok"]:
+            _log_usage(qid, "save_fail", src, stage=facts["stage"],
                        ms=int((_t_ag.time() - _t0) * 1000))
         else:
             _log_usage(qid, "dup", src, stage=facts["stage"],
@@ -1649,10 +1655,15 @@ st.markdown(
 # 惰性模块导航（替代 st.tabs）：st.tabs 每次全量 rerun 会执行全部 5 个 tab 内容，
 # 导致刷新页面要渲染所有模块而卡顿。segmented_control + if/elif 只渲染激活模块，
 # 其余模块点开才渲染 —— 首屏成本降到约 1/5。
-st.session_state.setdefault("active_ws", "🎯 智能拼好卷")
+_WS_OPTIONS = ["🎯 智能拼好卷", "🏷️ 题库逐题标错", "📕 我的错题本", "📈 全科考点雷达", "📅 每日错题", "🧭 复盘 · 薄弱章节"]
+st.session_state.setdefault("active_ws", _WS_OPTIONS[0])
+# 历史会话可能停留在已删除的模块（如旧的「🔍 答案校对」），
+# 非法值会让 segmented_control 不匹配任何 elif 分支导致整页空白，这里强制回默认。
+if st.session_state.get("active_ws") not in _WS_OPTIONS:
+    st.session_state["active_ws"] = _WS_OPTIONS[0]
 active_module = st.segmented_control(
     "模块导航",
-    options=["🎯 智能拼好卷", "🏷️ 题库逐题标错", "📕 我的错题本", "📈 全科考点雷达", "📅 每日错题", "🧭 复盘 · 薄弱章节"],
+    options=_WS_OPTIONS,
     key="active_ws",
     label_visibility="collapsed",
 ) or "🎯 智能拼好卷"  # 点击已选中项可能返回 None，兜底回默认模块，防页面空白
@@ -4352,7 +4363,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                            else None)
                 # P0-4: 跨模块幂等——如果数据库里 last_reviewed_at 已是今天，说明在每日错题/错题本已判过
                 if not _graded and _rec3 and str(getattr(_rec3, "last_reviewed_at", ""))[:10] == _rv_today_in:
-                    _graded = "ok"  # 已判过，隐藏按钮（具体对错不区分，只标记已处理）
+                    _graded = "today_done"  # 今日已判过，隐藏按钮；对错未知，不能显示"已做对"
                 with st.container(border=False, key=f"rvcard-{_qid}"):
                     _head3 = (
                         '<div class="wb-hd">' + _rv_due_pill(_qid) +
@@ -4362,7 +4373,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         f'错 {_rec3.wrong_count if _rec3 else 1} 次 · '
                         f'阶段 {_rec3.review_stage if _rec3 else 0}/5</span>' +
                         (f'<span class="wb-pill wb-green">✅ 已做对</span>' if _graded == "ok" else
-                         f'<span class="wb-pill wb-red">❌ 又错了</span>' if _graded == "wrong" else '') +
+                         f'<span class="wb-pill wb-red">❌ 又错了</span>' if _graded == "wrong" else
+                         f'<span class="wb-pill wb-grey">今日已处理</span>' if _graded == "today_done" else '') +
                         '</div>'
                     )
                     st.markdown(_head3, unsafe_allow_html=True)

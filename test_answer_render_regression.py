@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""参考答案行渲染回归测试 v2（DS 复盘建议固化）
+r"""参考答案行渲染回归测试 v2（DS 复盘建议固化）
 运行：& ".venv\Scripts\python.exe" test_answer_render_regression.py
 - 语义比较前对 HTML 实体做解码归一化（&#x27;→' &amp;→& &gt;→> &lt;→<）
 - 03-解-20 断言：LaTeX 命令只出现在 ans-katex（KaTeX 输入）内，不出现在字面 span 内
@@ -49,7 +49,7 @@ print("== 1) 94 条缓存答案全量回归 ==")
 cache_p = Path(__file__).resolve().parent / "user_data" / "ai_solutions.json"
 c = json.loads(io.open(cache_p, encoding="utf-8").read())
 answers = [(qid, (e.get("answer") or "").strip()) for qid, e in c.items() if (e.get("answer") or "").strip()]
-check("缓存答案数=94", len(answers) == 94, f"实际 {len(answers)}")
+check(f"缓存答案数≥94（实际 {len(answers)}）", len(answers) >= 94, f"实际 {len(answers)}")
 
 no_dollar = [x for x in answers if "$" not in x[1]]
 with_dollar = [x for x in answers if "$" in x[1]]

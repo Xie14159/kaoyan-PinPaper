@@ -1898,10 +1898,14 @@ if active_module == "🎯 智能拼好卷":
     src_col1, src_col2 = st.columns([2, 1])
     with src_col1:
         default_ratio = 70 if subject_wrong_count > 0 else 0
+        # 通过 session_state 注入默认值，避免 slider 同时收到 value= 和 Session State 值
+        # 触发 Streamlit 的 "created with a default value but also had its value set" 警告
+        _ratio_key = f"p1_wrong_ratio_{current_subject.value}"
+        st.session_state.setdefault(_ratio_key, default_ratio)
         wrong_ratio_pct = st.slider(
             "🎯 错题占比（其余用新题补足；错题不够时自动用新题补齐）",
-            min_value=0, max_value=100, value=default_ratio, step=10,
-            key=f"p1_wrong_ratio_{current_subject.value}",
+            min_value=0, max_value=100, step=10,
+            key=_ratio_key,
             help="0% = 全书模考（全新题）；100% = 尽量全用错题，不足部分用新题补齐；中间值按比例混合。",
         )
         wrong_ratio = wrong_ratio_pct / 100.0
@@ -4400,7 +4404,15 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     "result": "ok" if _ok else "wrong",
                     "date": state_mgr._today().isoformat(),
                 }
+                # 「做完即消」：卡片渲染的过滤只认 rv_done，这里必须同步写入，
+                # 否则点完按钮只是变灰、卡片原地不动，用户会以为点击没生效。
+                _done_written = bool(f.get("save_ok"))
+                if _done_written:
+                    st.session_state.setdefault("rv_done", {})[_qid] = state_mgr._today().isoformat()
                 _d, _g = _rv_save()
+                if _d is None and _done_written:
+                    # 落盘失败就回滚，避免卡片假消失、刷新后又回来
+                    st.session_state.get("rv_done", {}).pop(_qid, None)
                 if _d is not None:
                     try:
                         _rv_cycle_mark([_qid])

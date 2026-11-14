@@ -9,8 +9,9 @@ from .models import QuestionItem, QuestionType
 # 开头强特征：直接判定为证明题
 _PROOF_HEAD_RE = re.compile(r"^\s*(证明|试证|求证|证[:：])")
 
-# 开头是纯计算题（非证明主导）
-_NON_PROOF_HEAD_RE = re.compile(r"^\s*(计算|求|解方程|讨论|判断|设.*求|已知.*求)")
+# 开头是纯计算题（非证明主导）。限距匹配：原 `设.*求` 的 .* 会跨整段题干，
+# 把"设…（大段条件）…证明…并求…"误判成计算题（2026-11-14 修）。
+_NON_PROOF_HEAD_RE = re.compile(r"^\s*(计算|求|解方程|讨论|判断|设[^。；]{0,40}?求|已知[^。；]{0,40}?求)")
 
 
 def is_proof_question(q: QuestionItem) -> bool:
@@ -56,9 +57,25 @@ def is_proof_question(q: QuestionItem) -> bool:
     if _PROOF_HEAD_RE.match(stem):
         return True
 
-    # 4. 前 200 字内有"证明"，且前 50 字无"求"（第二问才"求"的证明题不误杀），
-    #    且开头不是纯计算题
+    # 4. 前 200 字内有"证明"，分两种情况：
+    #    4a. 证明出现在"求/计算"之前（"设…，证明 f 可导，并求 f'(0)"）→ 证明主导
+    #    4b. 前 50 字无"求"，且开头不是纯计算题 → 证明主导
+    #    修 2026-11-14：原正则 "设.*求" 的 .* 会跨整段题干匹配，
+    #    把"设 f(xy)=f(x)+f(y)…证明…并求 f(x)"、"设数列…证明收敛，并求极限"误判为计算题。
     if "证明" in stem[:200]:
+        _pp = [p for p in (
+            stem.find("证明"), stem.find("试证"), stem.find("求证"), stem.find("证："), stem.find("证:")
+        ) if p >= 0]
+        _proof_pos = min(_pp) if _pp else 10**9
+        # "求导"是名词性动词，不是"求答案"；用负向前瞻避免把它当成计算主导
+        _cm = re.search(r"求(?!导)", stem)
+        _calc_pos = min([
+            _cm.start() if _cm else 10**9,
+            stem.find("计算") if "计算" in stem else 10**9,
+            stem.find("解方程") if "解方程" in stem else 10**9,
+        ])
+        if _proof_pos < _calc_pos:
+            return True
         if "求" in stem[:50]:
             return False
         if _NON_PROOF_HEAD_RE.match(stem):

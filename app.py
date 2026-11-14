@@ -1712,6 +1712,64 @@ st.markdown(_WB_CARD_CSS, unsafe_allow_html=True)
 _KP_INDEX_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                               "题库资料", "真题数学二", "metadata", "_kp_index.json")
 
+# 重点错题白名单：簇名 -> (单簇真题上限, 单簇非真题上限)
+# 依据 2010-2026 数二真题频次 + 考纲梯队（DS+Claude 2026-11-14 三审定稿）。
+# 唯一来源：选题（4100 段）与渲染分组排序（4548 段）都引用这一份，避免两处漂移。
+_FOCUS_KP_CAP = {
+    # 高数 · 极限
+    "01-未定式与等价替换": (3, 2),
+    "01-数列极限与单调有界": (3, 2),
+    "01-连续与间断点": (2, 2),       # 真题 6 道，小题高频
+    # 高数 · 一元微分（导数计算 + 单调/极值/凹凸/渐近线是真题 Top 频簇）
+    "02-导数定义与可导性": (2, 2),
+    "02-复合隐函数参数方程求导": (2, 2),
+    "02-凹凸拐点与渐近线": (3, 2),
+    "02-单调性与极值最值": (2, 2),
+    # 高数 · 一元积分
+    "03-定积分计算与对称性": (3, 2),
+    "03-面积体积弧长旋转体": (3, 2),
+    "03-反常积分敛散": (2, 2),
+    "03-积分不等式与估值": (2, 2),   # 真题 7 道，多为比较大小/估值，非证明题
+    "03-物理应用": (1, 1),          # 第三梯队：降级簇
+    # 高数 · 多元微分（数二：偏导/全微分/复合隐函数/极值）
+    "04-偏导与全微分": (2, 2),
+    "04-复合与隐函数求导": (2, 2),
+    "04-极值与条件极值": (2, 2),
+    # 高数 · 二重积分
+    "05-直角坐标计算": (3, 2),
+    "05-极坐标换元": (3, 2),
+    # 高数 · 微分方程
+    "06-一阶方程": (2, 2),
+    "06-二阶常系数": (3, 2),
+    "06-几何与物理应用": (1, 1),     # 应用题降级簇
+    # 线代
+    "08-秩": (2, 2),
+    "08-矩阵运算与幂": (2, 2),       # 矩阵幂/伴随，线代小题高频
+    "08-初等变换与分块": (2, 2),     # 分块矩阵/初等变换，线代小题高频
+    "09-相关性与秩": (2, 2),
+    "10-通解结构": (2, 2),
+    "11-特征值与特征向量": (2, 2),   # 真题 10 道，与相似对角化解题强相关
+    "11-相似对角化": (3, 2),
+    "12-正交变换化标准形": (2, 2),
+    "12-标准形与规范形": (2, 2),
+}
+
+# 分类纠错（_kp_index.json 离线标签有误的题，逐题修正；None=明确排除）
+_FOCUS_KP_FIX = {
+    "2024-填-01": "02-曲率与曲率圆",     # 曲率圆，被误标"凹凸拐点与渐近线"
+    "2019-选-06": "02-曲率与曲率圆",     # 曲率相等判定，同上
+    "03-基础-填-11": "01-未定式与等价替换",  # 变限积分极限，本质是洛必达/等价替换
+    "03-综合-填-01": "01-数列极限与单调有界",
+    "03-综合-解-17": "01-数列极限与单调有界",
+    "03-综合-解-18": "01-数列极限与单调有界",
+    "2016-解-05": "10-通解结构",      # kp_index 标成"06-解的结构与通解"，同一考点的别名
+    "02-基础-填-16": None,            # 实为高阶导数题，但该簇真题 0 道，不进重点
+    "02-综合-填-09": None,
+    "10-综合-选-07": None,
+    "10-综合-选-08": None,
+    "2018-选-06": None,
+}
+
 
 @functools.lru_cache(maxsize=1)
 def _kp_index_map() -> dict:
@@ -4099,10 +4157,12 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _rv_pick = "到期真题"
         elif _rv_view == "重点错题":
             # 跨章节按方法簇聚合：同一考点在不同题上都错过，就是"典型薄弱点"。
-            # 重点错题视图规则（DS+Claude 2026-11-12 二轮定稿）：
+            # 重点错题视图规则（DS+Claude 2026-11-14 三审定稿，真题考点导向）：
             #   - 排除证明题（用户会做但写不完整，不占重点练习时间）
-            #   - 选题阈值：错次≥3，或错次≥2且是真题
-            #   - 过滤单题簇（只错1道不算反复出错）
+            #   - 真题阈值 wc>=1：真题错一次就是没掌握，真题重复率低，信息量远高于同错次的书题
+            #   - 非真题阈值 wc>=2：书题同质化高，错一次噪声大
+            #   - 白名单 = 数二真题高频簇（见 _FOCUS_KP_CAP），每簇配额控制单簇题海
+            #   - 总量 60 道上限，超量先裁非真题，保证真题优先
             _all_z_f = []
             _all_o_f = []
             for _ch_bf in _rv_stats.values():
@@ -4116,75 +4176,63 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _all_z_f = [i for i in _all_z_f if i not in state_mgr._proof_ids]
             _all_o_f = [i for i in _all_o_f if i not in state_mgr._proof_ids]
 
-            # 选题阈值：错次≥2 进候选（实际数据里75%错题wrong_count=1，卡≥3只剩24道太严）
-            def _focl_pass(_qid_f):
+            # 分层阈值：真题 wc>=1，非真题 wc>=2
+            def _focl_pass(_qid_f, _is_z: bool):
                 _rec_f = state_mgr.wrong_questions.get(_qid_f)
                 _wc_f = int(getattr(_rec_f, "wrong_count", 0) or 0)
-                return _wc_f >= 2
-            _all_z_f = [i for i in _all_z_f if _focl_pass(i)]
-            _all_o_f = [i for i in _all_o_f if _focl_pass(i)]
+                return _wc_f >= 1 if _is_z else _wc_f >= 2
+            _all_z_f = [i for i in _all_z_f if _focl_pass(i, True)]
+            _all_o_f = [i for i in _all_o_f if _focl_pass(i, False)]
 
-            # 数二125+核心考点白名单（DS+Claude 2026-11-12 二轮审分类后修订）
-            _CORE_KP = {
-                "05-直角坐标计算", "05-极坐标换元",           # 二重积分大题
-                "03-定积分计算与对称性", "03-面积体积弧长旋转体",  # 定积分大题
-                "06-一阶方程", "06-二阶常系数", "06-几何与物理应用",  # 微分方程大题
-                "01-未定式与等价替换", "01-数列极限与单调有界",  # 极限大题/必考题
-                "02-复合隐函数参数方程求导", "02-导数定义与可导性",  # 求导计算
-                "02-高阶导数计算",                           # 高阶导数（莱布尼茨/泰勒，DS+Claude确认）
-                "08-秩",                                     # 线代矩阵核心
-                "12-正交变换化标准形",                        # 线代大题高频
-                "03-物理应用",                               # 真题大题考过
-                "03-反常积分敛散",                           # 小题但真题错过
-                "09-相关性与秩",                             # 向量组核心
-            }
-            # DS+Claude 2026-11-12 标签修正：_kp_index.json 离线标签有误，逐题修正
-            # key=qid, value=正确方法簇名；值为 None 表示该题排除（非重点）
-            _QID_KP_OVERRIDE = {
-                # 03簇3道其实是数列极限（定积分定义）题，移到01数列极限簇
-                "03-综合-填-01": "01-数列极限与单调有界",
-                "03-综合-解-17": "01-数列极限与单调有界",
-                "03-综合-解-18": "01-数列极限与单调有界",
-                # 02簇2道其实是高阶导数，不是参数方程求导
-                "02-基础-填-16": "02-高阶导数计算",
-                "02-综合-填-09": "02-高阶导数计算",
-                # 10簇2道不是解的判定：一道反对称矩阵性质、一道二次型正定判断，小题偏点排除
-                "10-综合-选-07": None,
-                "10-综合-选-08": None,
-                # 2018-选-06是交换积分次序，只有1道不够成簇，排除
-                "2018-选-06": None,
-            }
-            # 统计每个方法簇的题数，过滤单题簇 + 非核心考点簇 + 应用标签修正
+            # 分类纠错 + 簇归属（先查逐题修正，再查曲率关键词兜底）
             _kp_map = _kp_index_map()
-            _focl_cnt = {}
+
+            def _kp_of(_qf):
+                if _qf in _FOCUS_KP_FIX:
+                    return _FOCUS_KP_FIX[_qf]
+                # 曲率题（2024-填-01、2019-选-06）已在 _FOCUS_KP_FIX 显式改判，
+                # 不再做全局关键词兜底：题干顺带提"曲率"的综合题容易被误杀（DS/Claude 复核）。
+                return _kp_map.get(_qf) or f"{str(_qf).split('-')[0]}-综合与其他"
+
             _qid_to_kp = {}
             for _qf in _all_z_f + _all_o_f:
-                # 先查手动修正映射（DS+Claude审分类后修正的错标题）
-                if _qf in _QID_KP_OVERRIDE:
-                    _kf = _QID_KP_OVERRIDE[_qf]
-                    if _kf is None:
-                        continue  # 明确排除
-                else:
-                    _kf = _kp_map.get(_qf) or f"{str(_qf).split('-')[0]}-综合与其他"
-                if _kf not in _CORE_KP:
-                    continue  # 非核心考点簇直接跳过
-                _qid_to_kp[_qf] = _kf
-                _focl_cnt[_kf] = _focl_cnt.get(_kf, 0) + 1
-            _multi_kp = {k for k, n in _focl_cnt.items() if n >= 2}
-            _all_z_f = [i for i in _all_z_f if _qid_to_kp.get(i) in _multi_kp]
-            _all_o_f = [i for i in _all_o_f if _qid_to_kp.get(i) in _multi_kp]
-            _n_q_total = len(_all_z_f) + len(_all_o_f)
-            _n_clusters = len(_multi_kp)
+                _kf = _kp_of(_qf)
+                if _kf in _FOCUS_KP_CAP:
+                    _qid_to_kp[_qf] = _kf
 
-            # 组内排序：真题按错次降序，其它书按错次降序
-            _all_z_f.sort(key=_rv_sort_key)
-            _all_o_f.sort(key=_rv_sort_key)
+            # 每簇配额：真题/非真题分别按错次降序取前 N（_rv_sort_key 首项是 -错次）
+            _sel = []
+            for _kf, (_zcap, _ocap) in _FOCUS_KP_CAP.items():
+                _zp = sorted([i for i in _all_z_f if _qid_to_kp.get(i) == _kf], key=_rv_sort_key)
+                _op = sorted([i for i in _all_o_f if _qid_to_kp.get(i) == _kf], key=_rv_sort_key)
+                _sel.extend(_zp[:_zcap])
+                _sel.extend(_op[:_ocap])
+
+            # 总量闸门：60 道；超量先裁非真题里错次最低的，真题不裁
+            # 总量闸门：65 道上限；超量先裁非真题。
+            # 极端情况（真题候选本身 >=65）才按错次截断真题，属兜底而非常态。
+            _FOCUS_TOTAL_CAP = 65
+            if len(_sel) > _FOCUS_TOTAL_CAP:
+                _z_keep = [i for i in _sel if i in set(_all_z_f)]
+                _o_keep = sorted([i for i in _sel if i not in set(_all_z_f)],
+                                 key=_rv_sort_key)
+                _o_room = _FOCUS_TOTAL_CAP - len(_z_keep)
+                if _o_room > 0:
+                    _sel = _z_keep + _o_keep[:_o_room]
+                else:
+                    _sel = sorted(_z_keep, key=_rv_sort_key)[:_FOCUS_TOTAL_CAP]
+
+            _sel_set = set(_sel)
+            _all_z_f = sorted([i for i in _all_z_f if i in _sel_set], key=_rv_sort_key)
+            _all_o_f = sorted([i for i in _all_o_f if i in _sel_set], key=_rv_sort_key)
+            _n_q_total = len(_all_z_f) + len(_all_o_f)
+            _n_clusters = len({_qid_to_kp[i] for i in _sel if i in _qid_to_kp})
 
             if _n_q_total:
                 st.caption(
-                    f"🎯 重点错题：数二125+核心考点跨章节聚合 **{_n_clusters}** 个考点组、"
+                    f"🎯 重点错题：真题考点导向聚合 **{_n_clusters}** 个考点组、"
                     f"**{_n_q_total}** 道（真题 {len(_all_z_f)} 道）；"
-                    f"已排除证明题、低频小题考点，只保留大题/高频考点。"
+                    f"已排除证明题；真题错一次即入池，非真题需错两次。"
                 )
             else:
                 st.info("🎉 当前没有跨题反复出错的考点。")
@@ -4545,18 +4593,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     st.success("这一章的错题今天都处理完了。换一章继续，或者明天再来。")
                 else:
                     if _ch_norm == "重点错题":
-                        _CORE_KP = {
-                            "05-直角坐标计算", "05-极坐标换元",
-                            "03-定积分计算与对称性", "03-面积体积弧长旋转体",
-                            "06-一阶方程", "06-二阶常系数", "06-几何与物理应用",
-                            "01-未定式与等价替换", "01-数列极限与单调有界",
-                            "02-复合隐函数参数方程求导", "02-导数定义与可导性",
-                            "02-高阶导数计算",
-                            "08-秩",
-                            "12-正交变换化标准形", "03-物理应用",
-                            "03-反常积分敛散", "09-相关性与秩",
-                        }
-                        _LOW_KP = {"03-反常积分敛散", "09-相关性与秩"}
+                        # 与 4100 段共用同一份白名单，避免两处定义漂移
+                        _CORE_KP = set(_FOCUS_KP_CAP)
+                        _LOW_KP = {"03-反常积分敛散", "03-物理应用", "06-几何与物理应用"}
                         def _rv_group_sort_key(_g):
                             _gname = _g[0]
                             if _gname in _LOW_KP:

@@ -1762,7 +1762,7 @@ _FOCUS_KP_FIX = {
     "03-综合-填-01": "01-数列极限与单调有界",
     "03-综合-解-17": "01-数列极限与单调有界",
     "03-综合-解-18": "01-数列极限与单调有界",
-    "2016-解-05": "10-通解结构",      # kp_index 标成"06-解的结构与通解"，同一考点的别名
+    "2016-解-05": None,               # 二阶变系数微分方程（已知解求通解），非线代通解结构，退出重点
     "02-基础-填-16": None,            # 实为高阶导数题，但该簇真题 0 道，不进重点
     "02-综合-填-09": None,
     "10-综合-选-07": None,
@@ -1775,6 +1775,22 @@ _FOCUS_KP_FIX = {
 def _kp_index_map() -> dict:
     try:
         with open(_KP_INDEX_FILE, encoding="utf-8") as _f:
+            _d = json.load(_f)
+        return _d if isinstance(_d, dict) else {}
+    except Exception:
+        return {}
+
+
+# ---- 二级方法覆盖层：{qid: "一级簇::二级方法"}，只覆盖重点错题候选池 ----
+# 生成流程：规则 v1 → 逐题人工核（103 道）→ DS/Claude 两轮逐行审核 + 争议题终审（全 pass）。
+_KP_METHOD_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                               "题库资料", "真题数学二", "metadata", "_kp_method_map.json")
+
+
+@functools.lru_cache(maxsize=1)
+def _kp_method_map() -> dict:
+    try:
+        with open(_KP_METHOD_FILE, encoding="utf-8") as _f:
             _d = json.load(_f)
         return _d if isinstance(_d, dict) else {}
     except Exception:
@@ -4184,21 +4200,32 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _all_z_f = [i for i in _all_z_f if _focl_pass(i, True)]
             _all_o_f = [i for i in _all_o_f if _focl_pass(i, False)]
 
-            # 分类纠错 + 簇归属（先查逐题修正，再查曲率关键词兜底）
+            # 分类纠错 + 簇归属（先查逐题修正，再查二级方法覆盖层，最后查 kp_index）
             _kp_map = _kp_index_map()
+            _kp_methods = _kp_method_map()
 
             def _kp_of(_qf):
                 if _qf in _FOCUS_KP_FIX:
                     return _FOCUS_KP_FIX[_qf]
+                # 二级方法覆盖层的题都经过人工逐题核，一级簇以覆盖层为准
+                _mf = _kp_methods.get(_qf)
+                if _mf and "::" in _mf:
+                    return _mf.split("::")[0]
                 # 曲率题（2024-填-01、2019-选-06）已在 _FOCUS_KP_FIX 显式改判，
                 # 不再做全局关键词兜底：题干顺带提"曲率"的综合题容易被误杀（DS/Claude 复核）。
                 return _kp_map.get(_qf) or f"{str(_qf).split('-')[0]}-综合与其他"
 
             _qid_to_kp = {}
+            _qid_to_method = {}
             for _qf in _all_z_f + _all_o_f:
                 _kf = _kp_of(_qf)
-                if _kf in _FOCUS_KP_CAP:
+                if _kf and _kf in _FOCUS_KP_CAP:
                     _qid_to_kp[_qf] = _kf
+                    _mf = _kp_methods.get(_qf) or ""
+                    if _mf.split("::")[0] == _kf and "::" in _mf:
+                        _qid_to_method[_qf] = _mf
+                    else:
+                        _qid_to_method[_qf] = f"{_kf}::综合"
 
             # 每簇配额：真题/非真题分别按错次降序取前 N（_rv_sort_key 首项是 -错次）
             _sel = []
@@ -4227,11 +4254,12 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _all_o_f = sorted([i for i in _all_o_f if i in _sel_set], key=_rv_sort_key)
             _n_q_total = len(_all_z_f) + len(_all_o_f)
             _n_clusters = len({_qid_to_kp[i] for i in _sel if i in _qid_to_kp})
+            _n_methods = len({_qid_to_method[i] for i in _sel if i in _qid_to_method})
 
             if _n_q_total:
                 st.caption(
-                    f"🎯 重点错题：真题考点导向聚合 **{_n_clusters}** 个考点组、"
-                    f"**{_n_q_total}** 道（真题 {len(_all_z_f)} 道）；"
+                    f"🎯 重点错题：真题考点导向聚合 **{_n_clusters}** 个考点、"
+                    f"**{_n_methods}** 个二级方法、**{_n_q_total}** 道（真题 {len(_all_z_f)} 道）；"
                     f"已排除证明题；真题错一次即入池，非真题需错两次。"
                 )
             else:
@@ -4519,9 +4547,18 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
             # ---- 方法簇精选（C 方案）：每簇最多 3 道 = 本轮新错 1 + 历史同类 2 ----
             _kp_idx = _kp_index_map()
+            _kp_methods_r = _kp_method_map()
             _since = str(_rv_cycle_get().get("last_end") or "")
 
             def _rv_kp(_qid: str) -> str:
+                # 重点错题视图用二级方法分组；其余视图仍按一级簇分组
+                if _ch_norm == "重点错题":
+                    # 逐题纠错优先级最高：None 表示明确排除，不能被覆盖层拉回
+                    if _FOCUS_KP_FIX.get(_qid, "__keep__") is None:
+                        return "__excluded__"
+                    _m = _kp_methods_r.get(_qid)
+                    if _m and "::" in _m:
+                        return _m
                 _k = _kp_idx.get(_qid)
                 return _k if _k else f"{str(_qid).split('-')[0]}-综合与其他"
 
@@ -4551,7 +4588,10 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             else:
                 _buckets = {}
                 for _qid in list(_z_ids) + list(_o_ids):
-                    _buckets.setdefault(_rv_kp(_qid), []).append(_qid)
+                    _bk = _rv_kp(_qid)
+                    if _bk == "__excluded__":
+                        continue
+                    _buckets.setdefault(_bk, []).append(_qid)
 
                 _rv_shown = set(_rv_cycle_get().get("shown") or [])
                 _rv_groups = []
@@ -4598,9 +4638,10 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         _LOW_KP = {"03-反常积分敛散", "03-物理应用", "06-几何与物理应用"}
                         def _rv_group_sort_key(_g):
                             _gname = _g[0]
-                            if _gname in _LOW_KP:
+                            _g1 = _gname.split("::")[0]
+                            if _g1 in _LOW_KP:
                                 _tier = 2
-                            elif _gname in _CORE_KP:
+                            elif _g1 in _CORE_KP:
                                 _tier = 0
                             else:
                                 _tier = 1
@@ -4609,7 +4650,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         _rv_groups.sort(key=_rv_group_sort_key)
                     else:
                         _rv_groups.sort(key=lambda g: (-sum(1 for i in g[1] if _rv_is_new(i)), -g[2], g[0]))
-                    _gpp = 3                      # 每页 3 个方法簇（≈9 道）
+                    _gpp = 5                      # 每页 5 个方法组（≈8 道）
                     _pages = max(1, (len(_rv_groups) + _gpp - 1) // _gpp)
                     _pg = int(st.session_state.get(_pg_key, 0) or 0)
                     _pg = max(0, min(_pg, _pages - 1))
@@ -4622,11 +4663,11 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     else:
                         _title_mid = f"全章精选 {_total} 道"
                     st.markdown(
-                        f"#### 第 {_pg + 1}/{_pages} 页 · 本页 {len(_gseg)} 簇 / "
+                        f"#### 第 {_pg + 1}/{_pages} 页 · 本页 {len(_gseg)} 组 / "
                         f"{_title_mid}（同来源共 {sum(len(v) for v in _buckets.values())} 道）"
                     )
                     if _ch_norm == "重点错题":
-                        st.caption("按方法簇聚合，已排除证明题；每簇取错次最高的题，无需按轮次标记。")
+                        st.caption("按二级方法聚合，已排除证明题；每组取错次最高的题，无需按轮次标记。")
                     elif _since:
                         st.caption(f"本轮自 {_since.replace('T', ' ')} 起，新错题 {_n_new} 道已排在各簇最前；"
                                    f"没设本轮时按「错次多」排。")
@@ -4636,11 +4677,19 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     _idx = 0
                     for _kname, _take, _pool in _gseg:
                         _new_n = sum(1 for i in _take if _rv_is_new(i))
+                        if "::" in _kname:
+                            _l1s, _, _l2s = _kname.partition("::")
+                            _kp_short = _l1s.split("-", 1)[-1]
+                            # 二级名与一级名相同（如"极坐标换元::极坐标换元"）只显示一次
+                            if _l2s and _l2s != "综合" and _l2s != _kp_short:
+                                _kp_short = f"{_kp_short} · {_l2s}"
+                        else:
+                            _kp_short = _kname.split("-", 1)[-1]
                         st.markdown(
                             "<div class='wb-hd' style='margin:16px 0 4px;'>"
-                            f"<span class='wb-pill wb-blue'>🔹 {html.escape(_kname.split('-', 1)[-1])}</span>"
-                            f"<span class='wb-meta'>本簇 {len(_take)} 道（新 {_new_n} · 旧 {len(_take) - _new_n}）"
-                            f" · 同簇共 {_pool} 道</span></div>",
+                            f"<span class='wb-pill wb-blue'>🔹 {html.escape(_kp_short)}</span>"
+                            f"<span class='wb-meta'>本组 {len(_take)} 道（新 {_new_n} · 旧 {len(_take) - _new_n}）"
+                            f" · 同组共 {_pool} 道</span></div>",
                             unsafe_allow_html=True,
                         )
                         for _qid in _take:
@@ -4660,7 +4709,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                                 st.session_state[_pg_key] = _pg + 1
                                 st.rerun(scope="fragment")
                         with _pc2:
-                            st.caption(f"共 {len(_rv_groups)} 个方法簇；一簇一类方法，做完一簇再换下一簇。")
+                            st.caption(f"共 {len(_rv_groups)} 个方法组；一组一类方法，做完一组再换下一组。")
 
         # ---- 🎯 错题拼卷：成套模拟 + 限时 + 出分 + 回写记忆曲线 ----
         if _rv_view == "错题拼卷":

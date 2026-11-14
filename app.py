@@ -4624,21 +4624,36 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             import json as _json_exam
             from datetime import datetime as _dt_exam
             _exam_state_key = f"exam_state_{current_subject.value}"
-            _exam_hist_path = os.path.join("user_data", "exam_history.json")
+            _exam_hist_path = os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), "user_data", "exam_history.json"
+            )
 
             def _exam_load_history():
                 try:
                     with open(_exam_hist_path, "r", encoding="utf-8") as f:
-                        return _json_exam.load(f)
-                except Exception:
+                        _d = _json_exam.load(f)
+                    return _d if isinstance(_d, list) else []
+                except FileNotFoundError:
+                    return []
+                except Exception as _e:
+                    # 不能静默返回 []：否则下一次 append 会直接覆盖写，历史永久丢失。
+                    # 先把损坏文件改名留档，再空hist继续。
+                    _bak = f"{_exam_hist_path}.corrupt.{int(_time_exam.time())}"
+                    try:
+                        os.replace(_exam_hist_path, _bak)
+                    except Exception:
+                        pass
+                    st.warning(f"exam_history.json 读取失败，已备份为 {os.path.basename(_bak)}：{_e}")
                     return []
 
             def _exam_save_history(rec):
                 hist = _exam_load_history()
                 hist.append(rec)
                 try:
-                    with open(_exam_hist_path, "w", encoding="utf-8") as f:
+                    _tmp = _exam_hist_path + ".tmp"
+                    with open(_tmp, "w", encoding="utf-8") as f:
                         _json_exam.dump(hist, f, ensure_ascii=False, indent=2)
+                    os.replace(_tmp, _exam_hist_path)   # 原子替换，避免写一半崩溃损坏历史
                 except Exception as _e:
                     st.warning(f"历史记录保存失败: {_e}")
 

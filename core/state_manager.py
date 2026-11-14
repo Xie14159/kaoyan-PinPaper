@@ -448,7 +448,6 @@ class StateManager:
                 self.save_state()
                 return rec.wrong_count
             _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool, rec.next_review_at, rec.last_reviewed_at)
-            self.snapshot_before_grade(question_id)
             rec.is_active_in_pool = True
             rec.wrong_count = max(1, rec.wrong_count + delta)
             _cur_tag = getattr(rec, "error_tag", "") or ""
@@ -1342,8 +1341,6 @@ class StateManager:
         # 快照关键字段(DS终审7中危):save 失败时回滚,防'内存与磁盘不一致+幂等键被吞'
         _snap = (rec.review_stage, rec.wrong_count, rec.is_active_in_pool,
                  rec.last_reviewed_at, rec.next_review_at)
-        # 栈式撤销：判分前存旧记录，用户可随时点撤销
-        self.snapshot_before_grade(question_id)
         rec.last_reviewed_at = today_s
         if correct:
             new_stage = rec.review_stage + 1

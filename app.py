@@ -1153,8 +1153,10 @@ with st.sidebar:
     def apply_grade(qid: str, ok: bool, src: str) -> dict:
         """统一判分：pop _seen → 调 state_mgr → 返回事实 dict。
         UI 反馈（flash/rerun/列表移除）由各页面包装函数处理。
-        src: "wrongbook" | "daily" | "review"
+        src: "wrongbook" | "daily" | "review" | "exam"
+        kind: "correct" | "wrong" | "missing" | "dup"
         """
+        assert src in {"wrongbook", "daily", "review", "exam"}, f"unknown src: {src!r}"
         import time as _t_ag
         _t0 = st.session_state.pop(f"_seen_{qid}", _t_ag.time())
         rec = state_mgr.wrong_questions.get(qid)
@@ -1168,11 +1170,9 @@ with st.sidebar:
                  "changed": False, "save_ok": True, "stage": None, "next": None}
 
         if src == "daily":
-            # 每日错题：finish_daily_review 一次落盘（复习回写+今日已处理）
             facts["save_ok"] = bool(state_mgr.finish_daily_review(qid, ok))
             facts["changed"] = facts["save_ok"]
         else:
-            # 错题本/复盘：record_review_result 或 increment_wrong_count
             if ok:
                 r = state_mgr.record_review_result(qid, correct=True)
                 nxt = state_mgr.wrong_questions.get(qid)
@@ -1187,10 +1187,14 @@ with st.sidebar:
         facts["next"] = getattr(rec2, "next_review_at", None)
         facts["left"] = state_mgr.get_due_wrong_count(valid_ids=_ids_of(raw_questions)) if (was_due and facts["changed"]) else None
 
-        # 统一日志（只此一处）
-        _log_usage(qid, "correct" if ok else "wrong", src,
-                   stage=facts["stage"],
-                   ms=int((_t_ag.time() - _t0) * 1000))
+        # 统一日志：只在真变更时记 correct/wrong；幂等重复记 dup（不灌周报判分次数）
+        if facts["changed"]:
+            _log_usage(qid, "correct" if ok else "wrong", src,
+                       stage=facts["stage"],
+                       ms=int((_t_ag.time() - _t0) * 1000))
+        else:
+            _log_usage(qid, "dup", src, stage=facts["stage"],
+                       ms=int((_t_ag.time() - _t0) * 1000))
         return facts
 
 
@@ -3189,9 +3193,10 @@ elif active_module == "📕 我的错题本":
                     st.caption("💡 生成约十几秒")
 
         def _do_wb_review(qid: str, correct: bool) -> None:
-            """做题模式复习回写：调 apply_grade 统一判分，本函数只处理 UI 反馈。"""
             f = apply_grade(qid, correct, "wrongbook")
-            if f["changed"]:
+            if not f["save_ok"]:
+                st.session_state["wb_flash"] = ("warn", "这道题已不在错题本里，请刷新")
+            elif f["changed"]:
                 if f["was_due"] and f["left"] is not None:
                     st.session_state["wb_flash"] = (
                         "ok" if correct else "wrong",
@@ -4284,7 +4289,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
             def _rv_grade(_qid, _ok: bool) -> None:
                 f = apply_grade(_qid, _ok, "review")
-                if f["changed"]:
+                if not f["save_ok"]:
+                    st.session_state["rv_flash"] = ("warn", "这道题已不在错题本里，请刷新")
+                elif f["changed"]:
                     if f["was_due"] and f["left"] is not None:
                         st.session_state["rv_flash"] = (
                             "ok" if _ok else "wrong",
@@ -4296,7 +4303,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                             "已记录，复习间隔已推进" if _ok else "已记录（明日再练），复习阶段已回退",
                         )
                 else:
-                    st.session_state["rv_flash"] = ("ok", "今日已记录过此题，未重复计入")
+                    st.session_state["rv_flash"] = ("info", "今日已记录过此题，未重复计入")
                 st.session_state.setdefault("rv_graded", {})[_qid] = {
                     "result": "ok" if _ok else "wrong",
                     "date": state_mgr._today().isoformat(),
@@ -4908,6 +4915,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
                     # 批量回写记忆曲线（跳过今天已在每日错题复习过的题）
                     _skipped = 0
+                    _failed_qids = []
                     for _qid in _qids:
                         _q = _q_by_id3[_qid]
                         if _q.question_type == QuestionType.SOLUTION:
@@ -4922,11 +4930,15 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                             _skipped += 1
                             continue
                         try:
-                            apply_grade(_qid, _correct, "exam")
+                            _f = apply_grade(_qid, _correct, "exam")
+                            if not _f["save_ok"]:
+                                _failed_qids.append(_qid)
                         except Exception as _e:
-                            st.warning(f"回写 {_qid} 失败: {_e}")
+                            _failed_qids.append(_qid)
                     if _skipped:
                         st.info(f"（{_skipped}道题今天已在每日错题复习过，跳过回写避免重复推进记忆曲线）")
+                    if _failed_qids:
+                        st.warning(f"{len(_failed_qids)} 题未写入（{', '.join(_failed_qids[:10])}），请刷新后重试")
 
                     _exam_save_history({
                         "subject": current_subject.value,

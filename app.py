@@ -3888,16 +3888,21 @@ elif active_module == "🧭 复盘 · 薄弱章节":
     # 持久化：刷新页面不丢今日进度，存到 user_data/rv_progress.json
     import json as _rv_json, os as _rv_os
     _rv_prog_path = _rv_os.path.join(_rv_os.path.dirname(_rv_os.path.abspath(__file__)), "user_data", "rv_progress.json")
-    if _rv_os.path.exists(_rv_prog_path):
+    # 只在本次会话首次进入（或跨天）时从磁盘加载一次。
+    # 之前每次 rerun 都用磁盘覆盖 session：一旦 save 失败（磁盘没写入），
+    # 下一次 rerun 会用旧磁盘数据把本页刚判的分抹掉，用户看到"判分消失"。
+    _rv_loaded_s = st.session_state.get("_rv_prog_loaded_date")
+    if _rv_os.path.exists(_rv_prog_path) and _rv_loaded_s != _rv_today_s:
         try:
             with open(_rv_prog_path, encoding="utf-8") as _f:
                 _rv_prog = _rv_json.load(_f)
             if _rv_prog.get("date") == _rv_today_s:
-                # 文件是磁盘权威数据，直接加载（不用setdefault/if not，避免session里已有空dict时不加载）
+                # 首次加载：磁盘是本页状态的起点
                 st.session_state["rv_done"] = dict(_rv_prog.get("done", {}))
                 st.session_state["rv_graded"] = dict(_rv_prog.get("graded", {}))
         except Exception as _e:
             st.warning(f"rv_progress.json读取失败: {_e}")
+        st.session_state["_rv_prog_loaded_date"] = _rv_today_s
     if not isinstance(st.session_state.get("rv_done"), dict):
         st.session_state["rv_done"] = {}
     if not isinstance(st.session_state.get("rv_graded"), dict):
@@ -4736,46 +4741,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         }
                         st.rerun()
 
-                # ---- A4 做题本导出（拼卷预览即可导出打印） ----
-                if len(_picked) >= 3:
-                    _picked_qs = [_q_by_id3[q] for q in _picked if q in _q_by_id3]
-                    _exam_sig = hashlib.md5("|".join(sorted(_picked)).encode("utf-8")).hexdigest()[:8]
-                    _exam_pdf_id = f"错题拼卷_{current_subject.value}_{_exam_sig}"
-                    _exam_title = f"错题拼卷 · {current_subject.value} · 共 {len(_picked_qs)} 题"
-                    st.markdown("---")
-                    st.markdown("##### 📕 导出 A4 做题本（可打印纸质先做）")
-                    _wb_ed = PDFEdition.WORKBOOK_A4.value
-                    if _ensure_eb_pdf(_exam_sig, _picked_qs, _exam_pdf_id, _exam_title, current_subject.value, _wb_ed):
-                        st.download_button(
-                            "📝 下载 A4 做题本", data=_eb_pdf_file(_exam_sig, _wb_ed).read_bytes(),
-                            file_name=f"{_exam_pdf_id}_A4做题本.pdf", mime="application/pdf",
-                            use_container_width=True, key=f"exam_down_wb_{_exam_sig}",
-                        )
-                    elif _eb_pdf_err_file(_exam_sig, _wb_ed).exists():
-                        _emsg = _eb_pdf_err_file(_exam_sig, _wb_ed).read_text(encoding="utf-8")[:200]
-                        st.error(f"A4 做题本生成失败：{_emsg}")
-                        if st.button("🔄 重试生成", use_container_width=True, key=f"exam_retry_wb_{_exam_sig}"):
-                            try:
-                                _eb_pdf_err_file(_exam_sig, _wb_ed).unlink()
-                            except Exception:
-                                pass
-                            _eb_pdf_threads.pop((_exam_sig, _wb_ed), None)
-                            st.rerun()
-                    else:
-                        st.caption("⏳ A4 做题本后台生成中…（可先点开始拼卷在线做，生成完自动出现下载按钮）")
-
-                    _cmp_ed = PDFEdition.COMPACT_A4.value
-                    if _ensure_eb_pdf(_exam_sig, _picked_qs, _exam_pdf_id, _exam_title, current_subject.value, _cmp_ed):
-                        st.download_button(
-                            "🖨️ 紧凑版 A4 打印（含题号）", data=_eb_pdf_file(_exam_sig, _cmp_ed).read_bytes(),
-                            file_name=f"{_exam_pdf_id}_紧凑版打印.pdf", mime="application/pdf",
-                            use_container_width=True, key=f"exam_down_cmp_{_exam_sig}",
-                            help="一页多题省纸 · 题头含题库题号 ID，打印后可直接做题、回系统对答案定位。",
-                        )
-                    elif _eb_pdf_err_file(_exam_sig, _cmp_ed).exists():
-                        st.caption("紧凑版生成失败，可重试 A4 做题本。")
-                    else:
-                        st.caption("⏳ 紧凑版后台生成中…")
+                # 待机时的组卷预览题号，供下方常驻的「导出做题本」区块复用
+                st.session_state["_exam_preview_qids"] = list(_picked)
 
                 _hist = [h for h in _exam_load_history() if h.get("subject", "") == current_subject.value]
                 if _hist:
@@ -4830,33 +4797,22 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     for _oi, _opt in enumerate(_cur_q.options):
                         st.markdown(_opt)
 
-                _ans_key = f"exam_ans_{_cur_qid}"
-                _user_ans = ""
-                if _cur_q.question_type in (QuestionType.SOLUTION, QuestionType.FILL_BLANK):
-                    st.info("✍️ 请在草稿纸上作答，交卷后对照参考答案自评。")
-                else:
-                    _user_ans = st.text_input("你的答案（选择填A/B/C/D）", key=_ans_key,
-                                              value=st.session_state[_exam_state_key].get("answers", {}).get(_cur_qid, ""))
+                # 统一流程：三类题型都在纸上作答，交卷后逐题自评（不再手输选项字母）
+                st.info("✍️ 请在草稿纸上作答，交卷后对照参考答案逐题自评（选择 / 填空 / 解答同一套流程）。")
 
                 _b1, _b2, _b3 = st.columns([1, 1, 2])
                 with _b1:
                     if _cur > 0:
                         if st.button("← 上一题", use_container_width=True):
-                            if _cur_q.question_type == QuestionType.CHOICE:
-                                st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
                             st.session_state[_exam_state_key]["current"] = _cur - 1
                             st.rerun()
                 with _b2:
                     if _cur < len(_qids) - 1:
                         if st.button("下一题 →", use_container_width=True):
-                            if _cur_q.question_type == QuestionType.CHOICE:
-                                st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
                             st.session_state[_exam_state_key]["current"] = _cur + 1
                             st.rerun()
                 with _b3:
                     if st.button("📤 交卷", type="primary", use_container_width=True):
-                        if _cur_q.question_type == QuestionType.CHOICE:
-                            st.session_state[_exam_state_key].setdefault("answers", {})[_cur_qid] = _user_ans
                         st.session_state[_exam_state_key]["phase"] = "grading"
                         st.rerun()
 
@@ -4869,23 +4825,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     st.stop()
                 _start = _exam["start"]
                 _total_mins = int((_time_exam.time() - _start) // 60)
-                st.markdown("#### 📋 判分 · 选择自动判分，填空/解答请自评")
-                st.caption("选择题已根据参考答案自动判定；填空和解答题请根据你的作答对照参考答案选择：对=满分，错=0分。")
+                st.markdown("#### 📋 判分 · 逐题自评")
+                st.caption("选择题、填空题、解答题统一自评：对照参考答案选「对 / 半对 / 错」。分数由自评结果累计，同时写回记忆曲线。")
 
-                if "_auto" not in st.session_state[_exam_state_key]:
-                    _auto = {}
-                    for _qid in _qids:
-                        _q = _q_by_id3[_qid]
-                        if _q.question_type != QuestionType.CHOICE:
-                            continue
-                        _ua = str(st.session_state[_exam_state_key].get("answers", {}).get(_qid, "")).strip().upper()
-                        _ref = str(getattr(_q, "answer", "") or "").strip().upper()
-                        _ua = _exam_normalize_choice(_ua)
-                        _ref = _exam_normalize_choice(_ref)
-                        _auto[_qid] = (bool(_ua) and _ua == _ref)
-                    st.session_state[_exam_state_key]["_auto"] = _auto
-
-                _auto = st.session_state[_exam_state_key]["_auto"]
                 _sol_qs = [q for q in _qids if _q_by_id3[q].question_type == QuestionType.SOLUTION]
                 _sol_count = len(_sol_qs)
                 _sol_per = 70 // _sol_count if _sol_count else 0
@@ -4914,10 +4856,12 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                                 key=f"self_{_qid}", horizontal=True, index=1
                             )
                         else:
-                            _ua = st.session_state[_exam_state_key].get("answers", {}).get(_qid, "")
-                            _ok = _auto.get(_qid, False)
-                            _icon = "✅" if _ok else "❌"
-                            st.markdown(f"你的答案：`{_ua or '（未答）'}` · 参考答案：`{getattr(_q, 'answer', '') or '—'}` → {_icon}")
+                            # 选择题：与填空/解答同一套自评
+                            st.markdown(f"参考答案：`{getattr(_q, 'answer', '') or '—'}`")
+                            st.radio(
+                                f"自评第{_gi+1}题", ["对（5分）", "错（0分）"],
+                                key=f"self_{_qid}", horizontal=True, index=1
+                            )
 
                 if st.button("✅ 确认判分并出分", type="primary", use_container_width=True):
                     _choice_score = 0
@@ -4926,7 +4870,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     for _qid in _qids:
                         _q = _q_by_id3[_qid]
                         if _q.question_type == QuestionType.CHOICE:
-                            if _auto.get(_qid, False):
+                            _cv = st.session_state.get(f"self_{_qid}", "错（0分）")
+                            if _cv.startswith("对"):
                                 _choice_score += 5
                         elif _q.question_type == QuestionType.FILL_BLANK:
                             _fv = st.session_state.get(f"self_{_qid}", "错（0分）")
@@ -4945,14 +4890,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                     _failed_qids = []
                     for _qid in _qids:
                         _q = _q_by_id3[_qid]
-                        if _q.question_type == QuestionType.SOLUTION:
-                            _sv = st.session_state.get(f"self_{_qid}", "错（0分）")
-                            _correct = _sv.startswith("对")
-                        elif _q.question_type == QuestionType.FILL_BLANK:
-                            _fv = st.session_state.get(f"self_{_qid}", "错（0分）")
-                            _correct = _fv.startswith("对")
-                        else:
-                            _correct = _auto.get(_qid, False)
+                        _sv = st.session_state.get(f"self_{_qid}", "错（0分）")
+                        _correct = _sv.startswith("对")
                         if _exam_already_reviewed_today(_qid):
                             _skipped += 1
                             continue
@@ -5008,6 +4947,68 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 if st.button("🔄 再拼一套", use_container_width=True):
                     st.session_state.pop(_exam_state_key, None)
                     st.rerun()
+
+            # ---- A4 做题本导出（待机与考试中都常驻；生成完自动出现下载按钮） ----
+            if _exam_phase in ("idle", "exam"):
+                _exp_qids = (
+                    list(_exam.get("qids", []))
+                    if _exam_phase == "exam"
+                    else list(st.session_state.get("_exam_preview_qids", []))
+                )
+                if len(_exp_qids) >= 3:
+                    _exp_qs = [_q_by_id3[q] for q in _exp_qids if q in _q_by_id3]
+                    _exp_sig = hashlib.md5("|".join(sorted(_exp_qids)).encode("utf-8")).hexdigest()[:8]
+                    _exp_pdf_id = f"错题拼卷_{current_subject.value}_{_exp_sig}"
+                    _exp_title = f"错题拼卷 · {current_subject.value} · 共 {len(_exp_qs)} 题"
+                    st.markdown("---")
+                    st.markdown("##### 📕 导出 A4 做题本（可打印纸质先做）")
+                    _exp_wait_key = f"_exam_pdf_wait_{_exp_sig}"
+                    _exp_pending = False
+                    for _exp_ed, _exp_label, _exp_fname, _exp_help in (
+                        (PDFEdition.WORKBOOK_A4.value, "📝 下载 A4 做题本", "A4做题本", None),
+                        (
+                            PDFEdition.COMPACT_A4.value,
+                            "🖨️ 紧凑版 A4 打印（含题号）",
+                            "紧凑版打印",
+                            "一页多题省纸 · 题头含题库题号 ID，打印后可直接做题、回系统对答案定位。",
+                        ),
+                    ):
+                        if _ensure_eb_pdf(_exp_sig, _exp_qs, _exp_pdf_id, _exp_title, current_subject.value, _exp_ed):
+                            st.download_button(
+                                _exp_label,
+                                data=_eb_pdf_file(_exp_sig, _exp_ed).read_bytes(),
+                                file_name=f"{_exp_pdf_id}_{_exp_fname}.pdf",
+                                mime="application/pdf",
+                                use_container_width=True,
+                                key=f"exam_down_{_exp_ed}_{_exp_sig}",
+                                help=_exp_help,
+                            )
+                        elif _eb_pdf_err_file(_exp_sig, _exp_ed).exists():
+                            _exp_err = _eb_pdf_err_file(_exp_sig, _exp_ed).read_text(encoding="utf-8")[:200]
+                            st.error(f"{_exp_fname} 生成失败：{_exp_err}")
+                            if st.button(
+                                "🔄 重试生成", use_container_width=True, key=f"exam_retry_{_exp_ed}_{_exp_sig}"
+                            ):
+                                try:
+                                    _eb_pdf_err_file(_exp_sig, _exp_ed).unlink()
+                                except Exception:
+                                    pass
+                                _eb_pdf_threads.pop((_exp_sig, _exp_ed), None)
+                                st.rerun()
+                        else:
+                            st.caption(f"⏳ {_exp_fname} 生成中…（生成完会自动出现下载按钮，不用手动刷新）")
+                            _exp_pending = True
+                    if _exp_pending:
+                        # 自动轮询：最多等 40 秒，生成完这一轮就能拿到按钮
+                        _exp_wait = int(st.session_state.get(_exp_wait_key, 0))
+                        if _exp_wait < 40:
+                            st.session_state[_exp_wait_key] = _exp_wait + 1
+                            _time_exam.sleep(1.0)
+                            st.rerun()
+                        else:
+                            st.caption("生成时间偏长。可稍后刷新页面，或点上方的「重试生成」。")
+                    else:
+                        st.session_state.pop(_exp_wait_key, None)
 
         _rv_ch_key = "重点错题" if _rv_view == "重点错题" else _rv_pick
         render_rv_cards(_rv_z_ids, _rv_o_ids, _rv_ch_key, flat_mode=(_rv_view == "按最近真题"))

@@ -1,11 +1,15 @@
 """P0-5: 异常见面化——统一错误日志入口。"""
 import logging
+import re
 import traceback
 from pathlib import Path
 
 _LOG_DIR = Path(__file__).resolve().parent.parent / "logs"
 _LOG_DIR.mkdir(exist_ok=True)
 _ERROR_LOG = _LOG_DIR / "error.log"
+
+# 只认带时间戳的条目首行；堆栈里出现的 "[...]"（如 File "[...]"）不能被当成新条目
+_ENTRY_RE = re.compile(r"^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] ")
 
 
 def log_exc(where: str, e: Exception = None) -> None:
@@ -28,14 +32,13 @@ def read_recent_errors(n: int = 3) -> list:
         if not _ERROR_LOG.exists():
             return []
         lines = _ERROR_LOG.read_text(encoding="utf-8").strip().split("\n")
-        # 每条错误以[开头
         entries = []
         current = []
         for line in reversed(lines):
-            if line.startswith("[") and current:
+            if _ENTRY_RE.match(line) and current:
                 entries.append("\n".join(reversed(current)))
                 current = [line]
-            elif line.startswith("["):
+            elif _ENTRY_RE.match(line):
                 current = [line]
             else:
                 current.append(line)

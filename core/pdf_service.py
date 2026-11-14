@@ -682,9 +682,6 @@ table th {
             cat = getattr(q, "category", None)
             cat_cn = cat_names.get(cat, "其他")
             t_title = type_titles.get(q.question_type, "题目")
-            if prev_cat is not None and cat != prev_cat:
-                # 学科块间不强制分页，自然流动省纸
-                pass
             if cat != prev_cat:
                 blocks.append(f'<div class="section-title">{html.escape(cat_cn)} · {t_title}（{len([x for x in paper.questions if getattr(x,"category",None)==cat and x.question_type==q.question_type])} 题）</div>')
                 prev_type = q.question_type

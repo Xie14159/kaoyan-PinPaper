@@ -88,6 +88,12 @@ logs/
 _*.txt
 _verify_*.py
 
+# DS/Claude 讨论与打标临时脚本（根目录全部下划线开头），归档在 _scratch/
+/_*
+streamlit_8501.log.err
+user_data/.eb_pdf_cache/
+user_data/_*.json
+
 # 贾基85套卷已停用（用户改用亚瑟50套），归档目录不入库
 题库资料/_archive_jiaji/
 .archive_jiaji_figs/

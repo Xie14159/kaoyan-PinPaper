@@ -4647,6 +4647,17 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         continue
                     _buckets.setdefault(_bk, []).append(_qid)
 
+                # 单题二级组并回一级簇：当前错题池里某二级方法只命中 1 道时，
+                # 不再单独成组，并入同名一级簇，避免大量“只有 1 道题的方法组”。
+                _merged_buckets = {}
+                for _bk, _qids_b in _buckets.items():
+                    if "::" in _bk and len(_qids_b) == 1:
+                        _l1_bk = _bk.split("::", 1)[0]
+                        _merged_buckets.setdefault(_l1_bk, []).extend(_qids_b)
+                    else:
+                        _merged_buckets.setdefault(_bk, []).extend(_qids_b)
+                _buckets = _merged_buckets
+
                 _rv_shown = set(_rv_cycle_get().get("shown") or [])
                 _rv_groups = []
                 for _kname, _qids_k in _buckets.items():

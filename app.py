@@ -4358,7 +4358,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             _RV_Z_CAP, _RV_O_CAP = 8, 3   # 真题最多 8 道、其它书最多 3 道，其余收进「展开更多」
 
         @st.fragment()
-        def render_rv_cards(_z_in, _o_in, _ch_key, flat_mode: bool = False) -> None:
+        def render_rv_cards(_z_in, _o_in, _ch_key, flat_mode: bool = False,
+                            flat_page_size: int | None = None) -> None:
             # 必须在 fragment 内部再过滤一次：模块级的 _rv_z_ids 是上一次整页渲染时的快照，
             # 判分后只重跑 fragment，若不在此处重算，卡片就不会消失。
             # 且只认"今天"的标记，避免页面跨零点点后把昨天的记录当成今天的过滤条件。
@@ -4380,7 +4381,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
             # 实时剩余计数（判分后立即更新，比章节选择器里的快照更准）
             _lz_now = sum(1 for i in _z_in if i not in _rv_done_now)
             _lo_now = sum(1 for i in _o_in if i not in _rv_done_now)
-            _rv_scope_label = "本视图" if _ch_norm == "重点错题" else "本章节"
+            _rv_scope_label = "本视图" if _ch_norm in ("重点错题", "到期真题") else "本章节"
             st.caption(f"{_rv_scope_label}剩余：**{_lz_now}** 道真题 / **{_lo_now}** 道其它书（实时）")
 
             def _rv_grade(_qid, _ok: bool) -> None:
@@ -4581,10 +4582,51 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 return str(getattr(_rec, "added_at", "") or "") > _since
 
             if flat_mode:
-                # 按最近真题模式：直接按输入顺序（已按年份降序）渲染，不做方法簇分组
+                # 平铺视图：不做方法簇分组，直接按输入顺序渲染。
+                #   按最近真题：输入已按加入时间降序，不分页。
+                #   到期真题：输入已按逾期天数降序（4139 段算好），每页固定道数，
+                #             逾期最久→今日到期，卡片自带逾期药丸，序号即紧急程度排名。
                 _flat_ids = [i for i in list(_z_ids) + list(_o_ids) if i not in _rv_done_now]
                 if not _flat_ids:
-                    st.success("最近真题错题今天都处理完了。换个视图，或者明天再来。")
+                    if _ch_norm == "到期真题":
+                        st.success("到期的真题今天都处理完了。可以去「按章节」继续，或者明天再来。")
+                    else:
+                        st.success("最近真题错题今天都处理完了。换个视图，或者明天再来。")
+                elif flat_page_size:
+                    _npp = max(1, int(flat_page_size))
+                    # 总数/页数/编号一律基于过滤完今日已做后的 _flat_ids，判分后自动收缩
+                    _pages = max(1, (len(_flat_ids) + _npp - 1) // _npp)
+                    _pg = int(st.session_state.get(_pg_key, 0) or 0)
+                    _pg = max(0, min(_pg, _pages - 1))
+                    st.session_state[_pg_key] = _pg
+                    _flat_seg = _flat_ids[_pg * _npp:(_pg + 1) * _npp]
+                    st.markdown(
+                        f"#### 第 {_pg + 1}/{_pages} 页 · 共 {len(_flat_ids)} 道到期真题"
+                    )
+                    st.caption("按逾期天数从多到少排列：逾期最久的在最前，今日到期在最后。"
+                               "做完一道就少一道，判分后自动重排。")
+                    for _off_flat, _qid_flat in enumerate(_flat_seg, start=_pg * _npp + 1):
+                        _q_flat = _q_by_id3.get(_qid_flat)
+                        if _q_flat is None:
+                            continue
+                        _yr_flat = getattr(_q_flat, "year", "") or ""
+                        _ch_flat = _norm_ch12(getattr(_q_flat, "chapter", "") or "")
+                        _tag_flat = f"{_yr_flat}真题 · {_ch_flat}" if _yr_flat else _ch_flat
+                        _rv_card(_off_flat, _qid_flat, _tag_flat)
+                    if _pages > 1:
+                        _pc1, _pc2, _pc3 = st.columns([1, 2, 1])
+                        with _pc1:
+                            if st.button("⬅ 上一页", key=f"rv_prev_flat_{_ch_norm}",
+                                         use_container_width=True, disabled=_pg <= 0):
+                                st.session_state[_pg_key] = _pg - 1
+                                st.rerun(scope="fragment")
+                        with _pc3:
+                            if st.button("下一页 ➡", key=f"rv_next_flat_{_ch_norm}",
+                                         use_container_width=True, disabled=_pg >= _pages - 1):
+                                st.session_state[_pg_key] = _pg + 1
+                                st.rerun(scope="fragment")
+                        with _pc2:
+                            st.caption(f"每页 {_npp} 道，按逾期天数排序。")
                 else:
                     st.caption(f"共 {len(_flat_ids)} 道真题错题，按年份从近到远排列。")
                     _idx = 0
@@ -5111,7 +5153,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         st.session_state.pop(_exp_wait_key, None)
 
         _rv_ch_key = "重点错题" if _rv_view == "重点错题" else _rv_pick
-        render_rv_cards(_rv_z_ids, _rv_o_ids, _rv_ch_key, flat_mode=(_rv_view == "按最近真题"))
+        render_rv_cards(_rv_z_ids, _rv_o_ids, _rv_ch_key,
+                        flat_mode=(_rv_view in ("按最近真题", "到期真题")),
+                        flat_page_size=(10 if _rv_view == "到期真题" else None))
 
 # 7. URL 错题码同步（把当前科目错题状态写回网址，保持链接可跨设备恢复）
 # =========================================================================

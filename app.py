@@ -435,7 +435,14 @@ if "current_user_id" not in st.session_state or st.session_state.current_user_id
     st.session_state.state_mgr = StateManager(username=current_user_param)
 
 state_mgr: StateManager = st.session_state.state_mgr
-pdf_service = PDFService()
+
+
+@st.cache_resource(show_spinner=False)
+def _get_pdf_service() -> PDFService:
+    return PDFService()
+
+
+pdf_service = _get_pdf_service()
 
 
 # AI 配置本地持久化（API Key 不放 URL，只存本机文件）
@@ -4098,7 +4105,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
         # 看板单独 fragment 化：判分卡片的 fragment 只刷新卡片区，
         # 顶部 KPI 不在同一 fragment 里，原本要等下一次整页 rerun 才更新。
         # run_every 让「今日已做」在判分后几秒内自动刷新，不打断卡片滚动位置。
-        @st.fragment(run_every=3.0)
+        @st.fragment(run_every=5.0)
         def _rv_kpi_board():
             # 今日已做 = 去重后的并集。rv_done 和 rv_graded 在判分时会同时写入
             # 同一道题，直接相加会把一道题算两次（12 道会显示成 24 道）。

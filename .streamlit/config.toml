@@ -11,3 +11,12 @@ headless = true
 enableCORS = false
 enableXsrfProtection = false
 enableStaticServing = true
+runOnSave = false
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = false
+
+[runner]
+postScriptGC = true
+fastReruns = true

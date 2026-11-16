@@ -4095,20 +4095,30 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 + _unit + "</span></div>" + _sub_html + "</div>"
             )
 
-        _rv_graded_today_n = len(st.session_state.get("rv_graded", {}))
-        _rv_done_today_n = len(_rv_done_today)
-        _rv_today_done = _rv_done_today_n + _rv_graded_today_n
+        # 看板单独 fragment 化：判分卡片的 fragment 只刷新卡片区，
+        # 顶部 KPI 不在同一 fragment 里，原本要等下一次整页 rerun 才更新。
+        # run_every 让「今日已做」在判分后几秒内自动刷新，不打断卡片滚动位置。
+        @st.fragment(run_every=3.0)
+        def _rv_kpi_board():
+            # 今日已做 = 去重后的并集。rv_done 和 rv_graded 在判分时会同时写入
+            # 同一道题，直接相加会把一道题算两次（12 道会显示成 24 道）。
+            _done_now = {k for k, v in st.session_state.get("rv_done", {}).items()
+                         if v == _rv_today_s}
+            _graded_now = {k for k, v in st.session_state.get("rv_graded", {}).items()
+                           if isinstance(v, dict) and v.get("date") == _rv_today_s}
+            _today_done_n = len(_done_now | _graded_now)
+            st.markdown(
+                '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:10px 0 6px;">'
+                + _rv_kpi("今日已做", _today_done_n, "题", "#16a34a")
+                + _rv_kpi("错题池", _rv_total, "题", "#0f172a")
+                + _rv_kpi("其中真题", _rv_z_total, "题", "#dc2626")
+                + _rv_kpi("涉及章节", len(_rv_stats), "个", "#0f172a")
+                + _rv_kpi("最薄弱", _top_n, "道真题错", "#dc2626", html.escape(_top_ch) + " · 占 " + f"{_top_pct:.1f}%")
+                + "</div>",
+                unsafe_allow_html=True,
+            )
 
-        st.markdown(
-            '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:10px 0 6px;">'
-            + _rv_kpi("今日已做", _rv_today_done, "题", "#16a34a")
-            + _rv_kpi("错题池", _rv_total, "题", "#0f172a")
-            + _rv_kpi("其中真题", _rv_z_total, "题", "#dc2626")
-            + _rv_kpi("涉及章节", len(_rv_stats), "个", "#0f172a")
-            + _rv_kpi("最薄弱", _top_n, "道真题错", "#dc2626", html.escape(_top_ch) + " · 占 " + f"{_top_pct:.1f}%")
-            + "</div>",
-            unsafe_allow_html=True,
-        )
+        _rv_kpi_board()
 
         # 视图切换：按章节（默认） vs 按最近真题 vs 到期真题 vs 重点错题 vs 错题拼卷
         _rv_view = st.radio(
@@ -4519,7 +4529,16 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                                 if isinstance(g, dict) and g.get("date") == _rv_today_in)
             _hc1, _hc2 = st.columns([5, 1])
             with _hc1:
-                if _graded_today:
+                if _ch_norm == "到期真题":
+                    # 到期真题没有刷新/重置按钮：判分后卡片由 rv_done 过滤自动撤下。
+                    if _graded_today:
+                        st.caption(
+                            f"今日累计已判分 **{_graded_today}** 道；"
+                            "判分后卡片自动从当前列表撤下，剩余数看上方实时计数。"
+                        )
+                    else:
+                        st.caption("做完一道就少一道；判分后自动从当前列表撤下。")
+                elif _graded_today:
                     st.caption(
                         f"已判分 **{_graded_today}** 道（留在原地可看解析）；"
                         "点下面『🔄 刷新错题』正式换新题上来，判分已写入艾宾浩斯。"
@@ -4531,32 +4550,35 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 else:
                     st.caption("做完一道就少一道；判分会写入艾宾浩斯曲线。")
             with _hc2:
-                if _ch_norm != "重点错题":
-                    if st.button("✅ 结束本轮", use_container_width=True,
-                                 help="把「本轮」设为现在：之后新做错的题算下一轮，界面会说清楚每簇哪些是新的"):
-                        _rv_cycle_end()
-                        st.toast("已记录本轮结束时间，下一轮从新错题开始", icon="✅")
+                # 「到期真题」是纯清单视图：判分后卡片自动消失，
+                # 不需要结束本轮、刷新错题、重置这套按章节/簇视图的批量操作。
+                if _ch_norm != "到期真题":
+                    if _ch_norm != "重点错题":
+                        if st.button("✅ 结束本轮", use_container_width=True,
+                                     help="把「本轮」设为现在：之后新做错的题算下一轮，界面会说清楚每簇哪些是新的"):
+                            _rv_cycle_end()
+                            st.toast("已记录本轮结束时间，下一轮从新错题开始", icon="✅")
+                            st.rerun()
+                    if st.button("🔄 刷新错题", use_container_width=True,
+                                 disabled=_graded_today == 0,
+                                 help="把已判分的题正式撤下，同簇补新题上来"):
+                        _graded = {k: v for k, v in _graded_raw.items()
+                                   if isinstance(v, dict) and v.get("date") == _rv_today_in}
+                        st.session_state.setdefault("rv_done", {}).update(
+                            {k: state_mgr._today().isoformat() for k in _graded}
+                        )
+                        st.session_state["rv_graded"] = {k: v for k, v in _graded_raw.items()
+                                                         if k not in _graded}
+                        _rv_save()
+                        st.toast(f"已刷新 {len(_graded)} 道，新题已补入", icon="🔄")
                         st.rerun()
-                if st.button("🔄 刷新错题", use_container_width=True,
-                             disabled=_graded_today == 0,
-                             help="把已判分的题正式撤下，同簇补新题上来"):
-                    _graded = {k: v for k, v in _graded_raw.items()
-                               if isinstance(v, dict) and v.get("date") == _rv_today_in}
-                    st.session_state.setdefault("rv_done", {}).update(
-                        {k: state_mgr._today().isoformat() for k in _graded}
-                    )
-                    st.session_state["rv_graded"] = {k: v for k, v in _graded_raw.items()
-                                                     if k not in _graded}
-                    _rv_save()
-                    st.toast(f"已刷新 {len(_graded)} 道，新题已补入", icon="🔄")
-                    st.rerun()
-                if st.button("↺ 重置", use_container_width=True,
-                             disabled=(_done_today + _graded_today) == 0,
-                             help="把今天已处理/已刷新的题全部放回来（不影响已写入的复习记录）"):
-                    st.session_state["rv_done"] = {}
-                    st.session_state["rv_graded"] = {}
-                    _rv_save()
-                    st.rerun()
+                    if st.button("↺ 重置", use_container_width=True,
+                                 disabled=(_done_today + _graded_today) == 0,
+                                 help="把今天已处理/已刷新的题全部放回来（不影响已写入的复习记录）"):
+                        st.session_state["rv_done"] = {}
+                        st.session_state["rv_graded"] = {}
+                        _rv_save()
+                        st.rerun()
 
             # ---- 方法簇精选（C 方案）：每簇最多 3 道 = 本轮新错 1 + 历史同类 2 ----
             _kp_idx = _kp_index_map()

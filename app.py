@@ -4523,62 +4523,15 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         st.selectbox("错因（这次错在哪）", _rtags, key=_rtk, on_change=_rv_apply_tag,
                                  help="方法不会 20 / 概念模糊 15 / 审题错误 10 / 计算失误 8 / 其他 0。做对时不会改动它。")
 
-            _done_today = len(st.session_state.get("rv_done", {}))
-            _graded_raw = st.session_state.get("rv_graded", {})
-            _graded_today = sum(1 for g in _graded_raw.values()
+            _graded_today = sum(1 for g in st.session_state.get("rv_graded", {}).values()
                                 if isinstance(g, dict) and g.get("date") == _rv_today_in)
-            _hc1, _hc2 = st.columns([5, 1])
-            with _hc1:
-                if flat_mode:
-                    # 按最近真题/到期真题都是平铺清单：判分后卡片由 rv_done 过滤自动撤下。
-                    if _graded_today:
-                        st.caption(
-                            f"今日累计已判分 **{_graded_today}** 道；"
-                            "判分后卡片自动从当前列表撤下，剩余数看上方实时计数。"
-                        )
-                    else:
-                        st.caption("做完一道就少一道；判分后自动从当前列表撤下。")
-                elif _graded_today:
-                    st.caption(
-                        f"已判分 **{_graded_today}** 道（留在原地可看解析）；"
-                        "点下面『🔄 刷新错题』正式换新题上来，判分已写入艾宾浩斯。"
-                    )
-                elif _done_today:
-                    st.caption(
-                        f"今天已刷新 **{_done_today}** 道；判分已写入艾宾浩斯，明天的复习队列会自动接手。"
-                    )
-                else:
-                    st.caption("做完一道就少一道；判分会写入艾宾浩斯曲线。")
-            with _hc2:
-                # 按最近真题/到期真题是纯清单视图：判分后卡片自动消失，
-                # 不需要结束本轮、刷新错题、重置这套按章节/簇视图的批量操作。
-                if not flat_mode:
-                    if _ch_norm != "重点错题":
-                        if st.button("✅ 结束本轮", use_container_width=True,
-                                     help="把「本轮」设为现在：之后新做错的题算下一轮，界面会说清楚每簇哪些是新的"):
-                            _rv_cycle_end()
-                            st.toast("已记录本轮结束时间，下一轮从新错题开始", icon="✅")
-                            st.rerun()
-                    if st.button("🔄 刷新错题", use_container_width=True,
-                                 disabled=_graded_today == 0,
-                                 help="把已判分的题正式撤下，同簇补新题上来"):
-                        _graded = {k: v for k, v in _graded_raw.items()
-                                   if isinstance(v, dict) and v.get("date") == _rv_today_in}
-                        st.session_state.setdefault("rv_done", {}).update(
-                            {k: state_mgr._today().isoformat() for k in _graded}
-                        )
-                        st.session_state["rv_graded"] = {k: v for k, v in _graded_raw.items()
-                                                         if k not in _graded}
-                        _rv_save()
-                        st.toast(f"已刷新 {len(_graded)} 道，新题已补入", icon="🔄")
-                        st.rerun()
-                    if st.button("↺ 重置", use_container_width=True,
-                                 disabled=(_done_today + _graded_today) == 0,
-                                 help="把今天已处理/已刷新的题全部放回来（不影响已写入的复习记录）"):
-                        st.session_state["rv_done"] = {}
-                        st.session_state["rv_graded"] = {}
-                        _rv_save()
-                        st.rerun()
+            if _graded_today:
+                st.caption(
+                    f"今日累计已判分 **{_graded_today}** 道；"
+                    "判分后卡片自动从当前列表撤下，剩余数看上方实时计数。"
+                )
+            else:
+                st.caption("做完一道就少一道；判分后自动从当前列表撤下。")
 
             # ---- 方法簇精选（C 方案）：每簇最多 3 道 = 本轮新错 1 + 历史同类 2 ----
             _kp_idx = _kp_index_map()
@@ -4759,8 +4712,7 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                         st.caption(f"本轮自 {_since.replace('T', ' ')} 起，新错题 {_n_new} 道已排在各簇最前；"
                                    f"没设本轮时按「错次多」排。")
                     else:
-                        st.caption("还没标记「本轮」：现在每簇 1 道真题 + 1 道其它书（同簇里最该做的）；"
-                                   "点右上角『✅ 结束本轮』后，下一轮会多带一道新错题。")
+                        st.caption("按错次多排序；新错题会自动排在各簇最前。")
                     _idx = 0
                     for _kname, _take, _pool in _gseg:
                         _new_n = sum(1 for i in _take if _rv_is_new(i))

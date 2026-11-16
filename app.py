@@ -4529,8 +4529,8 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                                 if isinstance(g, dict) and g.get("date") == _rv_today_in)
             _hc1, _hc2 = st.columns([5, 1])
             with _hc1:
-                if _ch_norm == "到期真题":
-                    # 到期真题没有刷新/重置按钮：判分后卡片由 rv_done 过滤自动撤下。
+                if flat_mode:
+                    # 按最近真题/到期真题都是平铺清单：判分后卡片由 rv_done 过滤自动撤下。
                     if _graded_today:
                         st.caption(
                             f"今日累计已判分 **{_graded_today}** 道；"
@@ -4550,9 +4550,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
                 else:
                     st.caption("做完一道就少一道；判分会写入艾宾浩斯曲线。")
             with _hc2:
-                # 「到期真题」是纯清单视图：判分后卡片自动消失，
+                # 按最近真题/到期真题是纯清单视图：判分后卡片自动消失，
                 # 不需要结束本轮、刷新错题、重置这套按章节/簇视图的批量操作。
-                if _ch_norm != "到期真题":
+                if not flat_mode:
                     if _ch_norm != "重点错题":
                         if st.button("✅ 结束本轮", use_container_width=True,
                                      help="把「本轮」设为现在：之后新做错的题算下一轮，界面会说清楚每簇哪些是新的"):

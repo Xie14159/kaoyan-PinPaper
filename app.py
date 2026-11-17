@@ -37,6 +37,7 @@ from core.models import (
 )
 from core.paper_engine import EngineRequest, PaperEngine
 from core.pdf_service import PDFEdition, PDFService
+from core.services import get_pdf_service
 from core.ai_tutor import AITutor
 from core.ai_health import probe_key
 from core.ai_solutions import ensure_solutions, needs_solution
@@ -437,12 +438,9 @@ if "current_user_id" not in st.session_state or st.session_state.current_user_id
 state_mgr: StateManager = st.session_state.state_mgr
 
 
-@st.cache_resource(show_spinner=False)
-def _get_pdf_service() -> PDFService:
-    return PDFService()
-
-
-pdf_service = _get_pdf_service()
+# PDFService 构造约 2.7ms，实例无可变状态；用模块级单例复用，
+# 不参与 st.cache_resource 的缓存语义（见 core/services.py 的说明）。
+pdf_service = get_pdf_service()
 
 
 # AI 配置本地持久化（API Key 不放 URL，只存本机文件）
@@ -1414,7 +1412,7 @@ with st.sidebar:
 
     @st.fragment(run_every=30.0)
     def _render_due_metric():
-        # 每 5 秒自动重算"今日到期"数：做完一题(无论做对/做错)该题被推到明天或更久，
+        # 每 30 秒（run_every 轮询间隔）自动重算"今日到期"数：做完一题(无论做对/做错)该题被推到明天或更久，
         # 不再属于今日到期 → 数字自动减 1；跳过/没做只把 next_review_at 拉回今天，数字不变。
         _due_now = state_mgr.get_due_wrong_count(valid_ids=_ids_of(_pic_all))
         st.metric(
@@ -4104,8 +4102,9 @@ elif active_module == "🧭 复盘 · 薄弱章节":
 
         # 看板单独 fragment 化：判分卡片的 fragment 只刷新卡片区，
         # 顶部 KPI 不在同一 fragment 里，原本要等下一次整页 rerun 才更新。
-        # run_every 让「今日已做」在判分后几秒内自动刷新，不打断卡片滚动位置。
-        @st.fragment(run_every=5.0)
+        # run_every 是轮询间隔而非「判分后触发」：判分完成后最多等 run_every 秒才刷新，
+        # 真正的即时刷新需要判分结束后主动触发 KPI 区域，另作改动。
+        @st.fragment(run_every=3.0)
         def _rv_kpi_board():
             # 今日已做 = 去重后的并集。rv_done 和 rv_graded 在判分时会同时写入
             # 同一道题，直接相加会把一道题算两次（12 道会显示成 24 道）。
